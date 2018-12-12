@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>distributed.pubsub.Pub</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Distributed</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=distributed.html>&#9662; distributed</a> </li><li><ul><li><a href=distributed.actor.html>&#9656; actor</a> </li><li><a href=distributed.asyncio.html>&#9656; asyncio</a> </li><li><a href=distributed.batched.html>&#9656; batched</a> </li><li><a href=distributed.bokeh.html>&#9656; bokeh</a> </li><li><a href=distributed.cfexecutor.html>&#9656; cfexecutor</a> </li><li><a href=distributed.cli.html>&#9656; cli</a> </li><li><a href=distributed.client.html>&#9656; client</a> </li><li><a href=distributed.comm.html>&#9656; comm</a> </li><li><a href=distributed.compatibility.html>&#9656; compatibility</a> </li><li><a href=distributed.config.html>&#9656; config</a> </li><li><a href=distributed.core.html>&#9656; core</a> </li><li><a href=distributed.counter.html>&#9656; counter</a> </li><li><a href=distributed.dashboard.html>&#9656; dashboard</a> </li><li><a href=distributed.deploy.html>&#9656; deploy</a> </li><li><a href=distributed.diagnostics.html>&#9656; diagnostics</a> </li><li><a href=distributed.diskutils.html>&#9656; diskutils</a> </li><li><a href=distributed.event.html>&#9656; event</a> </li><li><a href=distributed.http.html>&#9656; http</a> </li><li><a href=distributed.lock.html>&#9656; lock</a> </li><li><a href=distributed.locket.html>&#9656; locket</a> </li><li><a href=distributed.metrics.html>&#9656; metrics</a> </li><li><a href=distributed.nanny.html>&#9656; nanny</a> </li><li><a href=distributed.node.html>&#9656; node</a> </li><li><a href=distributed.preloading.html>&#9656; preloading</a> </li><li><a href=distributed.process.html>&#9656; process</a> </li><li><a href=distributed.proctitle.html>&#9656; proctitle</a> </li><li><a href=distributed.profile.html>&#9656; profile</a> </li><li><a href=distributed.protocol.html>&#9656; protocol</a> </li><li><a href=distributed.publish.html>&#9656; publish</a> </li><li><a href=distributed.pubsub.html>&#9662; pubsub</a> </li><li><ul><li><div class=select><a href=distributed.pubsub.Pub.html> <i>class</i> Pub</a> </div></li><li><a href=distributed.pubsub.PubSubClientExtension.html> <i>class</i> PubSubClientExtension</a> </li><li><a href=distributed.pubsub.PubSubSchedulerExtension.html> <i>class</i> PubSubSchedulerExtension</a> </li><li><a href=distributed.pubsub.PubSubWorkerExtension.html> <i>class</i> PubSubWorkerExtension</a> </li><li><a href=distributed.pubsub.Sub.html> <i>class</i> Sub</a> </li></ul></li><li><a href=distributed.pytest_resourceleaks.html>&#9656; pytest_resourceleaks</a> </li><li><a href=distributed.queues.html>&#9656; queues</a> </li><li><a href=distributed.recreate_exceptions.html>&#9656; recreate_exceptions</a> </li><li><a href=distributed.scheduler.html>&#9656; scheduler</a> </li><li><a href=distributed.security.html>&#9656; security</a> </li><li><a href=distributed.semaphore.html>&#9656; semaphore</a> </li><li><a href=distributed.sizeof.html>&#9656; sizeof</a> </li><li><a href=distributed.stealing.html>&#9656; stealing</a> </li><li><a href=distributed.system.html>&#9656; system</a> </li><li><a href=distributed.system_monitor.html>&#9656; system_monitor</a> </li><li><a href=distributed.tests.html>&#9656; tests</a> </li><li><a href=distributed.threadpoolexecutor.html>&#9656; threadpoolexecutor</a> </li><li><a href=distributed.utils.html>&#9656; utils</a> </li><li><a href=distributed.utils_comm.html>&#9656; utils_comm</a> </li><li><a href=distributed.utils_perf.html>&#9656; utils_perf</a> </li><li><a href=distributed.utils_test.html>&#9656; utils_test</a> </li><li><a href=distributed.variable.html>&#9656; variable</a> </li><li><a href=distributed.versions.html>&#9656; versions</a> </li><li><a href=distributed.worker.html>&#9656; worker</a> </li><li><a href=distributed.worker_client.html>&#9656; worker_client</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Class Pub</h1><div id=path><a class=symbol href=distributed.html>distributed</a>.<a class=symbol href=distributed.pubsub.html>pubsub</a>.<a class=symbol href=distributed.pubsub.Pub.html>Pub</a></div><p><div class=docline> Publish data with Publish-Subscribe pattern </div></p><h2>Declaration</h2><div class=decl><span class=kw>class</span> Pub</div><a class=sourcelink href=source+distributed.pubsub.py.html#line-200>source</a> <a class=sourcelink href=distributed.pubsub.Pub.html>link</a><h2>Documentation</h2><pre>This allows clients and workers to directly communicate data between each
+other with a typical Publish-Subscribe pattern.  This involves two
+components,
+
+Pub objects, into which we put data:
+
+    &gt;&gt;&gt; pub = Pub(&#39;my-topic&#39;)
+    &gt;&gt;&gt; pub.put(123)
+
+And Sub objects, from which we collect data:
+
+    &gt;&gt;&gt; sub = Sub(&#39;my-topic&#39;)
+    &gt;&gt;&gt; sub.get()
+    123
+
+Many Pub and Sub objects can exist for the same topic.  All data sent from
+any Pub will be sent to all Sub objects on that topic that are currently
+connected.  Pub&#39;s and Sub&#39;s find each other using the scheduler, but they
+communicate directly with each other without coordination from the
+scheduler.
+
+Pubs and Subs use the central scheduler to find each other, but not to
+mediate the communication.  This means that there is very little additional
+latency or overhead, and they are appropriate for very frequent data
+transfers.  For context, most data transfer first checks with the scheduler to find which
+workers should participate, and then does direct worker-to-worker
+transfers.  This checking in with the scheduler provides some stability
+guarantees, but also adds in a few extra network hops.  PubSub doesn&#39;t do
+this, and so is faster, but also can easily drop messages if Pubs or Subs
+disappear without notice.
+
+When using a Pub or Sub from a Client all communications will be routed
+through the scheduler.  This can cause some performance degradation.  Pubs
+and Subs only operate at top-speed when they are both on workers.</pre><h3>Attributes</h3><ul class=params><li><strong>name</strong> : object (msgpack serializable) <br><pre>The name of the group of Pubs and Subs on which to participate.</pre></li><li><strong>worker</strong> : Worker <br><pre>The worker to be used for publishing data. Defaults to the value of
+```get_worker()```. If given, ``client`` must be ``None``.</pre></li><li><strong>client</strong> : Client <br><pre>Client used for communication with the scheduler. Defaults to
+the value of ``get_client()``. If given, ``worker`` must be ``None``.</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; pub = Pub(&#39;my-topic&#39;)
+&gt;&gt;&gt; sub = Sub(&#39;my-topic&#39;)
+&gt;&gt;&gt; pub.put([1, 2, 3])
+&gt;&gt;&gt; sub.get()
+[1, 2, 3]
+
+You can also use sub within a for loop:
+
+&gt;&gt;&gt; for msg in sub:  # doctest: +SKIP
+...     print(msg)
+
+or an async for loop
+
+&gt;&gt;&gt; async for msg in sub:  # doctest: +SKIP
+...     print(msg)
+
+Similarly the ``.get`` method will return an awaitable if used by an async
+client or within the IOLoop thread of a worker
+
+&gt;&gt;&gt; await sub.get()  # doctest: +SKIP
+
+You can see the set of connected worker subscribers by looking at the
+``.subscribers`` attribute:
+
+&gt;&gt;&gt; pub.subscribers
+{&#39;tcp://...&#39;: {},
+ &#39;tcp://...&#39;: {}}</pre><h3>See also</h3><pre>Sub</pre><h2>Methods</h2><ul class=deflst><li><div class=fn><a id=f___init__></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.pubsub.Pub.html#f___init__>__init__</a>(<span class=args>self, name, worker=None, client=None</span>) </span></div><div class=fdetail id=fn___init__><div class=idnt><a class=sourcelink href=source+distributed.pubsub.py.html#line-284>source</a> <a class=sourcelink href=distributed.pubsub.Pub.html#f___init__>link</a></div></div></div></li><li><div class=fn><a id=f___repr__></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.pubsub.Pub.html#f___repr__>__repr__</a>(<span class=args>self</span>) </span></div><div class=fdetail id=fn___repr__><div class=idnt><a class=sourcelink href=source+distributed.pubsub.py.html#line-350>source</a> <a class=sourcelink href=distributed.pubsub.Pub.html#f___repr__>link</a></div></div></div></li><li><div class=fn><a id=f_put></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=distributed.pubsub.Pub.html#f_put>put</a>(<span class=args>self, msg</span>) </span><div class=docline> Publish a message to all subscribers of this topic </div></div><div class=fdetail id=fn_put><div class=idnt><a class=sourcelink href=source+distributed.pubsub.py.html#line-346>source</a> <a class=sourcelink href=distributed.pubsub.Pub.html#f_put>link</a></div></div></div></li></ul><h2>Reexports</h2><ul class=deflst><li> Imported in <a class=symbol href=distributed.tests.test_pubsub.html>distributed.tests.test_pubsub</a>. </li><li> Imported in <a class=symbol href=distributed.html>distributed</a>. </li></ul><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

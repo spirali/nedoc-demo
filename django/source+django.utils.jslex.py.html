@@ -1,0 +1,440 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.utils.jslex</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9662; utils</a> </li><li><ul><li><a href=django.utils.archive.html>&#9656; archive</a> </li><li><a href=django.utils.asyncio.html>&#9656; asyncio</a> </li><li><a href=django.utils.autoreload.html>&#9656; autoreload</a> </li><li><a href=django.utils.baseconv.html>&#9656; baseconv</a> </li><li><a href=django.utils.cache.html>&#9656; cache</a> </li><li><a href=django.utils.crypto.html>&#9656; crypto</a> </li><li><a href=django.utils.datastructures.html>&#9656; datastructures</a> </li><li><a href=django.utils.dateformat.html>&#9656; dateformat</a> </li><li><a href=django.utils.dateparse.html>&#9656; dateparse</a> </li><li><a href=django.utils.dates.html>&#9656; dates</a> </li><li><a href=django.utils.datetime_safe.html>&#9656; datetime_safe</a> </li><li><a href=django.utils.deconstruct.html>&#9656; deconstruct</a> </li><li><a href=django.utils.decorators.html>&#9656; decorators</a> </li><li><a href=django.utils.deprecation.html>&#9656; deprecation</a> </li><li><a href=django.utils.duration.html>&#9656; duration</a> </li><li><a href=django.utils.encoding.html>&#9656; encoding</a> </li><li><a href=django.utils.feedgenerator.html>&#9656; feedgenerator</a> </li><li><a href=django.utils.formats.html>&#9656; formats</a> </li><li><a href=django.utils.functional.html>&#9656; functional</a> </li><li><a href=django.utils.hashable.html>&#9656; hashable</a> </li><li><a href=django.utils.html.html>&#9656; html</a> </li><li><a href=django.utils.http.html>&#9656; http</a> </li><li><a href=django.utils.inspect.html>&#9656; inspect</a> </li><li><a href=django.utils.ipv6.html>&#9656; ipv6</a> </li><li><a href=django.utils.itercompat.html>&#9656; itercompat</a> </li><li><div class=select><a href=django.utils.jslex.html>&#9662; jslex</a> </div></li><li><ul><li><a href=django.utils.jslex.JsLexer.html> <i>class</i> JsLexer</a> </li><li><a href=django.utils.jslex.Lexer.html> <i>class</i> Lexer</a> </li><li><a href=django.utils.jslex.Tok.html> <i>class</i> Tok</a> </li></ul></li><li><a href=django.utils.log.html>&#9656; log</a> </li><li><a href=django.utils.lorem_ipsum.html>&#9656; lorem_ipsum</a> </li><li><a href=django.utils.module_loading.html>&#9656; module_loading</a> </li><li><a href=django.utils.numberformat.html>&#9656; numberformat</a> </li><li><a href=django.utils.regex_helper.html>&#9656; regex_helper</a> </li><li><a href=django.utils.safestring.html>&#9656; safestring</a> </li><li><a href=django.utils.termcolors.html>&#9656; termcolors</a> </li><li><a href=django.utils.text.html>&#9656; text</a> </li><li><a href=django.utils.timesince.html>&#9656; timesince</a> </li><li><a href=django.utils.timezone.html>&#9656; timezone</a> </li><li><a href=django.utils.topological_sort.html>&#9656; topological_sort</a> </li><li><a href=django.utils.translation.html>&#9656; translation</a> </li><li><a href=django.utils.tree.html>&#9656; tree</a> </li><li><a href=django.utils.version.html>&#9656; version</a> </li><li><a href=django.utils.xmlutils.html>&#9656; xmlutils</a> </li></ul></li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/utils/jslex.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.utils.html>utils</a>.<a class=symbol href=django.utils.jslex.html>jslex</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=sd>&quot;&quot;&quot;JsLex: a lexer for Javascript&quot;&quot;&quot;</span>
+<a name=line-2></a><span class=c1># Originally from https://bitbucket.org/ned/jslex</span>
+<a name=line-3></a><span class=kn>import</span> <span class=nn>re</span>
+<a name=line-4></a>
+<a name=line-5></a>
+<a name=line-6></a><span class=k>class</span> <span class=nc>Tok</span><span class=p>:</span>
+<a name=line-7></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-8></a><span class=sd>    A specification for a token class.</span>
+<a name=line-9></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-10></a>    <span class=n>num</span> <span class=o>=</span> <span class=mi>0</span>
+<a name=line-11></a>
+<a name=line-12></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>regex</span><span class=p>,</span> <span class=nb>next</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-13></a>        <span class=bp>self</span><span class=o>.</span><span class=n>id</span> <span class=o>=</span> <span class=n>Tok</span><span class=o>.</span><span class=n>num</span>
+<a name=line-14></a>        <span class=n>Tok</span><span class=o>.</span><span class=n>num</span> <span class=o>+=</span> <span class=mi>1</span>
+<a name=line-15></a>        <span class=bp>self</span><span class=o>.</span><span class=n>name</span> <span class=o>=</span> <span class=n>name</span>
+<a name=line-16></a>        <span class=bp>self</span><span class=o>.</span><span class=n>regex</span> <span class=o>=</span> <span class=n>regex</span>
+<a name=line-17></a>        <span class=bp>self</span><span class=o>.</span><span class=n>next</span> <span class=o>=</span> <span class=nb>next</span>
+<a name=line-18></a>
+<a name=line-19></a>
+<a name=line-20></a><span class=k>def</span> <span class=nf>literals</span><span class=p>(</span><span class=n>choices</span><span class=p>,</span> <span class=n>prefix</span><span class=o>=</span><span class=s2>&quot;&quot;</span><span class=p>,</span> <span class=n>suffix</span><span class=o>=</span><span class=s2>&quot;&quot;</span><span class=p>):</span>
+<a name=line-21></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-22></a><span class=sd>    Create a regex from a space-separated list of literal `choices`.</span>
+<a name=line-23></a>
+<a name=line-24></a><span class=sd>    If provided, `prefix` and `suffix` will be attached to each choice</span>
+<a name=line-25></a><span class=sd>    individually.</span>
+<a name=line-26></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-27></a>    <span class=k>return</span> <span class=s2>&quot;|&quot;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>prefix</span> <span class=o>+</span> <span class=n>re</span><span class=o>.</span><span class=n>escape</span><span class=p>(</span><span class=n>c</span><span class=p>)</span> <span class=o>+</span> <span class=n>suffix</span> <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=n>choices</span><span class=o>.</span><span class=n>split</span><span class=p>())</span>
+<a name=line-28></a>
+<a name=line-29></a>
+<a name=line-30></a><span class=k>class</span> <span class=nc>Lexer</span><span class=p>:</span>
+<a name=line-31></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-32></a><span class=sd>    A generic multi-state regex-based lexer.</span>
+<a name=line-33></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-34></a>
+<a name=line-35></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>states</span><span class=p>,</span> <span class=n>first</span><span class=p>):</span>
+<a name=line-36></a>        <span class=bp>self</span><span class=o>.</span><span class=n>regexes</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-37></a>        <span class=bp>self</span><span class=o>.</span><span class=n>toks</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-38></a>
+<a name=line-39></a>        <span class=k>for</span> <span class=n>state</span><span class=p>,</span> <span class=n>rules</span> <span class=ow>in</span> <span class=n>states</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-40></a>            <span class=n>parts</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-41></a>            <span class=k>for</span> <span class=n>tok</span> <span class=ow>in</span> <span class=n>rules</span><span class=p>:</span>
+<a name=line-42></a>                <span class=n>groupid</span> <span class=o>=</span> <span class=s2>&quot;t</span><span class=si>%d</span><span class=s2>&quot;</span> <span class=o>%</span> <span class=n>tok</span><span class=o>.</span><span class=n>id</span>
+<a name=line-43></a>                <span class=bp>self</span><span class=o>.</span><span class=n>toks</span><span class=p>[</span><span class=n>groupid</span><span class=p>]</span> <span class=o>=</span> <span class=n>tok</span>
+<a name=line-44></a>                <span class=n>parts</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=s2>&quot;(?P&lt;</span><span class=si>%s</span><span class=s2>&gt;</span><span class=si>%s</span><span class=s2>)&quot;</span> <span class=o>%</span> <span class=p>(</span><span class=n>groupid</span><span class=p>,</span> <span class=n>tok</span><span class=o>.</span><span class=n>regex</span><span class=p>))</span>
+<a name=line-45></a>            <span class=bp>self</span><span class=o>.</span><span class=n>regexes</span><span class=p>[</span><span class=n>state</span><span class=p>]</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=s2>&quot;|&quot;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>parts</span><span class=p>),</span> <span class=n>re</span><span class=o>.</span><span class=n>MULTILINE</span> <span class=o>|</span> <span class=n>re</span><span class=o>.</span><span class=n>VERBOSE</span><span class=p>)</span>
+<a name=line-46></a>
+<a name=line-47></a>        <span class=bp>self</span><span class=o>.</span><span class=n>state</span> <span class=o>=</span> <span class=n>first</span>
+<a name=line-48></a>
+<a name=line-49></a>    <span class=k>def</span> <span class=nf>lex</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>text</span><span class=p>):</span>
+<a name=line-50></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-51></a><span class=sd>        Lexically analyze `text`.</span>
+<a name=line-52></a>
+<a name=line-53></a><span class=sd>        Yield pairs (`name`, `tokentext`).</span>
+<a name=line-54></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-55></a>        <span class=n>end</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>text</span><span class=p>)</span>
+<a name=line-56></a>        <span class=n>state</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>state</span>
+<a name=line-57></a>        <span class=n>regexes</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>regexes</span>
+<a name=line-58></a>        <span class=n>toks</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>toks</span>
+<a name=line-59></a>        <span class=n>start</span> <span class=o>=</span> <span class=mi>0</span>
+<a name=line-60></a>
+<a name=line-61></a>        <span class=k>while</span> <span class=n>start</span> <span class=o>&lt;</span> <span class=n>end</span><span class=p>:</span>
+<a name=line-62></a>            <span class=k>for</span> <span class=n>match</span> <span class=ow>in</span> <span class=n>regexes</span><span class=p>[</span><span class=n>state</span><span class=p>]</span><span class=o>.</span><span class=n>finditer</span><span class=p>(</span><span class=n>text</span><span class=p>,</span> <span class=n>start</span><span class=p>):</span>
+<a name=line-63></a>                <span class=n>name</span> <span class=o>=</span> <span class=n>match</span><span class=o>.</span><span class=n>lastgroup</span>
+<a name=line-64></a>                <span class=n>tok</span> <span class=o>=</span> <span class=n>toks</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-65></a>                <span class=n>toktext</span> <span class=o>=</span> <span class=n>match</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-66></a>                <span class=n>start</span> <span class=o>+=</span> <span class=nb>len</span><span class=p>(</span><span class=n>toktext</span><span class=p>)</span>
+<a name=line-67></a>                <span class=k>yield</span> <span class=p>(</span><span class=n>tok</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>toktext</span><span class=p>)</span>
+<a name=line-68></a>
+<a name=line-69></a>                <span class=k>if</span> <span class=n>tok</span><span class=o>.</span><span class=n>next</span><span class=p>:</span>
+<a name=line-70></a>                    <span class=n>state</span> <span class=o>=</span> <span class=n>tok</span><span class=o>.</span><span class=n>next</span>
+<a name=line-71></a>                    <span class=k>break</span>
+<a name=line-72></a>
+<a name=line-73></a>        <span class=bp>self</span><span class=o>.</span><span class=n>state</span> <span class=o>=</span> <span class=n>state</span>
+<a name=line-74></a>
+<a name=line-75></a>
+<a name=line-76></a><span class=k>class</span> <span class=nc>JsLexer</span><span class=p>(</span><span class=n>Lexer</span><span class=p>):</span>
+<a name=line-77></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-78></a><span class=sd>    A Javascript lexer</span>
+<a name=line-79></a>
+<a name=line-80></a><span class=sd>    &gt;&gt;&gt; lexer = JsLexer()</span>
+<a name=line-81></a><span class=sd>    &gt;&gt;&gt; list(lexer.lex(&quot;a = 1&quot;))</span>
+<a name=line-82></a><span class=sd>    [(&#39;id&#39;, &#39;a&#39;), (&#39;ws&#39;, &#39; &#39;), (&#39;punct&#39;, &#39;=&#39;), (&#39;ws&#39;, &#39; &#39;), (&#39;dnum&#39;, &#39;1&#39;)]</span>
+<a name=line-83></a>
+<a name=line-84></a><span class=sd>    This doesn&#39;t properly handle non-ASCII characters in the Javascript source.</span>
+<a name=line-85></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-86></a>
+<a name=line-87></a>    <span class=c1># Because these tokens are matched as alternatives in a regex, longer</span>
+<a name=line-88></a>    <span class=c1># possibilities must appear in the list before shorter ones, for example,</span>
+<a name=line-89></a>    <span class=c1># &#39;&gt;&gt;&#39; before &#39;&gt;&#39;.</span>
+<a name=line-90></a>    <span class=c1>#</span>
+<a name=line-91></a>    <span class=c1># Note that we don&#39;t have to detect malformed Javascript, only properly</span>
+<a name=line-92></a>    <span class=c1># lex correct Javascript, so much of this is simplified.</span>
+<a name=line-93></a>
+<a name=line-94></a>    <span class=c1># Details of Javascript lexical structure are taken from</span>
+<a name=line-95></a>    <span class=c1># http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf</span>
+<a name=line-96></a>
+<a name=line-97></a>    <span class=c1># A useful explanation of automatic semicolon insertion is at</span>
+<a name=line-98></a>    <span class=c1># http://inimino.org/~inimino/blog/javascript_semicolons</span>
+<a name=line-99></a>
+<a name=line-100></a>    <span class=n>both_before</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-101></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;comment&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;/\*(.|\n)*?\*/&quot;</span><span class=p>),</span>
+<a name=line-102></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;linecomment&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;//.*?$&quot;</span><span class=p>),</span>
+<a name=line-103></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;ws&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;\s+&quot;</span><span class=p>),</span>
+<a name=line-104></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;keyword&quot;</span><span class=p>,</span> <span class=n>literals</span><span class=p>(</span><span class=s2>&quot;&quot;&quot;</span>
+<a name=line-105></a><span class=s2>                           break case catch class const continue debugger</span>
+<a name=line-106></a><span class=s2>                           default delete do else enum export extends</span>
+<a name=line-107></a><span class=s2>                           finally for function if import in instanceof</span>
+<a name=line-108></a><span class=s2>                           new return super switch this throw try typeof</span>
+<a name=line-109></a><span class=s2>                           var void while with</span>
+<a name=line-110></a><span class=s2>                           &quot;&quot;&quot;</span><span class=p>,</span> <span class=n>suffix</span><span class=o>=</span><span class=sa>r</span><span class=s2>&quot;\b&quot;</span><span class=p>),</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;reg&#39;</span><span class=p>),</span>
+<a name=line-111></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;reserved&quot;</span><span class=p>,</span> <span class=n>literals</span><span class=p>(</span><span class=s2>&quot;null true false&quot;</span><span class=p>,</span> <span class=n>suffix</span><span class=o>=</span><span class=sa>r</span><span class=s2>&quot;\b&quot;</span><span class=p>),</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;div&#39;</span><span class=p>),</span>
+<a name=line-112></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;id&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;&quot;&quot;</span>
+<a name=line-113></a><span class=s2>                  ([a-zA-Z_$   ]|\\u[0-9a-fA-Z]</span><span class=si>{4}</span><span class=s2>)   # first char</span>
+<a name=line-114></a><span class=s2>                  ([a-zA-Z_$0-9]|\\u[0-9a-fA-F]</span><span class=si>{4}</span><span class=s2>)*  # rest chars</span>
+<a name=line-115></a><span class=s2>                  &quot;&quot;&quot;</span><span class=p>,</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;div&#39;</span><span class=p>),</span>
+<a name=line-116></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;hnum&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;0[xX][0-9a-fA-F]+&quot;</span><span class=p>,</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;div&#39;</span><span class=p>),</span>
+<a name=line-117></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;onum&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;0[0-7]+&quot;</span><span class=p>),</span>
+<a name=line-118></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;dnum&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;&quot;&quot;</span>
+<a name=line-119></a><span class=s2>                    (   (0|[1-9][0-9]*)     # DecimalIntegerLiteral</span>
+<a name=line-120></a><span class=s2>                        \.                  # dot</span>
+<a name=line-121></a><span class=s2>                        [0-9]*              # DecimalDigits-opt</span>
+<a name=line-122></a><span class=s2>                        ([eE][-+]?[0-9]+)?  # ExponentPart-opt</span>
+<a name=line-123></a><span class=s2>                    |</span>
+<a name=line-124></a><span class=s2>                        \.                  # dot</span>
+<a name=line-125></a><span class=s2>                        [0-9]+              # DecimalDigits</span>
+<a name=line-126></a><span class=s2>                        ([eE][-+]?[0-9]+)?  # ExponentPart-opt</span>
+<a name=line-127></a><span class=s2>                    |</span>
+<a name=line-128></a><span class=s2>                        (0|[1-9][0-9]*)     # DecimalIntegerLiteral</span>
+<a name=line-129></a><span class=s2>                        ([eE][-+]?[0-9]+)?  # ExponentPart-opt</span>
+<a name=line-130></a><span class=s2>                    )</span>
+<a name=line-131></a><span class=s2>                    &quot;&quot;&quot;</span><span class=p>,</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;div&#39;</span><span class=p>),</span>
+<a name=line-132></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;punct&quot;</span><span class=p>,</span> <span class=n>literals</span><span class=p>(</span><span class=s2>&quot;&quot;&quot;</span>
+<a name=line-133></a><span class=s2>                         &gt;&gt;&gt;= === !== &gt;&gt;&gt; &lt;&lt;= &gt;&gt;= &lt;= &gt;= == != &lt;&lt; &gt;&gt; &amp;&amp;</span>
+<a name=line-134></a><span class=s2>                         || += -= *= %= &amp;= |= ^=</span>
+<a name=line-135></a><span class=s2>                         &quot;&quot;&quot;</span><span class=p>),</span> <span class=nb>next</span><span class=o>=</span><span class=s2>&quot;reg&quot;</span><span class=p>),</span>
+<a name=line-136></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;punct&quot;</span><span class=p>,</span> <span class=n>literals</span><span class=p>(</span><span class=s2>&quot;++ -- ) ]&quot;</span><span class=p>),</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;div&#39;</span><span class=p>),</span>
+<a name=line-137></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;punct&quot;</span><span class=p>,</span> <span class=n>literals</span><span class=p>(</span><span class=s2>&quot;{ } ( [ . ; , &lt; &gt; + - * % &amp; | ^ ! ~ ? : =&quot;</span><span class=p>),</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;reg&#39;</span><span class=p>),</span>
+<a name=line-138></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;string&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s1>&#39;&quot;([^&quot;</span><span class=se>\\</span><span class=s1>]|(</span><span class=se>\\</span><span class=s1>(.|\n)))*?&quot;&#39;</span><span class=p>,</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;div&#39;</span><span class=p>),</span>
+<a name=line-139></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;string&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;&#39;([^&#39;</span><span class=se>\\</span><span class=s2>]|(</span><span class=se>\\</span><span class=s2>(.|\n)))*?&#39;&quot;</span><span class=p>,</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;div&#39;</span><span class=p>),</span>
+<a name=line-140></a>    <span class=p>]</span>
+<a name=line-141></a>
+<a name=line-142></a>    <span class=n>both_after</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-143></a>        <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;other&quot;</span><span class=p>,</span> <span class=sa>r</span><span class=s2>&quot;.&quot;</span><span class=p>),</span>
+<a name=line-144></a>    <span class=p>]</span>
+<a name=line-145></a>
+<a name=line-146></a>    <span class=n>states</span> <span class=o>=</span> <span class=p>{</span>
+<a name=line-147></a>        <span class=c1># slash will mean division</span>
+<a name=line-148></a>        <span class=s1>&#39;div&#39;</span><span class=p>:</span> <span class=n>both_before</span> <span class=o>+</span> <span class=p>[</span>
+<a name=line-149></a>            <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;punct&quot;</span><span class=p>,</span> <span class=n>literals</span><span class=p>(</span><span class=s2>&quot;/= /&quot;</span><span class=p>),</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;reg&#39;</span><span class=p>),</span>
+<a name=line-150></a>        <span class=p>]</span> <span class=o>+</span> <span class=n>both_after</span><span class=p>,</span>
+<a name=line-151></a>
+<a name=line-152></a>        <span class=c1># slash will mean regex</span>
+<a name=line-153></a>        <span class=s1>&#39;reg&#39;</span><span class=p>:</span> <span class=n>both_before</span> <span class=o>+</span> <span class=p>[</span>
+<a name=line-154></a>            <span class=n>Tok</span><span class=p>(</span><span class=s2>&quot;regex&quot;</span><span class=p>,</span>
+<a name=line-155></a>                <span class=sa>r</span><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-156></a><span class=sd>                    /                       # opening slash</span>
+<a name=line-157></a><span class=sd>                    # First character is..</span>
+<a name=line-158></a><span class=sd>                    (   [^*\\/[]            # anything but * \ / or [</span>
+<a name=line-159></a><span class=sd>                    |   \\.                 # or an escape sequence</span>
+<a name=line-160></a><span class=sd>                    |   \[                  # or a class, which has</span>
+<a name=line-161></a><span class=sd>                            (   [^\]\\]     #   anything but \ or ]</span>
+<a name=line-162></a><span class=sd>                            |   \\.         #   or an escape sequence</span>
+<a name=line-163></a><span class=sd>                            )*              #   many times</span>
+<a name=line-164></a><span class=sd>                        \]</span>
+<a name=line-165></a><span class=sd>                    )</span>
+<a name=line-166></a><span class=sd>                    # Following characters are same, except for excluding a star</span>
+<a name=line-167></a><span class=sd>                    (   [^\\/[]             # anything but \ / or [</span>
+<a name=line-168></a><span class=sd>                    |   \\.                 # or an escape sequence</span>
+<a name=line-169></a><span class=sd>                    |   \[                  # or a class, which has</span>
+<a name=line-170></a><span class=sd>                            (   [^\]\\]     #   anything but \ or ]</span>
+<a name=line-171></a><span class=sd>                            |   \\.         #   or an escape sequence</span>
+<a name=line-172></a><span class=sd>                            )*              #   many times</span>
+<a name=line-173></a><span class=sd>                        \]</span>
+<a name=line-174></a><span class=sd>                    )*                      # many times</span>
+<a name=line-175></a><span class=sd>                    /                       # closing slash</span>
+<a name=line-176></a><span class=sd>                    [a-zA-Z0-9]*            # trailing flags</span>
+<a name=line-177></a><span class=sd>                &quot;&quot;&quot;</span><span class=p>,</span> <span class=nb>next</span><span class=o>=</span><span class=s1>&#39;div&#39;</span><span class=p>),</span>
+<a name=line-178></a>        <span class=p>]</span> <span class=o>+</span> <span class=n>both_after</span><span class=p>,</span>
+<a name=line-179></a>    <span class=p>}</span>
+<a name=line-180></a>
+<a name=line-181></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-182></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>states</span><span class=p>,</span> <span class=s1>&#39;reg&#39;</span><span class=p>)</span>
+<a name=line-183></a>
+<a name=line-184></a>
+<a name=line-185></a><span class=k>def</span> <span class=nf>prepare_js_for_gettext</span><span class=p>(</span><span class=n>js</span><span class=p>):</span>
+<a name=line-186></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-187></a><span class=sd>    Convert the Javascript source `js` into something resembling C for</span>
+<a name=line-188></a><span class=sd>    xgettext.</span>
+<a name=line-189></a>
+<a name=line-190></a><span class=sd>    What actually happens is that all the regex literals are replaced with</span>
+<a name=line-191></a><span class=sd>    &quot;REGEX&quot;.</span>
+<a name=line-192></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-193></a>    <span class=k>def</span> <span class=nf>escape_quotes</span><span class=p>(</span><span class=n>m</span><span class=p>):</span>
+<a name=line-194></a>        <span class=sd>&quot;&quot;&quot;Used in a regex to properly escape double quotes.&quot;&quot;&quot;</span>
+<a name=line-195></a>        <span class=n>s</span> <span class=o>=</span> <span class=n>m</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+<a name=line-196></a>        <span class=k>if</span> <span class=n>s</span> <span class=o>==</span> <span class=s1>&#39;&quot;&#39;</span><span class=p>:</span>
+<a name=line-197></a>            <span class=k>return</span> <span class=sa>r</span><span class=s1>&#39;\&quot;&#39;</span>
+<a name=line-198></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-199></a>            <span class=k>return</span> <span class=n>s</span>
+<a name=line-200></a>
+<a name=line-201></a>    <span class=n>lexer</span> <span class=o>=</span> <span class=n>JsLexer</span><span class=p>()</span>
+<a name=line-202></a>    <span class=n>c</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-203></a>    <span class=k>for</span> <span class=n>name</span><span class=p>,</span> <span class=n>tok</span> <span class=ow>in</span> <span class=n>lexer</span><span class=o>.</span><span class=n>lex</span><span class=p>(</span><span class=n>js</span><span class=p>):</span>
+<a name=line-204></a>        <span class=k>if</span> <span class=n>name</span> <span class=o>==</span> <span class=s1>&#39;regex&#39;</span><span class=p>:</span>
+<a name=line-205></a>            <span class=c1># C doesn&#39;t grok regexes, and they aren&#39;t needed for gettext,</span>
+<a name=line-206></a>            <span class=c1># so just output a string instead.</span>
+<a name=line-207></a>            <span class=n>tok</span> <span class=o>=</span> <span class=s1>&#39;&quot;REGEX&quot;&#39;</span>
+<a name=line-208></a>        <span class=k>elif</span> <span class=n>name</span> <span class=o>==</span> <span class=s1>&#39;string&#39;</span><span class=p>:</span>
+<a name=line-209></a>            <span class=c1># C doesn&#39;t have single-quoted strings, so make all strings</span>
+<a name=line-210></a>            <span class=c1># double-quoted.</span>
+<a name=line-211></a>            <span class=k>if</span> <span class=n>tok</span><span class=o>.</span><span class=n>startswith</span><span class=p>(</span><span class=s2>&quot;&#39;&quot;</span><span class=p>):</span>
+<a name=line-212></a>                <span class=n>guts</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>sub</span><span class=p>(</span><span class=sa>r</span><span class=s2>&quot;</span><span class=se>\\</span><span class=s2>.|.&quot;</span><span class=p>,</span> <span class=n>escape_quotes</span><span class=p>,</span> <span class=n>tok</span><span class=p>[</span><span class=mi>1</span><span class=p>:</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span>
+<a name=line-213></a>                <span class=n>tok</span> <span class=o>=</span> <span class=s1>&#39;&quot;&#39;</span> <span class=o>+</span> <span class=n>guts</span> <span class=o>+</span> <span class=s1>&#39;&quot;&#39;</span>
+<a name=line-214></a>        <span class=k>elif</span> <span class=n>name</span> <span class=o>==</span> <span class=s1>&#39;id&#39;</span><span class=p>:</span>
+<a name=line-215></a>            <span class=c1># C can&#39;t deal with Unicode escapes in identifiers.  We don&#39;t</span>
+<a name=line-216></a>            <span class=c1># need them for gettext anyway, so replace them with something</span>
+<a name=line-217></a>            <span class=c1># innocuous</span>
+<a name=line-218></a>            <span class=n>tok</span> <span class=o>=</span> <span class=n>tok</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=s2>&quot;</span><span class=se>\\</span><span class=s2>&quot;</span><span class=p>,</span> <span class=s2>&quot;U&quot;</span><span class=p>)</span>
+<a name=line-219></a>        <span class=n>c</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>tok</span><span class=p>)</span>
+<a name=line-220></a>    <span class=k>return</span> <span class=s1>&#39;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>c</span><span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

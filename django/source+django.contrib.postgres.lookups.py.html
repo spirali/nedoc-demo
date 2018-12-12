@@ -1,0 +1,120 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.contrib.postgres.lookups</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9662; contrib</a> </li><li><ul><li><a href=django.contrib.admin.html>&#9656; admin</a> </li><li><a href=django.contrib.admindocs.html>&#9656; admindocs</a> </li><li><a href=django.contrib.auth.html>&#9656; auth</a> </li><li><a href=django.contrib.contenttypes.html>&#9656; contenttypes</a> </li><li><a href=django.contrib.flatpages.html>&#9656; flatpages</a> </li><li><a href=django.contrib.gis.html>&#9656; gis</a> </li><li><a href=django.contrib.humanize.html>&#9656; humanize</a> </li><li><a href=django.contrib.messages.html>&#9656; messages</a> </li><li><a href=django.contrib.postgres.html>&#9662; postgres</a> </li><li><ul><li><a href=django.contrib.postgres.aggregates.html>&#9656; aggregates</a> </li><li><a href=django.contrib.postgres.apps.html>&#9656; apps</a> </li><li><a href=django.contrib.postgres.constraints.html>&#9656; constraints</a> </li><li><a href=django.contrib.postgres.fields.html>&#9656; fields</a> </li><li><a href=django.contrib.postgres.forms.html>&#9656; forms</a> </li><li><a href=django.contrib.postgres.functions.html>&#9656; functions</a> </li><li><a href=django.contrib.postgres.indexes.html>&#9656; indexes</a> </li><li><div class=select><a href=django.contrib.postgres.lookups.html>&#9662; lookups</a> </div></li><li><ul><li><a href=django.contrib.postgres.lookups.ContainedBy.html> <i>class</i> ContainedBy</a> </li><li><a href=django.contrib.postgres.lookups.DataContains.html> <i>class</i> DataContains</a> </li><li><a href=django.contrib.postgres.lookups.HasAnyKeys.html> <i>class</i> HasAnyKeys</a> </li><li><a href=django.contrib.postgres.lookups.HasKey.html> <i>class</i> HasKey</a> </li><li><a href=django.contrib.postgres.lookups.HasKeys.html> <i>class</i> HasKeys</a> </li><li><a href=django.contrib.postgres.lookups.Overlap.html> <i>class</i> Overlap</a> </li><li><a href=django.contrib.postgres.lookups.SearchLookup.html> <i>class</i> SearchLookup</a> </li><li><a href=django.contrib.postgres.lookups.TrigramSimilar.html> <i>class</i> TrigramSimilar</a> </li><li><a href=django.contrib.postgres.lookups.Unaccent.html> <i>class</i> Unaccent</a> </li></ul></li><li><a href=django.contrib.postgres.operations.html>&#9656; operations</a> </li><li><a href=django.contrib.postgres.search.html>&#9656; search</a> </li><li><a href=django.contrib.postgres.serializers.html>&#9656; serializers</a> </li><li><a href=django.contrib.postgres.signals.html>&#9656; signals</a> </li><li><a href=django.contrib.postgres.utils.html>&#9656; utils</a> </li><li><a href=django.contrib.postgres.validators.html>&#9656; validators</a> </li></ul></li><li><a href=django.contrib.redirects.html>&#9656; redirects</a> </li><li><a href=django.contrib.sessions.html>&#9656; sessions</a> </li><li><a href=django.contrib.sitemaps.html>&#9656; sitemaps</a> </li><li><a href=django.contrib.sites.html>&#9656; sites</a> </li><li><a href=django.contrib.staticfiles.html>&#9656; staticfiles</a> </li><li><a href=django.contrib.syndication.html>&#9656; syndication</a> </li></ul></li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/contrib/postgres/lookups.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.contrib.html>contrib</a>.<a class=symbol href=django.contrib.postgres.html>postgres</a>.<a class=symbol href=django.contrib.postgres.lookups.html>lookups</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>from</span> <span class=nn>django.db.models</span> <span class=kn>import</span> <span class=n>Transform</span>
+<a name=line-2></a><span class=kn>from</span> <span class=nn>django.db.models.lookups</span> <span class=kn>import</span> <span class=n>PostgresOperatorLookup</span>
+<a name=line-3></a>
+<a name=line-4></a><span class=kn>from</span> <span class=nn>.search</span> <span class=kn>import</span> <span class=n>SearchVector</span><span class=p>,</span> <span class=n>SearchVectorExact</span><span class=p>,</span> <span class=n>SearchVectorField</span>
+<a name=line-5></a>
+<a name=line-6></a>
+<a name=line-7></a><span class=k>class</span> <span class=nc>DataContains</span><span class=p>(</span><span class=n>PostgresOperatorLookup</span><span class=p>):</span>
+<a name=line-8></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;contains&#39;</span>
+<a name=line-9></a>    <span class=n>postgres_operator</span> <span class=o>=</span> <span class=s1>&#39;@&gt;&#39;</span>
+<a name=line-10></a>
+<a name=line-11></a>
+<a name=line-12></a><span class=k>class</span> <span class=nc>ContainedBy</span><span class=p>(</span><span class=n>PostgresOperatorLookup</span><span class=p>):</span>
+<a name=line-13></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;contained_by&#39;</span>
+<a name=line-14></a>    <span class=n>postgres_operator</span> <span class=o>=</span> <span class=s1>&#39;&lt;@&#39;</span>
+<a name=line-15></a>
+<a name=line-16></a>
+<a name=line-17></a><span class=k>class</span> <span class=nc>Overlap</span><span class=p>(</span><span class=n>PostgresOperatorLookup</span><span class=p>):</span>
+<a name=line-18></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;overlap&#39;</span>
+<a name=line-19></a>    <span class=n>postgres_operator</span> <span class=o>=</span> <span class=s1>&#39;&amp;&amp;&#39;</span>
+<a name=line-20></a>
+<a name=line-21></a>
+<a name=line-22></a><span class=k>class</span> <span class=nc>HasKey</span><span class=p>(</span><span class=n>PostgresOperatorLookup</span><span class=p>):</span>
+<a name=line-23></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;has_key&#39;</span>
+<a name=line-24></a>    <span class=n>postgres_operator</span> <span class=o>=</span> <span class=s1>&#39;?&#39;</span>
+<a name=line-25></a>    <span class=n>prepare_rhs</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-26></a>
+<a name=line-27></a>
+<a name=line-28></a><span class=k>class</span> <span class=nc>HasKeys</span><span class=p>(</span><span class=n>PostgresOperatorLookup</span><span class=p>):</span>
+<a name=line-29></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;has_keys&#39;</span>
+<a name=line-30></a>    <span class=n>postgres_operator</span> <span class=o>=</span> <span class=s1>&#39;?&amp;&#39;</span>
+<a name=line-31></a>
+<a name=line-32></a>    <span class=k>def</span> <span class=nf>get_prep_lookup</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-33></a>        <span class=k>return</span> <span class=p>[</span><span class=nb>str</span><span class=p>(</span><span class=n>item</span><span class=p>)</span> <span class=k>for</span> <span class=n>item</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>rhs</span><span class=p>]</span>
+<a name=line-34></a>
+<a name=line-35></a>
+<a name=line-36></a><span class=k>class</span> <span class=nc>HasAnyKeys</span><span class=p>(</span><span class=n>HasKeys</span><span class=p>):</span>
+<a name=line-37></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;has_any_keys&#39;</span>
+<a name=line-38></a>    <span class=n>postgres_operator</span> <span class=o>=</span> <span class=s1>&#39;?|&#39;</span>
+<a name=line-39></a>
+<a name=line-40></a>
+<a name=line-41></a><span class=k>class</span> <span class=nc>Unaccent</span><span class=p>(</span><span class=n>Transform</span><span class=p>):</span>
+<a name=line-42></a>    <span class=n>bilateral</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-43></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;unaccent&#39;</span>
+<a name=line-44></a>    <span class=n>function</span> <span class=o>=</span> <span class=s1>&#39;UNACCENT&#39;</span>
+<a name=line-45></a>
+<a name=line-46></a>
+<a name=line-47></a><span class=k>class</span> <span class=nc>SearchLookup</span><span class=p>(</span><span class=n>SearchVectorExact</span><span class=p>):</span>
+<a name=line-48></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;search&#39;</span>
+<a name=line-49></a>
+<a name=line-50></a>    <span class=k>def</span> <span class=nf>process_lhs</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>qn</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-51></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lhs</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>SearchVectorField</span><span class=p>):</span>
+<a name=line-52></a>            <span class=n>config</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>rhs</span><span class=p>,</span> <span class=s1>&#39;config&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>)</span>
+<a name=line-53></a>            <span class=bp>self</span><span class=o>.</span><span class=n>lhs</span> <span class=o>=</span> <span class=n>SearchVector</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lhs</span><span class=p>,</span> <span class=n>config</span><span class=o>=</span><span class=n>config</span><span class=p>)</span>
+<a name=line-54></a>        <span class=n>lhs</span><span class=p>,</span> <span class=n>lhs_params</span> <span class=o>=</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=n>process_lhs</span><span class=p>(</span><span class=n>qn</span><span class=p>,</span> <span class=n>connection</span><span class=p>)</span>
+<a name=line-55></a>        <span class=k>return</span> <span class=n>lhs</span><span class=p>,</span> <span class=n>lhs_params</span>
+<a name=line-56></a>
+<a name=line-57></a>
+<a name=line-58></a><span class=k>class</span> <span class=nc>TrigramSimilar</span><span class=p>(</span><span class=n>PostgresOperatorLookup</span><span class=p>):</span>
+<a name=line-59></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;trigram_similar&#39;</span>
+<a name=line-60></a>    <span class=n>postgres_operator</span> <span class=o>=</span> <span class=s1>&#39;</span><span class=si>%%</span><span class=s1>&#39;</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>distributed.diagnostics.tests.test_nvml</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Distributed</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=distributed.html>&#9662; distributed</a> </li><li><ul><li><a href=distributed.actor.html>&#9656; actor</a> </li><li><a href=distributed.asyncio.html>&#9656; asyncio</a> </li><li><a href=distributed.batched.html>&#9656; batched</a> </li><li><a href=distributed.bokeh.html>&#9656; bokeh</a> </li><li><a href=distributed.cfexecutor.html>&#9656; cfexecutor</a> </li><li><a href=distributed.cli.html>&#9656; cli</a> </li><li><a href=distributed.client.html>&#9656; client</a> </li><li><a href=distributed.comm.html>&#9656; comm</a> </li><li><a href=distributed.compatibility.html>&#9656; compatibility</a> </li><li><a href=distributed.config.html>&#9656; config</a> </li><li><a href=distributed.core.html>&#9656; core</a> </li><li><a href=distributed.counter.html>&#9656; counter</a> </li><li><a href=distributed.dashboard.html>&#9656; dashboard</a> </li><li><a href=distributed.deploy.html>&#9656; deploy</a> </li><li><a href=distributed.diagnostics.html>&#9662; diagnostics</a> </li><li><ul><li><a href=distributed.diagnostics.eventstream.html>&#9656; eventstream</a> </li><li><a href=distributed.diagnostics.graph_layout.html>&#9656; graph_layout</a> </li><li><a href=distributed.diagnostics.nvml.html>&#9656; nvml</a> </li><li><a href=distributed.diagnostics.plugin.html>&#9656; plugin</a> </li><li><a href=distributed.diagnostics.progress.html>&#9656; progress</a> </li><li><a href=distributed.diagnostics.progress_stream.html>&#9656; progress_stream</a> </li><li><a href=distributed.diagnostics.progressbar.html>&#9656; progressbar</a> </li><li><a href=distributed.diagnostics.task_stream.html>&#9656; task_stream</a> </li><li><a href=distributed.diagnostics.tests.html>&#9662; tests</a> </li><li><ul><li><a href=distributed.diagnostics.tests.test_eventstream.html>&#9656; test_eventstream</a> </li><li><a href=distributed.diagnostics.tests.test_graph_layout.html>&#9656; test_graph_layout</a> </li><li><div class=select><a href=distributed.diagnostics.tests.test_nvml.html>&#9662; test_nvml</a> </div></li><li><a href=distributed.diagnostics.tests.test_progress.html>&#9656; test_progress</a> </li><li><a href=distributed.diagnostics.tests.test_progress_stream.html>&#9656; test_progress_stream</a> </li><li><a href=distributed.diagnostics.tests.test_progressbar.html>&#9656; test_progressbar</a> </li><li><a href=distributed.diagnostics.tests.test_scheduler_plugin.html>&#9656; test_scheduler_plugin</a> </li><li><a href=distributed.diagnostics.tests.test_task_stream.html>&#9656; test_task_stream</a> </li><li><a href=distributed.diagnostics.tests.test_widgets.html>&#9656; test_widgets</a> </li><li><a href=distributed.diagnostics.tests.test_worker_plugin.html>&#9656; test_worker_plugin</a> </li></ul></li><li><a href=distributed.diagnostics.websocket.html>&#9656; websocket</a> </li></ul></li><li><a href=distributed.diskutils.html>&#9656; diskutils</a> </li><li><a href=distributed.event.html>&#9656; event</a> </li><li><a href=distributed.http.html>&#9656; http</a> </li><li><a href=distributed.lock.html>&#9656; lock</a> </li><li><a href=distributed.locket.html>&#9656; locket</a> </li><li><a href=distributed.metrics.html>&#9656; metrics</a> </li><li><a href=distributed.nanny.html>&#9656; nanny</a> </li><li><a href=distributed.node.html>&#9656; node</a> </li><li><a href=distributed.preloading.html>&#9656; preloading</a> </li><li><a href=distributed.process.html>&#9656; process</a> </li><li><a href=distributed.proctitle.html>&#9656; proctitle</a> </li><li><a href=distributed.profile.html>&#9656; profile</a> </li><li><a href=distributed.protocol.html>&#9656; protocol</a> </li><li><a href=distributed.publish.html>&#9656; publish</a> </li><li><a href=distributed.pubsub.html>&#9656; pubsub</a> </li><li><a href=distributed.pytest_resourceleaks.html>&#9656; pytest_resourceleaks</a> </li><li><a href=distributed.queues.html>&#9656; queues</a> </li><li><a href=distributed.recreate_exceptions.html>&#9656; recreate_exceptions</a> </li><li><a href=distributed.scheduler.html>&#9656; scheduler</a> </li><li><a href=distributed.security.html>&#9656; security</a> </li><li><a href=distributed.semaphore.html>&#9656; semaphore</a> </li><li><a href=distributed.sizeof.html>&#9656; sizeof</a> </li><li><a href=distributed.stealing.html>&#9656; stealing</a> </li><li><a href=distributed.system.html>&#9656; system</a> </li><li><a href=distributed.system_monitor.html>&#9656; system_monitor</a> </li><li><a href=distributed.tests.html>&#9656; tests</a> </li><li><a href=distributed.threadpoolexecutor.html>&#9656; threadpoolexecutor</a> </li><li><a href=distributed.utils.html>&#9656; utils</a> </li><li><a href=distributed.utils_comm.html>&#9656; utils_comm</a> </li><li><a href=distributed.utils_perf.html>&#9656; utils_perf</a> </li><li><a href=distributed.utils_test.html>&#9656; utils_test</a> </li><li><a href=distributed.variable.html>&#9656; variable</a> </li><li><a href=distributed.versions.html>&#9656; versions</a> </li><li><a href=distributed.worker.html>&#9656; worker</a> </li><li><a href=distributed.worker_client.html>&#9656; worker_client</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code distributed/diagnostics/tests/test_nvml.py</h1><div id=path><a class=symbol href=distributed.html>distributed</a>.<a class=symbol href=distributed.diagnostics.html>diagnostics</a>.<a class=symbol href=distributed.diagnostics.tests.html>tests</a>.<a class=symbol href=distributed.diagnostics.tests.test_nvml.html>test_nvml</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>import</span> <span class=nn>pytest</span>
+<a name=line-2></a><span class=kn>import</span> <span class=nn>os</span>
+<a name=line-3></a>
+<a name=line-4></a><span class=n>pynvml</span> <span class=o>=</span> <span class=n>pytest</span><span class=o>.</span><span class=n>importorskip</span><span class=p>(</span><span class=s2>&quot;pynvml&quot;</span><span class=p>)</span>
+<a name=line-5></a>
+<a name=line-6></a><span class=kn>from</span> <span class=nn>distributed.diagnostics</span> <span class=kn>import</span> <span class=n>nvml</span>
+<a name=line-7></a><span class=kn>from</span> <span class=nn>distributed.utils_test</span> <span class=kn>import</span> <span class=n>gen_cluster</span>
+<a name=line-8></a>
+<a name=line-9></a>
+<a name=line-10></a><span class=k>def</span> <span class=nf>test_one_time</span><span class=p>():</span>
+<a name=line-11></a>    <span class=n>output</span> <span class=o>=</span> <span class=n>nvml</span><span class=o>.</span><span class=n>one_time</span><span class=p>()</span>
+<a name=line-12></a>    <span class=k>assert</span> <span class=s2>&quot;memory-total&quot;</span> <span class=ow>in</span> <span class=n>output</span>
+<a name=line-13></a>    <span class=k>assert</span> <span class=s2>&quot;name&quot;</span> <span class=ow>in</span> <span class=n>output</span>
+<a name=line-14></a>
+<a name=line-15></a>    <span class=k>assert</span> <span class=nb>len</span><span class=p>(</span><span class=n>output</span><span class=p>[</span><span class=s2>&quot;name&quot;</span><span class=p>])</span> <span class=o>&gt;</span> <span class=mi>0</span>
+<a name=line-16></a>
+<a name=line-17></a>
+<a name=line-18></a><span class=k>def</span> <span class=nf>test_1_visible_devices</span><span class=p>():</span>
+<a name=line-19></a>    <span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>[</span><span class=s2>&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&quot;0&quot;</span>
+<a name=line-20></a>    <span class=n>output</span> <span class=o>=</span> <span class=n>nvml</span><span class=o>.</span><span class=n>one_time</span><span class=p>()</span>
+<a name=line-21></a>    <span class=n>h</span> <span class=o>=</span> <span class=n>nvml</span><span class=o>.</span><span class=n>_pynvml_handles</span><span class=p>()</span>
+<a name=line-22></a>    <span class=k>assert</span> <span class=n>output</span><span class=p>[</span><span class=s2>&quot;memory-total&quot;</span><span class=p>]</span> <span class=o>==</span> <span class=n>pynvml</span><span class=o>.</span><span class=n>nvmlDeviceGetMemoryInfo</span><span class=p>(</span><span class=n>h</span><span class=p>)</span><span class=o>.</span><span class=n>total</span>
+<a name=line-23></a>
+<a name=line-24></a>
+<a name=line-25></a><span class=nd>@pytest</span><span class=o>.</span><span class=n>mark</span><span class=o>.</span><span class=n>parametrize</span><span class=p>(</span><span class=s2>&quot;CVD&quot;</span><span class=p>,</span> <span class=p>[</span><span class=s2>&quot;1,0&quot;</span><span class=p>,</span> <span class=s2>&quot;0,1&quot;</span><span class=p>])</span>
+<a name=line-26></a><span class=k>def</span> <span class=nf>test_2_visible_devices</span><span class=p>(</span><span class=n>CVD</span><span class=p>):</span>
+<a name=line-27></a>    <span class=k>if</span> <span class=n>pynvml</span><span class=o>.</span><span class=n>nvmlDeviceGetCount</span><span class=p>()</span> <span class=o>&lt;=</span> <span class=mi>1</span><span class=p>:</span>
+<a name=line-28></a>        <span class=n>pytest</span><span class=o>.</span><span class=n>skip</span><span class=p>(</span><span class=s2>&quot;Machine only has a single GPU&quot;</span><span class=p>)</span>
+<a name=line-29></a>
+<a name=line-30></a>    <span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>[</span><span class=s2>&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class=p>]</span> <span class=o>=</span> <span class=n>CVD</span>
+<a name=line-31></a>    <span class=n>idx</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>CVD</span><span class=o>.</span><span class=n>split</span><span class=p>(</span><span class=s2>&quot;,&quot;</span><span class=p>)[</span><span class=mi>0</span><span class=p>])</span>
+<a name=line-32></a>
+<a name=line-33></a>    <span class=n>h</span> <span class=o>=</span> <span class=n>nvml</span><span class=o>.</span><span class=n>_pynvml_handles</span><span class=p>()</span>
+<a name=line-34></a>    <span class=n>h2</span> <span class=o>=</span> <span class=n>pynvml</span><span class=o>.</span><span class=n>nvmlDeviceGetHandleByIndex</span><span class=p>(</span><span class=n>idx</span><span class=p>)</span>
+<a name=line-35></a>
+<a name=line-36></a>    <span class=n>s</span> <span class=o>=</span> <span class=n>pynvml</span><span class=o>.</span><span class=n>nvmlDeviceGetSerial</span><span class=p>(</span><span class=n>h</span><span class=p>)</span>
+<a name=line-37></a>    <span class=n>s2</span> <span class=o>=</span> <span class=n>pynvml</span><span class=o>.</span><span class=n>nvmlDeviceGetSerial</span><span class=p>(</span><span class=n>h2</span><span class=p>)</span>
+<a name=line-38></a>
+<a name=line-39></a>    <span class=k>assert</span> <span class=n>s</span> <span class=o>==</span> <span class=n>s2</span>
+<a name=line-40></a>
+<a name=line-41></a>
+<a name=line-42></a><span class=nd>@gen_cluster</span><span class=p>()</span>
+<a name=line-43></a><span class=k>async</span> <span class=k>def</span> <span class=nf>test_gpu_metrics</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>):</span>
+<a name=line-44></a>    <span class=n>h</span> <span class=o>=</span> <span class=n>nvml</span><span class=o>.</span><span class=n>_pynvml_handles</span><span class=p>()</span>
+<a name=line-45></a>
+<a name=line-46></a>    <span class=k>assert</span> <span class=s2>&quot;gpu&quot;</span> <span class=ow>in</span> <span class=n>a</span><span class=o>.</span><span class=n>metrics</span>
+<a name=line-47></a>    <span class=k>assert</span> <span class=p>(</span>
+<a name=line-48></a>        <span class=n>s</span><span class=o>.</span><span class=n>workers</span><span class=p>[</span><span class=n>a</span><span class=o>.</span><span class=n>address</span><span class=p>]</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;gpu&quot;</span><span class=p>][</span><span class=s2>&quot;memory-used&quot;</span><span class=p>]</span>
+<a name=line-49></a>        <span class=o>==</span> <span class=n>pynvml</span><span class=o>.</span><span class=n>nvmlDeviceGetMemoryInfo</span><span class=p>(</span><span class=n>h</span><span class=p>)</span><span class=o>.</span><span class=n>used</span>
+<a name=line-50></a>    <span class=p>)</span>
+<a name=line-51></a>    <span class=k>assert</span> <span class=s2>&quot;gpu&quot;</span> <span class=ow>in</span> <span class=n>a</span><span class=o>.</span><span class=n>startup_information</span>
+<a name=line-52></a>    <span class=k>assert</span> <span class=p>(</span>
+<a name=line-53></a>        <span class=n>s</span><span class=o>.</span><span class=n>workers</span><span class=p>[</span><span class=n>a</span><span class=o>.</span><span class=n>address</span><span class=p>]</span><span class=o>.</span><span class=n>extra</span><span class=p>[</span><span class=s2>&quot;gpu&quot;</span><span class=p>][</span><span class=s2>&quot;name&quot;</span><span class=p>]</span>
+<a name=line-54></a>        <span class=o>==</span> <span class=n>pynvml</span><span class=o>.</span><span class=n>nvmlDeviceGetName</span><span class=p>(</span><span class=n>h</span><span class=p>)</span><span class=o>.</span><span class=n>decode</span><span class=p>()</span>
+<a name=line-55></a>    <span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

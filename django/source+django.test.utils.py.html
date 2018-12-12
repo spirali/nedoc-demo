@@ -1,0 +1,1796 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.test.utils</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9662; test</a> </li><li><ul><li><a href=django.test.client.html>&#9656; client</a> </li><li><a href=django.test.html.html>&#9656; html</a> </li><li><a href=django.test.runner.html>&#9656; runner</a> </li><li><a href=django.test.selenium.html>&#9656; selenium</a> </li><li><a href=django.test.signals.html>&#9656; signals</a> </li><li><a href=django.test.testcases.html>&#9656; testcases</a> </li><li><div class=select><a href=django.test.utils.html>&#9662; utils</a> </div></li><li><ul><li><a href=django.test.utils.Approximate.html> <i>class</i> Approximate</a> </li><li><a href=django.test.utils.CaptureQueriesContext.html> <i>class</i> CaptureQueriesContext</a> </li><li><a href=django.test.utils.ContextList.html> <i>class</i> ContextList</a> </li><li><a href=django.test.utils.LoggingCaptureMixin.html> <i>class</i> LoggingCaptureMixin</a> </li><li><a href=django.test.utils.NullTimeKeeper.html> <i>class</i> NullTimeKeeper</a> </li><li><a href=django.test.utils.TestContextDecorator.html> <i>class</i> TestContextDecorator</a> </li><li><a href=django.test.utils.TimeKeeper.html> <i>class</i> TimeKeeper</a> </li><li><a href=django.test.utils.ignore_warnings.html> <i>class</i> ignore_warnings</a> </li><li><a href=django.test.utils.isolate_apps.html> <i>class</i> isolate_apps</a> </li><li><a href=django.test.utils.modify_settings.html> <i>class</i> modify_settings</a> </li><li><a href=django.test.utils.override_script_prefix.html> <i>class</i> override_script_prefix</a> </li><li><a href=django.test.utils.override_settings.html> <i>class</i> override_settings</a> </li><li><a href=django.test.utils.override_system_checks.html> <i>class</i> override_system_checks</a> </li></ul></li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/test/utils.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.test.html>test</a>.<a class=symbol href=django.test.utils.html>utils</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>import</span> <span class=nn>asyncio</span>
+<a name=line-2></a><span class=kn>import</span> <span class=nn>collections</span>
+<a name=line-3></a><span class=kn>import</span> <span class=nn>logging</span>
+<a name=line-4></a><span class=kn>import</span> <span class=nn>os</span>
+<a name=line-5></a><span class=kn>import</span> <span class=nn>re</span>
+<a name=line-6></a><span class=kn>import</span> <span class=nn>sys</span>
+<a name=line-7></a><span class=kn>import</span> <span class=nn>time</span>
+<a name=line-8></a><span class=kn>import</span> <span class=nn>warnings</span>
+<a name=line-9></a><span class=kn>from</span> <span class=nn>contextlib</span> <span class=kn>import</span> <span class=n>contextmanager</span>
+<a name=line-10></a><span class=kn>from</span> <span class=nn>functools</span> <span class=kn>import</span> <span class=n>wraps</span>
+<a name=line-11></a><span class=kn>from</span> <span class=nn>io</span> <span class=kn>import</span> <span class=n>StringIO</span>
+<a name=line-12></a><span class=kn>from</span> <span class=nn>itertools</span> <span class=kn>import</span> <span class=n>chain</span>
+<a name=line-13></a><span class=kn>from</span> <span class=nn>types</span> <span class=kn>import</span> <span class=n>SimpleNamespace</span>
+<a name=line-14></a><span class=kn>from</span> <span class=nn>unittest</span> <span class=kn>import</span> <span class=n>TestCase</span><span class=p>,</span> <span class=n>skipIf</span><span class=p>,</span> <span class=n>skipUnless</span>
+<a name=line-15></a><span class=kn>from</span> <span class=nn>xml.dom.minidom</span> <span class=kn>import</span> <span class=n>Node</span><span class=p>,</span> <span class=n>parseString</span>
+<a name=line-16></a>
+<a name=line-17></a><span class=kn>from</span> <span class=nn>django.apps</span> <span class=kn>import</span> <span class=n>apps</span>
+<a name=line-18></a><span class=kn>from</span> <span class=nn>django.apps.registry</span> <span class=kn>import</span> <span class=n>Apps</span>
+<a name=line-19></a><span class=kn>from</span> <span class=nn>django.conf</span> <span class=kn>import</span> <span class=n>UserSettingsHolder</span><span class=p>,</span> <span class=n>settings</span>
+<a name=line-20></a><span class=kn>from</span> <span class=nn>django.core</span> <span class=kn>import</span> <span class=n>mail</span>
+<a name=line-21></a><span class=kn>from</span> <span class=nn>django.core.exceptions</span> <span class=kn>import</span> <span class=n>ImproperlyConfigured</span>
+<a name=line-22></a><span class=kn>from</span> <span class=nn>django.core.signals</span> <span class=kn>import</span> <span class=n>request_started</span>
+<a name=line-23></a><span class=kn>from</span> <span class=nn>django.db</span> <span class=kn>import</span> <span class=n>DEFAULT_DB_ALIAS</span><span class=p>,</span> <span class=n>connections</span><span class=p>,</span> <span class=n>reset_queries</span>
+<a name=line-24></a><span class=kn>from</span> <span class=nn>django.db.models.options</span> <span class=kn>import</span> <span class=n>Options</span>
+<a name=line-25></a><span class=kn>from</span> <span class=nn>django.template</span> <span class=kn>import</span> <span class=n>Template</span>
+<a name=line-26></a><span class=kn>from</span> <span class=nn>django.test.signals</span> <span class=kn>import</span> <span class=n>setting_changed</span><span class=p>,</span> <span class=n>template_rendered</span>
+<a name=line-27></a><span class=kn>from</span> <span class=nn>django.urls</span> <span class=kn>import</span> <span class=n>get_script_prefix</span><span class=p>,</span> <span class=n>set_script_prefix</span>
+<a name=line-28></a><span class=kn>from</span> <span class=nn>django.utils.translation</span> <span class=kn>import</span> <span class=n>deactivate</span>
+<a name=line-29></a>
+<a name=line-30></a><span class=k>try</span><span class=p>:</span>
+<a name=line-31></a>    <span class=kn>import</span> <span class=nn>jinja2</span>
+<a name=line-32></a><span class=k>except</span> <span class=ne>ImportError</span><span class=p>:</span>
+<a name=line-33></a>    <span class=n>jinja2</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-34></a>
+<a name=line-35></a>
+<a name=line-36></a><span class=n>__all__</span> <span class=o>=</span> <span class=p>(</span>
+<a name=line-37></a>    <span class=s1>&#39;Approximate&#39;</span><span class=p>,</span> <span class=s1>&#39;ContextList&#39;</span><span class=p>,</span> <span class=s1>&#39;isolate_lru_cache&#39;</span><span class=p>,</span> <span class=s1>&#39;get_runner&#39;</span><span class=p>,</span>
+<a name=line-38></a>    <span class=s1>&#39;CaptureQueriesContext&#39;</span><span class=p>,</span>
+<a name=line-39></a>    <span class=s1>&#39;ignore_warnings&#39;</span><span class=p>,</span> <span class=s1>&#39;isolate_apps&#39;</span><span class=p>,</span> <span class=s1>&#39;modify_settings&#39;</span><span class=p>,</span> <span class=s1>&#39;override_settings&#39;</span><span class=p>,</span>
+<a name=line-40></a>    <span class=s1>&#39;override_system_checks&#39;</span><span class=p>,</span> <span class=s1>&#39;tag&#39;</span><span class=p>,</span>
+<a name=line-41></a>    <span class=s1>&#39;requires_tz_support&#39;</span><span class=p>,</span>
+<a name=line-42></a>    <span class=s1>&#39;setup_databases&#39;</span><span class=p>,</span> <span class=s1>&#39;setup_test_environment&#39;</span><span class=p>,</span> <span class=s1>&#39;teardown_test_environment&#39;</span><span class=p>,</span>
+<a name=line-43></a><span class=p>)</span>
+<a name=line-44></a>
+<a name=line-45></a><span class=n>TZ_SUPPORT</span> <span class=o>=</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>time</span><span class=p>,</span> <span class=s1>&#39;tzset&#39;</span><span class=p>)</span>
+<a name=line-46></a>
+<a name=line-47></a>
+<a name=line-48></a><span class=k>class</span> <span class=nc>Approximate</span><span class=p>:</span>
+<a name=line-49></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>val</span><span class=p>,</span> <span class=n>places</span><span class=o>=</span><span class=mi>7</span><span class=p>):</span>
+<a name=line-50></a>        <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>=</span> <span class=n>val</span>
+<a name=line-51></a>        <span class=bp>self</span><span class=o>.</span><span class=n>places</span> <span class=o>=</span> <span class=n>places</span>
+<a name=line-52></a>
+<a name=line-53></a>    <span class=k>def</span> <span class=fm>__repr__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-54></a>        <span class=k>return</span> <span class=nb>repr</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span><span class=p>)</span>
+<a name=line-55></a>
+<a name=line-56></a>    <span class=k>def</span> <span class=fm>__eq__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
+<a name=line-57></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>==</span> <span class=n>other</span> <span class=ow>or</span> <span class=nb>round</span><span class=p>(</span><span class=nb>abs</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>-</span> <span class=n>other</span><span class=p>),</span> <span class=bp>self</span><span class=o>.</span><span class=n>places</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span>
+<a name=line-58></a>
+<a name=line-59></a>
+<a name=line-60></a><span class=k>class</span> <span class=nc>ContextList</span><span class=p>(</span><span class=nb>list</span><span class=p>):</span>
+<a name=line-61></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-62></a><span class=sd>    A wrapper that provides direct key access to context items contained</span>
+<a name=line-63></a><span class=sd>    in a list of context objects.</span>
+<a name=line-64></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-65></a>    <span class=k>def</span> <span class=fm>__getitem__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>key</span><span class=p>):</span>
+<a name=line-66></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>key</span><span class=p>,</span> <span class=nb>str</span><span class=p>):</span>
+<a name=line-67></a>            <span class=k>for</span> <span class=n>subcontext</span> <span class=ow>in</span> <span class=bp>self</span><span class=p>:</span>
+<a name=line-68></a>                <span class=k>if</span> <span class=n>key</span> <span class=ow>in</span> <span class=n>subcontext</span><span class=p>:</span>
+<a name=line-69></a>                    <span class=k>return</span> <span class=n>subcontext</span><span class=p>[</span><span class=n>key</span><span class=p>]</span>
+<a name=line-70></a>            <span class=k>raise</span> <span class=ne>KeyError</span><span class=p>(</span><span class=n>key</span><span class=p>)</span>
+<a name=line-71></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-72></a>            <span class=k>return</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__getitem__</span><span class=p>(</span><span class=n>key</span><span class=p>)</span>
+<a name=line-73></a>
+<a name=line-74></a>    <span class=k>def</span> <span class=nf>get</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>key</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-75></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-76></a>            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=fm>__getitem__</span><span class=p>(</span><span class=n>key</span><span class=p>)</span>
+<a name=line-77></a>        <span class=k>except</span> <span class=ne>KeyError</span><span class=p>:</span>
+<a name=line-78></a>            <span class=k>return</span> <span class=n>default</span>
+<a name=line-79></a>
+<a name=line-80></a>    <span class=k>def</span> <span class=fm>__contains__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>key</span><span class=p>):</span>
+<a name=line-81></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-82></a>            <span class=bp>self</span><span class=p>[</span><span class=n>key</span><span class=p>]</span>
+<a name=line-83></a>        <span class=k>except</span> <span class=ne>KeyError</span><span class=p>:</span>
+<a name=line-84></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-85></a>        <span class=k>return</span> <span class=kc>True</span>
+<a name=line-86></a>
+<a name=line-87></a>    <span class=k>def</span> <span class=nf>keys</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-88></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-89></a><span class=sd>        Flattened keys of subcontexts.</span>
+<a name=line-90></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-91></a>        <span class=k>return</span> <span class=nb>set</span><span class=p>(</span><span class=n>chain</span><span class=o>.</span><span class=n>from_iterable</span><span class=p>(</span><span class=n>d</span> <span class=k>for</span> <span class=n>subcontext</span> <span class=ow>in</span> <span class=bp>self</span> <span class=k>for</span> <span class=n>d</span> <span class=ow>in</span> <span class=n>subcontext</span><span class=p>))</span>
+<a name=line-92></a>
+<a name=line-93></a>
+<a name=line-94></a><span class=k>def</span> <span class=nf>instrumented_test_render</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>context</span><span class=p>):</span>
+<a name=line-95></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-96></a><span class=sd>    An instrumented Template render method, providing a signal that can be</span>
+<a name=line-97></a><span class=sd>    intercepted by the test Client.</span>
+<a name=line-98></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-99></a>    <span class=n>template_rendered</span><span class=o>.</span><span class=n>send</span><span class=p>(</span><span class=n>sender</span><span class=o>=</span><span class=bp>self</span><span class=p>,</span> <span class=n>template</span><span class=o>=</span><span class=bp>self</span><span class=p>,</span> <span class=n>context</span><span class=o>=</span><span class=n>context</span><span class=p>)</span>
+<a name=line-100></a>    <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>nodelist</span><span class=o>.</span><span class=n>render</span><span class=p>(</span><span class=n>context</span><span class=p>)</span>
+<a name=line-101></a>
+<a name=line-102></a>
+<a name=line-103></a><span class=k>class</span> <span class=nc>_TestState</span><span class=p>:</span>
+<a name=line-104></a>    <span class=k>pass</span>
+<a name=line-105></a>
+<a name=line-106></a>
+<a name=line-107></a><span class=k>def</span> <span class=nf>setup_test_environment</span><span class=p>(</span><span class=n>debug</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-108></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-109></a><span class=sd>    Perform global pre-test setup, such as installing the instrumented template</span>
+<a name=line-110></a><span class=sd>    renderer and setting the email backend to the locmem email backend.</span>
+<a name=line-111></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-112></a>    <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>_TestState</span><span class=p>,</span> <span class=s1>&#39;saved_data&#39;</span><span class=p>):</span>
+<a name=line-113></a>        <span class=c1># Executing this function twice would overwrite the saved values.</span>
+<a name=line-114></a>        <span class=k>raise</span> <span class=ne>RuntimeError</span><span class=p>(</span>
+<a name=line-115></a>            <span class=s2>&quot;setup_test_environment() was already called and can&#39;t be called &quot;</span>
+<a name=line-116></a>            <span class=s2>&quot;again without first calling teardown_test_environment().&quot;</span>
+<a name=line-117></a>        <span class=p>)</span>
+<a name=line-118></a>
+<a name=line-119></a>    <span class=k>if</span> <span class=n>debug</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-120></a>        <span class=n>debug</span> <span class=o>=</span> <span class=n>settings</span><span class=o>.</span><span class=n>DEBUG</span>
+<a name=line-121></a>
+<a name=line-122></a>    <span class=n>saved_data</span> <span class=o>=</span> <span class=n>SimpleNamespace</span><span class=p>()</span>
+<a name=line-123></a>    <span class=n>_TestState</span><span class=o>.</span><span class=n>saved_data</span> <span class=o>=</span> <span class=n>saved_data</span>
+<a name=line-124></a>
+<a name=line-125></a>    <span class=n>saved_data</span><span class=o>.</span><span class=n>allowed_hosts</span> <span class=o>=</span> <span class=n>settings</span><span class=o>.</span><span class=n>ALLOWED_HOSTS</span>
+<a name=line-126></a>    <span class=c1># Add the default host of the test client.</span>
+<a name=line-127></a>    <span class=n>settings</span><span class=o>.</span><span class=n>ALLOWED_HOSTS</span> <span class=o>=</span> <span class=p>[</span><span class=o>*</span><span class=n>settings</span><span class=o>.</span><span class=n>ALLOWED_HOSTS</span><span class=p>,</span> <span class=s1>&#39;testserver&#39;</span><span class=p>]</span>
+<a name=line-128></a>
+<a name=line-129></a>    <span class=n>saved_data</span><span class=o>.</span><span class=n>debug</span> <span class=o>=</span> <span class=n>settings</span><span class=o>.</span><span class=n>DEBUG</span>
+<a name=line-130></a>    <span class=n>settings</span><span class=o>.</span><span class=n>DEBUG</span> <span class=o>=</span> <span class=n>debug</span>
+<a name=line-131></a>
+<a name=line-132></a>    <span class=n>saved_data</span><span class=o>.</span><span class=n>email_backend</span> <span class=o>=</span> <span class=n>settings</span><span class=o>.</span><span class=n>EMAIL_BACKEND</span>
+<a name=line-133></a>    <span class=n>settings</span><span class=o>.</span><span class=n>EMAIL_BACKEND</span> <span class=o>=</span> <span class=s1>&#39;django.core.mail.backends.locmem.EmailBackend&#39;</span>
+<a name=line-134></a>
+<a name=line-135></a>    <span class=n>saved_data</span><span class=o>.</span><span class=n>template_render</span> <span class=o>=</span> <span class=n>Template</span><span class=o>.</span><span class=n>_render</span>
+<a name=line-136></a>    <span class=n>Template</span><span class=o>.</span><span class=n>_render</span> <span class=o>=</span> <span class=n>instrumented_test_render</span>
+<a name=line-137></a>
+<a name=line-138></a>    <span class=n>mail</span><span class=o>.</span><span class=n>outbox</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-139></a>
+<a name=line-140></a>    <span class=n>deactivate</span><span class=p>()</span>
+<a name=line-141></a>
+<a name=line-142></a>
+<a name=line-143></a><span class=k>def</span> <span class=nf>teardown_test_environment</span><span class=p>():</span>
+<a name=line-144></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-145></a><span class=sd>    Perform any global post-test teardown, such as restoring the original</span>
+<a name=line-146></a><span class=sd>    template renderer and restoring the email sending functions.</span>
+<a name=line-147></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-148></a>    <span class=n>saved_data</span> <span class=o>=</span> <span class=n>_TestState</span><span class=o>.</span><span class=n>saved_data</span>
+<a name=line-149></a>
+<a name=line-150></a>    <span class=n>settings</span><span class=o>.</span><span class=n>ALLOWED_HOSTS</span> <span class=o>=</span> <span class=n>saved_data</span><span class=o>.</span><span class=n>allowed_hosts</span>
+<a name=line-151></a>    <span class=n>settings</span><span class=o>.</span><span class=n>DEBUG</span> <span class=o>=</span> <span class=n>saved_data</span><span class=o>.</span><span class=n>debug</span>
+<a name=line-152></a>    <span class=n>settings</span><span class=o>.</span><span class=n>EMAIL_BACKEND</span> <span class=o>=</span> <span class=n>saved_data</span><span class=o>.</span><span class=n>email_backend</span>
+<a name=line-153></a>    <span class=n>Template</span><span class=o>.</span><span class=n>_render</span> <span class=o>=</span> <span class=n>saved_data</span><span class=o>.</span><span class=n>template_render</span>
+<a name=line-154></a>
+<a name=line-155></a>    <span class=k>del</span> <span class=n>_TestState</span><span class=o>.</span><span class=n>saved_data</span>
+<a name=line-156></a>    <span class=k>del</span> <span class=n>mail</span><span class=o>.</span><span class=n>outbox</span>
+<a name=line-157></a>
+<a name=line-158></a>
+<a name=line-159></a><span class=k>def</span> <span class=nf>setup_databases</span><span class=p>(</span><span class=n>verbosity</span><span class=p>,</span> <span class=n>interactive</span><span class=p>,</span> <span class=o>*</span><span class=p>,</span> <span class=n>time_keeper</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>keepdb</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=n>debug_sql</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=n>parallel</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span>
+<a name=line-160></a>                    <span class=n>aliases</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-161></a>    <span class=sd>&quot;&quot;&quot;Create the test databases.&quot;&quot;&quot;</span>
+<a name=line-162></a>    <span class=k>if</span> <span class=n>time_keeper</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-163></a>        <span class=n>time_keeper</span> <span class=o>=</span> <span class=n>NullTimeKeeper</span><span class=p>()</span>
+<a name=line-164></a>
+<a name=line-165></a>    <span class=n>test_databases</span><span class=p>,</span> <span class=n>mirrored_aliases</span> <span class=o>=</span> <span class=n>get_unique_databases_and_mirrors</span><span class=p>(</span><span class=n>aliases</span><span class=p>)</span>
+<a name=line-166></a>
+<a name=line-167></a>    <span class=n>old_names</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-168></a>
+<a name=line-169></a>    <span class=k>for</span> <span class=n>db_name</span><span class=p>,</span> <span class=n>aliases</span> <span class=ow>in</span> <span class=n>test_databases</span><span class=o>.</span><span class=n>values</span><span class=p>():</span>
+<a name=line-170></a>        <span class=n>first_alias</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-171></a>        <span class=k>for</span> <span class=n>alias</span> <span class=ow>in</span> <span class=n>aliases</span><span class=p>:</span>
+<a name=line-172></a>            <span class=n>connection</span> <span class=o>=</span> <span class=n>connections</span><span class=p>[</span><span class=n>alias</span><span class=p>]</span>
+<a name=line-173></a>            <span class=n>old_names</span><span class=o>.</span><span class=n>append</span><span class=p>((</span><span class=n>connection</span><span class=p>,</span> <span class=n>db_name</span><span class=p>,</span> <span class=n>first_alias</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>))</span>
+<a name=line-174></a>
+<a name=line-175></a>            <span class=c1># Actually create the database for the first connection</span>
+<a name=line-176></a>            <span class=k>if</span> <span class=n>first_alias</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-177></a>                <span class=n>first_alias</span> <span class=o>=</span> <span class=n>alias</span>
+<a name=line-178></a>                <span class=k>with</span> <span class=n>time_keeper</span><span class=o>.</span><span class=n>timed</span><span class=p>(</span><span class=s2>&quot;  Creating &#39;</span><span class=si>%s</span><span class=s2>&#39;&quot;</span> <span class=o>%</span> <span class=n>alias</span><span class=p>):</span>
+<a name=line-179></a>                    <span class=n>connection</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>create_test_db</span><span class=p>(</span>
+<a name=line-180></a>                        <span class=n>verbosity</span><span class=o>=</span><span class=n>verbosity</span><span class=p>,</span>
+<a name=line-181></a>                        <span class=n>autoclobber</span><span class=o>=</span><span class=ow>not</span> <span class=n>interactive</span><span class=p>,</span>
+<a name=line-182></a>                        <span class=n>keepdb</span><span class=o>=</span><span class=n>keepdb</span><span class=p>,</span>
+<a name=line-183></a>                        <span class=n>serialize</span><span class=o>=</span><span class=n>connection</span><span class=o>.</span><span class=n>settings_dict</span><span class=p>[</span><span class=s1>&#39;TEST&#39;</span><span class=p>]</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;SERIALIZE&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>),</span>
+<a name=line-184></a>                    <span class=p>)</span>
+<a name=line-185></a>                <span class=k>if</span> <span class=n>parallel</span> <span class=o>&gt;</span> <span class=mi>1</span><span class=p>:</span>
+<a name=line-186></a>                    <span class=k>for</span> <span class=n>index</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>parallel</span><span class=p>):</span>
+<a name=line-187></a>                        <span class=k>with</span> <span class=n>time_keeper</span><span class=o>.</span><span class=n>timed</span><span class=p>(</span><span class=s2>&quot;  Cloning &#39;</span><span class=si>%s</span><span class=s2>&#39;&quot;</span> <span class=o>%</span> <span class=n>alias</span><span class=p>):</span>
+<a name=line-188></a>                            <span class=n>connection</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>clone_test_db</span><span class=p>(</span>
+<a name=line-189></a>                                <span class=n>suffix</span><span class=o>=</span><span class=nb>str</span><span class=p>(</span><span class=n>index</span> <span class=o>+</span> <span class=mi>1</span><span class=p>),</span>
+<a name=line-190></a>                                <span class=n>verbosity</span><span class=o>=</span><span class=n>verbosity</span><span class=p>,</span>
+<a name=line-191></a>                                <span class=n>keepdb</span><span class=o>=</span><span class=n>keepdb</span><span class=p>,</span>
+<a name=line-192></a>                            <span class=p>)</span>
+<a name=line-193></a>            <span class=c1># Configure all other connections as mirrors of the first one</span>
+<a name=line-194></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-195></a>                <span class=n>connections</span><span class=p>[</span><span class=n>alias</span><span class=p>]</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>set_as_test_mirror</span><span class=p>(</span><span class=n>connections</span><span class=p>[</span><span class=n>first_alias</span><span class=p>]</span><span class=o>.</span><span class=n>settings_dict</span><span class=p>)</span>
+<a name=line-196></a>
+<a name=line-197></a>    <span class=c1># Configure the test mirrors.</span>
+<a name=line-198></a>    <span class=k>for</span> <span class=n>alias</span><span class=p>,</span> <span class=n>mirror_alias</span> <span class=ow>in</span> <span class=n>mirrored_aliases</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-199></a>        <span class=n>connections</span><span class=p>[</span><span class=n>alias</span><span class=p>]</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>set_as_test_mirror</span><span class=p>(</span>
+<a name=line-200></a>            <span class=n>connections</span><span class=p>[</span><span class=n>mirror_alias</span><span class=p>]</span><span class=o>.</span><span class=n>settings_dict</span><span class=p>)</span>
+<a name=line-201></a>
+<a name=line-202></a>    <span class=k>if</span> <span class=n>debug_sql</span><span class=p>:</span>
+<a name=line-203></a>        <span class=k>for</span> <span class=n>alias</span> <span class=ow>in</span> <span class=n>connections</span><span class=p>:</span>
+<a name=line-204></a>            <span class=n>connections</span><span class=p>[</span><span class=n>alias</span><span class=p>]</span><span class=o>.</span><span class=n>force_debug_cursor</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-205></a>
+<a name=line-206></a>    <span class=k>return</span> <span class=n>old_names</span>
+<a name=line-207></a>
+<a name=line-208></a>
+<a name=line-209></a><span class=k>def</span> <span class=nf>dependency_ordered</span><span class=p>(</span><span class=n>test_databases</span><span class=p>,</span> <span class=n>dependencies</span><span class=p>):</span>
+<a name=line-210></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-211></a><span class=sd>    Reorder test_databases into an order that honors the dependencies</span>
+<a name=line-212></a><span class=sd>    described in TEST[DEPENDENCIES].</span>
+<a name=line-213></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-214></a>    <span class=n>ordered_test_databases</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-215></a>    <span class=n>resolved_databases</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-216></a>
+<a name=line-217></a>    <span class=c1># Maps db signature to dependencies of all its aliases</span>
+<a name=line-218></a>    <span class=n>dependencies_map</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-219></a>
+<a name=line-220></a>    <span class=c1># Check that no database depends on its own alias</span>
+<a name=line-221></a>    <span class=k>for</span> <span class=n>sig</span><span class=p>,</span> <span class=p>(</span><span class=n>_</span><span class=p>,</span> <span class=n>aliases</span><span class=p>)</span> <span class=ow>in</span> <span class=n>test_databases</span><span class=p>:</span>
+<a name=line-222></a>        <span class=n>all_deps</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-223></a>        <span class=k>for</span> <span class=n>alias</span> <span class=ow>in</span> <span class=n>aliases</span><span class=p>:</span>
+<a name=line-224></a>            <span class=n>all_deps</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=n>dependencies</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>alias</span><span class=p>,</span> <span class=p>[]))</span>
+<a name=line-225></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>all_deps</span><span class=o>.</span><span class=n>isdisjoint</span><span class=p>(</span><span class=n>aliases</span><span class=p>):</span>
+<a name=line-226></a>            <span class=k>raise</span> <span class=n>ImproperlyConfigured</span><span class=p>(</span>
+<a name=line-227></a>                <span class=s2>&quot;Circular dependency: databases </span><span class=si>%r</span><span class=s2> depend on each other, &quot;</span>
+<a name=line-228></a>                <span class=s2>&quot;but are aliases.&quot;</span> <span class=o>%</span> <span class=n>aliases</span>
+<a name=line-229></a>            <span class=p>)</span>
+<a name=line-230></a>        <span class=n>dependencies_map</span><span class=p>[</span><span class=n>sig</span><span class=p>]</span> <span class=o>=</span> <span class=n>all_deps</span>
+<a name=line-231></a>
+<a name=line-232></a>    <span class=k>while</span> <span class=n>test_databases</span><span class=p>:</span>
+<a name=line-233></a>        <span class=n>changed</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-234></a>        <span class=n>deferred</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-235></a>
+<a name=line-236></a>        <span class=c1># Try to find a DB that has all its dependencies met</span>
+<a name=line-237></a>        <span class=k>for</span> <span class=n>signature</span><span class=p>,</span> <span class=p>(</span><span class=n>db_name</span><span class=p>,</span> <span class=n>aliases</span><span class=p>)</span> <span class=ow>in</span> <span class=n>test_databases</span><span class=p>:</span>
+<a name=line-238></a>            <span class=k>if</span> <span class=n>dependencies_map</span><span class=p>[</span><span class=n>signature</span><span class=p>]</span><span class=o>.</span><span class=n>issubset</span><span class=p>(</span><span class=n>resolved_databases</span><span class=p>):</span>
+<a name=line-239></a>                <span class=n>resolved_databases</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=n>aliases</span><span class=p>)</span>
+<a name=line-240></a>                <span class=n>ordered_test_databases</span><span class=o>.</span><span class=n>append</span><span class=p>((</span><span class=n>signature</span><span class=p>,</span> <span class=p>(</span><span class=n>db_name</span><span class=p>,</span> <span class=n>aliases</span><span class=p>)))</span>
+<a name=line-241></a>                <span class=n>changed</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-242></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-243></a>                <span class=n>deferred</span><span class=o>.</span><span class=n>append</span><span class=p>((</span><span class=n>signature</span><span class=p>,</span> <span class=p>(</span><span class=n>db_name</span><span class=p>,</span> <span class=n>aliases</span><span class=p>)))</span>
+<a name=line-244></a>
+<a name=line-245></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>changed</span><span class=p>:</span>
+<a name=line-246></a>            <span class=k>raise</span> <span class=n>ImproperlyConfigured</span><span class=p>(</span><span class=s2>&quot;Circular dependency in TEST[DEPENDENCIES]&quot;</span><span class=p>)</span>
+<a name=line-247></a>        <span class=n>test_databases</span> <span class=o>=</span> <span class=n>deferred</span>
+<a name=line-248></a>    <span class=k>return</span> <span class=n>ordered_test_databases</span>
+<a name=line-249></a>
+<a name=line-250></a>
+<a name=line-251></a><span class=k>def</span> <span class=nf>get_unique_databases_and_mirrors</span><span class=p>(</span><span class=n>aliases</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-252></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-253></a><span class=sd>    Figure out which databases actually need to be created.</span>
+<a name=line-254></a>
+<a name=line-255></a><span class=sd>    Deduplicate entries in DATABASES that correspond the same database or are</span>
+<a name=line-256></a><span class=sd>    configured as test mirrors.</span>
+<a name=line-257></a>
+<a name=line-258></a><span class=sd>    Return two values:</span>
+<a name=line-259></a><span class=sd>    - test_databases: ordered mapping of signatures to (name, list of aliases)</span>
+<a name=line-260></a><span class=sd>                      where all aliases share the same underlying database.</span>
+<a name=line-261></a><span class=sd>    - mirrored_aliases: mapping of mirror aliases to original aliases.</span>
+<a name=line-262></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-263></a>    <span class=k>if</span> <span class=n>aliases</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-264></a>        <span class=n>aliases</span> <span class=o>=</span> <span class=n>connections</span>
+<a name=line-265></a>    <span class=n>mirrored_aliases</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-266></a>    <span class=n>test_databases</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-267></a>    <span class=n>dependencies</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-268></a>    <span class=n>default_sig</span> <span class=o>=</span> <span class=n>connections</span><span class=p>[</span><span class=n>DEFAULT_DB_ALIAS</span><span class=p>]</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>test_db_signature</span><span class=p>()</span>
+<a name=line-269></a>
+<a name=line-270></a>    <span class=k>for</span> <span class=n>alias</span> <span class=ow>in</span> <span class=n>connections</span><span class=p>:</span>
+<a name=line-271></a>        <span class=n>connection</span> <span class=o>=</span> <span class=n>connections</span><span class=p>[</span><span class=n>alias</span><span class=p>]</span>
+<a name=line-272></a>        <span class=n>test_settings</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>settings_dict</span><span class=p>[</span><span class=s1>&#39;TEST&#39;</span><span class=p>]</span>
+<a name=line-273></a>
+<a name=line-274></a>        <span class=k>if</span> <span class=n>test_settings</span><span class=p>[</span><span class=s1>&#39;MIRROR&#39;</span><span class=p>]:</span>
+<a name=line-275></a>            <span class=c1># If the database is marked as a test mirror, save the alias.</span>
+<a name=line-276></a>            <span class=n>mirrored_aliases</span><span class=p>[</span><span class=n>alias</span><span class=p>]</span> <span class=o>=</span> <span class=n>test_settings</span><span class=p>[</span><span class=s1>&#39;MIRROR&#39;</span><span class=p>]</span>
+<a name=line-277></a>        <span class=k>elif</span> <span class=n>alias</span> <span class=ow>in</span> <span class=n>aliases</span><span class=p>:</span>
+<a name=line-278></a>            <span class=c1># Store a tuple with DB parameters that uniquely identify it.</span>
+<a name=line-279></a>            <span class=c1># If we have two aliases with the same values for that tuple,</span>
+<a name=line-280></a>            <span class=c1># we only need to create the test database once.</span>
+<a name=line-281></a>            <span class=n>item</span> <span class=o>=</span> <span class=n>test_databases</span><span class=o>.</span><span class=n>setdefault</span><span class=p>(</span>
+<a name=line-282></a>                <span class=n>connection</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>test_db_signature</span><span class=p>(),</span>
+<a name=line-283></a>                <span class=p>(</span><span class=n>connection</span><span class=o>.</span><span class=n>settings_dict</span><span class=p>[</span><span class=s1>&#39;NAME&#39;</span><span class=p>],</span> <span class=nb>set</span><span class=p>())</span>
+<a name=line-284></a>            <span class=p>)</span>
+<a name=line-285></a>            <span class=n>item</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span><span class=o>.</span><span class=n>add</span><span class=p>(</span><span class=n>alias</span><span class=p>)</span>
+<a name=line-286></a>
+<a name=line-287></a>            <span class=k>if</span> <span class=s1>&#39;DEPENDENCIES&#39;</span> <span class=ow>in</span> <span class=n>test_settings</span><span class=p>:</span>
+<a name=line-288></a>                <span class=n>dependencies</span><span class=p>[</span><span class=n>alias</span><span class=p>]</span> <span class=o>=</span> <span class=n>test_settings</span><span class=p>[</span><span class=s1>&#39;DEPENDENCIES&#39;</span><span class=p>]</span>
+<a name=line-289></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-290></a>                <span class=k>if</span> <span class=n>alias</span> <span class=o>!=</span> <span class=n>DEFAULT_DB_ALIAS</span> <span class=ow>and</span> <span class=n>connection</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>test_db_signature</span><span class=p>()</span> <span class=o>!=</span> <span class=n>default_sig</span><span class=p>:</span>
+<a name=line-291></a>                    <span class=n>dependencies</span><span class=p>[</span><span class=n>alias</span><span class=p>]</span> <span class=o>=</span> <span class=n>test_settings</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;DEPENDENCIES&#39;</span><span class=p>,</span> <span class=p>[</span><span class=n>DEFAULT_DB_ALIAS</span><span class=p>])</span>
+<a name=line-292></a>
+<a name=line-293></a>    <span class=n>test_databases</span> <span class=o>=</span> <span class=nb>dict</span><span class=p>(</span><span class=n>dependency_ordered</span><span class=p>(</span><span class=n>test_databases</span><span class=o>.</span><span class=n>items</span><span class=p>(),</span> <span class=n>dependencies</span><span class=p>))</span>
+<a name=line-294></a>    <span class=k>return</span> <span class=n>test_databases</span><span class=p>,</span> <span class=n>mirrored_aliases</span>
+<a name=line-295></a>
+<a name=line-296></a>
+<a name=line-297></a><span class=k>def</span> <span class=nf>teardown_databases</span><span class=p>(</span><span class=n>old_config</span><span class=p>,</span> <span class=n>verbosity</span><span class=p>,</span> <span class=n>parallel</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>keepdb</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+<a name=line-298></a>    <span class=sd>&quot;&quot;&quot;Destroy all the non-mirror databases.&quot;&quot;&quot;</span>
+<a name=line-299></a>    <span class=k>for</span> <span class=n>connection</span><span class=p>,</span> <span class=n>old_name</span><span class=p>,</span> <span class=n>destroy</span> <span class=ow>in</span> <span class=n>old_config</span><span class=p>:</span>
+<a name=line-300></a>        <span class=k>if</span> <span class=n>destroy</span><span class=p>:</span>
+<a name=line-301></a>            <span class=k>if</span> <span class=n>parallel</span> <span class=o>&gt;</span> <span class=mi>1</span><span class=p>:</span>
+<a name=line-302></a>                <span class=k>for</span> <span class=n>index</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>parallel</span><span class=p>):</span>
+<a name=line-303></a>                    <span class=n>connection</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>destroy_test_db</span><span class=p>(</span>
+<a name=line-304></a>                        <span class=n>suffix</span><span class=o>=</span><span class=nb>str</span><span class=p>(</span><span class=n>index</span> <span class=o>+</span> <span class=mi>1</span><span class=p>),</span>
+<a name=line-305></a>                        <span class=n>verbosity</span><span class=o>=</span><span class=n>verbosity</span><span class=p>,</span>
+<a name=line-306></a>                        <span class=n>keepdb</span><span class=o>=</span><span class=n>keepdb</span><span class=p>,</span>
+<a name=line-307></a>                    <span class=p>)</span>
+<a name=line-308></a>            <span class=n>connection</span><span class=o>.</span><span class=n>creation</span><span class=o>.</span><span class=n>destroy_test_db</span><span class=p>(</span><span class=n>old_name</span><span class=p>,</span> <span class=n>verbosity</span><span class=p>,</span> <span class=n>keepdb</span><span class=p>)</span>
+<a name=line-309></a>
+<a name=line-310></a>
+<a name=line-311></a><span class=k>def</span> <span class=nf>get_runner</span><span class=p>(</span><span class=n>settings</span><span class=p>,</span> <span class=n>test_runner_class</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-312></a>    <span class=n>test_runner_class</span> <span class=o>=</span> <span class=n>test_runner_class</span> <span class=ow>or</span> <span class=n>settings</span><span class=o>.</span><span class=n>TEST_RUNNER</span>
+<a name=line-313></a>    <span class=n>test_path</span> <span class=o>=</span> <span class=n>test_runner_class</span><span class=o>.</span><span class=n>split</span><span class=p>(</span><span class=s1>&#39;.&#39;</span><span class=p>)</span>
+<a name=line-314></a>    <span class=c1># Allow for relative paths</span>
+<a name=line-315></a>    <span class=k>if</span> <span class=nb>len</span><span class=p>(</span><span class=n>test_path</span><span class=p>)</span> <span class=o>&gt;</span> <span class=mi>1</span><span class=p>:</span>
+<a name=line-316></a>        <span class=n>test_module_name</span> <span class=o>=</span> <span class=s1>&#39;.&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>test_path</span><span class=p>[:</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span>
+<a name=line-317></a>    <span class=k>else</span><span class=p>:</span>
+<a name=line-318></a>        <span class=n>test_module_name</span> <span class=o>=</span> <span class=s1>&#39;.&#39;</span>
+<a name=line-319></a>    <span class=n>test_module</span> <span class=o>=</span> <span class=nb>__import__</span><span class=p>(</span><span class=n>test_module_name</span><span class=p>,</span> <span class=p>{},</span> <span class=p>{},</span> <span class=n>test_path</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span>
+<a name=line-320></a>    <span class=k>return</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>test_module</span><span class=p>,</span> <span class=n>test_path</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span>
+<a name=line-321></a>
+<a name=line-322></a>
+<a name=line-323></a><span class=k>class</span> <span class=nc>TestContextDecorator</span><span class=p>:</span>
+<a name=line-324></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-325></a><span class=sd>    A base class that can either be used as a context manager during tests</span>
+<a name=line-326></a><span class=sd>    or as a test function or unittest.TestCase subclass decorator to perform</span>
+<a name=line-327></a><span class=sd>    temporary alterations.</span>
+<a name=line-328></a>
+<a name=line-329></a><span class=sd>    `attr_name`: attribute assigned the return value of enable() if used as</span>
+<a name=line-330></a><span class=sd>                 a class decorator.</span>
+<a name=line-331></a>
+<a name=line-332></a><span class=sd>    `kwarg_name`: keyword argument passing the return value of enable() if</span>
+<a name=line-333></a><span class=sd>                  used as a function decorator.</span>
+<a name=line-334></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-335></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>attr_name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>kwarg_name</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-336></a>        <span class=bp>self</span><span class=o>.</span><span class=n>attr_name</span> <span class=o>=</span> <span class=n>attr_name</span>
+<a name=line-337></a>        <span class=bp>self</span><span class=o>.</span><span class=n>kwarg_name</span> <span class=o>=</span> <span class=n>kwarg_name</span>
+<a name=line-338></a>
+<a name=line-339></a>    <span class=k>def</span> <span class=nf>enable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-340></a>        <span class=k>raise</span> <span class=ne>NotImplementedError</span>
+<a name=line-341></a>
+<a name=line-342></a>    <span class=k>def</span> <span class=nf>disable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-343></a>        <span class=k>raise</span> <span class=ne>NotImplementedError</span>
+<a name=line-344></a>
+<a name=line-345></a>    <span class=k>def</span> <span class=fm>__enter__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-346></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>enable</span><span class=p>()</span>
+<a name=line-347></a>
+<a name=line-348></a>    <span class=k>def</span> <span class=fm>__exit__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>exc_type</span><span class=p>,</span> <span class=n>exc_value</span><span class=p>,</span> <span class=n>traceback</span><span class=p>):</span>
+<a name=line-349></a>        <span class=bp>self</span><span class=o>.</span><span class=n>disable</span><span class=p>()</span>
+<a name=line-350></a>
+<a name=line-351></a>    <span class=k>def</span> <span class=nf>decorate_class</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=bp>cls</span><span class=p>):</span>
+<a name=line-352></a>        <span class=k>if</span> <span class=nb>issubclass</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>TestCase</span><span class=p>):</span>
+<a name=line-353></a>            <span class=n>decorated_setUp</span> <span class=o>=</span> <span class=bp>cls</span><span class=o>.</span><span class=n>setUp</span>
+<a name=line-354></a>
+<a name=line-355></a>            <span class=k>def</span> <span class=nf>setUp</span><span class=p>(</span><span class=n>inner_self</span><span class=p>):</span>
+<a name=line-356></a>                <span class=n>context</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>enable</span><span class=p>()</span>
+<a name=line-357></a>                <span class=n>inner_self</span><span class=o>.</span><span class=n>addCleanup</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>disable</span><span class=p>)</span>
+<a name=line-358></a>                <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>attr_name</span><span class=p>:</span>
+<a name=line-359></a>                    <span class=nb>setattr</span><span class=p>(</span><span class=n>inner_self</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>attr_name</span><span class=p>,</span> <span class=n>context</span><span class=p>)</span>
+<a name=line-360></a>                <span class=n>decorated_setUp</span><span class=p>(</span><span class=n>inner_self</span><span class=p>)</span>
+<a name=line-361></a>
+<a name=line-362></a>            <span class=bp>cls</span><span class=o>.</span><span class=n>setUp</span> <span class=o>=</span> <span class=n>setUp</span>
+<a name=line-363></a>            <span class=k>return</span> <span class=bp>cls</span>
+<a name=line-364></a>        <span class=k>raise</span> <span class=ne>TypeError</span><span class=p>(</span><span class=s1>&#39;Can only decorate subclasses of unittest.TestCase&#39;</span><span class=p>)</span>
+<a name=line-365></a>
+<a name=line-366></a>    <span class=k>def</span> <span class=nf>decorate_callable</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>func</span><span class=p>):</span>
+<a name=line-367></a>        <span class=k>if</span> <span class=n>asyncio</span><span class=o>.</span><span class=n>iscoroutinefunction</span><span class=p>(</span><span class=n>func</span><span class=p>):</span>
+<a name=line-368></a>            <span class=c1># If the inner function is an async function, we must execute async</span>
+<a name=line-369></a>            <span class=c1># as well so that the `with` statement executes at the right time.</span>
+<a name=line-370></a>            <span class=nd>@wraps</span><span class=p>(</span><span class=n>func</span><span class=p>)</span>
+<a name=line-371></a>            <span class=k>async</span> <span class=k>def</span> <span class=nf>inner</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-372></a>                <span class=k>with</span> <span class=bp>self</span> <span class=k>as</span> <span class=n>context</span><span class=p>:</span>
+<a name=line-373></a>                    <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>kwarg_name</span><span class=p>:</span>
+<a name=line-374></a>                        <span class=n>kwargs</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>kwarg_name</span><span class=p>]</span> <span class=o>=</span> <span class=n>context</span>
+<a name=line-375></a>                    <span class=k>return</span> <span class=k>await</span> <span class=n>func</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-376></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-377></a>            <span class=nd>@wraps</span><span class=p>(</span><span class=n>func</span><span class=p>)</span>
+<a name=line-378></a>            <span class=k>def</span> <span class=nf>inner</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-379></a>                <span class=k>with</span> <span class=bp>self</span> <span class=k>as</span> <span class=n>context</span><span class=p>:</span>
+<a name=line-380></a>                    <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>kwarg_name</span><span class=p>:</span>
+<a name=line-381></a>                        <span class=n>kwargs</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>kwarg_name</span><span class=p>]</span> <span class=o>=</span> <span class=n>context</span>
+<a name=line-382></a>                    <span class=k>return</span> <span class=n>func</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-383></a>        <span class=k>return</span> <span class=n>inner</span>
+<a name=line-384></a>
+<a name=line-385></a>    <span class=k>def</span> <span class=fm>__call__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>decorated</span><span class=p>):</span>
+<a name=line-386></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>decorated</span><span class=p>,</span> <span class=nb>type</span><span class=p>):</span>
+<a name=line-387></a>            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>decorate_class</span><span class=p>(</span><span class=n>decorated</span><span class=p>)</span>
+<a name=line-388></a>        <span class=k>elif</span> <span class=n>callable</span><span class=p>(</span><span class=n>decorated</span><span class=p>):</span>
+<a name=line-389></a>            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>decorate_callable</span><span class=p>(</span><span class=n>decorated</span><span class=p>)</span>
+<a name=line-390></a>        <span class=k>raise</span> <span class=ne>TypeError</span><span class=p>(</span><span class=s1>&#39;Cannot decorate object of type </span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=nb>type</span><span class=p>(</span><span class=n>decorated</span><span class=p>))</span>
+<a name=line-391></a>
+<a name=line-392></a>
+<a name=line-393></a><span class=k>class</span> <span class=nc>override_settings</span><span class=p>(</span><span class=n>TestContextDecorator</span><span class=p>):</span>
+<a name=line-394></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-395></a><span class=sd>    Act as either a decorator or a context manager. If it&#39;s a decorator, take a</span>
+<a name=line-396></a><span class=sd>    function and return a wrapped function. If it&#39;s a contextmanager, use it</span>
+<a name=line-397></a><span class=sd>    with the ``with`` statement. In either event, entering/exiting are called</span>
+<a name=line-398></a><span class=sd>    before and after, respectively, the function/block is executed.</span>
+<a name=line-399></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-400></a>    <span class=n>enable_exception</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-401></a>
+<a name=line-402></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-403></a>        <span class=bp>self</span><span class=o>.</span><span class=n>options</span> <span class=o>=</span> <span class=n>kwargs</span>
+<a name=line-404></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+<a name=line-405></a>
+<a name=line-406></a>    <span class=k>def</span> <span class=nf>enable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-407></a>        <span class=c1># Keep this code at the beginning to leave the settings unchanged</span>
+<a name=line-408></a>        <span class=c1># in case it raises an exception because INSTALLED_APPS is invalid.</span>
+<a name=line-409></a>        <span class=k>if</span> <span class=s1>&#39;INSTALLED_APPS&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=p>:</span>
+<a name=line-410></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-411></a>                <span class=n>apps</span><span class=o>.</span><span class=n>set_installed_apps</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=p>[</span><span class=s1>&#39;INSTALLED_APPS&#39;</span><span class=p>])</span>
+<a name=line-412></a>            <span class=k>except</span> <span class=ne>Exception</span><span class=p>:</span>
+<a name=line-413></a>                <span class=n>apps</span><span class=o>.</span><span class=n>unset_installed_apps</span><span class=p>()</span>
+<a name=line-414></a>                <span class=k>raise</span>
+<a name=line-415></a>        <span class=n>override</span> <span class=o>=</span> <span class=n>UserSettingsHolder</span><span class=p>(</span><span class=n>settings</span><span class=o>.</span><span class=n>_wrapped</span><span class=p>)</span>
+<a name=line-416></a>        <span class=k>for</span> <span class=n>key</span><span class=p>,</span> <span class=n>new_value</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-417></a>            <span class=nb>setattr</span><span class=p>(</span><span class=n>override</span><span class=p>,</span> <span class=n>key</span><span class=p>,</span> <span class=n>new_value</span><span class=p>)</span>
+<a name=line-418></a>        <span class=bp>self</span><span class=o>.</span><span class=n>wrapped</span> <span class=o>=</span> <span class=n>settings</span><span class=o>.</span><span class=n>_wrapped</span>
+<a name=line-419></a>        <span class=n>settings</span><span class=o>.</span><span class=n>_wrapped</span> <span class=o>=</span> <span class=n>override</span>
+<a name=line-420></a>        <span class=k>for</span> <span class=n>key</span><span class=p>,</span> <span class=n>new_value</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-421></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-422></a>                <span class=n>setting_changed</span><span class=o>.</span><span class=n>send</span><span class=p>(</span>
+<a name=line-423></a>                    <span class=n>sender</span><span class=o>=</span><span class=n>settings</span><span class=o>.</span><span class=n>_wrapped</span><span class=o>.</span><span class=vm>__class__</span><span class=p>,</span>
+<a name=line-424></a>                    <span class=n>setting</span><span class=o>=</span><span class=n>key</span><span class=p>,</span> <span class=n>value</span><span class=o>=</span><span class=n>new_value</span><span class=p>,</span> <span class=n>enter</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-425></a>                <span class=p>)</span>
+<a name=line-426></a>            <span class=k>except</span> <span class=ne>Exception</span> <span class=k>as</span> <span class=n>exc</span><span class=p>:</span>
+<a name=line-427></a>                <span class=bp>self</span><span class=o>.</span><span class=n>enable_exception</span> <span class=o>=</span> <span class=n>exc</span>
+<a name=line-428></a>                <span class=bp>self</span><span class=o>.</span><span class=n>disable</span><span class=p>()</span>
+<a name=line-429></a>
+<a name=line-430></a>    <span class=k>def</span> <span class=nf>disable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-431></a>        <span class=k>if</span> <span class=s1>&#39;INSTALLED_APPS&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=p>:</span>
+<a name=line-432></a>            <span class=n>apps</span><span class=o>.</span><span class=n>unset_installed_apps</span><span class=p>()</span>
+<a name=line-433></a>        <span class=n>settings</span><span class=o>.</span><span class=n>_wrapped</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>wrapped</span>
+<a name=line-434></a>        <span class=k>del</span> <span class=bp>self</span><span class=o>.</span><span class=n>wrapped</span>
+<a name=line-435></a>        <span class=n>responses</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-436></a>        <span class=k>for</span> <span class=n>key</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=p>:</span>
+<a name=line-437></a>            <span class=n>new_value</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>settings</span><span class=p>,</span> <span class=n>key</span><span class=p>,</span> <span class=kc>None</span><span class=p>)</span>
+<a name=line-438></a>            <span class=n>responses_for_setting</span> <span class=o>=</span> <span class=n>setting_changed</span><span class=o>.</span><span class=n>send_robust</span><span class=p>(</span>
+<a name=line-439></a>                <span class=n>sender</span><span class=o>=</span><span class=n>settings</span><span class=o>.</span><span class=n>_wrapped</span><span class=o>.</span><span class=vm>__class__</span><span class=p>,</span>
+<a name=line-440></a>                <span class=n>setting</span><span class=o>=</span><span class=n>key</span><span class=p>,</span> <span class=n>value</span><span class=o>=</span><span class=n>new_value</span><span class=p>,</span> <span class=n>enter</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+<a name=line-441></a>            <span class=p>)</span>
+<a name=line-442></a>            <span class=n>responses</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>responses_for_setting</span><span class=p>)</span>
+<a name=line-443></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>enable_exception</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-444></a>            <span class=n>exc</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>enable_exception</span>
+<a name=line-445></a>            <span class=bp>self</span><span class=o>.</span><span class=n>enable_exception</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-446></a>            <span class=k>raise</span> <span class=n>exc</span>
+<a name=line-447></a>        <span class=k>for</span> <span class=n>_</span><span class=p>,</span> <span class=n>response</span> <span class=ow>in</span> <span class=n>responses</span><span class=p>:</span>
+<a name=line-448></a>            <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>response</span><span class=p>,</span> <span class=ne>Exception</span><span class=p>):</span>
+<a name=line-449></a>                <span class=k>raise</span> <span class=n>response</span>
+<a name=line-450></a>
+<a name=line-451></a>    <span class=k>def</span> <span class=nf>save_options</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>test_func</span><span class=p>):</span>
+<a name=line-452></a>        <span class=k>if</span> <span class=n>test_func</span><span class=o>.</span><span class=n>_overridden_settings</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-453></a>            <span class=n>test_func</span><span class=o>.</span><span class=n>_overridden_settings</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>options</span>
+<a name=line-454></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-455></a>            <span class=c1># Duplicate dict to prevent subclasses from altering their parent.</span>
+<a name=line-456></a>            <span class=n>test_func</span><span class=o>.</span><span class=n>_overridden_settings</span> <span class=o>=</span> <span class=p>{</span>
+<a name=line-457></a>                <span class=o>**</span><span class=n>test_func</span><span class=o>.</span><span class=n>_overridden_settings</span><span class=p>,</span>
+<a name=line-458></a>                <span class=o>**</span><span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=p>,</span>
+<a name=line-459></a>            <span class=p>}</span>
+<a name=line-460></a>
+<a name=line-461></a>    <span class=k>def</span> <span class=nf>decorate_class</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=bp>cls</span><span class=p>):</span>
+<a name=line-462></a>        <span class=kn>from</span> <span class=nn>django.test</span> <span class=kn>import</span> <span class=n>SimpleTestCase</span>
+<a name=line-463></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>issubclass</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>SimpleTestCase</span><span class=p>):</span>
+<a name=line-464></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-465></a>                <span class=s2>&quot;Only subclasses of Django SimpleTestCase can be decorated &quot;</span>
+<a name=line-466></a>                <span class=s2>&quot;with override_settings&quot;</span><span class=p>)</span>
+<a name=line-467></a>        <span class=bp>self</span><span class=o>.</span><span class=n>save_options</span><span class=p>(</span><span class=bp>cls</span><span class=p>)</span>
+<a name=line-468></a>        <span class=k>return</span> <span class=bp>cls</span>
+<a name=line-469></a>
+<a name=line-470></a>
+<a name=line-471></a><span class=k>class</span> <span class=nc>modify_settings</span><span class=p>(</span><span class=n>override_settings</span><span class=p>):</span>
+<a name=line-472></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-473></a><span class=sd>    Like override_settings, but makes it possible to append, prepend, or remove</span>
+<a name=line-474></a><span class=sd>    items instead of redefining the entire list.</span>
+<a name=line-475></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-476></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-477></a>        <span class=k>if</span> <span class=n>args</span><span class=p>:</span>
+<a name=line-478></a>            <span class=c1># Hack used when instantiating from SimpleTestCase.setUpClass.</span>
+<a name=line-479></a>            <span class=k>assert</span> <span class=ow>not</span> <span class=n>kwargs</span>
+<a name=line-480></a>            <span class=bp>self</span><span class=o>.</span><span class=n>operations</span> <span class=o>=</span> <span class=n>args</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+<a name=line-481></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-482></a>            <span class=k>assert</span> <span class=ow>not</span> <span class=n>args</span>
+<a name=line-483></a>            <span class=bp>self</span><span class=o>.</span><span class=n>operations</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=n>kwargs</span><span class=o>.</span><span class=n>items</span><span class=p>())</span>
+<a name=line-484></a>        <span class=nb>super</span><span class=p>(</span><span class=n>override_settings</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+<a name=line-485></a>
+<a name=line-486></a>    <span class=k>def</span> <span class=nf>save_options</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>test_func</span><span class=p>):</span>
+<a name=line-487></a>        <span class=k>if</span> <span class=n>test_func</span><span class=o>.</span><span class=n>_modified_settings</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-488></a>            <span class=n>test_func</span><span class=o>.</span><span class=n>_modified_settings</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>operations</span>
+<a name=line-489></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-490></a>            <span class=c1># Duplicate list to prevent subclasses from altering their parent.</span>
+<a name=line-491></a>            <span class=n>test_func</span><span class=o>.</span><span class=n>_modified_settings</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span>
+<a name=line-492></a>                <span class=n>test_func</span><span class=o>.</span><span class=n>_modified_settings</span><span class=p>)</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>operations</span>
+<a name=line-493></a>
+<a name=line-494></a>    <span class=k>def</span> <span class=nf>enable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-495></a>        <span class=bp>self</span><span class=o>.</span><span class=n>options</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-496></a>        <span class=k>for</span> <span class=n>name</span><span class=p>,</span> <span class=n>operations</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>operations</span><span class=p>:</span>
+<a name=line-497></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-498></a>                <span class=c1># When called from SimpleTestCase.setUpClass, values may be</span>
+<a name=line-499></a>                <span class=c1># overridden several times; cumulate changes.</span>
+<a name=line-500></a>                <span class=n>value</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-501></a>            <span class=k>except</span> <span class=ne>KeyError</span><span class=p>:</span>
+<a name=line-502></a>                <span class=n>value</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=nb>getattr</span><span class=p>(</span><span class=n>settings</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=p>[]))</span>
+<a name=line-503></a>            <span class=k>for</span> <span class=n>action</span><span class=p>,</span> <span class=n>items</span> <span class=ow>in</span> <span class=n>operations</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-504></a>                <span class=c1># items my be a single value or an iterable.</span>
+<a name=line-505></a>                <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>items</span><span class=p>,</span> <span class=nb>str</span><span class=p>):</span>
+<a name=line-506></a>                    <span class=n>items</span> <span class=o>=</span> <span class=p>[</span><span class=n>items</span><span class=p>]</span>
+<a name=line-507></a>                <span class=k>if</span> <span class=n>action</span> <span class=o>==</span> <span class=s1>&#39;append&#39;</span><span class=p>:</span>
+<a name=line-508></a>                    <span class=n>value</span> <span class=o>=</span> <span class=n>value</span> <span class=o>+</span> <span class=p>[</span><span class=n>item</span> <span class=k>for</span> <span class=n>item</span> <span class=ow>in</span> <span class=n>items</span> <span class=k>if</span> <span class=n>item</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>value</span><span class=p>]</span>
+<a name=line-509></a>                <span class=k>elif</span> <span class=n>action</span> <span class=o>==</span> <span class=s1>&#39;prepend&#39;</span><span class=p>:</span>
+<a name=line-510></a>                    <span class=n>value</span> <span class=o>=</span> <span class=p>[</span><span class=n>item</span> <span class=k>for</span> <span class=n>item</span> <span class=ow>in</span> <span class=n>items</span> <span class=k>if</span> <span class=n>item</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>value</span><span class=p>]</span> <span class=o>+</span> <span class=n>value</span>
+<a name=line-511></a>                <span class=k>elif</span> <span class=n>action</span> <span class=o>==</span> <span class=s1>&#39;remove&#39;</span><span class=p>:</span>
+<a name=line-512></a>                    <span class=n>value</span> <span class=o>=</span> <span class=p>[</span><span class=n>item</span> <span class=k>for</span> <span class=n>item</span> <span class=ow>in</span> <span class=n>value</span> <span class=k>if</span> <span class=n>item</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>items</span><span class=p>]</span>
+<a name=line-513></a>                <span class=k>else</span><span class=p>:</span>
+<a name=line-514></a>                    <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s2>&quot;Unsupported action: </span><span class=si>%s</span><span class=s2>&quot;</span> <span class=o>%</span> <span class=n>action</span><span class=p>)</span>
+<a name=line-515></a>            <span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=p>[</span><span class=n>name</span><span class=p>]</span> <span class=o>=</span> <span class=n>value</span>
+<a name=line-516></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=n>enable</span><span class=p>()</span>
+<a name=line-517></a>
+<a name=line-518></a>
+<a name=line-519></a><span class=k>class</span> <span class=nc>override_system_checks</span><span class=p>(</span><span class=n>TestContextDecorator</span><span class=p>):</span>
+<a name=line-520></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-521></a><span class=sd>    Act as a decorator. Override list of registered system checks.</span>
+<a name=line-522></a><span class=sd>    Useful when you override `INSTALLED_APPS`, e.g. if you exclude `auth` app,</span>
+<a name=line-523></a><span class=sd>    you also need to exclude its system checks.</span>
+<a name=line-524></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-525></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>new_checks</span><span class=p>,</span> <span class=n>deployment_checks</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-526></a>        <span class=kn>from</span> <span class=nn>django.core.checks.registry</span> <span class=kn>import</span> <span class=n>registry</span>
+<a name=line-527></a>        <span class=bp>self</span><span class=o>.</span><span class=n>registry</span> <span class=o>=</span> <span class=n>registry</span>
+<a name=line-528></a>        <span class=bp>self</span><span class=o>.</span><span class=n>new_checks</span> <span class=o>=</span> <span class=n>new_checks</span>
+<a name=line-529></a>        <span class=bp>self</span><span class=o>.</span><span class=n>deployment_checks</span> <span class=o>=</span> <span class=n>deployment_checks</span>
+<a name=line-530></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+<a name=line-531></a>
+<a name=line-532></a>    <span class=k>def</span> <span class=nf>enable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-533></a>        <span class=bp>self</span><span class=o>.</span><span class=n>old_checks</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>registry</span><span class=o>.</span><span class=n>registered_checks</span>
+<a name=line-534></a>        <span class=bp>self</span><span class=o>.</span><span class=n>registry</span><span class=o>.</span><span class=n>registered_checks</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-535></a>        <span class=k>for</span> <span class=n>check</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>new_checks</span><span class=p>:</span>
+<a name=line-536></a>            <span class=bp>self</span><span class=o>.</span><span class=n>registry</span><span class=o>.</span><span class=n>register</span><span class=p>(</span><span class=n>check</span><span class=p>,</span> <span class=o>*</span><span class=nb>getattr</span><span class=p>(</span><span class=n>check</span><span class=p>,</span> <span class=s1>&#39;tags&#39;</span><span class=p>,</span> <span class=p>()))</span>
+<a name=line-537></a>        <span class=bp>self</span><span class=o>.</span><span class=n>old_deployment_checks</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>registry</span><span class=o>.</span><span class=n>deployment_checks</span>
+<a name=line-538></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>deployment_checks</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-539></a>            <span class=bp>self</span><span class=o>.</span><span class=n>registry</span><span class=o>.</span><span class=n>deployment_checks</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-540></a>            <span class=k>for</span> <span class=n>check</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>deployment_checks</span><span class=p>:</span>
+<a name=line-541></a>                <span class=bp>self</span><span class=o>.</span><span class=n>registry</span><span class=o>.</span><span class=n>register</span><span class=p>(</span><span class=n>check</span><span class=p>,</span> <span class=o>*</span><span class=nb>getattr</span><span class=p>(</span><span class=n>check</span><span class=p>,</span> <span class=s1>&#39;tags&#39;</span><span class=p>,</span> <span class=p>()),</span> <span class=n>deploy</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+<a name=line-542></a>
+<a name=line-543></a>    <span class=k>def</span> <span class=nf>disable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-544></a>        <span class=bp>self</span><span class=o>.</span><span class=n>registry</span><span class=o>.</span><span class=n>registered_checks</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>old_checks</span>
+<a name=line-545></a>        <span class=bp>self</span><span class=o>.</span><span class=n>registry</span><span class=o>.</span><span class=n>deployment_checks</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>old_deployment_checks</span>
+<a name=line-546></a>
+<a name=line-547></a>
+<a name=line-548></a><span class=k>def</span> <span class=nf>compare_xml</span><span class=p>(</span><span class=n>want</span><span class=p>,</span> <span class=n>got</span><span class=p>):</span>
+<a name=line-549></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-550></a><span class=sd>    Try to do a &#39;xml-comparison&#39; of want and got. Plain string comparison</span>
+<a name=line-551></a><span class=sd>    doesn&#39;t always work because, for example, attribute ordering should not be</span>
+<a name=line-552></a><span class=sd>    important. Ignore comment nodes, processing instructions, document type</span>
+<a name=line-553></a><span class=sd>    node, and leading and trailing whitespaces.</span>
+<a name=line-554></a>
+<a name=line-555></a><span class=sd>    Based on https://github.com/lxml/lxml/blob/master/src/lxml/doctestcompare.py</span>
+<a name=line-556></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-557></a>    <span class=n>_norm_whitespace_re</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;[ \t\n][ \t\n]+&#39;</span><span class=p>)</span>
+<a name=line-558></a>
+<a name=line-559></a>    <span class=k>def</span> <span class=nf>norm_whitespace</span><span class=p>(</span><span class=n>v</span><span class=p>):</span>
+<a name=line-560></a>        <span class=k>return</span> <span class=n>_norm_whitespace_re</span><span class=o>.</span><span class=n>sub</span><span class=p>(</span><span class=s1>&#39; &#39;</span><span class=p>,</span> <span class=n>v</span><span class=p>)</span>
+<a name=line-561></a>
+<a name=line-562></a>    <span class=k>def</span> <span class=nf>child_text</span><span class=p>(</span><span class=n>element</span><span class=p>):</span>
+<a name=line-563></a>        <span class=k>return</span> <span class=s1>&#39;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>c</span><span class=o>.</span><span class=n>data</span> <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=n>element</span><span class=o>.</span><span class=n>childNodes</span>
+<a name=line-564></a>                       <span class=k>if</span> <span class=n>c</span><span class=o>.</span><span class=n>nodeType</span> <span class=o>==</span> <span class=n>Node</span><span class=o>.</span><span class=n>TEXT_NODE</span><span class=p>)</span>
+<a name=line-565></a>
+<a name=line-566></a>    <span class=k>def</span> <span class=nf>children</span><span class=p>(</span><span class=n>element</span><span class=p>):</span>
+<a name=line-567></a>        <span class=k>return</span> <span class=p>[</span><span class=n>c</span> <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=n>element</span><span class=o>.</span><span class=n>childNodes</span>
+<a name=line-568></a>                <span class=k>if</span> <span class=n>c</span><span class=o>.</span><span class=n>nodeType</span> <span class=o>==</span> <span class=n>Node</span><span class=o>.</span><span class=n>ELEMENT_NODE</span><span class=p>]</span>
+<a name=line-569></a>
+<a name=line-570></a>    <span class=k>def</span> <span class=nf>norm_child_text</span><span class=p>(</span><span class=n>element</span><span class=p>):</span>
+<a name=line-571></a>        <span class=k>return</span> <span class=n>norm_whitespace</span><span class=p>(</span><span class=n>child_text</span><span class=p>(</span><span class=n>element</span><span class=p>))</span>
+<a name=line-572></a>
+<a name=line-573></a>    <span class=k>def</span> <span class=nf>attrs_dict</span><span class=p>(</span><span class=n>element</span><span class=p>):</span>
+<a name=line-574></a>        <span class=k>return</span> <span class=nb>dict</span><span class=p>(</span><span class=n>element</span><span class=o>.</span><span class=n>attributes</span><span class=o>.</span><span class=n>items</span><span class=p>())</span>
+<a name=line-575></a>
+<a name=line-576></a>    <span class=k>def</span> <span class=nf>check_element</span><span class=p>(</span><span class=n>want_element</span><span class=p>,</span> <span class=n>got_element</span><span class=p>):</span>
+<a name=line-577></a>        <span class=k>if</span> <span class=n>want_element</span><span class=o>.</span><span class=n>tagName</span> <span class=o>!=</span> <span class=n>got_element</span><span class=o>.</span><span class=n>tagName</span><span class=p>:</span>
+<a name=line-578></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-579></a>        <span class=k>if</span> <span class=n>norm_child_text</span><span class=p>(</span><span class=n>want_element</span><span class=p>)</span> <span class=o>!=</span> <span class=n>norm_child_text</span><span class=p>(</span><span class=n>got_element</span><span class=p>):</span>
+<a name=line-580></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-581></a>        <span class=k>if</span> <span class=n>attrs_dict</span><span class=p>(</span><span class=n>want_element</span><span class=p>)</span> <span class=o>!=</span> <span class=n>attrs_dict</span><span class=p>(</span><span class=n>got_element</span><span class=p>):</span>
+<a name=line-582></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-583></a>        <span class=n>want_children</span> <span class=o>=</span> <span class=n>children</span><span class=p>(</span><span class=n>want_element</span><span class=p>)</span>
+<a name=line-584></a>        <span class=n>got_children</span> <span class=o>=</span> <span class=n>children</span><span class=p>(</span><span class=n>got_element</span><span class=p>)</span>
+<a name=line-585></a>        <span class=k>if</span> <span class=nb>len</span><span class=p>(</span><span class=n>want_children</span><span class=p>)</span> <span class=o>!=</span> <span class=nb>len</span><span class=p>(</span><span class=n>got_children</span><span class=p>):</span>
+<a name=line-586></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-587></a>        <span class=k>return</span> <span class=nb>all</span><span class=p>(</span><span class=n>check_element</span><span class=p>(</span><span class=n>want</span><span class=p>,</span> <span class=n>got</span><span class=p>)</span> <span class=k>for</span> <span class=n>want</span><span class=p>,</span> <span class=n>got</span> <span class=ow>in</span> <span class=nb>zip</span><span class=p>(</span><span class=n>want_children</span><span class=p>,</span> <span class=n>got_children</span><span class=p>))</span>
+<a name=line-588></a>
+<a name=line-589></a>    <span class=k>def</span> <span class=nf>first_node</span><span class=p>(</span><span class=n>document</span><span class=p>):</span>
+<a name=line-590></a>        <span class=k>for</span> <span class=n>node</span> <span class=ow>in</span> <span class=n>document</span><span class=o>.</span><span class=n>childNodes</span><span class=p>:</span>
+<a name=line-591></a>            <span class=k>if</span> <span class=n>node</span><span class=o>.</span><span class=n>nodeType</span> <span class=ow>not</span> <span class=ow>in</span> <span class=p>(</span>
+<a name=line-592></a>                <span class=n>Node</span><span class=o>.</span><span class=n>COMMENT_NODE</span><span class=p>,</span>
+<a name=line-593></a>                <span class=n>Node</span><span class=o>.</span><span class=n>DOCUMENT_TYPE_NODE</span><span class=p>,</span>
+<a name=line-594></a>                <span class=n>Node</span><span class=o>.</span><span class=n>PROCESSING_INSTRUCTION_NODE</span><span class=p>,</span>
+<a name=line-595></a>            <span class=p>):</span>
+<a name=line-596></a>                <span class=k>return</span> <span class=n>node</span>
+<a name=line-597></a>
+<a name=line-598></a>    <span class=n>want</span> <span class=o>=</span> <span class=n>want</span><span class=o>.</span><span class=n>strip</span><span class=p>()</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=s1>&#39;</span><span class=se>\\</span><span class=s1>n&#39;</span><span class=p>,</span> <span class=s1>&#39;</span><span class=se>\n</span><span class=s1>&#39;</span><span class=p>)</span>
+<a name=line-599></a>    <span class=n>got</span> <span class=o>=</span> <span class=n>got</span><span class=o>.</span><span class=n>strip</span><span class=p>()</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=s1>&#39;</span><span class=se>\\</span><span class=s1>n&#39;</span><span class=p>,</span> <span class=s1>&#39;</span><span class=se>\n</span><span class=s1>&#39;</span><span class=p>)</span>
+<a name=line-600></a>
+<a name=line-601></a>    <span class=c1># If the string is not a complete xml document, we may need to add a</span>
+<a name=line-602></a>    <span class=c1># root element. This allow us to compare fragments, like &quot;&lt;foo/&gt;&lt;bar/&gt;&quot;</span>
+<a name=line-603></a>    <span class=k>if</span> <span class=ow>not</span> <span class=n>want</span><span class=o>.</span><span class=n>startswith</span><span class=p>(</span><span class=s1>&#39;&lt;?xml&#39;</span><span class=p>):</span>
+<a name=line-604></a>        <span class=n>wrapper</span> <span class=o>=</span> <span class=s1>&#39;&lt;root&gt;</span><span class=si>%s</span><span class=s1>&lt;/root&gt;&#39;</span>
+<a name=line-605></a>        <span class=n>want</span> <span class=o>=</span> <span class=n>wrapper</span> <span class=o>%</span> <span class=n>want</span>
+<a name=line-606></a>        <span class=n>got</span> <span class=o>=</span> <span class=n>wrapper</span> <span class=o>%</span> <span class=n>got</span>
+<a name=line-607></a>
+<a name=line-608></a>    <span class=c1># Parse the want and got strings, and compare the parsings.</span>
+<a name=line-609></a>    <span class=n>want_root</span> <span class=o>=</span> <span class=n>first_node</span><span class=p>(</span><span class=n>parseString</span><span class=p>(</span><span class=n>want</span><span class=p>))</span>
+<a name=line-610></a>    <span class=n>got_root</span> <span class=o>=</span> <span class=n>first_node</span><span class=p>(</span><span class=n>parseString</span><span class=p>(</span><span class=n>got</span><span class=p>))</span>
+<a name=line-611></a>
+<a name=line-612></a>    <span class=k>return</span> <span class=n>check_element</span><span class=p>(</span><span class=n>want_root</span><span class=p>,</span> <span class=n>got_root</span><span class=p>)</span>
+<a name=line-613></a>
+<a name=line-614></a>
+<a name=line-615></a><span class=k>class</span> <span class=nc>CaptureQueriesContext</span><span class=p>:</span>
+<a name=line-616></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-617></a><span class=sd>    Context manager that captures queries executed by the specified connection.</span>
+<a name=line-618></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-619></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-620></a>        <span class=bp>self</span><span class=o>.</span><span class=n>connection</span> <span class=o>=</span> <span class=n>connection</span>
+<a name=line-621></a>
+<a name=line-622></a>    <span class=k>def</span> <span class=fm>__iter__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-623></a>        <span class=k>return</span> <span class=nb>iter</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>captured_queries</span><span class=p>)</span>
+<a name=line-624></a>
+<a name=line-625></a>    <span class=k>def</span> <span class=fm>__getitem__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>index</span><span class=p>):</span>
+<a name=line-626></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>captured_queries</span><span class=p>[</span><span class=n>index</span><span class=p>]</span>
+<a name=line-627></a>
+<a name=line-628></a>    <span class=k>def</span> <span class=fm>__len__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-629></a>        <span class=k>return</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>captured_queries</span><span class=p>)</span>
+<a name=line-630></a>
+<a name=line-631></a>    <span class=nd>@property</span>
+<a name=line-632></a>    <span class=k>def</span> <span class=nf>captured_queries</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-633></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>queries</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>initial_queries</span><span class=p>:</span><span class=bp>self</span><span class=o>.</span><span class=n>final_queries</span><span class=p>]</span>
+<a name=line-634></a>
+<a name=line-635></a>    <span class=k>def</span> <span class=fm>__enter__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-636></a>        <span class=bp>self</span><span class=o>.</span><span class=n>force_debug_cursor</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>force_debug_cursor</span>
+<a name=line-637></a>        <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>force_debug_cursor</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-638></a>        <span class=c1># Run any initialization queries if needed so that they won&#39;t be</span>
+<a name=line-639></a>        <span class=c1># included as part of the count.</span>
+<a name=line-640></a>        <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ensure_connection</span><span class=p>()</span>
+<a name=line-641></a>        <span class=bp>self</span><span class=o>.</span><span class=n>initial_queries</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>queries_log</span><span class=p>)</span>
+<a name=line-642></a>        <span class=bp>self</span><span class=o>.</span><span class=n>final_queries</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-643></a>        <span class=n>request_started</span><span class=o>.</span><span class=n>disconnect</span><span class=p>(</span><span class=n>reset_queries</span><span class=p>)</span>
+<a name=line-644></a>        <span class=k>return</span> <span class=bp>self</span>
+<a name=line-645></a>
+<a name=line-646></a>    <span class=k>def</span> <span class=fm>__exit__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>exc_type</span><span class=p>,</span> <span class=n>exc_value</span><span class=p>,</span> <span class=n>traceback</span><span class=p>):</span>
+<a name=line-647></a>        <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>force_debug_cursor</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>force_debug_cursor</span>
+<a name=line-648></a>        <span class=n>request_started</span><span class=o>.</span><span class=n>connect</span><span class=p>(</span><span class=n>reset_queries</span><span class=p>)</span>
+<a name=line-649></a>        <span class=k>if</span> <span class=n>exc_type</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-650></a>            <span class=k>return</span>
+<a name=line-651></a>        <span class=bp>self</span><span class=o>.</span><span class=n>final_queries</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>queries_log</span><span class=p>)</span>
+<a name=line-652></a>
+<a name=line-653></a>
+<a name=line-654></a><span class=k>class</span> <span class=nc>ignore_warnings</span><span class=p>(</span><span class=n>TestContextDecorator</span><span class=p>):</span>
+<a name=line-655></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-656></a>        <span class=bp>self</span><span class=o>.</span><span class=n>ignore_kwargs</span> <span class=o>=</span> <span class=n>kwargs</span>
+<a name=line-657></a>        <span class=k>if</span> <span class=s1>&#39;message&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>ignore_kwargs</span> <span class=ow>or</span> <span class=s1>&#39;module&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>ignore_kwargs</span><span class=p>:</span>
+<a name=line-658></a>            <span class=bp>self</span><span class=o>.</span><span class=n>filter_func</span> <span class=o>=</span> <span class=n>warnings</span><span class=o>.</span><span class=n>filterwarnings</span>
+<a name=line-659></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-660></a>            <span class=bp>self</span><span class=o>.</span><span class=n>filter_func</span> <span class=o>=</span> <span class=n>warnings</span><span class=o>.</span><span class=n>simplefilter</span>
+<a name=line-661></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+<a name=line-662></a>
+<a name=line-663></a>    <span class=k>def</span> <span class=nf>enable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-664></a>        <span class=bp>self</span><span class=o>.</span><span class=n>catch_warnings</span> <span class=o>=</span> <span class=n>warnings</span><span class=o>.</span><span class=n>catch_warnings</span><span class=p>()</span>
+<a name=line-665></a>        <span class=bp>self</span><span class=o>.</span><span class=n>catch_warnings</span><span class=o>.</span><span class=fm>__enter__</span><span class=p>()</span>
+<a name=line-666></a>        <span class=bp>self</span><span class=o>.</span><span class=n>filter_func</span><span class=p>(</span><span class=s1>&#39;ignore&#39;</span><span class=p>,</span> <span class=o>**</span><span class=bp>self</span><span class=o>.</span><span class=n>ignore_kwargs</span><span class=p>)</span>
+<a name=line-667></a>
+<a name=line-668></a>    <span class=k>def</span> <span class=nf>disable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-669></a>        <span class=bp>self</span><span class=o>.</span><span class=n>catch_warnings</span><span class=o>.</span><span class=fm>__exit__</span><span class=p>(</span><span class=o>*</span><span class=n>sys</span><span class=o>.</span><span class=n>exc_info</span><span class=p>())</span>
+<a name=line-670></a>
+<a name=line-671></a>
+<a name=line-672></a><span class=c1># On OSes that don&#39;t provide tzset (Windows), we can&#39;t set the timezone</span>
+<a name=line-673></a><span class=c1># in which the program runs. As a consequence, we must skip tests that</span>
+<a name=line-674></a><span class=c1># don&#39;t enforce a specific timezone (with timezone.override or equivalent),</span>
+<a name=line-675></a><span class=c1># or attempt to interpret naive datetimes in the default timezone.</span>
+<a name=line-676></a>
+<a name=line-677></a><span class=n>requires_tz_support</span> <span class=o>=</span> <span class=n>skipUnless</span><span class=p>(</span>
+<a name=line-678></a>    <span class=n>TZ_SUPPORT</span><span class=p>,</span>
+<a name=line-679></a>    <span class=s2>&quot;This test relies on the ability to run a program in an arbitrary &quot;</span>
+<a name=line-680></a>    <span class=s2>&quot;time zone, but your operating system isn&#39;t able to do that.&quot;</span>
+<a name=line-681></a><span class=p>)</span>
+<a name=line-682></a>
+<a name=line-683></a>
+<a name=line-684></a><span class=nd>@contextmanager</span>
+<a name=line-685></a><span class=k>def</span> <span class=nf>extend_sys_path</span><span class=p>(</span><span class=o>*</span><span class=n>paths</span><span class=p>):</span>
+<a name=line-686></a>    <span class=sd>&quot;&quot;&quot;Context manager to temporarily add paths to sys.path.&quot;&quot;&quot;</span>
+<a name=line-687></a>    <span class=n>_orig_sys_path</span> <span class=o>=</span> <span class=n>sys</span><span class=o>.</span><span class=n>path</span><span class=p>[:]</span>
+<a name=line-688></a>    <span class=n>sys</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>paths</span><span class=p>)</span>
+<a name=line-689></a>    <span class=k>try</span><span class=p>:</span>
+<a name=line-690></a>        <span class=k>yield</span>
+<a name=line-691></a>    <span class=k>finally</span><span class=p>:</span>
+<a name=line-692></a>        <span class=n>sys</span><span class=o>.</span><span class=n>path</span> <span class=o>=</span> <span class=n>_orig_sys_path</span>
+<a name=line-693></a>
+<a name=line-694></a>
+<a name=line-695></a><span class=nd>@contextmanager</span>
+<a name=line-696></a><span class=k>def</span> <span class=nf>isolate_lru_cache</span><span class=p>(</span><span class=n>lru_cache_object</span><span class=p>):</span>
+<a name=line-697></a>    <span class=sd>&quot;&quot;&quot;Clear the cache of an LRU cache object on entering and exiting.&quot;&quot;&quot;</span>
+<a name=line-698></a>    <span class=n>lru_cache_object</span><span class=o>.</span><span class=n>cache_clear</span><span class=p>()</span>
+<a name=line-699></a>    <span class=k>try</span><span class=p>:</span>
+<a name=line-700></a>        <span class=k>yield</span>
+<a name=line-701></a>    <span class=k>finally</span><span class=p>:</span>
+<a name=line-702></a>        <span class=n>lru_cache_object</span><span class=o>.</span><span class=n>cache_clear</span><span class=p>()</span>
+<a name=line-703></a>
+<a name=line-704></a>
+<a name=line-705></a><span class=nd>@contextmanager</span>
+<a name=line-706></a><span class=k>def</span> <span class=nf>captured_output</span><span class=p>(</span><span class=n>stream_name</span><span class=p>):</span>
+<a name=line-707></a>    <span class=sd>&quot;&quot;&quot;Return a context manager used by captured_stdout/stdin/stderr</span>
+<a name=line-708></a><span class=sd>    that temporarily replaces the sys stream *stream_name* with a StringIO.</span>
+<a name=line-709></a>
+<a name=line-710></a><span class=sd>    Note: This function and the following ``captured_std*`` are copied</span>
+<a name=line-711></a><span class=sd>          from CPython&#39;s ``test.support`` module.&quot;&quot;&quot;</span>
+<a name=line-712></a>    <span class=n>orig_stdout</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>sys</span><span class=p>,</span> <span class=n>stream_name</span><span class=p>)</span>
+<a name=line-713></a>    <span class=nb>setattr</span><span class=p>(</span><span class=n>sys</span><span class=p>,</span> <span class=n>stream_name</span><span class=p>,</span> <span class=n>StringIO</span><span class=p>())</span>
+<a name=line-714></a>    <span class=k>try</span><span class=p>:</span>
+<a name=line-715></a>        <span class=k>yield</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>sys</span><span class=p>,</span> <span class=n>stream_name</span><span class=p>)</span>
+<a name=line-716></a>    <span class=k>finally</span><span class=p>:</span>
+<a name=line-717></a>        <span class=nb>setattr</span><span class=p>(</span><span class=n>sys</span><span class=p>,</span> <span class=n>stream_name</span><span class=p>,</span> <span class=n>orig_stdout</span><span class=p>)</span>
+<a name=line-718></a>
+<a name=line-719></a>
+<a name=line-720></a><span class=k>def</span> <span class=nf>captured_stdout</span><span class=p>():</span>
+<a name=line-721></a>    <span class=sd>&quot;&quot;&quot;Capture the output of sys.stdout:</span>
+<a name=line-722></a>
+<a name=line-723></a><span class=sd>       with captured_stdout() as stdout:</span>
+<a name=line-724></a><span class=sd>           print(&quot;hello&quot;)</span>
+<a name=line-725></a><span class=sd>       self.assertEqual(stdout.getvalue(), &quot;hello\n&quot;)</span>
+<a name=line-726></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-727></a>    <span class=k>return</span> <span class=n>captured_output</span><span class=p>(</span><span class=s2>&quot;stdout&quot;</span><span class=p>)</span>
+<a name=line-728></a>
+<a name=line-729></a>
+<a name=line-730></a><span class=k>def</span> <span class=nf>captured_stderr</span><span class=p>():</span>
+<a name=line-731></a>    <span class=sd>&quot;&quot;&quot;Capture the output of sys.stderr:</span>
+<a name=line-732></a>
+<a name=line-733></a><span class=sd>       with captured_stderr() as stderr:</span>
+<a name=line-734></a><span class=sd>           print(&quot;hello&quot;, file=sys.stderr)</span>
+<a name=line-735></a><span class=sd>       self.assertEqual(stderr.getvalue(), &quot;hello\n&quot;)</span>
+<a name=line-736></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-737></a>    <span class=k>return</span> <span class=n>captured_output</span><span class=p>(</span><span class=s2>&quot;stderr&quot;</span><span class=p>)</span>
+<a name=line-738></a>
+<a name=line-739></a>
+<a name=line-740></a><span class=k>def</span> <span class=nf>captured_stdin</span><span class=p>():</span>
+<a name=line-741></a>    <span class=sd>&quot;&quot;&quot;Capture the input to sys.stdin:</span>
+<a name=line-742></a>
+<a name=line-743></a><span class=sd>       with captured_stdin() as stdin:</span>
+<a name=line-744></a><span class=sd>           stdin.write(&#39;hello\n&#39;)</span>
+<a name=line-745></a><span class=sd>           stdin.seek(0)</span>
+<a name=line-746></a><span class=sd>           # call test code that consumes from sys.stdin</span>
+<a name=line-747></a><span class=sd>           captured = input()</span>
+<a name=line-748></a><span class=sd>       self.assertEqual(captured, &quot;hello&quot;)</span>
+<a name=line-749></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-750></a>    <span class=k>return</span> <span class=n>captured_output</span><span class=p>(</span><span class=s2>&quot;stdin&quot;</span><span class=p>)</span>
+<a name=line-751></a>
+<a name=line-752></a>
+<a name=line-753></a><span class=nd>@contextmanager</span>
+<a name=line-754></a><span class=k>def</span> <span class=nf>freeze_time</span><span class=p>(</span><span class=n>t</span><span class=p>):</span>
+<a name=line-755></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-756></a><span class=sd>    Context manager to temporarily freeze time.time(). This temporarily</span>
+<a name=line-757></a><span class=sd>    modifies the time function of the time module. Modules which import the</span>
+<a name=line-758></a><span class=sd>    time function directly (e.g. `from time import time`) won&#39;t be affected</span>
+<a name=line-759></a><span class=sd>    This isn&#39;t meant as a public API, but helps reduce some repetitive code in</span>
+<a name=line-760></a><span class=sd>    Django&#39;s test suite.</span>
+<a name=line-761></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-762></a>    <span class=n>_real_time</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>time</span>
+<a name=line-763></a>    <span class=n>time</span><span class=o>.</span><span class=n>time</span> <span class=o>=</span> <span class=k>lambda</span><span class=p>:</span> <span class=n>t</span>
+<a name=line-764></a>    <span class=k>try</span><span class=p>:</span>
+<a name=line-765></a>        <span class=k>yield</span>
+<a name=line-766></a>    <span class=k>finally</span><span class=p>:</span>
+<a name=line-767></a>        <span class=n>time</span><span class=o>.</span><span class=n>time</span> <span class=o>=</span> <span class=n>_real_time</span>
+<a name=line-768></a>
+<a name=line-769></a>
+<a name=line-770></a><span class=k>def</span> <span class=nf>require_jinja2</span><span class=p>(</span><span class=n>test_func</span><span class=p>):</span>
+<a name=line-771></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-772></a><span class=sd>    Decorator to enable a Jinja2 template engine in addition to the regular</span>
+<a name=line-773></a><span class=sd>    Django template engine for a test or skip it if Jinja2 isn&#39;t available.</span>
+<a name=line-774></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-775></a>    <span class=n>test_func</span> <span class=o>=</span> <span class=n>skipIf</span><span class=p>(</span><span class=n>jinja2</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>,</span> <span class=s2>&quot;this test requires jinja2&quot;</span><span class=p>)(</span><span class=n>test_func</span><span class=p>)</span>
+<a name=line-776></a>    <span class=k>return</span> <span class=n>override_settings</span><span class=p>(</span><span class=n>TEMPLATES</span><span class=o>=</span><span class=p>[{</span>
+<a name=line-777></a>        <span class=s1>&#39;BACKEND&#39;</span><span class=p>:</span> <span class=s1>&#39;django.template.backends.django.DjangoTemplates&#39;</span><span class=p>,</span>
+<a name=line-778></a>        <span class=s1>&#39;APP_DIRS&#39;</span><span class=p>:</span> <span class=kc>True</span><span class=p>,</span>
+<a name=line-779></a>    <span class=p>},</span> <span class=p>{</span>
+<a name=line-780></a>        <span class=s1>&#39;BACKEND&#39;</span><span class=p>:</span> <span class=s1>&#39;django.template.backends.jinja2.Jinja2&#39;</span><span class=p>,</span>
+<a name=line-781></a>        <span class=s1>&#39;APP_DIRS&#39;</span><span class=p>:</span> <span class=kc>True</span><span class=p>,</span>
+<a name=line-782></a>        <span class=s1>&#39;OPTIONS&#39;</span><span class=p>:</span> <span class=p>{</span><span class=s1>&#39;keep_trailing_newline&#39;</span><span class=p>:</span> <span class=kc>True</span><span class=p>},</span>
+<a name=line-783></a>    <span class=p>}])(</span><span class=n>test_func</span><span class=p>)</span>
+<a name=line-784></a>
+<a name=line-785></a>
+<a name=line-786></a><span class=k>class</span> <span class=nc>override_script_prefix</span><span class=p>(</span><span class=n>TestContextDecorator</span><span class=p>):</span>
+<a name=line-787></a>    <span class=sd>&quot;&quot;&quot;Decorator or context manager to temporary override the script prefix.&quot;&quot;&quot;</span>
+<a name=line-788></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>prefix</span><span class=p>):</span>
+<a name=line-789></a>        <span class=bp>self</span><span class=o>.</span><span class=n>prefix</span> <span class=o>=</span> <span class=n>prefix</span>
+<a name=line-790></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+<a name=line-791></a>
+<a name=line-792></a>    <span class=k>def</span> <span class=nf>enable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-793></a>        <span class=bp>self</span><span class=o>.</span><span class=n>old_prefix</span> <span class=o>=</span> <span class=n>get_script_prefix</span><span class=p>()</span>
+<a name=line-794></a>        <span class=n>set_script_prefix</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>prefix</span><span class=p>)</span>
+<a name=line-795></a>
+<a name=line-796></a>    <span class=k>def</span> <span class=nf>disable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-797></a>        <span class=n>set_script_prefix</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>old_prefix</span><span class=p>)</span>
+<a name=line-798></a>
+<a name=line-799></a>
+<a name=line-800></a><span class=k>class</span> <span class=nc>LoggingCaptureMixin</span><span class=p>:</span>
+<a name=line-801></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-802></a><span class=sd>    Capture the output from the &#39;django&#39; logger and store it on the class&#39;s</span>
+<a name=line-803></a><span class=sd>    logger_output attribute.</span>
+<a name=line-804></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-805></a>    <span class=k>def</span> <span class=nf>setUp</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-806></a>        <span class=bp>self</span><span class=o>.</span><span class=n>logger</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s1>&#39;django&#39;</span><span class=p>)</span>
+<a name=line-807></a>        <span class=bp>self</span><span class=o>.</span><span class=n>old_stream</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>logger</span><span class=o>.</span><span class=n>handlers</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>.</span><span class=n>stream</span>
+<a name=line-808></a>        <span class=bp>self</span><span class=o>.</span><span class=n>logger_output</span> <span class=o>=</span> <span class=n>StringIO</span><span class=p>()</span>
+<a name=line-809></a>        <span class=bp>self</span><span class=o>.</span><span class=n>logger</span><span class=o>.</span><span class=n>handlers</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>.</span><span class=n>stream</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>logger_output</span>
+<a name=line-810></a>
+<a name=line-811></a>    <span class=k>def</span> <span class=nf>tearDown</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-812></a>        <span class=bp>self</span><span class=o>.</span><span class=n>logger</span><span class=o>.</span><span class=n>handlers</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>.</span><span class=n>stream</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>old_stream</span>
+<a name=line-813></a>
+<a name=line-814></a>
+<a name=line-815></a><span class=k>class</span> <span class=nc>isolate_apps</span><span class=p>(</span><span class=n>TestContextDecorator</span><span class=p>):</span>
+<a name=line-816></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-817></a><span class=sd>    Act as either a decorator or a context manager to register models defined</span>
+<a name=line-818></a><span class=sd>    in its wrapped context to an isolated registry.</span>
+<a name=line-819></a>
+<a name=line-820></a><span class=sd>    The list of installed apps the isolated registry should contain must be</span>
+<a name=line-821></a><span class=sd>    passed as arguments.</span>
+<a name=line-822></a>
+<a name=line-823></a><span class=sd>    Two optional keyword arguments can be specified:</span>
+<a name=line-824></a>
+<a name=line-825></a><span class=sd>    `attr_name`: attribute assigned the isolated registry if used as a class</span>
+<a name=line-826></a><span class=sd>                 decorator.</span>
+<a name=line-827></a>
+<a name=line-828></a><span class=sd>    `kwarg_name`: keyword argument passing the isolated registry if used as a</span>
+<a name=line-829></a><span class=sd>                  function decorator.</span>
+<a name=line-830></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-831></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>*</span><span class=n>installed_apps</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-832></a>        <span class=bp>self</span><span class=o>.</span><span class=n>installed_apps</span> <span class=o>=</span> <span class=n>installed_apps</span>
+<a name=line-833></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-834></a>
+<a name=line-835></a>    <span class=k>def</span> <span class=nf>enable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-836></a>        <span class=bp>self</span><span class=o>.</span><span class=n>old_apps</span> <span class=o>=</span> <span class=n>Options</span><span class=o>.</span><span class=n>default_apps</span>
+<a name=line-837></a>        <span class=n>apps</span> <span class=o>=</span> <span class=n>Apps</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>installed_apps</span><span class=p>)</span>
+<a name=line-838></a>        <span class=nb>setattr</span><span class=p>(</span><span class=n>Options</span><span class=p>,</span> <span class=s1>&#39;default_apps&#39;</span><span class=p>,</span> <span class=n>apps</span><span class=p>)</span>
+<a name=line-839></a>        <span class=k>return</span> <span class=n>apps</span>
+<a name=line-840></a>
+<a name=line-841></a>    <span class=k>def</span> <span class=nf>disable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-842></a>        <span class=nb>setattr</span><span class=p>(</span><span class=n>Options</span><span class=p>,</span> <span class=s1>&#39;default_apps&#39;</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>old_apps</span><span class=p>)</span>
+<a name=line-843></a>
+<a name=line-844></a>
+<a name=line-845></a><span class=k>class</span> <span class=nc>TimeKeeper</span><span class=p>:</span>
+<a name=line-846></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-847></a>        <span class=bp>self</span><span class=o>.</span><span class=n>records</span> <span class=o>=</span> <span class=n>collections</span><span class=o>.</span><span class=n>defaultdict</span><span class=p>(</span><span class=nb>list</span><span class=p>)</span>
+<a name=line-848></a>
+<a name=line-849></a>    <span class=nd>@contextmanager</span>
+<a name=line-850></a>    <span class=k>def</span> <span class=nf>timed</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+<a name=line-851></a>        <span class=bp>self</span><span class=o>.</span><span class=n>records</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-852></a>        <span class=n>start_time</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>perf_counter</span><span class=p>()</span>
+<a name=line-853></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-854></a>            <span class=k>yield</span>
+<a name=line-855></a>        <span class=k>finally</span><span class=p>:</span>
+<a name=line-856></a>            <span class=n>end_time</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>perf_counter</span><span class=p>()</span> <span class=o>-</span> <span class=n>start_time</span>
+<a name=line-857></a>            <span class=bp>self</span><span class=o>.</span><span class=n>records</span><span class=p>[</span><span class=n>name</span><span class=p>]</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>end_time</span><span class=p>)</span>
+<a name=line-858></a>
+<a name=line-859></a>    <span class=k>def</span> <span class=nf>print_results</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-860></a>        <span class=k>for</span> <span class=n>name</span><span class=p>,</span> <span class=n>end_times</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>records</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-861></a>            <span class=k>for</span> <span class=n>record_time</span> <span class=ow>in</span> <span class=n>end_times</span><span class=p>:</span>
+<a name=line-862></a>                <span class=n>record</span> <span class=o>=</span> <span class=s1>&#39;</span><span class=si>%s</span><span class=s1> took </span><span class=si>%.3f</span><span class=s1>s&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>record_time</span><span class=p>)</span>
+<a name=line-863></a>                <span class=n>sys</span><span class=o>.</span><span class=n>stderr</span><span class=o>.</span><span class=n>write</span><span class=p>(</span><span class=n>record</span> <span class=o>+</span> <span class=n>os</span><span class=o>.</span><span class=n>linesep</span><span class=p>)</span>
+<a name=line-864></a>
+<a name=line-865></a>
+<a name=line-866></a><span class=k>class</span> <span class=nc>NullTimeKeeper</span><span class=p>:</span>
+<a name=line-867></a>    <span class=nd>@contextmanager</span>
+<a name=line-868></a>    <span class=k>def</span> <span class=nf>timed</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+<a name=line-869></a>        <span class=k>yield</span>
+<a name=line-870></a>
+<a name=line-871></a>    <span class=k>def</span> <span class=nf>print_results</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-872></a>        <span class=k>pass</span>
+<a name=line-873></a>
+<a name=line-874></a>
+<a name=line-875></a><span class=k>def</span> <span class=nf>tag</span><span class=p>(</span><span class=o>*</span><span class=n>tags</span><span class=p>):</span>
+<a name=line-876></a>    <span class=sd>&quot;&quot;&quot;Decorator to add tags to a test class or method.&quot;&quot;&quot;</span>
+<a name=line-877></a>    <span class=k>def</span> <span class=nf>decorator</span><span class=p>(</span><span class=n>obj</span><span class=p>):</span>
+<a name=line-878></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>obj</span><span class=p>,</span> <span class=s1>&#39;tags&#39;</span><span class=p>):</span>
+<a name=line-879></a>            <span class=n>obj</span><span class=o>.</span><span class=n>tags</span> <span class=o>=</span> <span class=n>obj</span><span class=o>.</span><span class=n>tags</span><span class=o>.</span><span class=n>union</span><span class=p>(</span><span class=n>tags</span><span class=p>)</span>
+<a name=line-880></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-881></a>            <span class=nb>setattr</span><span class=p>(</span><span class=n>obj</span><span class=p>,</span> <span class=s1>&#39;tags&#39;</span><span class=p>,</span> <span class=nb>set</span><span class=p>(</span><span class=n>tags</span><span class=p>))</span>
+<a name=line-882></a>        <span class=k>return</span> <span class=n>obj</span>
+<a name=line-883></a>    <span class=k>return</span> <span class=n>decorator</span>
+<a name=line-884></a>
+<a name=line-885></a>
+<a name=line-886></a><span class=nd>@contextmanager</span>
+<a name=line-887></a><span class=k>def</span> <span class=nf>register_lookup</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=o>*</span><span class=n>lookups</span><span class=p>,</span> <span class=n>lookup_name</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-888></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-889></a><span class=sd>    Context manager to temporarily register lookups on a model field using</span>
+<a name=line-890></a><span class=sd>    lookup_name (or the lookup&#39;s lookup_name if not provided).</span>
+<a name=line-891></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-892></a>    <span class=k>try</span><span class=p>:</span>
+<a name=line-893></a>        <span class=k>for</span> <span class=n>lookup</span> <span class=ow>in</span> <span class=n>lookups</span><span class=p>:</span>
+<a name=line-894></a>            <span class=n>field</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>lookup</span><span class=p>,</span> <span class=n>lookup_name</span><span class=p>)</span>
+<a name=line-895></a>        <span class=k>yield</span>
+<a name=line-896></a>    <span class=k>finally</span><span class=p>:</span>
+<a name=line-897></a>        <span class=k>for</span> <span class=n>lookup</span> <span class=ow>in</span> <span class=n>lookups</span><span class=p>:</span>
+<a name=line-898></a>            <span class=n>field</span><span class=o>.</span><span class=n>_unregister_lookup</span><span class=p>(</span><span class=n>lookup</span><span class=p>,</span> <span class=n>lookup_name</span><span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

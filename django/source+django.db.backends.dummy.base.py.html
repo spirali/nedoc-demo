@@ -1,0 +1,146 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.db.backends.dummy.base</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9662; db</a> </li><li><ul><li><a href=django.db.backends.html>&#9662; backends</a> </li><li><ul><li><a href=django.db.backends.base.html>&#9656; base</a> </li><li><a href=django.db.backends.ddl_references.html>&#9656; ddl_references</a> </li><li><a href=django.db.backends.dummy.html>&#9662; dummy</a> </li><li><ul><li><div class=select><a href=django.db.backends.dummy.base.html>&#9662; base</a> </div></li><li><ul><li><a href=django.db.backends.dummy.base.DatabaseClient.html> <i>class</i> DatabaseClient</a> </li><li><a href=django.db.backends.dummy.base.DatabaseCreation.html> <i>class</i> DatabaseCreation</a> </li><li><a href=django.db.backends.dummy.base.DatabaseIntrospection.html> <i>class</i> DatabaseIntrospection</a> </li><li><a href=django.db.backends.dummy.base.DatabaseOperations.html> <i>class</i> DatabaseOperations</a> </li><li><a href=django.db.backends.dummy.base.DatabaseWrapper.html> <i>class</i> DatabaseWrapper</a> </li></ul></li><li><a href=django.db.backends.dummy.features.html>&#9656; features</a> </li></ul></li><li><a href=django.db.backends.mysql.html>&#9656; mysql</a> </li><li><a href=django.db.backends.oracle.html>&#9656; oracle</a> </li><li><a href=django.db.backends.postgresql.html>&#9656; postgresql</a> </li><li><a href=django.db.backends.signals.html>&#9656; signals</a> </li><li><a href=django.db.backends.sqlite3.html>&#9656; sqlite3</a> </li><li><a href=django.db.backends.utils.html>&#9656; utils</a> </li></ul></li><li><a href=django.db.migrations.html>&#9656; migrations</a> </li><li><a href=django.db.models.html>&#9656; models</a> </li><li><a href=django.db.transaction.html>&#9656; transaction</a> </li><li><a href=django.db.utils.html>&#9656; utils</a> </li><li><a href=django.db.DefaultConnectionProxy.html> <i>class</i> DefaultConnectionProxy</a> </li></ul></li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/db/backends/dummy/base.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.db.html>db</a>.<a class=symbol href=django.db.backends.html>backends</a>.<a class=symbol href=django.db.backends.dummy.html>dummy</a>.<a class=symbol href=django.db.backends.dummy.base.html>base</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-2></a><span class=sd>Dummy database backend for Django.</span>
+<a name=line-3></a>
+<a name=line-4></a><span class=sd>Django uses this if the database ENGINE setting is empty (None or empty string).</span>
+<a name=line-5></a>
+<a name=line-6></a><span class=sd>Each of these API functions, except connection.close(), raise</span>
+<a name=line-7></a><span class=sd>ImproperlyConfigured.</span>
+<a name=line-8></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-9></a>
+<a name=line-10></a><span class=kn>from</span> <span class=nn>django.core.exceptions</span> <span class=kn>import</span> <span class=n>ImproperlyConfigured</span>
+<a name=line-11></a><span class=kn>from</span> <span class=nn>django.db.backends.base.base</span> <span class=kn>import</span> <span class=n>BaseDatabaseWrapper</span>
+<a name=line-12></a><span class=kn>from</span> <span class=nn>django.db.backends.base.client</span> <span class=kn>import</span> <span class=n>BaseDatabaseClient</span>
+<a name=line-13></a><span class=kn>from</span> <span class=nn>django.db.backends.base.creation</span> <span class=kn>import</span> <span class=n>BaseDatabaseCreation</span>
+<a name=line-14></a><span class=kn>from</span> <span class=nn>django.db.backends.base.introspection</span> <span class=kn>import</span> <span class=n>BaseDatabaseIntrospection</span>
+<a name=line-15></a><span class=kn>from</span> <span class=nn>django.db.backends.base.operations</span> <span class=kn>import</span> <span class=n>BaseDatabaseOperations</span>
+<a name=line-16></a><span class=kn>from</span> <span class=nn>django.db.backends.dummy.features</span> <span class=kn>import</span> <span class=n>DummyDatabaseFeatures</span>
+<a name=line-17></a>
+<a name=line-18></a>
+<a name=line-19></a><span class=k>def</span> <span class=nf>complain</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-20></a>    <span class=k>raise</span> <span class=n>ImproperlyConfigured</span><span class=p>(</span><span class=s2>&quot;settings.DATABASES is improperly configured. &quot;</span>
+<a name=line-21></a>                               <span class=s2>&quot;Please supply the ENGINE value. Check &quot;</span>
+<a name=line-22></a>                               <span class=s2>&quot;settings documentation for more details.&quot;</span><span class=p>)</span>
+<a name=line-23></a>
+<a name=line-24></a>
+<a name=line-25></a><span class=k>def</span> <span class=nf>ignore</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-26></a>    <span class=k>pass</span>
+<a name=line-27></a>
+<a name=line-28></a>
+<a name=line-29></a><span class=k>class</span> <span class=nc>DatabaseOperations</span><span class=p>(</span><span class=n>BaseDatabaseOperations</span><span class=p>):</span>
+<a name=line-30></a>    <span class=n>quote_name</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-31></a>
+<a name=line-32></a>
+<a name=line-33></a><span class=k>class</span> <span class=nc>DatabaseClient</span><span class=p>(</span><span class=n>BaseDatabaseClient</span><span class=p>):</span>
+<a name=line-34></a>    <span class=n>runshell</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-35></a>
+<a name=line-36></a>
+<a name=line-37></a><span class=k>class</span> <span class=nc>DatabaseCreation</span><span class=p>(</span><span class=n>BaseDatabaseCreation</span><span class=p>):</span>
+<a name=line-38></a>    <span class=n>create_test_db</span> <span class=o>=</span> <span class=n>ignore</span>
+<a name=line-39></a>    <span class=n>destroy_test_db</span> <span class=o>=</span> <span class=n>ignore</span>
+<a name=line-40></a>
+<a name=line-41></a>
+<a name=line-42></a><span class=k>class</span> <span class=nc>DatabaseIntrospection</span><span class=p>(</span><span class=n>BaseDatabaseIntrospection</span><span class=p>):</span>
+<a name=line-43></a>    <span class=n>get_table_list</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-44></a>    <span class=n>get_table_description</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-45></a>    <span class=n>get_relations</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-46></a>    <span class=n>get_indexes</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-47></a>    <span class=n>get_key_columns</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-48></a>
+<a name=line-49></a>
+<a name=line-50></a><span class=k>class</span> <span class=nc>DatabaseWrapper</span><span class=p>(</span><span class=n>BaseDatabaseWrapper</span><span class=p>):</span>
+<a name=line-51></a>    <span class=n>operators</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-52></a>    <span class=c1># Override the base class implementations with null</span>
+<a name=line-53></a>    <span class=c1># implementations. Anything that tries to actually</span>
+<a name=line-54></a>    <span class=c1># do something raises complain; anything that tries</span>
+<a name=line-55></a>    <span class=c1># to rollback or undo something raises ignore.</span>
+<a name=line-56></a>    <span class=n>_cursor</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-57></a>    <span class=n>ensure_connection</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-58></a>    <span class=n>_commit</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-59></a>    <span class=n>_rollback</span> <span class=o>=</span> <span class=n>ignore</span>
+<a name=line-60></a>    <span class=n>_close</span> <span class=o>=</span> <span class=n>ignore</span>
+<a name=line-61></a>    <span class=n>_savepoint</span> <span class=o>=</span> <span class=n>ignore</span>
+<a name=line-62></a>    <span class=n>_savepoint_commit</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-63></a>    <span class=n>_savepoint_rollback</span> <span class=o>=</span> <span class=n>ignore</span>
+<a name=line-64></a>    <span class=n>_set_autocommit</span> <span class=o>=</span> <span class=n>complain</span>
+<a name=line-65></a>    <span class=c1># Classes instantiated in __init__().</span>
+<a name=line-66></a>    <span class=n>client_class</span> <span class=o>=</span> <span class=n>DatabaseClient</span>
+<a name=line-67></a>    <span class=n>creation_class</span> <span class=o>=</span> <span class=n>DatabaseCreation</span>
+<a name=line-68></a>    <span class=n>features_class</span> <span class=o>=</span> <span class=n>DummyDatabaseFeatures</span>
+<a name=line-69></a>    <span class=n>introspection_class</span> <span class=o>=</span> <span class=n>DatabaseIntrospection</span>
+<a name=line-70></a>    <span class=n>ops_class</span> <span class=o>=</span> <span class=n>DatabaseOperations</span>
+<a name=line-71></a>
+<a name=line-72></a>    <span class=k>def</span> <span class=nf>is_usable</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-73></a>        <span class=k>return</span> <span class=kc>True</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

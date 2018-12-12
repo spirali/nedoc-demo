@@ -1,0 +1,158 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.contrib.gis.db.models.proxy</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9662; contrib</a> </li><li><ul><li><a href=django.contrib.admin.html>&#9656; admin</a> </li><li><a href=django.contrib.admindocs.html>&#9656; admindocs</a> </li><li><a href=django.contrib.auth.html>&#9656; auth</a> </li><li><a href=django.contrib.contenttypes.html>&#9656; contenttypes</a> </li><li><a href=django.contrib.flatpages.html>&#9656; flatpages</a> </li><li><a href=django.contrib.gis.html>&#9662; gis</a> </li><li><ul><li><a href=django.contrib.gis.admin.html>&#9656; admin</a> </li><li><a href=django.contrib.gis.apps.html>&#9656; apps</a> </li><li><a href=django.contrib.gis.db.html>&#9662; db</a> </li><li><ul><li><a href=django.contrib.gis.db.backends.html>&#9656; backends</a> </li><li><a href=django.contrib.gis.db.models.html>&#9662; models</a> </li><li><ul><li><a href=django.contrib.gis.db.models.aggregates.html>&#9656; aggregates</a> </li><li><a href=django.contrib.gis.db.models.fields.html>&#9656; fields</a> </li><li><a href=django.contrib.gis.db.models.functions.html>&#9656; functions</a> </li><li><a href=django.contrib.gis.db.models.lookups.html>&#9656; lookups</a> </li><li><div class=select><a href=django.contrib.gis.db.models.proxy.html>&#9662; proxy</a> </div></li><li><ul><li><a href=django.contrib.gis.db.models.proxy.SpatialProxy.html> <i>class</i> SpatialProxy</a> </li></ul></li><li><a href=django.contrib.gis.db.models.sql.html>&#9656; sql</a> </li></ul></li><li><a href=django.contrib.gis.feeds.html>&#9656; feeds</a> </li><li><a href=django.contrib.gis.forms.html>&#9656; forms</a> </li><li><a href=django.contrib.gis.gdal.html>&#9656; gdal</a> </li><li><a href=django.contrib.gis.geoip2.html>&#9656; geoip2</a> </li><li><a href=django.contrib.gis.geometry.html>&#9656; geometry</a> </li><li><a href=django.contrib.gis.geos.html>&#9656; geos</a> </li><li><a href=django.contrib.gis.management.html>&#9656; management</a> </li><li><a href=django.contrib.gis.measure.html>&#9656; measure</a> </li><li><a href=django.contrib.gis.ptr.html>&#9656; ptr</a> </li><li><a href=django.contrib.gis.serializers.html>&#9656; serializers</a> </li><li><a href=django.contrib.gis.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.contrib.gis.sitemaps.html>&#9656; sitemaps</a> </li><li><a href=django.contrib.gis.utils.html>&#9656; utils</a> </li><li><a href=django.contrib.gis.views.html>&#9656; views</a> </li></ul></li><li><a href=django.contrib.humanize.html>&#9656; humanize</a> </li><li><a href=django.contrib.messages.html>&#9656; messages</a> </li><li><a href=django.contrib.postgres.html>&#9656; postgres</a> </li><li><a href=django.contrib.redirects.html>&#9656; redirects</a> </li><li><a href=django.contrib.sessions.html>&#9656; sessions</a> </li><li><a href=django.contrib.sitemaps.html>&#9656; sitemaps</a> </li><li><a href=django.contrib.sites.html>&#9656; sites</a> </li><li><a href=django.contrib.staticfiles.html>&#9656; staticfiles</a> </li><li><a href=django.contrib.syndication.html>&#9656; syndication</a> </li></ul></li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/contrib/gis/db/models/proxy.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.contrib.html>contrib</a>.<a class=symbol href=django.contrib.gis.html>gis</a>.<a class=symbol href=django.contrib.gis.db.html>db</a>.<a class=symbol href=django.contrib.gis.db.models.html>models</a>.<a class=symbol href=django.contrib.gis.db.models.proxy.html>proxy</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-2></a><span class=sd>The SpatialProxy object allows for lazy-geometries and lazy-rasters. The proxy</span>
+<a name=line-3></a><span class=sd>uses Python descriptors for instantiating and setting Geometry or Raster</span>
+<a name=line-4></a><span class=sd>objects corresponding to geographic model fields.</span>
+<a name=line-5></a>
+<a name=line-6></a><span class=sd>Thanks to Robert Coup for providing this functionality (see #4322).</span>
+<a name=line-7></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-8></a><span class=kn>from</span> <span class=nn>django.db.models.query_utils</span> <span class=kn>import</span> <span class=n>DeferredAttribute</span>
+<a name=line-9></a>
+<a name=line-10></a>
+<a name=line-11></a><span class=k>class</span> <span class=nc>SpatialProxy</span><span class=p>(</span><span class=n>DeferredAttribute</span><span class=p>):</span>
+<a name=line-12></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>klass</span><span class=p>,</span> <span class=n>field</span><span class=p>,</span> <span class=n>load_func</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-13></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-14></a><span class=sd>        Initialize on the given Geometry or Raster class (not an instance)</span>
+<a name=line-15></a><span class=sd>        and the corresponding field.</span>
+<a name=line-16></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-17></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_klass</span> <span class=o>=</span> <span class=n>klass</span>
+<a name=line-18></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_load_func</span> <span class=o>=</span> <span class=n>load_func</span> <span class=ow>or</span> <span class=n>klass</span>
+<a name=line-19></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>field</span><span class=p>)</span>
+<a name=line-20></a>
+<a name=line-21></a>    <span class=k>def</span> <span class=fm>__get__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>instance</span><span class=p>,</span> <span class=bp>cls</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-22></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-23></a><span class=sd>        Retrieve the geometry or raster, initializing it using the</span>
+<a name=line-24></a><span class=sd>        corresponding class specified during initialization and the value of</span>
+<a name=line-25></a><span class=sd>        the field. Currently, GEOS or OGR geometries as well as GDALRasters are</span>
+<a name=line-26></a><span class=sd>        supported.</span>
+<a name=line-27></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-28></a>        <span class=k>if</span> <span class=n>instance</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-29></a>            <span class=c1># Accessed on a class, not an instance</span>
+<a name=line-30></a>            <span class=k>return</span> <span class=bp>self</span>
+<a name=line-31></a>
+<a name=line-32></a>        <span class=c1># Getting the value of the field.</span>
+<a name=line-33></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-34></a>            <span class=n>geo_value</span> <span class=o>=</span> <span class=n>instance</span><span class=o>.</span><span class=vm>__dict__</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>field</span><span class=o>.</span><span class=n>attname</span><span class=p>]</span>
+<a name=line-35></a>        <span class=k>except</span> <span class=ne>KeyError</span><span class=p>:</span>
+<a name=line-36></a>            <span class=n>geo_value</span> <span class=o>=</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__get__</span><span class=p>(</span><span class=n>instance</span><span class=p>,</span> <span class=bp>cls</span><span class=p>)</span>
+<a name=line-37></a>
+<a name=line-38></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>geo_value</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_klass</span><span class=p>):</span>
+<a name=line-39></a>            <span class=n>geo_obj</span> <span class=o>=</span> <span class=n>geo_value</span>
+<a name=line-40></a>        <span class=k>elif</span> <span class=p>(</span><span class=n>geo_value</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>)</span> <span class=ow>or</span> <span class=p>(</span><span class=n>geo_value</span> <span class=o>==</span> <span class=s1>&#39;&#39;</span><span class=p>):</span>
+<a name=line-41></a>            <span class=n>geo_obj</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-42></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-43></a>            <span class=c1># Otherwise, a geometry or raster object is built using the field&#39;s</span>
+<a name=line-44></a>            <span class=c1># contents, and the model&#39;s corresponding attribute is set.</span>
+<a name=line-45></a>            <span class=n>geo_obj</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_load_func</span><span class=p>(</span><span class=n>geo_value</span><span class=p>)</span>
+<a name=line-46></a>            <span class=nb>setattr</span><span class=p>(</span><span class=n>instance</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>field</span><span class=o>.</span><span class=n>attname</span><span class=p>,</span> <span class=n>geo_obj</span><span class=p>)</span>
+<a name=line-47></a>        <span class=k>return</span> <span class=n>geo_obj</span>
+<a name=line-48></a>
+<a name=line-49></a>    <span class=k>def</span> <span class=fm>__set__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>instance</span><span class=p>,</span> <span class=n>value</span><span class=p>):</span>
+<a name=line-50></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-51></a><span class=sd>        Retrieve the proxied geometry or raster with the corresponding class</span>
+<a name=line-52></a><span class=sd>        specified during initialization.</span>
+<a name=line-53></a>
+<a name=line-54></a><span class=sd>        To set geometries, use values of None, HEXEWKB, or WKT.</span>
+<a name=line-55></a><span class=sd>        To set rasters, use JSON or dict values.</span>
+<a name=line-56></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-57></a>        <span class=c1># The geographic type of the field.</span>
+<a name=line-58></a>        <span class=n>gtype</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>field</span><span class=o>.</span><span class=n>geom_type</span>
+<a name=line-59></a>
+<a name=line-60></a>        <span class=k>if</span> <span class=n>gtype</span> <span class=o>==</span> <span class=s1>&#39;RASTER&#39;</span> <span class=ow>and</span> <span class=p>(</span><span class=n>value</span> <span class=ow>is</span> <span class=kc>None</span> <span class=ow>or</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=p>(</span><span class=nb>str</span><span class=p>,</span> <span class=nb>dict</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_klass</span><span class=p>))):</span>
+<a name=line-61></a>            <span class=c1># For raster fields, assure input is None or a string, dict, or</span>
+<a name=line-62></a>            <span class=c1># raster instance.</span>
+<a name=line-63></a>            <span class=k>pass</span>
+<a name=line-64></a>        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_klass</span><span class=p>):</span>
+<a name=line-65></a>            <span class=c1># The geometry type must match that of the field -- unless the</span>
+<a name=line-66></a>            <span class=c1># general GeometryField is used.</span>
+<a name=line-67></a>            <span class=k>if</span> <span class=n>value</span><span class=o>.</span><span class=n>srid</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-68></a>                <span class=c1># Assigning the field SRID if the geometry has no SRID.</span>
+<a name=line-69></a>                <span class=n>value</span><span class=o>.</span><span class=n>srid</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>field</span><span class=o>.</span><span class=n>srid</span>
+<a name=line-70></a>        <span class=k>elif</span> <span class=n>value</span> <span class=ow>is</span> <span class=kc>None</span> <span class=ow>or</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=p>(</span><span class=nb>str</span><span class=p>,</span> <span class=nb>memoryview</span><span class=p>)):</span>
+<a name=line-71></a>            <span class=c1># Set geometries with None, WKT, HEX, or WKB</span>
+<a name=line-72></a>            <span class=k>pass</span>
+<a name=line-73></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-74></a>            <span class=k>raise</span> <span class=ne>TypeError</span><span class=p>(</span><span class=s1>&#39;Cannot set </span><span class=si>%s</span><span class=s1> SpatialProxy (</span><span class=si>%s</span><span class=s1>) with value of type: </span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span>
+<a name=line-75></a>                <span class=n>instance</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=vm>__name__</span><span class=p>,</span> <span class=n>gtype</span><span class=p>,</span> <span class=nb>type</span><span class=p>(</span><span class=n>value</span><span class=p>)))</span>
+<a name=line-76></a>
+<a name=line-77></a>        <span class=c1># Setting the objects dictionary with the value, and returning.</span>
+<a name=line-78></a>        <span class=n>instance</span><span class=o>.</span><span class=vm>__dict__</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>field</span><span class=o>.</span><span class=n>attname</span><span class=p>]</span> <span class=o>=</span> <span class=n>value</span>
+<a name=line-79></a>        <span class=k>return</span> <span class=n>value</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

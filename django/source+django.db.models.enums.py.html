@@ -1,0 +1,164 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.db.models.enums</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9662; db</a> </li><li><ul><li><a href=django.db.backends.html>&#9656; backends</a> </li><li><a href=django.db.migrations.html>&#9656; migrations</a> </li><li><a href=django.db.models.html>&#9662; models</a> </li><li><ul><li><a href=django.db.models.aggregates.html>&#9656; aggregates</a> </li><li><a href=django.db.models.base.html>&#9656; base</a> </li><li><a href=django.db.models.constants.html>&#9656; constants</a> </li><li><a href=django.db.models.constraints.html>&#9656; constraints</a> </li><li><a href=django.db.models.deletion.html>&#9656; deletion</a> </li><li><div class=select><a href=django.db.models.enums.html>&#9662; enums</a> </div></li><li><ul><li><a href=django.db.models.enums.Choices.html> <i>class</i> Choices</a> </li><li><a href=django.db.models.enums.ChoicesMeta.html> <i>class</i> ChoicesMeta</a> </li><li><a href=django.db.models.enums.IntegerChoices.html> <i>class</i> IntegerChoices</a> </li><li><a href=django.db.models.enums.TextChoices.html> <i>class</i> TextChoices</a> </li></ul></li><li><a href=django.db.models.expressions.html>&#9656; expressions</a> </li><li><a href=django.db.models.fields.html>&#9656; fields</a> </li><li><a href=django.db.models.functions.html>&#9656; functions</a> </li><li><a href=django.db.models.indexes.html>&#9656; indexes</a> </li><li><a href=django.db.models.lookups.html>&#9656; lookups</a> </li><li><a href=django.db.models.manager.html>&#9656; manager</a> </li><li><a href=django.db.models.options.html>&#9656; options</a> </li><li><a href=django.db.models.query.html>&#9656; query</a> </li><li><a href=django.db.models.query_utils.html>&#9656; query_utils</a> </li><li><a href=django.db.models.signals.html>&#9656; signals</a> </li><li><a href=django.db.models.sql.html>&#9656; sql</a> </li><li><a href=django.db.models.utils.html>&#9656; utils</a> </li></ul></li><li><a href=django.db.transaction.html>&#9656; transaction</a> </li><li><a href=django.db.utils.html>&#9656; utils</a> </li><li><a href=django.db.DefaultConnectionProxy.html> <i>class</i> DefaultConnectionProxy</a> </li></ul></li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/db/models/enums.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.db.html>db</a>.<a class=symbol href=django.db.models.html>models</a>.<a class=symbol href=django.db.models.enums.html>enums</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>import</span> <span class=nn>enum</span>
+<a name=line-2></a>
+<a name=line-3></a><span class=kn>from</span> <span class=nn>django.utils.functional</span> <span class=kn>import</span> <span class=n>Promise</span>
+<a name=line-4></a>
+<a name=line-5></a><span class=n>__all__</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;Choices&#39;</span><span class=p>,</span> <span class=s1>&#39;IntegerChoices&#39;</span><span class=p>,</span> <span class=s1>&#39;TextChoices&#39;</span><span class=p>]</span>
+<a name=line-6></a>
+<a name=line-7></a>
+<a name=line-8></a><span class=k>class</span> <span class=nc>ChoicesMeta</span><span class=p>(</span><span class=n>enum</span><span class=o>.</span><span class=n>EnumMeta</span><span class=p>):</span>
+<a name=line-9></a>    <span class=sd>&quot;&quot;&quot;A metaclass for creating a enum choices.&quot;&quot;&quot;</span>
+<a name=line-10></a>
+<a name=line-11></a>    <span class=k>def</span> <span class=fm>__new__</span><span class=p>(</span><span class=n>metacls</span><span class=p>,</span> <span class=n>classname</span><span class=p>,</span> <span class=n>bases</span><span class=p>,</span> <span class=n>classdict</span><span class=p>):</span>
+<a name=line-12></a>        <span class=n>labels</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-13></a>        <span class=k>for</span> <span class=n>key</span> <span class=ow>in</span> <span class=n>classdict</span><span class=o>.</span><span class=n>_member_names</span><span class=p>:</span>
+<a name=line-14></a>            <span class=n>value</span> <span class=o>=</span> <span class=n>classdict</span><span class=p>[</span><span class=n>key</span><span class=p>]</span>
+<a name=line-15></a>            <span class=k>if</span> <span class=p>(</span>
+<a name=line-16></a>                <span class=nb>isinstance</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=p>(</span><span class=nb>list</span><span class=p>,</span> <span class=nb>tuple</span><span class=p>))</span> <span class=ow>and</span>
+<a name=line-17></a>                <span class=nb>len</span><span class=p>(</span><span class=n>value</span><span class=p>)</span> <span class=o>&gt;</span> <span class=mi>1</span> <span class=ow>and</span>
+<a name=line-18></a>                <span class=nb>isinstance</span><span class=p>(</span><span class=n>value</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=p>(</span><span class=n>Promise</span><span class=p>,</span> <span class=nb>str</span><span class=p>))</span>
+<a name=line-19></a>            <span class=p>):</span>
+<a name=line-20></a>                <span class=o>*</span><span class=n>value</span><span class=p>,</span> <span class=n>label</span> <span class=o>=</span> <span class=n>value</span>
+<a name=line-21></a>                <span class=n>value</span> <span class=o>=</span> <span class=nb>tuple</span><span class=p>(</span><span class=n>value</span><span class=p>)</span>
+<a name=line-22></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-23></a>                <span class=n>label</span> <span class=o>=</span> <span class=n>key</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=s1>&#39;_&#39;</span><span class=p>,</span> <span class=s1>&#39; &#39;</span><span class=p>)</span><span class=o>.</span><span class=n>title</span><span class=p>()</span>
+<a name=line-24></a>            <span class=n>labels</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>label</span><span class=p>)</span>
+<a name=line-25></a>            <span class=c1># Use dict.__setitem__() to suppress defenses against double</span>
+<a name=line-26></a>            <span class=c1># assignment in enum&#39;s classdict.</span>
+<a name=line-27></a>            <span class=nb>dict</span><span class=o>.</span><span class=fm>__setitem__</span><span class=p>(</span><span class=n>classdict</span><span class=p>,</span> <span class=n>key</span><span class=p>,</span> <span class=n>value</span><span class=p>)</span>
+<a name=line-28></a>        <span class=bp>cls</span> <span class=o>=</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__new__</span><span class=p>(</span><span class=n>metacls</span><span class=p>,</span> <span class=n>classname</span><span class=p>,</span> <span class=n>bases</span><span class=p>,</span> <span class=n>classdict</span><span class=p>)</span>
+<a name=line-29></a>        <span class=bp>cls</span><span class=o>.</span><span class=n>_value2label_map_</span> <span class=o>=</span> <span class=nb>dict</span><span class=p>(</span><span class=nb>zip</span><span class=p>(</span><span class=bp>cls</span><span class=o>.</span><span class=n>_value2member_map_</span><span class=p>,</span> <span class=n>labels</span><span class=p>))</span>
+<a name=line-30></a>        <span class=c1># Add a label property to instances of enum which uses the enum member</span>
+<a name=line-31></a>        <span class=c1># that is passed in as &quot;self&quot; as the value to use when looking up the</span>
+<a name=line-32></a>        <span class=c1># label in the choices.</span>
+<a name=line-33></a>        <span class=bp>cls</span><span class=o>.</span><span class=n>label</span> <span class=o>=</span> <span class=nb>property</span><span class=p>(</span><span class=k>lambda</span> <span class=bp>self</span><span class=p>:</span> <span class=bp>cls</span><span class=o>.</span><span class=n>_value2label_map_</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>value</span><span class=p>))</span>
+<a name=line-34></a>        <span class=bp>cls</span><span class=o>.</span><span class=n>do_not_call_in_templates</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-35></a>        <span class=k>return</span> <span class=n>enum</span><span class=o>.</span><span class=n>unique</span><span class=p>(</span><span class=bp>cls</span><span class=p>)</span>
+<a name=line-36></a>
+<a name=line-37></a>    <span class=k>def</span> <span class=fm>__contains__</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>member</span><span class=p>):</span>
+<a name=line-38></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>member</span><span class=p>,</span> <span class=n>enum</span><span class=o>.</span><span class=n>Enum</span><span class=p>):</span>
+<a name=line-39></a>            <span class=c1># Allow non-enums to match against member values.</span>
+<a name=line-40></a>            <span class=k>return</span> <span class=nb>any</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>value</span> <span class=o>==</span> <span class=n>member</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=bp>cls</span><span class=p>)</span>
+<a name=line-41></a>        <span class=k>return</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__contains__</span><span class=p>(</span><span class=n>member</span><span class=p>)</span>
+<a name=line-42></a>
+<a name=line-43></a>    <span class=nd>@property</span>
+<a name=line-44></a>    <span class=k>def</span> <span class=nf>names</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+<a name=line-45></a>        <span class=n>empty</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;__empty__&#39;</span><span class=p>]</span> <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=s1>&#39;__empty__&#39;</span><span class=p>)</span> <span class=k>else</span> <span class=p>[]</span>
+<a name=line-46></a>        <span class=k>return</span> <span class=n>empty</span> <span class=o>+</span> <span class=p>[</span><span class=n>member</span><span class=o>.</span><span class=n>name</span> <span class=k>for</span> <span class=n>member</span> <span class=ow>in</span> <span class=bp>cls</span><span class=p>]</span>
+<a name=line-47></a>
+<a name=line-48></a>    <span class=nd>@property</span>
+<a name=line-49></a>    <span class=k>def</span> <span class=nf>choices</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+<a name=line-50></a>        <span class=n>empty</span> <span class=o>=</span> <span class=p>[(</span><span class=kc>None</span><span class=p>,</span> <span class=bp>cls</span><span class=o>.</span><span class=n>__empty__</span><span class=p>)]</span> <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=s1>&#39;__empty__&#39;</span><span class=p>)</span> <span class=k>else</span> <span class=p>[]</span>
+<a name=line-51></a>        <span class=k>return</span> <span class=n>empty</span> <span class=o>+</span> <span class=p>[(</span><span class=n>member</span><span class=o>.</span><span class=n>value</span><span class=p>,</span> <span class=n>member</span><span class=o>.</span><span class=n>label</span><span class=p>)</span> <span class=k>for</span> <span class=n>member</span> <span class=ow>in</span> <span class=bp>cls</span><span class=p>]</span>
+<a name=line-52></a>
+<a name=line-53></a>    <span class=nd>@property</span>
+<a name=line-54></a>    <span class=k>def</span> <span class=nf>labels</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+<a name=line-55></a>        <span class=k>return</span> <span class=p>[</span><span class=n>label</span> <span class=k>for</span> <span class=n>_</span><span class=p>,</span> <span class=n>label</span> <span class=ow>in</span> <span class=bp>cls</span><span class=o>.</span><span class=n>choices</span><span class=p>]</span>
+<a name=line-56></a>
+<a name=line-57></a>    <span class=nd>@property</span>
+<a name=line-58></a>    <span class=k>def</span> <span class=nf>values</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+<a name=line-59></a>        <span class=k>return</span> <span class=p>[</span><span class=n>value</span> <span class=k>for</span> <span class=n>value</span><span class=p>,</span> <span class=n>_</span> <span class=ow>in</span> <span class=bp>cls</span><span class=o>.</span><span class=n>choices</span><span class=p>]</span>
+<a name=line-60></a>
+<a name=line-61></a>
+<a name=line-62></a><span class=k>class</span> <span class=nc>Choices</span><span class=p>(</span><span class=n>enum</span><span class=o>.</span><span class=n>Enum</span><span class=p>,</span> <span class=n>metaclass</span><span class=o>=</span><span class=n>ChoicesMeta</span><span class=p>):</span>
+<a name=line-63></a>    <span class=sd>&quot;&quot;&quot;Class for creating enumerated choices.&quot;&quot;&quot;</span>
+<a name=line-64></a>
+<a name=line-65></a>    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-66></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-67></a><span class=sd>        Use value when cast to str, so that Choices set as model instance</span>
+<a name=line-68></a><span class=sd>        attributes are rendered as expected in templates and similar contexts.</span>
+<a name=line-69></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-70></a>        <span class=k>return</span> <span class=nb>str</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>value</span><span class=p>)</span>
+<a name=line-71></a>
+<a name=line-72></a>
+<a name=line-73></a><span class=k>class</span> <span class=nc>IntegerChoices</span><span class=p>(</span><span class=nb>int</span><span class=p>,</span> <span class=n>Choices</span><span class=p>):</span>
+<a name=line-74></a>    <span class=sd>&quot;&quot;&quot;Class for creating enumerated integer choices.&quot;&quot;&quot;</span>
+<a name=line-75></a>    <span class=k>pass</span>
+<a name=line-76></a>
+<a name=line-77></a>
+<a name=line-78></a><span class=k>class</span> <span class=nc>TextChoices</span><span class=p>(</span><span class=nb>str</span><span class=p>,</span> <span class=n>Choices</span><span class=p>):</span>
+<a name=line-79></a>    <span class=sd>&quot;&quot;&quot;Class for creating enumerated string choices.&quot;&quot;&quot;</span>
+<a name=line-80></a>
+<a name=line-81></a>    <span class=k>def</span> <span class=nf>_generate_next_value_</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>start</span><span class=p>,</span> <span class=n>count</span><span class=p>,</span> <span class=n>last_values</span><span class=p>):</span>
+<a name=line-82></a>        <span class=k>return</span> <span class=n>name</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

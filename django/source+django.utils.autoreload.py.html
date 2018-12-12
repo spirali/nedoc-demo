@@ -1,0 +1,1286 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.utils.autoreload</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9662; utils</a> </li><li><ul><li><a href=django.utils.archive.html>&#9656; archive</a> </li><li><a href=django.utils.asyncio.html>&#9656; asyncio</a> </li><li><div class=select><a href=django.utils.autoreload.html>&#9662; autoreload</a> </div></li><li><ul><li><a href=django.utils.autoreload.BaseReloader.html> <i>class</i> BaseReloader</a> </li><li><a href=django.utils.autoreload.StatReloader.html> <i>class</i> StatReloader</a> </li><li><a href=django.utils.autoreload.WatchmanReloader.html> <i>class</i> WatchmanReloader</a> </li><li><a href=django.utils.autoreload.WatchmanUnavailable.html> <i>class</i> WatchmanUnavailable</a> </li></ul></li><li><a href=django.utils.baseconv.html>&#9656; baseconv</a> </li><li><a href=django.utils.cache.html>&#9656; cache</a> </li><li><a href=django.utils.crypto.html>&#9656; crypto</a> </li><li><a href=django.utils.datastructures.html>&#9656; datastructures</a> </li><li><a href=django.utils.dateformat.html>&#9656; dateformat</a> </li><li><a href=django.utils.dateparse.html>&#9656; dateparse</a> </li><li><a href=django.utils.dates.html>&#9656; dates</a> </li><li><a href=django.utils.datetime_safe.html>&#9656; datetime_safe</a> </li><li><a href=django.utils.deconstruct.html>&#9656; deconstruct</a> </li><li><a href=django.utils.decorators.html>&#9656; decorators</a> </li><li><a href=django.utils.deprecation.html>&#9656; deprecation</a> </li><li><a href=django.utils.duration.html>&#9656; duration</a> </li><li><a href=django.utils.encoding.html>&#9656; encoding</a> </li><li><a href=django.utils.feedgenerator.html>&#9656; feedgenerator</a> </li><li><a href=django.utils.formats.html>&#9656; formats</a> </li><li><a href=django.utils.functional.html>&#9656; functional</a> </li><li><a href=django.utils.hashable.html>&#9656; hashable</a> </li><li><a href=django.utils.html.html>&#9656; html</a> </li><li><a href=django.utils.http.html>&#9656; http</a> </li><li><a href=django.utils.inspect.html>&#9656; inspect</a> </li><li><a href=django.utils.ipv6.html>&#9656; ipv6</a> </li><li><a href=django.utils.itercompat.html>&#9656; itercompat</a> </li><li><a href=django.utils.jslex.html>&#9656; jslex</a> </li><li><a href=django.utils.log.html>&#9656; log</a> </li><li><a href=django.utils.lorem_ipsum.html>&#9656; lorem_ipsum</a> </li><li><a href=django.utils.module_loading.html>&#9656; module_loading</a> </li><li><a href=django.utils.numberformat.html>&#9656; numberformat</a> </li><li><a href=django.utils.regex_helper.html>&#9656; regex_helper</a> </li><li><a href=django.utils.safestring.html>&#9656; safestring</a> </li><li><a href=django.utils.termcolors.html>&#9656; termcolors</a> </li><li><a href=django.utils.text.html>&#9656; text</a> </li><li><a href=django.utils.timesince.html>&#9656; timesince</a> </li><li><a href=django.utils.timezone.html>&#9656; timezone</a> </li><li><a href=django.utils.topological_sort.html>&#9656; topological_sort</a> </li><li><a href=django.utils.translation.html>&#9656; translation</a> </li><li><a href=django.utils.tree.html>&#9656; tree</a> </li><li><a href=django.utils.version.html>&#9656; version</a> </li><li><a href=django.utils.xmlutils.html>&#9656; xmlutils</a> </li></ul></li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/utils/autoreload.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.utils.html>utils</a>.<a class=symbol href=django.utils.autoreload.html>autoreload</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>import</span> <span class=nn>functools</span>
+<a name=line-2></a><span class=kn>import</span> <span class=nn>itertools</span>
+<a name=line-3></a><span class=kn>import</span> <span class=nn>logging</span>
+<a name=line-4></a><span class=kn>import</span> <span class=nn>os</span>
+<a name=line-5></a><span class=kn>import</span> <span class=nn>signal</span>
+<a name=line-6></a><span class=kn>import</span> <span class=nn>subprocess</span>
+<a name=line-7></a><span class=kn>import</span> <span class=nn>sys</span>
+<a name=line-8></a><span class=kn>import</span> <span class=nn>threading</span>
+<a name=line-9></a><span class=kn>import</span> <span class=nn>time</span>
+<a name=line-10></a><span class=kn>import</span> <span class=nn>traceback</span>
+<a name=line-11></a><span class=kn>import</span> <span class=nn>weakref</span>
+<a name=line-12></a><span class=kn>from</span> <span class=nn>collections</span> <span class=kn>import</span> <span class=n>defaultdict</span>
+<a name=line-13></a><span class=kn>from</span> <span class=nn>pathlib</span> <span class=kn>import</span> <span class=n>Path</span>
+<a name=line-14></a><span class=kn>from</span> <span class=nn>types</span> <span class=kn>import</span> <span class=n>ModuleType</span>
+<a name=line-15></a><span class=kn>from</span> <span class=nn>zipimport</span> <span class=kn>import</span> <span class=n>zipimporter</span>
+<a name=line-16></a>
+<a name=line-17></a><span class=kn>import</span> <span class=nn>django</span>
+<a name=line-18></a><span class=kn>from</span> <span class=nn>django.apps</span> <span class=kn>import</span> <span class=n>apps</span>
+<a name=line-19></a><span class=kn>from</span> <span class=nn>django.core.signals</span> <span class=kn>import</span> <span class=n>request_finished</span>
+<a name=line-20></a><span class=kn>from</span> <span class=nn>django.dispatch</span> <span class=kn>import</span> <span class=n>Signal</span>
+<a name=line-21></a><span class=kn>from</span> <span class=nn>django.utils.functional</span> <span class=kn>import</span> <span class=n>cached_property</span>
+<a name=line-22></a><span class=kn>from</span> <span class=nn>django.utils.version</span> <span class=kn>import</span> <span class=n>get_version_tuple</span>
+<a name=line-23></a>
+<a name=line-24></a><span class=n>autoreload_started</span> <span class=o>=</span> <span class=n>Signal</span><span class=p>()</span>
+<a name=line-25></a><span class=n>file_changed</span> <span class=o>=</span> <span class=n>Signal</span><span class=p>()</span>
+<a name=line-26></a>
+<a name=line-27></a><span class=n>DJANGO_AUTORELOAD_ENV</span> <span class=o>=</span> <span class=s1>&#39;RUN_MAIN&#39;</span>
+<a name=line-28></a>
+<a name=line-29></a><span class=n>logger</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=s1>&#39;django.utils.autoreload&#39;</span><span class=p>)</span>
+<a name=line-30></a>
+<a name=line-31></a><span class=c1># If an error is raised while importing a file, it&#39;s not placed in sys.modules.</span>
+<a name=line-32></a><span class=c1># This means that any future modifications aren&#39;t caught. Keep a list of these</span>
+<a name=line-33></a><span class=c1># file paths to allow watching them in the future.</span>
+<a name=line-34></a><span class=n>_error_files</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-35></a><span class=n>_exception</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-36></a>
+<a name=line-37></a><span class=k>try</span><span class=p>:</span>
+<a name=line-38></a>    <span class=kn>import</span> <span class=nn>termios</span>
+<a name=line-39></a><span class=k>except</span> <span class=ne>ImportError</span><span class=p>:</span>
+<a name=line-40></a>    <span class=n>termios</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-41></a>
+<a name=line-42></a>
+<a name=line-43></a><span class=k>try</span><span class=p>:</span>
+<a name=line-44></a>    <span class=kn>import</span> <span class=nn>pywatchman</span>
+<a name=line-45></a><span class=k>except</span> <span class=ne>ImportError</span><span class=p>:</span>
+<a name=line-46></a>    <span class=n>pywatchman</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-47></a>
+<a name=line-48></a>
+<a name=line-49></a><span class=k>def</span> <span class=nf>is_django_module</span><span class=p>(</span><span class=n>module</span><span class=p>):</span>
+<a name=line-50></a>    <span class=sd>&quot;&quot;&quot;Return True if the given module is nested under Django.&quot;&quot;&quot;</span>
+<a name=line-51></a>    <span class=k>return</span> <span class=n>module</span><span class=o>.</span><span class=vm>__name__</span><span class=o>.</span><span class=n>startswith</span><span class=p>(</span><span class=s1>&#39;django.&#39;</span><span class=p>)</span>
+<a name=line-52></a>
+<a name=line-53></a>
+<a name=line-54></a><span class=k>def</span> <span class=nf>is_django_path</span><span class=p>(</span><span class=n>path</span><span class=p>):</span>
+<a name=line-55></a>    <span class=sd>&quot;&quot;&quot;Return True if the given file path is nested under Django.&quot;&quot;&quot;</span>
+<a name=line-56></a>    <span class=k>return</span> <span class=n>Path</span><span class=p>(</span><span class=n>django</span><span class=o>.</span><span class=vm>__file__</span><span class=p>)</span><span class=o>.</span><span class=n>parent</span> <span class=ow>in</span> <span class=n>Path</span><span class=p>(</span><span class=n>path</span><span class=p>)</span><span class=o>.</span><span class=n>parents</span>
+<a name=line-57></a>
+<a name=line-58></a>
+<a name=line-59></a><span class=k>def</span> <span class=nf>check_errors</span><span class=p>(</span><span class=n>fn</span><span class=p>):</span>
+<a name=line-60></a>    <span class=nd>@functools</span><span class=o>.</span><span class=n>wraps</span><span class=p>(</span><span class=n>fn</span><span class=p>)</span>
+<a name=line-61></a>    <span class=k>def</span> <span class=nf>wrapper</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-62></a>        <span class=k>global</span> <span class=n>_exception</span>
+<a name=line-63></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-64></a>            <span class=n>fn</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-65></a>        <span class=k>except</span> <span class=ne>Exception</span><span class=p>:</span>
+<a name=line-66></a>            <span class=n>_exception</span> <span class=o>=</span> <span class=n>sys</span><span class=o>.</span><span class=n>exc_info</span><span class=p>()</span>
+<a name=line-67></a>
+<a name=line-68></a>            <span class=n>et</span><span class=p>,</span> <span class=n>ev</span><span class=p>,</span> <span class=n>tb</span> <span class=o>=</span> <span class=n>_exception</span>
+<a name=line-69></a>
+<a name=line-70></a>            <span class=k>if</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>ev</span><span class=p>,</span> <span class=s1>&#39;filename&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>)</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-71></a>                <span class=c1># get the filename from the last item in the stack</span>
+<a name=line-72></a>                <span class=n>filename</span> <span class=o>=</span> <span class=n>traceback</span><span class=o>.</span><span class=n>extract_tb</span><span class=p>(</span><span class=n>tb</span><span class=p>)[</span><span class=o>-</span><span class=mi>1</span><span class=p>][</span><span class=mi>0</span><span class=p>]</span>
+<a name=line-73></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-74></a>                <span class=n>filename</span> <span class=o>=</span> <span class=n>ev</span><span class=o>.</span><span class=n>filename</span>
+<a name=line-75></a>
+<a name=line-76></a>            <span class=k>if</span> <span class=n>filename</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>_error_files</span><span class=p>:</span>
+<a name=line-77></a>                <span class=n>_error_files</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>filename</span><span class=p>)</span>
+<a name=line-78></a>
+<a name=line-79></a>            <span class=k>raise</span>
+<a name=line-80></a>
+<a name=line-81></a>    <span class=k>return</span> <span class=n>wrapper</span>
+<a name=line-82></a>
+<a name=line-83></a>
+<a name=line-84></a><span class=k>def</span> <span class=nf>raise_last_exception</span><span class=p>():</span>
+<a name=line-85></a>    <span class=k>global</span> <span class=n>_exception</span>
+<a name=line-86></a>    <span class=k>if</span> <span class=n>_exception</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-87></a>        <span class=k>raise</span> <span class=n>_exception</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span>
+<a name=line-88></a>
+<a name=line-89></a>
+<a name=line-90></a><span class=k>def</span> <span class=nf>ensure_echo_on</span><span class=p>():</span>
+<a name=line-91></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-92></a><span class=sd>    Ensure that echo mode is enabled. Some tools such as PDB disable</span>
+<a name=line-93></a><span class=sd>    it which causes usability issues after reload.</span>
+<a name=line-94></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-95></a>    <span class=k>if</span> <span class=ow>not</span> <span class=n>termios</span> <span class=ow>or</span> <span class=ow>not</span> <span class=n>sys</span><span class=o>.</span><span class=n>stdin</span><span class=o>.</span><span class=n>isatty</span><span class=p>():</span>
+<a name=line-96></a>        <span class=k>return</span>
+<a name=line-97></a>    <span class=n>attr_list</span> <span class=o>=</span> <span class=n>termios</span><span class=o>.</span><span class=n>tcgetattr</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>stdin</span><span class=p>)</span>
+<a name=line-98></a>    <span class=k>if</span> <span class=ow>not</span> <span class=n>attr_list</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=o>&amp;</span> <span class=n>termios</span><span class=o>.</span><span class=n>ECHO</span><span class=p>:</span>
+<a name=line-99></a>        <span class=n>attr_list</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=o>|=</span> <span class=n>termios</span><span class=o>.</span><span class=n>ECHO</span>
+<a name=line-100></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>signal</span><span class=p>,</span> <span class=s1>&#39;SIGTTOU&#39;</span><span class=p>):</span>
+<a name=line-101></a>            <span class=n>old_handler</span> <span class=o>=</span> <span class=n>signal</span><span class=o>.</span><span class=n>signal</span><span class=p>(</span><span class=n>signal</span><span class=o>.</span><span class=n>SIGTTOU</span><span class=p>,</span> <span class=n>signal</span><span class=o>.</span><span class=n>SIG_IGN</span><span class=p>)</span>
+<a name=line-102></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-103></a>            <span class=n>old_handler</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-104></a>        <span class=n>termios</span><span class=o>.</span><span class=n>tcsetattr</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>stdin</span><span class=p>,</span> <span class=n>termios</span><span class=o>.</span><span class=n>TCSANOW</span><span class=p>,</span> <span class=n>attr_list</span><span class=p>)</span>
+<a name=line-105></a>        <span class=k>if</span> <span class=n>old_handler</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-106></a>            <span class=n>signal</span><span class=o>.</span><span class=n>signal</span><span class=p>(</span><span class=n>signal</span><span class=o>.</span><span class=n>SIGTTOU</span><span class=p>,</span> <span class=n>old_handler</span><span class=p>)</span>
+<a name=line-107></a>
+<a name=line-108></a>
+<a name=line-109></a><span class=k>def</span> <span class=nf>iter_all_python_module_files</span><span class=p>():</span>
+<a name=line-110></a>    <span class=c1># This is a hot path during reloading. Create a stable sorted list of</span>
+<a name=line-111></a>    <span class=c1># modules based on the module name and pass it to iter_modules_and_files().</span>
+<a name=line-112></a>    <span class=c1># This ensures cached results are returned in the usual case that modules</span>
+<a name=line-113></a>    <span class=c1># aren&#39;t loaded on the fly.</span>
+<a name=line-114></a>    <span class=n>keys</span> <span class=o>=</span> <span class=nb>sorted</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>modules</span><span class=p>)</span>
+<a name=line-115></a>    <span class=n>modules</span> <span class=o>=</span> <span class=nb>tuple</span><span class=p>(</span><span class=n>m</span> <span class=k>for</span> <span class=n>m</span> <span class=ow>in</span> <span class=nb>map</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>modules</span><span class=o>.</span><span class=fm>__getitem__</span><span class=p>,</span> <span class=n>keys</span><span class=p>)</span> <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>m</span><span class=p>,</span> <span class=n>weakref</span><span class=o>.</span><span class=n>ProxyTypes</span><span class=p>))</span>
+<a name=line-116></a>    <span class=k>return</span> <span class=n>iter_modules_and_files</span><span class=p>(</span><span class=n>modules</span><span class=p>,</span> <span class=nb>frozenset</span><span class=p>(</span><span class=n>_error_files</span><span class=p>))</span>
+<a name=line-117></a>
+<a name=line-118></a>
+<a name=line-119></a><span class=nd>@functools</span><span class=o>.</span><span class=n>lru_cache</span><span class=p>(</span><span class=n>maxsize</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+<a name=line-120></a><span class=k>def</span> <span class=nf>iter_modules_and_files</span><span class=p>(</span><span class=n>modules</span><span class=p>,</span> <span class=n>extra_files</span><span class=p>):</span>
+<a name=line-121></a>    <span class=sd>&quot;&quot;&quot;Iterate through all modules needed to be watched.&quot;&quot;&quot;</span>
+<a name=line-122></a>    <span class=n>sys_file_paths</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-123></a>    <span class=k>for</span> <span class=n>module</span> <span class=ow>in</span> <span class=n>modules</span><span class=p>:</span>
+<a name=line-124></a>        <span class=c1># During debugging (with PyDev) the &#39;typing.io&#39; and &#39;typing.re&#39; objects</span>
+<a name=line-125></a>        <span class=c1># are added to sys.modules, however they are types not modules and so</span>
+<a name=line-126></a>        <span class=c1># cause issues here.</span>
+<a name=line-127></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>module</span><span class=p>,</span> <span class=n>ModuleType</span><span class=p>):</span>
+<a name=line-128></a>            <span class=k>continue</span>
+<a name=line-129></a>        <span class=k>if</span> <span class=n>module</span><span class=o>.</span><span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+<a name=line-130></a>            <span class=c1># __main__ (usually manage.py) doesn&#39;t always have a __spec__ set.</span>
+<a name=line-131></a>            <span class=c1># Handle this by falling back to using __file__, resolved below.</span>
+<a name=line-132></a>            <span class=c1># See https://docs.python.org/reference/import.html#main-spec</span>
+<a name=line-133></a>            <span class=c1># __file__ may not exists, e.g. when running ipdb debugger.</span>
+<a name=line-134></a>            <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>module</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>):</span>
+<a name=line-135></a>                <span class=n>sys_file_paths</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>module</span><span class=o>.</span><span class=vm>__file__</span><span class=p>)</span>
+<a name=line-136></a>            <span class=k>continue</span>
+<a name=line-137></a>        <span class=k>if</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>module</span><span class=p>,</span> <span class=s1>&#39;__spec__&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>)</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-138></a>            <span class=k>continue</span>
+<a name=line-139></a>        <span class=n>spec</span> <span class=o>=</span> <span class=n>module</span><span class=o>.</span><span class=n>__spec__</span>
+<a name=line-140></a>        <span class=c1># Modules could be loaded from places without a concrete location. If</span>
+<a name=line-141></a>        <span class=c1># this is the case, skip them.</span>
+<a name=line-142></a>        <span class=k>if</span> <span class=n>spec</span><span class=o>.</span><span class=n>has_location</span><span class=p>:</span>
+<a name=line-143></a>            <span class=n>origin</span> <span class=o>=</span> <span class=n>spec</span><span class=o>.</span><span class=n>loader</span><span class=o>.</span><span class=n>archive</span> <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>spec</span><span class=o>.</span><span class=n>loader</span><span class=p>,</span> <span class=n>zipimporter</span><span class=p>)</span> <span class=k>else</span> <span class=n>spec</span><span class=o>.</span><span class=n>origin</span>
+<a name=line-144></a>            <span class=n>sys_file_paths</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>origin</span><span class=p>)</span>
+<a name=line-145></a>
+<a name=line-146></a>    <span class=n>results</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-147></a>    <span class=k>for</span> <span class=n>filename</span> <span class=ow>in</span> <span class=n>itertools</span><span class=o>.</span><span class=n>chain</span><span class=p>(</span><span class=n>sys_file_paths</span><span class=p>,</span> <span class=n>extra_files</span><span class=p>):</span>
+<a name=line-148></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>filename</span><span class=p>:</span>
+<a name=line-149></a>            <span class=k>continue</span>
+<a name=line-150></a>        <span class=n>path</span> <span class=o>=</span> <span class=n>Path</span><span class=p>(</span><span class=n>filename</span><span class=p>)</span>
+<a name=line-151></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-152></a>            <span class=n>resolved_path</span> <span class=o>=</span> <span class=n>path</span><span class=o>.</span><span class=n>resolve</span><span class=p>(</span><span class=n>strict</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span><span class=o>.</span><span class=n>absolute</span><span class=p>()</span>
+<a name=line-153></a>        <span class=k>except</span> <span class=ne>FileNotFoundError</span><span class=p>:</span>
+<a name=line-154></a>            <span class=c1># The module could have been removed, don&#39;t fail loudly if this</span>
+<a name=line-155></a>            <span class=c1># is the case.</span>
+<a name=line-156></a>            <span class=k>continue</span>
+<a name=line-157></a>        <span class=k>except</span> <span class=ne>ValueError</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
+<a name=line-158></a>            <span class=c1># Network filesystems may return null bytes in file paths.</span>
+<a name=line-159></a>            <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;&quot;</span><span class=si>%s</span><span class=s1>&quot; raised when resolving path: &quot;</span><span class=si>%s</span><span class=s1>&quot;&#39;</span><span class=p>,</span> <span class=n>e</span><span class=p>,</span> <span class=n>path</span><span class=p>)</span>
+<a name=line-160></a>            <span class=k>continue</span>
+<a name=line-161></a>        <span class=n>results</span><span class=o>.</span><span class=n>add</span><span class=p>(</span><span class=n>resolved_path</span><span class=p>)</span>
+<a name=line-162></a>    <span class=k>return</span> <span class=nb>frozenset</span><span class=p>(</span><span class=n>results</span><span class=p>)</span>
+<a name=line-163></a>
+<a name=line-164></a>
+<a name=line-165></a><span class=nd>@functools</span><span class=o>.</span><span class=n>lru_cache</span><span class=p>(</span><span class=n>maxsize</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+<a name=line-166></a><span class=k>def</span> <span class=nf>common_roots</span><span class=p>(</span><span class=n>paths</span><span class=p>):</span>
+<a name=line-167></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-168></a><span class=sd>    Return a tuple of common roots that are shared between the given paths.</span>
+<a name=line-169></a><span class=sd>    File system watchers operate on directories and aren&#39;t cheap to create.</span>
+<a name=line-170></a><span class=sd>    Try to find the minimum set of directories to watch that encompass all of</span>
+<a name=line-171></a><span class=sd>    the files that need to be watched.</span>
+<a name=line-172></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-173></a>    <span class=c1># Inspired from Werkzeug:</span>
+<a name=line-174></a>    <span class=c1># https://github.com/pallets/werkzeug/blob/7477be2853df70a022d9613e765581b9411c3c39/werkzeug/_reloader.py</span>
+<a name=line-175></a>    <span class=c1># Create a sorted list of the path components, longest first.</span>
+<a name=line-176></a>    <span class=n>path_parts</span> <span class=o>=</span> <span class=nb>sorted</span><span class=p>([</span><span class=n>x</span><span class=o>.</span><span class=n>parts</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=n>paths</span><span class=p>],</span> <span class=n>key</span><span class=o>=</span><span class=nb>len</span><span class=p>,</span> <span class=n>reverse</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+<a name=line-177></a>    <span class=n>tree</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-178></a>    <span class=k>for</span> <span class=n>chunks</span> <span class=ow>in</span> <span class=n>path_parts</span><span class=p>:</span>
+<a name=line-179></a>        <span class=n>node</span> <span class=o>=</span> <span class=n>tree</span>
+<a name=line-180></a>        <span class=c1># Add each part of the path to the tree.</span>
+<a name=line-181></a>        <span class=k>for</span> <span class=n>chunk</span> <span class=ow>in</span> <span class=n>chunks</span><span class=p>:</span>
+<a name=line-182></a>            <span class=n>node</span> <span class=o>=</span> <span class=n>node</span><span class=o>.</span><span class=n>setdefault</span><span class=p>(</span><span class=n>chunk</span><span class=p>,</span> <span class=p>{})</span>
+<a name=line-183></a>        <span class=c1># Clear the last leaf in the tree.</span>
+<a name=line-184></a>        <span class=n>node</span><span class=o>.</span><span class=n>clear</span><span class=p>()</span>
+<a name=line-185></a>
+<a name=line-186></a>    <span class=c1># Turn the tree into a list of Path instances.</span>
+<a name=line-187></a>    <span class=k>def</span> <span class=nf>_walk</span><span class=p>(</span><span class=n>node</span><span class=p>,</span> <span class=n>path</span><span class=p>):</span>
+<a name=line-188></a>        <span class=k>for</span> <span class=n>prefix</span><span class=p>,</span> <span class=n>child</span> <span class=ow>in</span> <span class=n>node</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-189></a>            <span class=k>yield from</span> <span class=n>_walk</span><span class=p>(</span><span class=n>child</span><span class=p>,</span> <span class=n>path</span> <span class=o>+</span> <span class=p>(</span><span class=n>prefix</span><span class=p>,))</span>
+<a name=line-190></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>node</span><span class=p>:</span>
+<a name=line-191></a>            <span class=k>yield</span> <span class=n>Path</span><span class=p>(</span><span class=o>*</span><span class=n>path</span><span class=p>)</span>
+<a name=line-192></a>
+<a name=line-193></a>    <span class=k>return</span> <span class=nb>tuple</span><span class=p>(</span><span class=n>_walk</span><span class=p>(</span><span class=n>tree</span><span class=p>,</span> <span class=p>()))</span>
+<a name=line-194></a>
+<a name=line-195></a>
+<a name=line-196></a><span class=k>def</span> <span class=nf>sys_path_directories</span><span class=p>():</span>
+<a name=line-197></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-198></a><span class=sd>    Yield absolute directories from sys.path, ignoring entries that don&#39;t</span>
+<a name=line-199></a><span class=sd>    exist.</span>
+<a name=line-200></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-201></a>    <span class=k>for</span> <span class=n>path</span> <span class=ow>in</span> <span class=n>sys</span><span class=o>.</span><span class=n>path</span><span class=p>:</span>
+<a name=line-202></a>        <span class=n>path</span> <span class=o>=</span> <span class=n>Path</span><span class=p>(</span><span class=n>path</span><span class=p>)</span>
+<a name=line-203></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-204></a>            <span class=n>resolved_path</span> <span class=o>=</span> <span class=n>path</span><span class=o>.</span><span class=n>resolve</span><span class=p>(</span><span class=n>strict</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span><span class=o>.</span><span class=n>absolute</span><span class=p>()</span>
+<a name=line-205></a>        <span class=k>except</span> <span class=ne>FileNotFoundError</span><span class=p>:</span>
+<a name=line-206></a>            <span class=k>continue</span>
+<a name=line-207></a>        <span class=c1># If the path is a file (like a zip file), watch the parent directory.</span>
+<a name=line-208></a>        <span class=k>if</span> <span class=n>resolved_path</span><span class=o>.</span><span class=n>is_file</span><span class=p>():</span>
+<a name=line-209></a>            <span class=k>yield</span> <span class=n>resolved_path</span><span class=o>.</span><span class=n>parent</span>
+<a name=line-210></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-211></a>            <span class=k>yield</span> <span class=n>resolved_path</span>
+<a name=line-212></a>
+<a name=line-213></a>
+<a name=line-214></a><span class=k>def</span> <span class=nf>get_child_arguments</span><span class=p>():</span>
+<a name=line-215></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-216></a><span class=sd>    Return the executable. This contains a workaround for Windows if the</span>
+<a name=line-217></a><span class=sd>    executable is reported to not have the .exe extension which can cause bugs</span>
+<a name=line-218></a><span class=sd>    on reloading.</span>
+<a name=line-219></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-220></a>    <span class=kn>import</span> <span class=nn>django.__main__</span>
+<a name=line-221></a>    <span class=n>django_main_path</span> <span class=o>=</span> <span class=n>Path</span><span class=p>(</span><span class=n>django</span><span class=o>.</span><span class=n>__main__</span><span class=o>.</span><span class=vm>__file__</span><span class=p>)</span>
+<a name=line-222></a>    <span class=n>py_script</span> <span class=o>=</span> <span class=n>Path</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>argv</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span>
+<a name=line-223></a>
+<a name=line-224></a>    <span class=n>args</span> <span class=o>=</span> <span class=p>[</span><span class=n>sys</span><span class=o>.</span><span class=n>executable</span><span class=p>]</span> <span class=o>+</span> <span class=p>[</span><span class=s1>&#39;-W</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>o</span> <span class=k>for</span> <span class=n>o</span> <span class=ow>in</span> <span class=n>sys</span><span class=o>.</span><span class=n>warnoptions</span><span class=p>]</span>
+<a name=line-225></a>    <span class=k>if</span> <span class=n>py_script</span> <span class=o>==</span> <span class=n>django_main_path</span><span class=p>:</span>
+<a name=line-226></a>        <span class=c1># The server was started with `python -m django runserver`.</span>
+<a name=line-227></a>        <span class=n>args</span> <span class=o>+=</span> <span class=p>[</span><span class=s1>&#39;-m&#39;</span><span class=p>,</span> <span class=s1>&#39;django&#39;</span><span class=p>]</span>
+<a name=line-228></a>        <span class=n>args</span> <span class=o>+=</span> <span class=n>sys</span><span class=o>.</span><span class=n>argv</span><span class=p>[</span><span class=mi>1</span><span class=p>:]</span>
+<a name=line-229></a>    <span class=k>elif</span> <span class=ow>not</span> <span class=n>py_script</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-230></a>        <span class=c1># sys.argv[0] may not exist for several reasons on Windows.</span>
+<a name=line-231></a>        <span class=c1># It may exist with a .exe extension or have a -script.py suffix.</span>
+<a name=line-232></a>        <span class=n>exe_entrypoint</span> <span class=o>=</span> <span class=n>py_script</span><span class=o>.</span><span class=n>with_suffix</span><span class=p>(</span><span class=s1>&#39;.exe&#39;</span><span class=p>)</span>
+<a name=line-233></a>        <span class=k>if</span> <span class=n>exe_entrypoint</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-234></a>            <span class=c1># Should be executed directly, ignoring sys.executable.</span>
+<a name=line-235></a>            <span class=c1># TODO: Remove str() when dropping support for PY37.</span>
+<a name=line-236></a>            <span class=c1># args parameter accepts path-like on Windows from Python 3.8.</span>
+<a name=line-237></a>            <span class=k>return</span> <span class=p>[</span><span class=nb>str</span><span class=p>(</span><span class=n>exe_entrypoint</span><span class=p>),</span> <span class=o>*</span><span class=n>sys</span><span class=o>.</span><span class=n>argv</span><span class=p>[</span><span class=mi>1</span><span class=p>:]]</span>
+<a name=line-238></a>        <span class=n>script_entrypoint</span> <span class=o>=</span> <span class=n>py_script</span><span class=o>.</span><span class=n>with_name</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>-script.py&#39;</span> <span class=o>%</span> <span class=n>py_script</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+<a name=line-239></a>        <span class=k>if</span> <span class=n>script_entrypoint</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-240></a>            <span class=c1># Should be executed as usual.</span>
+<a name=line-241></a>            <span class=c1># TODO: Remove str() when dropping support for PY37.</span>
+<a name=line-242></a>            <span class=c1># args parameter accepts path-like on Windows from Python 3.8.</span>
+<a name=line-243></a>            <span class=k>return</span> <span class=p>[</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=nb>str</span><span class=p>(</span><span class=n>script_entrypoint</span><span class=p>),</span> <span class=o>*</span><span class=n>sys</span><span class=o>.</span><span class=n>argv</span><span class=p>[</span><span class=mi>1</span><span class=p>:]]</span>
+<a name=line-244></a>        <span class=k>raise</span> <span class=ne>RuntimeError</span><span class=p>(</span><span class=s1>&#39;Script </span><span class=si>%s</span><span class=s1> does not exist.&#39;</span> <span class=o>%</span> <span class=n>py_script</span><span class=p>)</span>
+<a name=line-245></a>    <span class=k>else</span><span class=p>:</span>
+<a name=line-246></a>        <span class=n>args</span> <span class=o>+=</span> <span class=n>sys</span><span class=o>.</span><span class=n>argv</span>
+<a name=line-247></a>    <span class=k>return</span> <span class=n>args</span>
+<a name=line-248></a>
+<a name=line-249></a>
+<a name=line-250></a><span class=k>def</span> <span class=nf>trigger_reload</span><span class=p>(</span><span class=n>filename</span><span class=p>):</span>
+<a name=line-251></a>    <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1> changed, reloading.&#39;</span><span class=p>,</span> <span class=n>filename</span><span class=p>)</span>
+<a name=line-252></a>    <span class=n>sys</span><span class=o>.</span><span class=n>exit</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+<a name=line-253></a>
+<a name=line-254></a>
+<a name=line-255></a><span class=k>def</span> <span class=nf>restart_with_reloader</span><span class=p>():</span>
+<a name=line-256></a>    <span class=n>new_environ</span> <span class=o>=</span> <span class=p>{</span><span class=o>**</span><span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>,</span> <span class=n>DJANGO_AUTORELOAD_ENV</span><span class=p>:</span> <span class=s1>&#39;true&#39;</span><span class=p>}</span>
+<a name=line-257></a>    <span class=n>args</span> <span class=o>=</span> <span class=n>get_child_arguments</span><span class=p>()</span>
+<a name=line-258></a>    <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+<a name=line-259></a>        <span class=n>p</span> <span class=o>=</span> <span class=n>subprocess</span><span class=o>.</span><span class=n>run</span><span class=p>(</span><span class=n>args</span><span class=p>,</span> <span class=n>env</span><span class=o>=</span><span class=n>new_environ</span><span class=p>,</span> <span class=n>close_fds</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+<a name=line-260></a>        <span class=k>if</span> <span class=n>p</span><span class=o>.</span><span class=n>returncode</span> <span class=o>!=</span> <span class=mi>3</span><span class=p>:</span>
+<a name=line-261></a>            <span class=k>return</span> <span class=n>p</span><span class=o>.</span><span class=n>returncode</span>
+<a name=line-262></a>
+<a name=line-263></a>
+<a name=line-264></a><span class=k>class</span> <span class=nc>BaseReloader</span><span class=p>:</span>
+<a name=line-265></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-266></a>        <span class=bp>self</span><span class=o>.</span><span class=n>extra_files</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-267></a>        <span class=bp>self</span><span class=o>.</span><span class=n>directory_globs</span> <span class=o>=</span> <span class=n>defaultdict</span><span class=p>(</span><span class=nb>set</span><span class=p>)</span>
+<a name=line-268></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_stop_condition</span> <span class=o>=</span> <span class=n>threading</span><span class=o>.</span><span class=n>Event</span><span class=p>()</span>
+<a name=line-269></a>
+<a name=line-270></a>    <span class=k>def</span> <span class=nf>watch_dir</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>path</span><span class=p>,</span> <span class=n>glob</span><span class=p>):</span>
+<a name=line-271></a>        <span class=n>path</span> <span class=o>=</span> <span class=n>Path</span><span class=p>(</span><span class=n>path</span><span class=p>)</span>
+<a name=line-272></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-273></a>            <span class=n>path</span> <span class=o>=</span> <span class=n>path</span><span class=o>.</span><span class=n>absolute</span><span class=p>()</span>
+<a name=line-274></a>        <span class=k>except</span> <span class=ne>FileNotFoundError</span><span class=p>:</span>
+<a name=line-275></a>            <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span>
+<a name=line-276></a>                <span class=s1>&#39;Unable to watch directory </span><span class=si>%s</span><span class=s1> as it cannot be resolved.&#39;</span><span class=p>,</span>
+<a name=line-277></a>                <span class=n>path</span><span class=p>,</span>
+<a name=line-278></a>                <span class=n>exc_info</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-279></a>            <span class=p>)</span>
+<a name=line-280></a>            <span class=k>return</span>
+<a name=line-281></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Watching dir </span><span class=si>%s</span><span class=s1> with glob </span><span class=si>%s</span><span class=s1>.&#39;</span><span class=p>,</span> <span class=n>path</span><span class=p>,</span> <span class=n>glob</span><span class=p>)</span>
+<a name=line-282></a>        <span class=bp>self</span><span class=o>.</span><span class=n>directory_globs</span><span class=p>[</span><span class=n>path</span><span class=p>]</span><span class=o>.</span><span class=n>add</span><span class=p>(</span><span class=n>glob</span><span class=p>)</span>
+<a name=line-283></a>
+<a name=line-284></a>    <span class=k>def</span> <span class=nf>watched_files</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>include_globs</span><span class=o>=</span><span class=kc>True</span><span class=p>):</span>
+<a name=line-285></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-286></a><span class=sd>        Yield all files that need to be watched, including module files and</span>
+<a name=line-287></a><span class=sd>        files within globs.</span>
+<a name=line-288></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-289></a>        <span class=k>yield from</span> <span class=n>iter_all_python_module_files</span><span class=p>()</span>
+<a name=line-290></a>        <span class=k>yield from</span> <span class=bp>self</span><span class=o>.</span><span class=n>extra_files</span>
+<a name=line-291></a>        <span class=k>if</span> <span class=n>include_globs</span><span class=p>:</span>
+<a name=line-292></a>            <span class=k>for</span> <span class=n>directory</span><span class=p>,</span> <span class=n>patterns</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>directory_globs</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-293></a>                <span class=k>for</span> <span class=n>pattern</span> <span class=ow>in</span> <span class=n>patterns</span><span class=p>:</span>
+<a name=line-294></a>                    <span class=k>yield from</span> <span class=n>directory</span><span class=o>.</span><span class=n>glob</span><span class=p>(</span><span class=n>pattern</span><span class=p>)</span>
+<a name=line-295></a>
+<a name=line-296></a>    <span class=k>def</span> <span class=nf>wait_for_apps_ready</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>app_reg</span><span class=p>,</span> <span class=n>django_main_thread</span><span class=p>):</span>
+<a name=line-297></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-298></a><span class=sd>        Wait until Django reports that the apps have been loaded. If the given</span>
+<a name=line-299></a><span class=sd>        thread has terminated before the apps are ready, then a SyntaxError or</span>
+<a name=line-300></a><span class=sd>        other non-recoverable error has been raised. In that case, stop waiting</span>
+<a name=line-301></a><span class=sd>        for the apps_ready event and continue processing.</span>
+<a name=line-302></a>
+<a name=line-303></a><span class=sd>        Return True if the thread is alive and the ready event has been</span>
+<a name=line-304></a><span class=sd>        triggered, or False if the thread is terminated while waiting for the</span>
+<a name=line-305></a><span class=sd>        event.</span>
+<a name=line-306></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-307></a>        <span class=k>while</span> <span class=n>django_main_thread</span><span class=o>.</span><span class=n>is_alive</span><span class=p>():</span>
+<a name=line-308></a>            <span class=k>if</span> <span class=n>app_reg</span><span class=o>.</span><span class=n>ready_event</span><span class=o>.</span><span class=n>wait</span><span class=p>(</span><span class=n>timeout</span><span class=o>=</span><span class=mf>0.1</span><span class=p>):</span>
+<a name=line-309></a>                <span class=k>return</span> <span class=kc>True</span>
+<a name=line-310></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-311></a>            <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Main Django thread has terminated before apps are ready.&#39;</span><span class=p>)</span>
+<a name=line-312></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-313></a>
+<a name=line-314></a>    <span class=k>def</span> <span class=nf>run</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>django_main_thread</span><span class=p>):</span>
+<a name=line-315></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Waiting for apps ready_event.&#39;</span><span class=p>)</span>
+<a name=line-316></a>        <span class=bp>self</span><span class=o>.</span><span class=n>wait_for_apps_ready</span><span class=p>(</span><span class=n>apps</span><span class=p>,</span> <span class=n>django_main_thread</span><span class=p>)</span>
+<a name=line-317></a>        <span class=kn>from</span> <span class=nn>django.urls</span> <span class=kn>import</span> <span class=n>get_resolver</span>
+<a name=line-318></a>
+<a name=line-319></a>        <span class=c1># Prevent a race condition where URL modules aren&#39;t loaded when the</span>
+<a name=line-320></a>        <span class=c1># reloader starts by accessing the urlconf_module property.</span>
+<a name=line-321></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-322></a>            <span class=n>get_resolver</span><span class=p>()</span><span class=o>.</span><span class=n>urlconf_module</span>
+<a name=line-323></a>        <span class=k>except</span> <span class=ne>Exception</span><span class=p>:</span>
+<a name=line-324></a>            <span class=c1># Loading the urlconf can result in errors during development.</span>
+<a name=line-325></a>            <span class=c1># If this occurs then swallow the error and continue.</span>
+<a name=line-326></a>            <span class=k>pass</span>
+<a name=line-327></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Apps ready_event triggered. Sending autoreload_started signal.&#39;</span><span class=p>)</span>
+<a name=line-328></a>        <span class=n>autoreload_started</span><span class=o>.</span><span class=n>send</span><span class=p>(</span><span class=n>sender</span><span class=o>=</span><span class=bp>self</span><span class=p>)</span>
+<a name=line-329></a>        <span class=bp>self</span><span class=o>.</span><span class=n>run_loop</span><span class=p>()</span>
+<a name=line-330></a>
+<a name=line-331></a>    <span class=k>def</span> <span class=nf>run_loop</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-332></a>        <span class=n>ticker</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>tick</span><span class=p>()</span>
+<a name=line-333></a>        <span class=k>while</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>should_stop</span><span class=p>:</span>
+<a name=line-334></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-335></a>                <span class=nb>next</span><span class=p>(</span><span class=n>ticker</span><span class=p>)</span>
+<a name=line-336></a>            <span class=k>except</span> <span class=ne>StopIteration</span><span class=p>:</span>
+<a name=line-337></a>                <span class=k>break</span>
+<a name=line-338></a>        <span class=bp>self</span><span class=o>.</span><span class=n>stop</span><span class=p>()</span>
+<a name=line-339></a>
+<a name=line-340></a>    <span class=k>def</span> <span class=nf>tick</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-341></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-342></a><span class=sd>        This generator is called in a loop from run_loop. It&#39;s important that</span>
+<a name=line-343></a><span class=sd>        the method takes care of pausing or otherwise waiting for a period of</span>
+<a name=line-344></a><span class=sd>        time. This split between run_loop() and tick() is to improve the</span>
+<a name=line-345></a><span class=sd>        testability of the reloader implementations by decoupling the work they</span>
+<a name=line-346></a><span class=sd>        do from the loop.</span>
+<a name=line-347></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-348></a>        <span class=k>raise</span> <span class=ne>NotImplementedError</span><span class=p>(</span><span class=s1>&#39;subclasses must implement tick().&#39;</span><span class=p>)</span>
+<a name=line-349></a>
+<a name=line-350></a>    <span class=nd>@classmethod</span>
+<a name=line-351></a>    <span class=k>def</span> <span class=nf>check_availability</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+<a name=line-352></a>        <span class=k>raise</span> <span class=ne>NotImplementedError</span><span class=p>(</span><span class=s1>&#39;subclasses must implement check_availability().&#39;</span><span class=p>)</span>
+<a name=line-353></a>
+<a name=line-354></a>    <span class=k>def</span> <span class=nf>notify_file_changed</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>path</span><span class=p>):</span>
+<a name=line-355></a>        <span class=n>results</span> <span class=o>=</span> <span class=n>file_changed</span><span class=o>.</span><span class=n>send</span><span class=p>(</span><span class=n>sender</span><span class=o>=</span><span class=bp>self</span><span class=p>,</span> <span class=n>file_path</span><span class=o>=</span><span class=n>path</span><span class=p>)</span>
+<a name=line-356></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1> notified as changed. Signal results: </span><span class=si>%s</span><span class=s1>.&#39;</span><span class=p>,</span> <span class=n>path</span><span class=p>,</span> <span class=n>results</span><span class=p>)</span>
+<a name=line-357></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>any</span><span class=p>(</span><span class=n>res</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=k>for</span> <span class=n>res</span> <span class=ow>in</span> <span class=n>results</span><span class=p>):</span>
+<a name=line-358></a>            <span class=n>trigger_reload</span><span class=p>(</span><span class=n>path</span><span class=p>)</span>
+<a name=line-359></a>
+<a name=line-360></a>    <span class=c1># These are primarily used for testing.</span>
+<a name=line-361></a>    <span class=nd>@property</span>
+<a name=line-362></a>    <span class=k>def</span> <span class=nf>should_stop</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-363></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_stop_condition</span><span class=o>.</span><span class=n>is_set</span><span class=p>()</span>
+<a name=line-364></a>
+<a name=line-365></a>    <span class=k>def</span> <span class=nf>stop</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-366></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_stop_condition</span><span class=o>.</span><span class=n>set</span><span class=p>()</span>
+<a name=line-367></a>
+<a name=line-368></a>
+<a name=line-369></a><span class=k>class</span> <span class=nc>StatReloader</span><span class=p>(</span><span class=n>BaseReloader</span><span class=p>):</span>
+<a name=line-370></a>    <span class=n>SLEEP_TIME</span> <span class=o>=</span> <span class=mi>1</span>  <span class=c1># Check for changes once per second.</span>
+<a name=line-371></a>
+<a name=line-372></a>    <span class=k>def</span> <span class=nf>tick</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-373></a>        <span class=n>mtimes</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-374></a>        <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+<a name=line-375></a>            <span class=k>for</span> <span class=n>filepath</span><span class=p>,</span> <span class=n>mtime</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>snapshot_files</span><span class=p>():</span>
+<a name=line-376></a>                <span class=n>old_time</span> <span class=o>=</span> <span class=n>mtimes</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>filepath</span><span class=p>)</span>
+<a name=line-377></a>                <span class=n>mtimes</span><span class=p>[</span><span class=n>filepath</span><span class=p>]</span> <span class=o>=</span> <span class=n>mtime</span>
+<a name=line-378></a>                <span class=k>if</span> <span class=n>old_time</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-379></a>                    <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;File </span><span class=si>%s</span><span class=s1> first seen with mtime </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>filepath</span><span class=p>,</span> <span class=n>mtime</span><span class=p>)</span>
+<a name=line-380></a>                    <span class=k>continue</span>
+<a name=line-381></a>                <span class=k>elif</span> <span class=n>mtime</span> <span class=o>&gt;</span> <span class=n>old_time</span><span class=p>:</span>
+<a name=line-382></a>                    <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;File </span><span class=si>%s</span><span class=s1> previous mtime: </span><span class=si>%s</span><span class=s1>, current mtime: </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>filepath</span><span class=p>,</span> <span class=n>old_time</span><span class=p>,</span> <span class=n>mtime</span><span class=p>)</span>
+<a name=line-383></a>                    <span class=bp>self</span><span class=o>.</span><span class=n>notify_file_changed</span><span class=p>(</span><span class=n>filepath</span><span class=p>)</span>
+<a name=line-384></a>
+<a name=line-385></a>            <span class=n>time</span><span class=o>.</span><span class=n>sleep</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>SLEEP_TIME</span><span class=p>)</span>
+<a name=line-386></a>            <span class=k>yield</span>
+<a name=line-387></a>
+<a name=line-388></a>    <span class=k>def</span> <span class=nf>snapshot_files</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-389></a>        <span class=c1># watched_files may produce duplicate paths if globs overlap.</span>
+<a name=line-390></a>        <span class=n>seen_files</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-391></a>        <span class=k>for</span> <span class=n>file</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>watched_files</span><span class=p>():</span>
+<a name=line-392></a>            <span class=k>if</span> <span class=n>file</span> <span class=ow>in</span> <span class=n>seen_files</span><span class=p>:</span>
+<a name=line-393></a>                <span class=k>continue</span>
+<a name=line-394></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-395></a>                <span class=n>mtime</span> <span class=o>=</span> <span class=n>file</span><span class=o>.</span><span class=n>stat</span><span class=p>()</span><span class=o>.</span><span class=n>st_mtime</span>
+<a name=line-396></a>            <span class=k>except</span> <span class=ne>OSError</span><span class=p>:</span>
+<a name=line-397></a>                <span class=c1># This is thrown when the file does not exist.</span>
+<a name=line-398></a>                <span class=k>continue</span>
+<a name=line-399></a>            <span class=n>seen_files</span><span class=o>.</span><span class=n>add</span><span class=p>(</span><span class=n>file</span><span class=p>)</span>
+<a name=line-400></a>            <span class=k>yield</span> <span class=n>file</span><span class=p>,</span> <span class=n>mtime</span>
+<a name=line-401></a>
+<a name=line-402></a>    <span class=nd>@classmethod</span>
+<a name=line-403></a>    <span class=k>def</span> <span class=nf>check_availability</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+<a name=line-404></a>        <span class=k>return</span> <span class=kc>True</span>
+<a name=line-405></a>
+<a name=line-406></a>
+<a name=line-407></a><span class=k>class</span> <span class=nc>WatchmanUnavailable</span><span class=p>(</span><span class=ne>RuntimeError</span><span class=p>):</span>
+<a name=line-408></a>    <span class=k>pass</span>
+<a name=line-409></a>
+<a name=line-410></a>
+<a name=line-411></a><span class=k>class</span> <span class=nc>WatchmanReloader</span><span class=p>(</span><span class=n>BaseReloader</span><span class=p>):</span>
+<a name=line-412></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-413></a>        <span class=bp>self</span><span class=o>.</span><span class=n>roots</span> <span class=o>=</span> <span class=n>defaultdict</span><span class=p>(</span><span class=nb>set</span><span class=p>)</span>
+<a name=line-414></a>        <span class=bp>self</span><span class=o>.</span><span class=n>processed_request</span> <span class=o>=</span> <span class=n>threading</span><span class=o>.</span><span class=n>Event</span><span class=p>()</span>
+<a name=line-415></a>        <span class=bp>self</span><span class=o>.</span><span class=n>client_timeout</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;DJANGO_WATCHMAN_TIMEOUT&#39;</span><span class=p>,</span> <span class=mi>5</span><span class=p>))</span>
+<a name=line-416></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+<a name=line-417></a>
+<a name=line-418></a>    <span class=nd>@cached_property</span>
+<a name=line-419></a>    <span class=k>def</span> <span class=nf>client</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-420></a>        <span class=k>return</span> <span class=n>pywatchman</span><span class=o>.</span><span class=n>client</span><span class=p>(</span><span class=n>timeout</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>client_timeout</span><span class=p>)</span>
+<a name=line-421></a>
+<a name=line-422></a>    <span class=k>def</span> <span class=nf>_watch_root</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>root</span><span class=p>):</span>
+<a name=line-423></a>        <span class=c1># In practice this shouldn&#39;t occur, however, it&#39;s possible that a</span>
+<a name=line-424></a>        <span class=c1># directory that doesn&#39;t exist yet is being watched. If it&#39;s outside of</span>
+<a name=line-425></a>        <span class=c1># sys.path then this will end up a new root. How to handle this isn&#39;t</span>
+<a name=line-426></a>        <span class=c1># clear: Not adding the root will likely break when subscribing to the</span>
+<a name=line-427></a>        <span class=c1># changes, however, as this is currently an internal API,  no files</span>
+<a name=line-428></a>        <span class=c1># will be being watched outside of sys.path. Fixing this by checking</span>
+<a name=line-429></a>        <span class=c1># inside watch_glob() and watch_dir() is expensive, instead this could</span>
+<a name=line-430></a>        <span class=c1># could fall back to the StatReloader if this case is detected? For</span>
+<a name=line-431></a>        <span class=c1># now, watching its parent, if possible, is sufficient.</span>
+<a name=line-432></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>root</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-433></a>            <span class=k>if</span> <span class=ow>not</span> <span class=n>root</span><span class=o>.</span><span class=n>parent</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-434></a>                <span class=n>logger</span><span class=o>.</span><span class=n>warning</span><span class=p>(</span><span class=s1>&#39;Unable to watch root dir </span><span class=si>%s</span><span class=s1> as neither it or its parent exist.&#39;</span><span class=p>,</span> <span class=n>root</span><span class=p>)</span>
+<a name=line-435></a>                <span class=k>return</span>
+<a name=line-436></a>            <span class=n>root</span> <span class=o>=</span> <span class=n>root</span><span class=o>.</span><span class=n>parent</span>
+<a name=line-437></a>        <span class=n>result</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=s1>&#39;watch-project&#39;</span><span class=p>,</span> <span class=nb>str</span><span class=p>(</span><span class=n>root</span><span class=o>.</span><span class=n>absolute</span><span class=p>()))</span>
+<a name=line-438></a>        <span class=k>if</span> <span class=s1>&#39;warning&#39;</span> <span class=ow>in</span> <span class=n>result</span><span class=p>:</span>
+<a name=line-439></a>            <span class=n>logger</span><span class=o>.</span><span class=n>warning</span><span class=p>(</span><span class=s1>&#39;Watchman warning: </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>result</span><span class=p>[</span><span class=s1>&#39;warning&#39;</span><span class=p>])</span>
+<a name=line-440></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Watchman watch-project result: </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>result</span><span class=p>)</span>
+<a name=line-441></a>        <span class=k>return</span> <span class=n>result</span><span class=p>[</span><span class=s1>&#39;watch&#39;</span><span class=p>],</span> <span class=n>result</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;relative_path&#39;</span><span class=p>)</span>
+<a name=line-442></a>
+<a name=line-443></a>    <span class=nd>@functools</span><span class=o>.</span><span class=n>lru_cache</span><span class=p>()</span>
+<a name=line-444></a>    <span class=k>def</span> <span class=nf>_get_clock</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>root</span><span class=p>):</span>
+<a name=line-445></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=s1>&#39;clock&#39;</span><span class=p>,</span> <span class=n>root</span><span class=p>)[</span><span class=s1>&#39;clock&#39;</span><span class=p>]</span>
+<a name=line-446></a>
+<a name=line-447></a>    <span class=k>def</span> <span class=nf>_subscribe</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>directory</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>expression</span><span class=p>):</span>
+<a name=line-448></a>        <span class=n>root</span><span class=p>,</span> <span class=n>rel_path</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_watch_root</span><span class=p>(</span><span class=n>directory</span><span class=p>)</span>
+<a name=line-449></a>        <span class=c1># Only receive notifications of files changing, filtering out other types</span>
+<a name=line-450></a>        <span class=c1># like special files: https://facebook.github.io/watchman/docs/type</span>
+<a name=line-451></a>        <span class=n>only_files_expression</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-452></a>            <span class=s1>&#39;allof&#39;</span><span class=p>,</span>
+<a name=line-453></a>            <span class=p>[</span><span class=s1>&#39;anyof&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;type&#39;</span><span class=p>,</span> <span class=s1>&#39;f&#39;</span><span class=p>],</span> <span class=p>[</span><span class=s1>&#39;type&#39;</span><span class=p>,</span> <span class=s1>&#39;l&#39;</span><span class=p>]],</span>
+<a name=line-454></a>            <span class=n>expression</span>
+<a name=line-455></a>        <span class=p>]</span>
+<a name=line-456></a>        <span class=n>query</span> <span class=o>=</span> <span class=p>{</span>
+<a name=line-457></a>            <span class=s1>&#39;expression&#39;</span><span class=p>:</span> <span class=n>only_files_expression</span><span class=p>,</span>
+<a name=line-458></a>            <span class=s1>&#39;fields&#39;</span><span class=p>:</span> <span class=p>[</span><span class=s1>&#39;name&#39;</span><span class=p>],</span>
+<a name=line-459></a>            <span class=s1>&#39;since&#39;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>_get_clock</span><span class=p>(</span><span class=n>root</span><span class=p>),</span>
+<a name=line-460></a>            <span class=s1>&#39;dedup_results&#39;</span><span class=p>:</span> <span class=kc>True</span><span class=p>,</span>
+<a name=line-461></a>        <span class=p>}</span>
+<a name=line-462></a>        <span class=k>if</span> <span class=n>rel_path</span><span class=p>:</span>
+<a name=line-463></a>            <span class=n>query</span><span class=p>[</span><span class=s1>&#39;relative_root&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>rel_path</span>
+<a name=line-464></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Issuing watchman subscription </span><span class=si>%s</span><span class=s1>, for root </span><span class=si>%s</span><span class=s1>. Query: </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>root</span><span class=p>,</span> <span class=n>query</span><span class=p>)</span>
+<a name=line-465></a>        <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=s1>&#39;subscribe&#39;</span><span class=p>,</span> <span class=n>root</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>query</span><span class=p>)</span>
+<a name=line-466></a>
+<a name=line-467></a>    <span class=k>def</span> <span class=nf>_subscribe_dir</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>directory</span><span class=p>,</span> <span class=n>filenames</span><span class=p>):</span>
+<a name=line-468></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>directory</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-469></a>            <span class=k>if</span> <span class=ow>not</span> <span class=n>directory</span><span class=o>.</span><span class=n>parent</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-470></a>                <span class=n>logger</span><span class=o>.</span><span class=n>warning</span><span class=p>(</span><span class=s1>&#39;Unable to watch directory </span><span class=si>%s</span><span class=s1> as neither it or its parent exist.&#39;</span><span class=p>,</span> <span class=n>directory</span><span class=p>)</span>
+<a name=line-471></a>                <span class=k>return</span>
+<a name=line-472></a>            <span class=n>prefix</span> <span class=o>=</span> <span class=s1>&#39;files-parent-</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>directory</span><span class=o>.</span><span class=n>name</span>
+<a name=line-473></a>            <span class=n>filenames</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>/</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>directory</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>filename</span><span class=p>)</span> <span class=k>for</span> <span class=n>filename</span> <span class=ow>in</span> <span class=n>filenames</span><span class=p>]</span>
+<a name=line-474></a>            <span class=n>directory</span> <span class=o>=</span> <span class=n>directory</span><span class=o>.</span><span class=n>parent</span>
+<a name=line-475></a>            <span class=n>expression</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=n>filenames</span><span class=p>,</span> <span class=s1>&#39;wholename&#39;</span><span class=p>]</span>
+<a name=line-476></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-477></a>            <span class=n>prefix</span> <span class=o>=</span> <span class=s1>&#39;files&#39;</span>
+<a name=line-478></a>            <span class=n>expression</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=n>filenames</span><span class=p>]</span>
+<a name=line-479></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_subscribe</span><span class=p>(</span><span class=n>directory</span><span class=p>,</span> <span class=s1>&#39;</span><span class=si>%s</span><span class=s1>:</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>prefix</span><span class=p>,</span> <span class=n>directory</span><span class=p>),</span> <span class=n>expression</span><span class=p>)</span>
+<a name=line-480></a>
+<a name=line-481></a>    <span class=k>def</span> <span class=nf>_watch_glob</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>directory</span><span class=p>,</span> <span class=n>patterns</span><span class=p>):</span>
+<a name=line-482></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-483></a><span class=sd>        Watch a directory with a specific glob. If the directory doesn&#39;t yet</span>
+<a name=line-484></a><span class=sd>        exist, attempt to watch the parent directory and amend the patterns to</span>
+<a name=line-485></a><span class=sd>        include this. It&#39;s important this method isn&#39;t called more than one per</span>
+<a name=line-486></a><span class=sd>        directory when updating all subscriptions. Subsequent calls will</span>
+<a name=line-487></a><span class=sd>        overwrite the named subscription, so it must include all possible glob</span>
+<a name=line-488></a><span class=sd>        expressions.</span>
+<a name=line-489></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-490></a>        <span class=n>prefix</span> <span class=o>=</span> <span class=s1>&#39;glob&#39;</span>
+<a name=line-491></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>directory</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-492></a>            <span class=k>if</span> <span class=ow>not</span> <span class=n>directory</span><span class=o>.</span><span class=n>parent</span><span class=o>.</span><span class=n>exists</span><span class=p>():</span>
+<a name=line-493></a>                <span class=n>logger</span><span class=o>.</span><span class=n>warning</span><span class=p>(</span><span class=s1>&#39;Unable to watch directory </span><span class=si>%s</span><span class=s1> as neither it or its parent exist.&#39;</span><span class=p>,</span> <span class=n>directory</span><span class=p>)</span>
+<a name=line-494></a>                <span class=k>return</span>
+<a name=line-495></a>            <span class=n>prefix</span> <span class=o>=</span> <span class=s1>&#39;glob-parent-</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>directory</span><span class=o>.</span><span class=n>name</span>
+<a name=line-496></a>            <span class=n>patterns</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>/</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>directory</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>pattern</span><span class=p>)</span> <span class=k>for</span> <span class=n>pattern</span> <span class=ow>in</span> <span class=n>patterns</span><span class=p>]</span>
+<a name=line-497></a>            <span class=n>directory</span> <span class=o>=</span> <span class=n>directory</span><span class=o>.</span><span class=n>parent</span>
+<a name=line-498></a>
+<a name=line-499></a>        <span class=n>expression</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;anyof&#39;</span><span class=p>]</span>
+<a name=line-500></a>        <span class=k>for</span> <span class=n>pattern</span> <span class=ow>in</span> <span class=n>patterns</span><span class=p>:</span>
+<a name=line-501></a>            <span class=n>expression</span><span class=o>.</span><span class=n>append</span><span class=p>([</span><span class=s1>&#39;match&#39;</span><span class=p>,</span> <span class=n>pattern</span><span class=p>,</span> <span class=s1>&#39;wholename&#39;</span><span class=p>])</span>
+<a name=line-502></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_subscribe</span><span class=p>(</span><span class=n>directory</span><span class=p>,</span> <span class=s1>&#39;</span><span class=si>%s</span><span class=s1>:</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>prefix</span><span class=p>,</span> <span class=n>directory</span><span class=p>),</span> <span class=n>expression</span><span class=p>)</span>
+<a name=line-503></a>
+<a name=line-504></a>    <span class=k>def</span> <span class=nf>watched_roots</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>watched_files</span><span class=p>):</span>
+<a name=line-505></a>        <span class=n>extra_directories</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>directory_globs</span><span class=o>.</span><span class=n>keys</span><span class=p>()</span>
+<a name=line-506></a>        <span class=n>watched_file_dirs</span> <span class=o>=</span> <span class=p>[</span><span class=n>f</span><span class=o>.</span><span class=n>parent</span> <span class=k>for</span> <span class=n>f</span> <span class=ow>in</span> <span class=n>watched_files</span><span class=p>]</span>
+<a name=line-507></a>        <span class=n>sys_paths</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=n>sys_path_directories</span><span class=p>())</span>
+<a name=line-508></a>        <span class=k>return</span> <span class=nb>frozenset</span><span class=p>((</span><span class=o>*</span><span class=n>extra_directories</span><span class=p>,</span> <span class=o>*</span><span class=n>watched_file_dirs</span><span class=p>,</span> <span class=o>*</span><span class=n>sys_paths</span><span class=p>))</span>
+<a name=line-509></a>
+<a name=line-510></a>    <span class=k>def</span> <span class=nf>_update_watches</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-511></a>        <span class=n>watched_files</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>watched_files</span><span class=p>(</span><span class=n>include_globs</span><span class=o>=</span><span class=kc>False</span><span class=p>))</span>
+<a name=line-512></a>        <span class=n>found_roots</span> <span class=o>=</span> <span class=n>common_roots</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>watched_roots</span><span class=p>(</span><span class=n>watched_files</span><span class=p>))</span>
+<a name=line-513></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Watching </span><span class=si>%s</span><span class=s1> files&#39;</span><span class=p>,</span> <span class=nb>len</span><span class=p>(</span><span class=n>watched_files</span><span class=p>))</span>
+<a name=line-514></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Found common roots: </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>found_roots</span><span class=p>)</span>
+<a name=line-515></a>        <span class=c1># Setup initial roots for performance, shortest roots first.</span>
+<a name=line-516></a>        <span class=k>for</span> <span class=n>root</span> <span class=ow>in</span> <span class=nb>sorted</span><span class=p>(</span><span class=n>found_roots</span><span class=p>):</span>
+<a name=line-517></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_watch_root</span><span class=p>(</span><span class=n>root</span><span class=p>)</span>
+<a name=line-518></a>        <span class=k>for</span> <span class=n>directory</span><span class=p>,</span> <span class=n>patterns</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>directory_globs</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-519></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_watch_glob</span><span class=p>(</span><span class=n>directory</span><span class=p>,</span> <span class=n>patterns</span><span class=p>)</span>
+<a name=line-520></a>        <span class=c1># Group sorted watched_files by their parent directory.</span>
+<a name=line-521></a>        <span class=n>sorted_files</span> <span class=o>=</span> <span class=nb>sorted</span><span class=p>(</span><span class=n>watched_files</span><span class=p>,</span> <span class=n>key</span><span class=o>=</span><span class=k>lambda</span> <span class=n>p</span><span class=p>:</span> <span class=n>p</span><span class=o>.</span><span class=n>parent</span><span class=p>)</span>
+<a name=line-522></a>        <span class=k>for</span> <span class=n>directory</span><span class=p>,</span> <span class=n>group</span> <span class=ow>in</span> <span class=n>itertools</span><span class=o>.</span><span class=n>groupby</span><span class=p>(</span><span class=n>sorted_files</span><span class=p>,</span> <span class=n>key</span><span class=o>=</span><span class=k>lambda</span> <span class=n>p</span><span class=p>:</span> <span class=n>p</span><span class=o>.</span><span class=n>parent</span><span class=p>):</span>
+<a name=line-523></a>            <span class=c1># These paths need to be relative to the parent directory.</span>
+<a name=line-524></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_subscribe_dir</span><span class=p>(</span><span class=n>directory</span><span class=p>,</span> <span class=p>[</span><span class=nb>str</span><span class=p>(</span><span class=n>p</span><span class=o>.</span><span class=n>relative_to</span><span class=p>(</span><span class=n>directory</span><span class=p>))</span> <span class=k>for</span> <span class=n>p</span> <span class=ow>in</span> <span class=n>group</span><span class=p>])</span>
+<a name=line-525></a>
+<a name=line-526></a>    <span class=k>def</span> <span class=nf>update_watches</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-527></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-528></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_update_watches</span><span class=p>()</span>
+<a name=line-529></a>        <span class=k>except</span> <span class=ne>Exception</span> <span class=k>as</span> <span class=n>ex</span><span class=p>:</span>
+<a name=line-530></a>            <span class=c1># If the service is still available, raise the original exception.</span>
+<a name=line-531></a>            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>check_server_status</span><span class=p>(</span><span class=n>ex</span><span class=p>):</span>
+<a name=line-532></a>                <span class=k>raise</span>
+<a name=line-533></a>
+<a name=line-534></a>    <span class=k>def</span> <span class=nf>_check_subscription</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>sub</span><span class=p>):</span>
+<a name=line-535></a>        <span class=n>subscription</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>getSubscription</span><span class=p>(</span><span class=n>sub</span><span class=p>)</span>
+<a name=line-536></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>subscription</span><span class=p>:</span>
+<a name=line-537></a>            <span class=k>return</span>
+<a name=line-538></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Watchman subscription </span><span class=si>%s</span><span class=s1> has results.&#39;</span><span class=p>,</span> <span class=n>sub</span><span class=p>)</span>
+<a name=line-539></a>        <span class=k>for</span> <span class=n>result</span> <span class=ow>in</span> <span class=n>subscription</span><span class=p>:</span>
+<a name=line-540></a>            <span class=c1># When using watch-project, it&#39;s not simple to get the relative</span>
+<a name=line-541></a>            <span class=c1># directory without storing some specific state. Store the full</span>
+<a name=line-542></a>            <span class=c1># path to the directory in the subscription name, prefixed by its</span>
+<a name=line-543></a>            <span class=c1># type (glob, files).</span>
+<a name=line-544></a>            <span class=n>root_directory</span> <span class=o>=</span> <span class=n>Path</span><span class=p>(</span><span class=n>result</span><span class=p>[</span><span class=s1>&#39;subscription&#39;</span><span class=p>]</span><span class=o>.</span><span class=n>split</span><span class=p>(</span><span class=s1>&#39;:&#39;</span><span class=p>,</span> <span class=mi>1</span><span class=p>)[</span><span class=mi>1</span><span class=p>])</span>
+<a name=line-545></a>            <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Found root directory </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>root_directory</span><span class=p>)</span>
+<a name=line-546></a>            <span class=k>for</span> <span class=n>file</span> <span class=ow>in</span> <span class=n>result</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;files&#39;</span><span class=p>,</span> <span class=p>[]):</span>
+<a name=line-547></a>                <span class=bp>self</span><span class=o>.</span><span class=n>notify_file_changed</span><span class=p>(</span><span class=n>root_directory</span> <span class=o>/</span> <span class=n>file</span><span class=p>)</span>
+<a name=line-548></a>
+<a name=line-549></a>    <span class=k>def</span> <span class=nf>request_processed</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-550></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Request processed. Setting update_watches event.&#39;</span><span class=p>)</span>
+<a name=line-551></a>        <span class=bp>self</span><span class=o>.</span><span class=n>processed_request</span><span class=o>.</span><span class=n>set</span><span class=p>()</span>
+<a name=line-552></a>
+<a name=line-553></a>    <span class=k>def</span> <span class=nf>tick</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-554></a>        <span class=n>request_finished</span><span class=o>.</span><span class=n>connect</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>request_processed</span><span class=p>)</span>
+<a name=line-555></a>        <span class=bp>self</span><span class=o>.</span><span class=n>update_watches</span><span class=p>()</span>
+<a name=line-556></a>        <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+<a name=line-557></a>            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>processed_request</span><span class=o>.</span><span class=n>is_set</span><span class=p>():</span>
+<a name=line-558></a>                <span class=bp>self</span><span class=o>.</span><span class=n>update_watches</span><span class=p>()</span>
+<a name=line-559></a>                <span class=bp>self</span><span class=o>.</span><span class=n>processed_request</span><span class=o>.</span><span class=n>clear</span><span class=p>()</span>
+<a name=line-560></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-561></a>                <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>receive</span><span class=p>()</span>
+<a name=line-562></a>            <span class=k>except</span> <span class=n>pywatchman</span><span class=o>.</span><span class=n>SocketTimeout</span><span class=p>:</span>
+<a name=line-563></a>                <span class=k>pass</span>
+<a name=line-564></a>            <span class=k>except</span> <span class=n>pywatchman</span><span class=o>.</span><span class=n>WatchmanError</span> <span class=k>as</span> <span class=n>ex</span><span class=p>:</span>
+<a name=line-565></a>                <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Watchman error: </span><span class=si>%s</span><span class=s1>, checking server status.&#39;</span><span class=p>,</span> <span class=n>ex</span><span class=p>)</span>
+<a name=line-566></a>                <span class=bp>self</span><span class=o>.</span><span class=n>check_server_status</span><span class=p>(</span><span class=n>ex</span><span class=p>)</span>
+<a name=line-567></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-568></a>                <span class=k>for</span> <span class=n>sub</span> <span class=ow>in</span> <span class=nb>list</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>subs</span><span class=o>.</span><span class=n>keys</span><span class=p>()):</span>
+<a name=line-569></a>                    <span class=bp>self</span><span class=o>.</span><span class=n>_check_subscription</span><span class=p>(</span><span class=n>sub</span><span class=p>)</span>
+<a name=line-570></a>            <span class=k>yield</span>
+<a name=line-571></a>            <span class=c1># Protect against busy loops.</span>
+<a name=line-572></a>            <span class=n>time</span><span class=o>.</span><span class=n>sleep</span><span class=p>(</span><span class=mf>0.1</span><span class=p>)</span>
+<a name=line-573></a>
+<a name=line-574></a>    <span class=k>def</span> <span class=nf>stop</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-575></a>        <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+<a name=line-576></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=n>stop</span><span class=p>()</span>
+<a name=line-577></a>
+<a name=line-578></a>    <span class=k>def</span> <span class=nf>check_server_status</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>inner_ex</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-579></a>        <span class=sd>&quot;&quot;&quot;Return True if the server is available.&quot;&quot;&quot;</span>
+<a name=line-580></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-581></a>            <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=s1>&#39;version&#39;</span><span class=p>)</span>
+<a name=line-582></a>        <span class=k>except</span> <span class=ne>Exception</span><span class=p>:</span>
+<a name=line-583></a>            <span class=k>raise</span> <span class=n>WatchmanUnavailable</span><span class=p>(</span><span class=nb>str</span><span class=p>(</span><span class=n>inner_ex</span><span class=p>))</span> <span class=kn>from</span> <span class=nn>inner_ex</span>
+<a name=line-584></a>        <span class=k>return</span> <span class=kc>True</span>
+<a name=line-585></a>
+<a name=line-586></a>    <span class=nd>@classmethod</span>
+<a name=line-587></a>    <span class=k>def</span> <span class=nf>check_availability</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+<a name=line-588></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>pywatchman</span><span class=p>:</span>
+<a name=line-589></a>            <span class=k>raise</span> <span class=n>WatchmanUnavailable</span><span class=p>(</span><span class=s1>&#39;pywatchman not installed.&#39;</span><span class=p>)</span>
+<a name=line-590></a>        <span class=n>client</span> <span class=o>=</span> <span class=n>pywatchman</span><span class=o>.</span><span class=n>client</span><span class=p>(</span><span class=n>timeout</span><span class=o>=</span><span class=mf>0.1</span><span class=p>)</span>
+<a name=line-591></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-592></a>            <span class=n>result</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>capabilityCheck</span><span class=p>()</span>
+<a name=line-593></a>        <span class=k>except</span> <span class=ne>Exception</span><span class=p>:</span>
+<a name=line-594></a>            <span class=c1># The service is down?</span>
+<a name=line-595></a>            <span class=k>raise</span> <span class=n>WatchmanUnavailable</span><span class=p>(</span><span class=s1>&#39;Cannot connect to the watchman service.&#39;</span><span class=p>)</span>
+<a name=line-596></a>        <span class=n>version</span> <span class=o>=</span> <span class=n>get_version_tuple</span><span class=p>(</span><span class=n>result</span><span class=p>[</span><span class=s1>&#39;version&#39;</span><span class=p>])</span>
+<a name=line-597></a>        <span class=c1># Watchman 4.9 includes multiple improvements to watching project</span>
+<a name=line-598></a>        <span class=c1># directories as well as case insensitive filesystems.</span>
+<a name=line-599></a>        <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Watchman version </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>version</span><span class=p>)</span>
+<a name=line-600></a>        <span class=k>if</span> <span class=n>version</span> <span class=o>&lt;</span> <span class=p>(</span><span class=mi>4</span><span class=p>,</span> <span class=mi>9</span><span class=p>):</span>
+<a name=line-601></a>            <span class=k>raise</span> <span class=n>WatchmanUnavailable</span><span class=p>(</span><span class=s1>&#39;Watchman 4.9 or later is required.&#39;</span><span class=p>)</span>
+<a name=line-602></a>
+<a name=line-603></a>
+<a name=line-604></a><span class=k>def</span> <span class=nf>get_reloader</span><span class=p>():</span>
+<a name=line-605></a>    <span class=sd>&quot;&quot;&quot;Return the most suitable reloader for this environment.&quot;&quot;&quot;</span>
+<a name=line-606></a>    <span class=k>try</span><span class=p>:</span>
+<a name=line-607></a>        <span class=n>WatchmanReloader</span><span class=o>.</span><span class=n>check_availability</span><span class=p>()</span>
+<a name=line-608></a>    <span class=k>except</span> <span class=n>WatchmanUnavailable</span><span class=p>:</span>
+<a name=line-609></a>        <span class=k>return</span> <span class=n>StatReloader</span><span class=p>()</span>
+<a name=line-610></a>    <span class=k>return</span> <span class=n>WatchmanReloader</span><span class=p>()</span>
+<a name=line-611></a>
+<a name=line-612></a>
+<a name=line-613></a><span class=k>def</span> <span class=nf>start_django</span><span class=p>(</span><span class=n>reloader</span><span class=p>,</span> <span class=n>main_func</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-614></a>    <span class=n>ensure_echo_on</span><span class=p>()</span>
+<a name=line-615></a>
+<a name=line-616></a>    <span class=n>main_func</span> <span class=o>=</span> <span class=n>check_errors</span><span class=p>(</span><span class=n>main_func</span><span class=p>)</span>
+<a name=line-617></a>    <span class=n>django_main_thread</span> <span class=o>=</span> <span class=n>threading</span><span class=o>.</span><span class=n>Thread</span><span class=p>(</span><span class=n>target</span><span class=o>=</span><span class=n>main_func</span><span class=p>,</span> <span class=n>args</span><span class=o>=</span><span class=n>args</span><span class=p>,</span> <span class=n>kwargs</span><span class=o>=</span><span class=n>kwargs</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=s1>&#39;django-main-thread&#39;</span><span class=p>)</span>
+<a name=line-618></a>    <span class=n>django_main_thread</span><span class=o>.</span><span class=n>setDaemon</span><span class=p>(</span><span class=kc>True</span><span class=p>)</span>
+<a name=line-619></a>    <span class=n>django_main_thread</span><span class=o>.</span><span class=n>start</span><span class=p>()</span>
+<a name=line-620></a>
+<a name=line-621></a>    <span class=k>while</span> <span class=ow>not</span> <span class=n>reloader</span><span class=o>.</span><span class=n>should_stop</span><span class=p>:</span>
+<a name=line-622></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-623></a>            <span class=n>reloader</span><span class=o>.</span><span class=n>run</span><span class=p>(</span><span class=n>django_main_thread</span><span class=p>)</span>
+<a name=line-624></a>        <span class=k>except</span> <span class=n>WatchmanUnavailable</span> <span class=k>as</span> <span class=n>ex</span><span class=p>:</span>
+<a name=line-625></a>            <span class=c1># It&#39;s possible that the watchman service shuts down or otherwise</span>
+<a name=line-626></a>            <span class=c1># becomes unavailable. In that case, use the StatReloader.</span>
+<a name=line-627></a>            <span class=n>reloader</span> <span class=o>=</span> <span class=n>StatReloader</span><span class=p>()</span>
+<a name=line-628></a>            <span class=n>logger</span><span class=o>.</span><span class=n>error</span><span class=p>(</span><span class=s1>&#39;Error connecting to Watchman: </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>ex</span><span class=p>)</span>
+<a name=line-629></a>            <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span><span class=s1>&#39;Watching for file changes with </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>reloader</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=vm>__name__</span><span class=p>)</span>
+<a name=line-630></a>
+<a name=line-631></a>
+<a name=line-632></a><span class=k>def</span> <span class=nf>run_with_reloader</span><span class=p>(</span><span class=n>main_func</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-633></a>    <span class=n>signal</span><span class=o>.</span><span class=n>signal</span><span class=p>(</span><span class=n>signal</span><span class=o>.</span><span class=n>SIGTERM</span><span class=p>,</span> <span class=k>lambda</span> <span class=o>*</span><span class=n>args</span><span class=p>:</span> <span class=n>sys</span><span class=o>.</span><span class=n>exit</span><span class=p>(</span><span class=mi>0</span><span class=p>))</span>
+<a name=line-634></a>    <span class=k>try</span><span class=p>:</span>
+<a name=line-635></a>        <span class=k>if</span> <span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>DJANGO_AUTORELOAD_ENV</span><span class=p>)</span> <span class=o>==</span> <span class=s1>&#39;true&#39;</span><span class=p>:</span>
+<a name=line-636></a>            <span class=n>reloader</span> <span class=o>=</span> <span class=n>get_reloader</span><span class=p>()</span>
+<a name=line-637></a>            <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span><span class=s1>&#39;Watching for file changes with </span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>reloader</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=vm>__name__</span><span class=p>)</span>
+<a name=line-638></a>            <span class=n>start_django</span><span class=p>(</span><span class=n>reloader</span><span class=p>,</span> <span class=n>main_func</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-639></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-640></a>            <span class=n>exit_code</span> <span class=o>=</span> <span class=n>restart_with_reloader</span><span class=p>()</span>
+<a name=line-641></a>            <span class=n>sys</span><span class=o>.</span><span class=n>exit</span><span class=p>(</span><span class=n>exit_code</span><span class=p>)</span>
+<a name=line-642></a>    <span class=k>except</span> <span class=ne>KeyboardInterrupt</span><span class=p>:</span>
+<a name=line-643></a>        <span class=k>pass</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

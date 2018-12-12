@@ -1,0 +1,1302 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.conf.global_settings</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9662; conf</a> </li><li><ul><li><div class=select><a href=django.conf.global_settings.html>&#9662; global_settings</a> </div></li><li><a href=django.conf.locale.html>&#9656; locale</a> </li><li><a href=django.conf.urls.html>&#9656; urls</a> </li><li><a href=django.conf.LazySettings.html> <i>class</i> LazySettings</a> </li><li><a href=django.conf.Settings.html> <i>class</i> Settings</a> </li><li><a href=django.conf.SettingsReference.html> <i>class</i> SettingsReference</a> </li><li><a href=django.conf.UserSettingsHolder.html> <i>class</i> UserSettingsHolder</a> </li></ul></li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/conf/global_settings.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.conf.html>conf</a>.<a class=symbol href=django.conf.global_settings.html>global_settings</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-2></a><span class=sd>Default Django settings. Override these with settings in the module pointed to</span>
+<a name=line-3></a><span class=sd>by the DJANGO_SETTINGS_MODULE environment variable.</span>
+<a name=line-4></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-5></a>
+<a name=line-6></a>
+<a name=line-7></a><span class=c1># This is defined here as a do-nothing function because we can&#39;t import</span>
+<a name=line-8></a><span class=c1># django.utils.translation -- that module depends on the settings.</span>
+<a name=line-9></a><span class=k>def</span> <span class=nf>gettext_noop</span><span class=p>(</span><span class=n>s</span><span class=p>):</span>
+<a name=line-10></a>    <span class=k>return</span> <span class=n>s</span>
+<a name=line-11></a>
+<a name=line-12></a>
+<a name=line-13></a><span class=c1>####################</span>
+<a name=line-14></a><span class=c1># CORE             #</span>
+<a name=line-15></a><span class=c1>####################</span>
+<a name=line-16></a>
+<a name=line-17></a><span class=n>DEBUG</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-18></a>
+<a name=line-19></a><span class=c1># Whether the framework should propagate raw exceptions rather than catching</span>
+<a name=line-20></a><span class=c1># them. This is useful under some testing situations and should never be used</span>
+<a name=line-21></a><span class=c1># on a live site.</span>
+<a name=line-22></a><span class=n>DEBUG_PROPAGATE_EXCEPTIONS</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-23></a>
+<a name=line-24></a><span class=c1># People who get code error notifications.</span>
+<a name=line-25></a><span class=c1># In the format [(&#39;Full Name&#39;, &#39;email@example.com&#39;), (&#39;Full Name&#39;, &#39;anotheremail@example.com&#39;)]</span>
+<a name=line-26></a><span class=n>ADMINS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-27></a>
+<a name=line-28></a><span class=c1># List of IP addresses, as strings, that:</span>
+<a name=line-29></a><span class=c1>#   * See debug comments, when DEBUG is true</span>
+<a name=line-30></a><span class=c1>#   * Receive x-headers</span>
+<a name=line-31></a><span class=n>INTERNAL_IPS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-32></a>
+<a name=line-33></a><span class=c1># Hosts/domain names that are valid for this site.</span>
+<a name=line-34></a><span class=c1># &quot;*&quot; matches anything, &quot;.example.com&quot; matches example.com and all subdomains</span>
+<a name=line-35></a><span class=n>ALLOWED_HOSTS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-36></a>
+<a name=line-37></a><span class=c1># Local time zone for this installation. All choices can be found here:</span>
+<a name=line-38></a><span class=c1># https://en.wikipedia.org/wiki/List_of_tz_zones_by_name (although not all</span>
+<a name=line-39></a><span class=c1># systems may support all possibilities). When USE_TZ is True, this is</span>
+<a name=line-40></a><span class=c1># interpreted as the default user time zone.</span>
+<a name=line-41></a><span class=n>TIME_ZONE</span> <span class=o>=</span> <span class=s1>&#39;America/Chicago&#39;</span>
+<a name=line-42></a>
+<a name=line-43></a><span class=c1># If you set this to True, Django will use timezone-aware datetimes.</span>
+<a name=line-44></a><span class=n>USE_TZ</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-45></a>
+<a name=line-46></a><span class=c1># Language code for this installation. All choices can be found here:</span>
+<a name=line-47></a><span class=c1># http://www.i18nguy.com/unicode/language-identifiers.html</span>
+<a name=line-48></a><span class=n>LANGUAGE_CODE</span> <span class=o>=</span> <span class=s1>&#39;en-us&#39;</span>
+<a name=line-49></a>
+<a name=line-50></a><span class=c1># Languages we provide translations for, out of the box.</span>
+<a name=line-51></a><span class=n>LANGUAGES</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-52></a>    <span class=p>(</span><span class=s1>&#39;af&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Afrikaans&#39;</span><span class=p>)),</span>
+<a name=line-53></a>    <span class=p>(</span><span class=s1>&#39;ar&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Arabic&#39;</span><span class=p>)),</span>
+<a name=line-54></a>    <span class=p>(</span><span class=s1>&#39;ar-dz&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Algerian Arabic&#39;</span><span class=p>)),</span>
+<a name=line-55></a>    <span class=p>(</span><span class=s1>&#39;ast&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Asturian&#39;</span><span class=p>)),</span>
+<a name=line-56></a>    <span class=p>(</span><span class=s1>&#39;az&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Azerbaijani&#39;</span><span class=p>)),</span>
+<a name=line-57></a>    <span class=p>(</span><span class=s1>&#39;bg&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Bulgarian&#39;</span><span class=p>)),</span>
+<a name=line-58></a>    <span class=p>(</span><span class=s1>&#39;be&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Belarusian&#39;</span><span class=p>)),</span>
+<a name=line-59></a>    <span class=p>(</span><span class=s1>&#39;bn&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Bengali&#39;</span><span class=p>)),</span>
+<a name=line-60></a>    <span class=p>(</span><span class=s1>&#39;br&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Breton&#39;</span><span class=p>)),</span>
+<a name=line-61></a>    <span class=p>(</span><span class=s1>&#39;bs&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Bosnian&#39;</span><span class=p>)),</span>
+<a name=line-62></a>    <span class=p>(</span><span class=s1>&#39;ca&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Catalan&#39;</span><span class=p>)),</span>
+<a name=line-63></a>    <span class=p>(</span><span class=s1>&#39;cs&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Czech&#39;</span><span class=p>)),</span>
+<a name=line-64></a>    <span class=p>(</span><span class=s1>&#39;cy&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Welsh&#39;</span><span class=p>)),</span>
+<a name=line-65></a>    <span class=p>(</span><span class=s1>&#39;da&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Danish&#39;</span><span class=p>)),</span>
+<a name=line-66></a>    <span class=p>(</span><span class=s1>&#39;de&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;German&#39;</span><span class=p>)),</span>
+<a name=line-67></a>    <span class=p>(</span><span class=s1>&#39;dsb&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Lower Sorbian&#39;</span><span class=p>)),</span>
+<a name=line-68></a>    <span class=p>(</span><span class=s1>&#39;el&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Greek&#39;</span><span class=p>)),</span>
+<a name=line-69></a>    <span class=p>(</span><span class=s1>&#39;en&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;English&#39;</span><span class=p>)),</span>
+<a name=line-70></a>    <span class=p>(</span><span class=s1>&#39;en-au&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Australian English&#39;</span><span class=p>)),</span>
+<a name=line-71></a>    <span class=p>(</span><span class=s1>&#39;en-gb&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;British English&#39;</span><span class=p>)),</span>
+<a name=line-72></a>    <span class=p>(</span><span class=s1>&#39;eo&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Esperanto&#39;</span><span class=p>)),</span>
+<a name=line-73></a>    <span class=p>(</span><span class=s1>&#39;es&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Spanish&#39;</span><span class=p>)),</span>
+<a name=line-74></a>    <span class=p>(</span><span class=s1>&#39;es-ar&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Argentinian Spanish&#39;</span><span class=p>)),</span>
+<a name=line-75></a>    <span class=p>(</span><span class=s1>&#39;es-co&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Colombian Spanish&#39;</span><span class=p>)),</span>
+<a name=line-76></a>    <span class=p>(</span><span class=s1>&#39;es-mx&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Mexican Spanish&#39;</span><span class=p>)),</span>
+<a name=line-77></a>    <span class=p>(</span><span class=s1>&#39;es-ni&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Nicaraguan Spanish&#39;</span><span class=p>)),</span>
+<a name=line-78></a>    <span class=p>(</span><span class=s1>&#39;es-ve&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Venezuelan Spanish&#39;</span><span class=p>)),</span>
+<a name=line-79></a>    <span class=p>(</span><span class=s1>&#39;et&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Estonian&#39;</span><span class=p>)),</span>
+<a name=line-80></a>    <span class=p>(</span><span class=s1>&#39;eu&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Basque&#39;</span><span class=p>)),</span>
+<a name=line-81></a>    <span class=p>(</span><span class=s1>&#39;fa&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Persian&#39;</span><span class=p>)),</span>
+<a name=line-82></a>    <span class=p>(</span><span class=s1>&#39;fi&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Finnish&#39;</span><span class=p>)),</span>
+<a name=line-83></a>    <span class=p>(</span><span class=s1>&#39;fr&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;French&#39;</span><span class=p>)),</span>
+<a name=line-84></a>    <span class=p>(</span><span class=s1>&#39;fy&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Frisian&#39;</span><span class=p>)),</span>
+<a name=line-85></a>    <span class=p>(</span><span class=s1>&#39;ga&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Irish&#39;</span><span class=p>)),</span>
+<a name=line-86></a>    <span class=p>(</span><span class=s1>&#39;gd&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Scottish Gaelic&#39;</span><span class=p>)),</span>
+<a name=line-87></a>    <span class=p>(</span><span class=s1>&#39;gl&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Galician&#39;</span><span class=p>)),</span>
+<a name=line-88></a>    <span class=p>(</span><span class=s1>&#39;he&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Hebrew&#39;</span><span class=p>)),</span>
+<a name=line-89></a>    <span class=p>(</span><span class=s1>&#39;hi&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Hindi&#39;</span><span class=p>)),</span>
+<a name=line-90></a>    <span class=p>(</span><span class=s1>&#39;hr&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Croatian&#39;</span><span class=p>)),</span>
+<a name=line-91></a>    <span class=p>(</span><span class=s1>&#39;hsb&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Upper Sorbian&#39;</span><span class=p>)),</span>
+<a name=line-92></a>    <span class=p>(</span><span class=s1>&#39;hu&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Hungarian&#39;</span><span class=p>)),</span>
+<a name=line-93></a>    <span class=p>(</span><span class=s1>&#39;hy&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Armenian&#39;</span><span class=p>)),</span>
+<a name=line-94></a>    <span class=p>(</span><span class=s1>&#39;ia&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Interlingua&#39;</span><span class=p>)),</span>
+<a name=line-95></a>    <span class=p>(</span><span class=s1>&#39;id&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Indonesian&#39;</span><span class=p>)),</span>
+<a name=line-96></a>    <span class=p>(</span><span class=s1>&#39;ig&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Igbo&#39;</span><span class=p>)),</span>
+<a name=line-97></a>    <span class=p>(</span><span class=s1>&#39;io&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Ido&#39;</span><span class=p>)),</span>
+<a name=line-98></a>    <span class=p>(</span><span class=s1>&#39;is&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Icelandic&#39;</span><span class=p>)),</span>
+<a name=line-99></a>    <span class=p>(</span><span class=s1>&#39;it&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Italian&#39;</span><span class=p>)),</span>
+<a name=line-100></a>    <span class=p>(</span><span class=s1>&#39;ja&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Japanese&#39;</span><span class=p>)),</span>
+<a name=line-101></a>    <span class=p>(</span><span class=s1>&#39;ka&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Georgian&#39;</span><span class=p>)),</span>
+<a name=line-102></a>    <span class=p>(</span><span class=s1>&#39;kab&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Kabyle&#39;</span><span class=p>)),</span>
+<a name=line-103></a>    <span class=p>(</span><span class=s1>&#39;kk&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Kazakh&#39;</span><span class=p>)),</span>
+<a name=line-104></a>    <span class=p>(</span><span class=s1>&#39;km&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Khmer&#39;</span><span class=p>)),</span>
+<a name=line-105></a>    <span class=p>(</span><span class=s1>&#39;kn&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Kannada&#39;</span><span class=p>)),</span>
+<a name=line-106></a>    <span class=p>(</span><span class=s1>&#39;ko&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Korean&#39;</span><span class=p>)),</span>
+<a name=line-107></a>    <span class=p>(</span><span class=s1>&#39;ky&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Kyrgyz&#39;</span><span class=p>)),</span>
+<a name=line-108></a>    <span class=p>(</span><span class=s1>&#39;lb&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Luxembourgish&#39;</span><span class=p>)),</span>
+<a name=line-109></a>    <span class=p>(</span><span class=s1>&#39;lt&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Lithuanian&#39;</span><span class=p>)),</span>
+<a name=line-110></a>    <span class=p>(</span><span class=s1>&#39;lv&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Latvian&#39;</span><span class=p>)),</span>
+<a name=line-111></a>    <span class=p>(</span><span class=s1>&#39;mk&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Macedonian&#39;</span><span class=p>)),</span>
+<a name=line-112></a>    <span class=p>(</span><span class=s1>&#39;ml&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Malayalam&#39;</span><span class=p>)),</span>
+<a name=line-113></a>    <span class=p>(</span><span class=s1>&#39;mn&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Mongolian&#39;</span><span class=p>)),</span>
+<a name=line-114></a>    <span class=p>(</span><span class=s1>&#39;mr&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Marathi&#39;</span><span class=p>)),</span>
+<a name=line-115></a>    <span class=p>(</span><span class=s1>&#39;my&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Burmese&#39;</span><span class=p>)),</span>
+<a name=line-116></a>    <span class=p>(</span><span class=s1>&#39;nb&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Norwegian Bokmål&#39;</span><span class=p>)),</span>
+<a name=line-117></a>    <span class=p>(</span><span class=s1>&#39;ne&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Nepali&#39;</span><span class=p>)),</span>
+<a name=line-118></a>    <span class=p>(</span><span class=s1>&#39;nl&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Dutch&#39;</span><span class=p>)),</span>
+<a name=line-119></a>    <span class=p>(</span><span class=s1>&#39;nn&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Norwegian Nynorsk&#39;</span><span class=p>)),</span>
+<a name=line-120></a>    <span class=p>(</span><span class=s1>&#39;os&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Ossetic&#39;</span><span class=p>)),</span>
+<a name=line-121></a>    <span class=p>(</span><span class=s1>&#39;pa&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Punjabi&#39;</span><span class=p>)),</span>
+<a name=line-122></a>    <span class=p>(</span><span class=s1>&#39;pl&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Polish&#39;</span><span class=p>)),</span>
+<a name=line-123></a>    <span class=p>(</span><span class=s1>&#39;pt&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Portuguese&#39;</span><span class=p>)),</span>
+<a name=line-124></a>    <span class=p>(</span><span class=s1>&#39;pt-br&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Brazilian Portuguese&#39;</span><span class=p>)),</span>
+<a name=line-125></a>    <span class=p>(</span><span class=s1>&#39;ro&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Romanian&#39;</span><span class=p>)),</span>
+<a name=line-126></a>    <span class=p>(</span><span class=s1>&#39;ru&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Russian&#39;</span><span class=p>)),</span>
+<a name=line-127></a>    <span class=p>(</span><span class=s1>&#39;sk&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Slovak&#39;</span><span class=p>)),</span>
+<a name=line-128></a>    <span class=p>(</span><span class=s1>&#39;sl&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Slovenian&#39;</span><span class=p>)),</span>
+<a name=line-129></a>    <span class=p>(</span><span class=s1>&#39;sq&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Albanian&#39;</span><span class=p>)),</span>
+<a name=line-130></a>    <span class=p>(</span><span class=s1>&#39;sr&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Serbian&#39;</span><span class=p>)),</span>
+<a name=line-131></a>    <span class=p>(</span><span class=s1>&#39;sr-latn&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Serbian Latin&#39;</span><span class=p>)),</span>
+<a name=line-132></a>    <span class=p>(</span><span class=s1>&#39;sv&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Swedish&#39;</span><span class=p>)),</span>
+<a name=line-133></a>    <span class=p>(</span><span class=s1>&#39;sw&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Swahili&#39;</span><span class=p>)),</span>
+<a name=line-134></a>    <span class=p>(</span><span class=s1>&#39;ta&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Tamil&#39;</span><span class=p>)),</span>
+<a name=line-135></a>    <span class=p>(</span><span class=s1>&#39;te&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Telugu&#39;</span><span class=p>)),</span>
+<a name=line-136></a>    <span class=p>(</span><span class=s1>&#39;tg&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Tajik&#39;</span><span class=p>)),</span>
+<a name=line-137></a>    <span class=p>(</span><span class=s1>&#39;th&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Thai&#39;</span><span class=p>)),</span>
+<a name=line-138></a>    <span class=p>(</span><span class=s1>&#39;tk&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Turkmen&#39;</span><span class=p>)),</span>
+<a name=line-139></a>    <span class=p>(</span><span class=s1>&#39;tr&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Turkish&#39;</span><span class=p>)),</span>
+<a name=line-140></a>    <span class=p>(</span><span class=s1>&#39;tt&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Tatar&#39;</span><span class=p>)),</span>
+<a name=line-141></a>    <span class=p>(</span><span class=s1>&#39;udm&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Udmurt&#39;</span><span class=p>)),</span>
+<a name=line-142></a>    <span class=p>(</span><span class=s1>&#39;uk&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Ukrainian&#39;</span><span class=p>)),</span>
+<a name=line-143></a>    <span class=p>(</span><span class=s1>&#39;ur&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Urdu&#39;</span><span class=p>)),</span>
+<a name=line-144></a>    <span class=p>(</span><span class=s1>&#39;uz&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Uzbek&#39;</span><span class=p>)),</span>
+<a name=line-145></a>    <span class=p>(</span><span class=s1>&#39;vi&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Vietnamese&#39;</span><span class=p>)),</span>
+<a name=line-146></a>    <span class=p>(</span><span class=s1>&#39;zh-hans&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Simplified Chinese&#39;</span><span class=p>)),</span>
+<a name=line-147></a>    <span class=p>(</span><span class=s1>&#39;zh-hant&#39;</span><span class=p>,</span> <span class=n>gettext_noop</span><span class=p>(</span><span class=s1>&#39;Traditional Chinese&#39;</span><span class=p>)),</span>
+<a name=line-148></a><span class=p>]</span>
+<a name=line-149></a>
+<a name=line-150></a><span class=c1># Languages using BiDi (right-to-left) layout</span>
+<a name=line-151></a><span class=n>LANGUAGES_BIDI</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&quot;he&quot;</span><span class=p>,</span> <span class=s2>&quot;ar&quot;</span><span class=p>,</span> <span class=s2>&quot;ar-dz&quot;</span><span class=p>,</span> <span class=s2>&quot;fa&quot;</span><span class=p>,</span> <span class=s2>&quot;ur&quot;</span><span class=p>]</span>
+<a name=line-152></a>
+<a name=line-153></a><span class=c1># If you set this to False, Django will make some optimizations so as not</span>
+<a name=line-154></a><span class=c1># to load the internationalization machinery.</span>
+<a name=line-155></a><span class=n>USE_I18N</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-156></a><span class=n>LOCALE_PATHS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-157></a>
+<a name=line-158></a><span class=c1># Settings for language cookie</span>
+<a name=line-159></a><span class=n>LANGUAGE_COOKIE_NAME</span> <span class=o>=</span> <span class=s1>&#39;django_language&#39;</span>
+<a name=line-160></a><span class=n>LANGUAGE_COOKIE_AGE</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-161></a><span class=n>LANGUAGE_COOKIE_DOMAIN</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-162></a><span class=n>LANGUAGE_COOKIE_PATH</span> <span class=o>=</span> <span class=s1>&#39;/&#39;</span>
+<a name=line-163></a><span class=n>LANGUAGE_COOKIE_SECURE</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-164></a><span class=n>LANGUAGE_COOKIE_HTTPONLY</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-165></a><span class=n>LANGUAGE_COOKIE_SAMESITE</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-166></a>
+<a name=line-167></a>
+<a name=line-168></a><span class=c1># If you set this to True, Django will format dates, numbers and calendars</span>
+<a name=line-169></a><span class=c1># according to user current locale.</span>
+<a name=line-170></a><span class=n>USE_L10N</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-171></a>
+<a name=line-172></a><span class=c1># Not-necessarily-technical managers of the site. They get broken link</span>
+<a name=line-173></a><span class=c1># notifications and other various emails.</span>
+<a name=line-174></a><span class=n>MANAGERS</span> <span class=o>=</span> <span class=n>ADMINS</span>
+<a name=line-175></a>
+<a name=line-176></a><span class=c1># Default charset to use for all HttpResponse objects, if a MIME type isn&#39;t</span>
+<a name=line-177></a><span class=c1># manually specified. It&#39;s used to construct the Content-Type header.</span>
+<a name=line-178></a><span class=n>DEFAULT_CHARSET</span> <span class=o>=</span> <span class=s1>&#39;utf-8&#39;</span>
+<a name=line-179></a>
+<a name=line-180></a><span class=c1># Email address that error messages come from.</span>
+<a name=line-181></a><span class=n>SERVER_EMAIL</span> <span class=o>=</span> <span class=s1>&#39;root@localhost&#39;</span>
+<a name=line-182></a>
+<a name=line-183></a><span class=c1># Database connection info. If left empty, will default to the dummy backend.</span>
+<a name=line-184></a><span class=n>DATABASES</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-185></a>
+<a name=line-186></a><span class=c1># Classes used to implement DB routing behavior.</span>
+<a name=line-187></a><span class=n>DATABASE_ROUTERS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-188></a>
+<a name=line-189></a><span class=c1># The email backend to use. For possible shortcuts see django.core.mail.</span>
+<a name=line-190></a><span class=c1># The default is to use the SMTP backend.</span>
+<a name=line-191></a><span class=c1># Third-party backends can be specified by providing a Python path</span>
+<a name=line-192></a><span class=c1># to a module that defines an EmailBackend class.</span>
+<a name=line-193></a><span class=n>EMAIL_BACKEND</span> <span class=o>=</span> <span class=s1>&#39;django.core.mail.backends.smtp.EmailBackend&#39;</span>
+<a name=line-194></a>
+<a name=line-195></a><span class=c1># Host for sending email.</span>
+<a name=line-196></a><span class=n>EMAIL_HOST</span> <span class=o>=</span> <span class=s1>&#39;localhost&#39;</span>
+<a name=line-197></a>
+<a name=line-198></a><span class=c1># Port for sending email.</span>
+<a name=line-199></a><span class=n>EMAIL_PORT</span> <span class=o>=</span> <span class=mi>25</span>
+<a name=line-200></a>
+<a name=line-201></a><span class=c1># Whether to send SMTP &#39;Date&#39; header in the local time zone or in UTC.</span>
+<a name=line-202></a><span class=n>EMAIL_USE_LOCALTIME</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-203></a>
+<a name=line-204></a><span class=c1># Optional SMTP authentication information for EMAIL_HOST.</span>
+<a name=line-205></a><span class=n>EMAIL_HOST_USER</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-206></a><span class=n>EMAIL_HOST_PASSWORD</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-207></a><span class=n>EMAIL_USE_TLS</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-208></a><span class=n>EMAIL_USE_SSL</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-209></a><span class=n>EMAIL_SSL_CERTFILE</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-210></a><span class=n>EMAIL_SSL_KEYFILE</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-211></a><span class=n>EMAIL_TIMEOUT</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-212></a>
+<a name=line-213></a><span class=c1># List of strings representing installed apps.</span>
+<a name=line-214></a><span class=n>INSTALLED_APPS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-215></a>
+<a name=line-216></a><span class=n>TEMPLATES</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-217></a>
+<a name=line-218></a><span class=c1># Default form rendering class.</span>
+<a name=line-219></a><span class=n>FORM_RENDERER</span> <span class=o>=</span> <span class=s1>&#39;django.forms.renderers.DjangoTemplates&#39;</span>
+<a name=line-220></a>
+<a name=line-221></a><span class=c1># Default email address to use for various automated correspondence from</span>
+<a name=line-222></a><span class=c1># the site managers.</span>
+<a name=line-223></a><span class=n>DEFAULT_FROM_EMAIL</span> <span class=o>=</span> <span class=s1>&#39;webmaster@localhost&#39;</span>
+<a name=line-224></a>
+<a name=line-225></a><span class=c1># Subject-line prefix for email messages send with django.core.mail.mail_admins</span>
+<a name=line-226></a><span class=c1># or ...mail_managers.  Make sure to include the trailing space.</span>
+<a name=line-227></a><span class=n>EMAIL_SUBJECT_PREFIX</span> <span class=o>=</span> <span class=s1>&#39;[Django] &#39;</span>
+<a name=line-228></a>
+<a name=line-229></a><span class=c1># Whether to append trailing slashes to URLs.</span>
+<a name=line-230></a><span class=n>APPEND_SLASH</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-231></a>
+<a name=line-232></a><span class=c1># Whether to prepend the &quot;www.&quot; subdomain to URLs that don&#39;t have it.</span>
+<a name=line-233></a><span class=n>PREPEND_WWW</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-234></a>
+<a name=line-235></a><span class=c1># Override the server-derived value of SCRIPT_NAME</span>
+<a name=line-236></a><span class=n>FORCE_SCRIPT_NAME</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-237></a>
+<a name=line-238></a><span class=c1># List of compiled regular expression objects representing User-Agent strings</span>
+<a name=line-239></a><span class=c1># that are not allowed to visit any page, systemwide. Use this for bad</span>
+<a name=line-240></a><span class=c1># robots/crawlers. Here are a few examples:</span>
+<a name=line-241></a><span class=c1>#     import re</span>
+<a name=line-242></a><span class=c1>#     DISALLOWED_USER_AGENTS = [</span>
+<a name=line-243></a><span class=c1>#         re.compile(r&#39;^NaverBot.*&#39;),</span>
+<a name=line-244></a><span class=c1>#         re.compile(r&#39;^EmailSiphon.*&#39;),</span>
+<a name=line-245></a><span class=c1>#         re.compile(r&#39;^SiteSucker.*&#39;),</span>
+<a name=line-246></a><span class=c1>#         re.compile(r&#39;^sohu-search&#39;),</span>
+<a name=line-247></a><span class=c1>#     ]</span>
+<a name=line-248></a><span class=n>DISALLOWED_USER_AGENTS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-249></a>
+<a name=line-250></a><span class=n>ABSOLUTE_URL_OVERRIDES</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-251></a>
+<a name=line-252></a><span class=c1># List of compiled regular expression objects representing URLs that need not</span>
+<a name=line-253></a><span class=c1># be reported by BrokenLinkEmailsMiddleware. Here are a few examples:</span>
+<a name=line-254></a><span class=c1>#    import re</span>
+<a name=line-255></a><span class=c1>#    IGNORABLE_404_URLS = [</span>
+<a name=line-256></a><span class=c1>#        re.compile(r&#39;^/apple-touch-icon.*\.png$&#39;),</span>
+<a name=line-257></a><span class=c1>#        re.compile(r&#39;^/favicon.ico$&#39;),</span>
+<a name=line-258></a><span class=c1>#        re.compile(r&#39;^/robots.txt$&#39;),</span>
+<a name=line-259></a><span class=c1>#        re.compile(r&#39;^/phpmyadmin/&#39;),</span>
+<a name=line-260></a><span class=c1>#        re.compile(r&#39;\.(cgi|php|pl)$&#39;),</span>
+<a name=line-261></a><span class=c1>#    ]</span>
+<a name=line-262></a><span class=n>IGNORABLE_404_URLS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-263></a>
+<a name=line-264></a><span class=c1># A secret key for this particular Django installation. Used in secret-key</span>
+<a name=line-265></a><span class=c1># hashing algorithms. Set this in your settings, or Django will complain</span>
+<a name=line-266></a><span class=c1># loudly.</span>
+<a name=line-267></a><span class=n>SECRET_KEY</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-268></a>
+<a name=line-269></a><span class=c1># Default file storage mechanism that holds media.</span>
+<a name=line-270></a><span class=n>DEFAULT_FILE_STORAGE</span> <span class=o>=</span> <span class=s1>&#39;django.core.files.storage.FileSystemStorage&#39;</span>
+<a name=line-271></a>
+<a name=line-272></a><span class=c1># Absolute filesystem path to the directory that will hold user-uploaded files.</span>
+<a name=line-273></a><span class=c1># Example: &quot;/var/www/example.com/media/&quot;</span>
+<a name=line-274></a><span class=n>MEDIA_ROOT</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-275></a>
+<a name=line-276></a><span class=c1># URL that handles the media served from MEDIA_ROOT.</span>
+<a name=line-277></a><span class=c1># Examples: &quot;http://example.com/media/&quot;, &quot;http://media.example.com/&quot;</span>
+<a name=line-278></a><span class=n>MEDIA_URL</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-279></a>
+<a name=line-280></a><span class=c1># Absolute path to the directory static files should be collected to.</span>
+<a name=line-281></a><span class=c1># Example: &quot;/var/www/example.com/static/&quot;</span>
+<a name=line-282></a><span class=n>STATIC_ROOT</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-283></a>
+<a name=line-284></a><span class=c1># URL that handles the static files served from STATIC_ROOT.</span>
+<a name=line-285></a><span class=c1># Example: &quot;http://example.com/static/&quot;, &quot;http://static.example.com/&quot;</span>
+<a name=line-286></a><span class=n>STATIC_URL</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-287></a>
+<a name=line-288></a><span class=c1># List of upload handler classes to be applied in order.</span>
+<a name=line-289></a><span class=n>FILE_UPLOAD_HANDLERS</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-290></a>    <span class=s1>&#39;django.core.files.uploadhandler.MemoryFileUploadHandler&#39;</span><span class=p>,</span>
+<a name=line-291></a>    <span class=s1>&#39;django.core.files.uploadhandler.TemporaryFileUploadHandler&#39;</span><span class=p>,</span>
+<a name=line-292></a><span class=p>]</span>
+<a name=line-293></a>
+<a name=line-294></a><span class=c1># Maximum size, in bytes, of a request before it will be streamed to the</span>
+<a name=line-295></a><span class=c1># file system instead of into memory.</span>
+<a name=line-296></a><span class=n>FILE_UPLOAD_MAX_MEMORY_SIZE</span> <span class=o>=</span> <span class=mi>2621440</span>  <span class=c1># i.e. 2.5 MB</span>
+<a name=line-297></a>
+<a name=line-298></a><span class=c1># Maximum size in bytes of request data (excluding file uploads) that will be</span>
+<a name=line-299></a><span class=c1># read before a SuspiciousOperation (RequestDataTooBig) is raised.</span>
+<a name=line-300></a><span class=n>DATA_UPLOAD_MAX_MEMORY_SIZE</span> <span class=o>=</span> <span class=mi>2621440</span>  <span class=c1># i.e. 2.5 MB</span>
+<a name=line-301></a>
+<a name=line-302></a><span class=c1># Maximum number of GET/POST parameters that will be read before a</span>
+<a name=line-303></a><span class=c1># SuspiciousOperation (TooManyFieldsSent) is raised.</span>
+<a name=line-304></a><span class=n>DATA_UPLOAD_MAX_NUMBER_FIELDS</span> <span class=o>=</span> <span class=mi>1000</span>
+<a name=line-305></a>
+<a name=line-306></a><span class=c1># Directory in which upload streamed files will be temporarily saved. A value of</span>
+<a name=line-307></a><span class=c1># `None` will make Django use the operating system&#39;s default temporary directory</span>
+<a name=line-308></a><span class=c1># (i.e. &quot;/tmp&quot; on *nix systems).</span>
+<a name=line-309></a><span class=n>FILE_UPLOAD_TEMP_DIR</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-310></a>
+<a name=line-311></a><span class=c1># The numeric mode to set newly-uploaded files to. The value should be a mode</span>
+<a name=line-312></a><span class=c1># you&#39;d pass directly to os.chmod; see https://docs.python.org/library/os.html#files-and-directories.</span>
+<a name=line-313></a><span class=n>FILE_UPLOAD_PERMISSIONS</span> <span class=o>=</span> <span class=mo>0o644</span>
+<a name=line-314></a>
+<a name=line-315></a><span class=c1># The numeric mode to assign to newly-created directories, when uploading files.</span>
+<a name=line-316></a><span class=c1># The value should be a mode as you&#39;d pass to os.chmod;</span>
+<a name=line-317></a><span class=c1># see https://docs.python.org/library/os.html#files-and-directories.</span>
+<a name=line-318></a><span class=n>FILE_UPLOAD_DIRECTORY_PERMISSIONS</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-319></a>
+<a name=line-320></a><span class=c1># Python module path where user will place custom format definition.</span>
+<a name=line-321></a><span class=c1># The directory where this setting is pointing should contain subdirectories</span>
+<a name=line-322></a><span class=c1># named as the locales, containing a formats.py file</span>
+<a name=line-323></a><span class=c1># (i.e. &quot;myproject.locale&quot; for myproject/locale/en/formats.py etc. use)</span>
+<a name=line-324></a><span class=n>FORMAT_MODULE_PATH</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-325></a>
+<a name=line-326></a><span class=c1># Default formatting for date objects. See all available format strings here:</span>
+<a name=line-327></a><span class=c1># https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date</span>
+<a name=line-328></a><span class=n>DATE_FORMAT</span> <span class=o>=</span> <span class=s1>&#39;N j, Y&#39;</span>
+<a name=line-329></a>
+<a name=line-330></a><span class=c1># Default formatting for datetime objects. See all available format strings here:</span>
+<a name=line-331></a><span class=c1># https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date</span>
+<a name=line-332></a><span class=n>DATETIME_FORMAT</span> <span class=o>=</span> <span class=s1>&#39;N j, Y, P&#39;</span>
+<a name=line-333></a>
+<a name=line-334></a><span class=c1># Default formatting for time objects. See all available format strings here:</span>
+<a name=line-335></a><span class=c1># https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date</span>
+<a name=line-336></a><span class=n>TIME_FORMAT</span> <span class=o>=</span> <span class=s1>&#39;P&#39;</span>
+<a name=line-337></a>
+<a name=line-338></a><span class=c1># Default formatting for date objects when only the year and month are relevant.</span>
+<a name=line-339></a><span class=c1># See all available format strings here:</span>
+<a name=line-340></a><span class=c1># https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date</span>
+<a name=line-341></a><span class=n>YEAR_MONTH_FORMAT</span> <span class=o>=</span> <span class=s1>&#39;F Y&#39;</span>
+<a name=line-342></a>
+<a name=line-343></a><span class=c1># Default formatting for date objects when only the month and day are relevant.</span>
+<a name=line-344></a><span class=c1># See all available format strings here:</span>
+<a name=line-345></a><span class=c1># https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date</span>
+<a name=line-346></a><span class=n>MONTH_DAY_FORMAT</span> <span class=o>=</span> <span class=s1>&#39;F j&#39;</span>
+<a name=line-347></a>
+<a name=line-348></a><span class=c1># Default short formatting for date objects. See all available format strings here:</span>
+<a name=line-349></a><span class=c1># https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date</span>
+<a name=line-350></a><span class=n>SHORT_DATE_FORMAT</span> <span class=o>=</span> <span class=s1>&#39;m/d/Y&#39;</span>
+<a name=line-351></a>
+<a name=line-352></a><span class=c1># Default short formatting for datetime objects.</span>
+<a name=line-353></a><span class=c1># See all available format strings here:</span>
+<a name=line-354></a><span class=c1># https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date</span>
+<a name=line-355></a><span class=n>SHORT_DATETIME_FORMAT</span> <span class=o>=</span> <span class=s1>&#39;m/d/Y P&#39;</span>
+<a name=line-356></a>
+<a name=line-357></a><span class=c1># Default formats to be used when parsing dates from input boxes, in order</span>
+<a name=line-358></a><span class=c1># See all available format string here:</span>
+<a name=line-359></a><span class=c1># https://docs.python.org/library/datetime.html#strftime-behavior</span>
+<a name=line-360></a><span class=c1># * Note that these format strings are different from the ones to display dates</span>
+<a name=line-361></a><span class=n>DATE_INPUT_FORMATS</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-362></a>    <span class=s1>&#39;%Y-%m-</span><span class=si>%d</span><span class=s1>&#39;</span><span class=p>,</span> <span class=s1>&#39;%m/</span><span class=si>%d</span><span class=s1>/%Y&#39;</span><span class=p>,</span> <span class=s1>&#39;%m/</span><span class=si>%d</span><span class=s1>/%y&#39;</span><span class=p>,</span>  <span class=c1># &#39;2006-10-25&#39;, &#39;10/25/2006&#39;, &#39;10/25/06&#39;</span>
+<a name=line-363></a>    <span class=s1>&#39;%b </span><span class=si>%d</span><span class=s1> %Y&#39;</span><span class=p>,</span> <span class=s1>&#39;%b </span><span class=si>%d</span><span class=s1>, %Y&#39;</span><span class=p>,</span>             <span class=c1># &#39;Oct 25 2006&#39;, &#39;Oct 25, 2006&#39;</span>
+<a name=line-364></a>    <span class=s1>&#39;</span><span class=si>%d</span><span class=s1> %b %Y&#39;</span><span class=p>,</span> <span class=s1>&#39;</span><span class=si>%d</span><span class=s1> %b, %Y&#39;</span><span class=p>,</span>             <span class=c1># &#39;25 Oct 2006&#39;, &#39;25 Oct, 2006&#39;</span>
+<a name=line-365></a>    <span class=s1>&#39;%B </span><span class=si>%d</span><span class=s1> %Y&#39;</span><span class=p>,</span> <span class=s1>&#39;%B </span><span class=si>%d</span><span class=s1>, %Y&#39;</span><span class=p>,</span>             <span class=c1># &#39;October 25 2006&#39;, &#39;October 25, 2006&#39;</span>
+<a name=line-366></a>    <span class=s1>&#39;</span><span class=si>%d</span><span class=s1> %B %Y&#39;</span><span class=p>,</span> <span class=s1>&#39;</span><span class=si>%d</span><span class=s1> %B, %Y&#39;</span><span class=p>,</span>             <span class=c1># &#39;25 October 2006&#39;, &#39;25 October, 2006&#39;</span>
+<a name=line-367></a><span class=p>]</span>
+<a name=line-368></a>
+<a name=line-369></a><span class=c1># Default formats to be used when parsing times from input boxes, in order</span>
+<a name=line-370></a><span class=c1># See all available format string here:</span>
+<a name=line-371></a><span class=c1># https://docs.python.org/library/datetime.html#strftime-behavior</span>
+<a name=line-372></a><span class=c1># * Note that these format strings are different from the ones to display dates</span>
+<a name=line-373></a><span class=n>TIME_INPUT_FORMATS</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-374></a>    <span class=s1>&#39;%H:%M:%S&#39;</span><span class=p>,</span>     <span class=c1># &#39;14:30:59&#39;</span>
+<a name=line-375></a>    <span class=s1>&#39;%H:%M:%S.</span><span class=si>%f</span><span class=s1>&#39;</span><span class=p>,</span>  <span class=c1># &#39;14:30:59.000200&#39;</span>
+<a name=line-376></a>    <span class=s1>&#39;%H:%M&#39;</span><span class=p>,</span>        <span class=c1># &#39;14:30&#39;</span>
+<a name=line-377></a><span class=p>]</span>
+<a name=line-378></a>
+<a name=line-379></a><span class=c1># Default formats to be used when parsing dates and times from input boxes,</span>
+<a name=line-380></a><span class=c1># in order</span>
+<a name=line-381></a><span class=c1># See all available format string here:</span>
+<a name=line-382></a><span class=c1># https://docs.python.org/library/datetime.html#strftime-behavior</span>
+<a name=line-383></a><span class=c1># * Note that these format strings are different from the ones to display dates</span>
+<a name=line-384></a><span class=n>DATETIME_INPUT_FORMATS</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-385></a>    <span class=s1>&#39;%Y-%m-</span><span class=si>%d</span><span class=s1> %H:%M:%S&#39;</span><span class=p>,</span>     <span class=c1># &#39;2006-10-25 14:30:59&#39;</span>
+<a name=line-386></a>    <span class=s1>&#39;%Y-%m-</span><span class=si>%d</span><span class=s1> %H:%M:%S.</span><span class=si>%f</span><span class=s1>&#39;</span><span class=p>,</span>  <span class=c1># &#39;2006-10-25 14:30:59.000200&#39;</span>
+<a name=line-387></a>    <span class=s1>&#39;%Y-%m-</span><span class=si>%d</span><span class=s1> %H:%M&#39;</span><span class=p>,</span>        <span class=c1># &#39;2006-10-25 14:30&#39;</span>
+<a name=line-388></a>    <span class=s1>&#39;%m/</span><span class=si>%d</span><span class=s1>/%Y %H:%M:%S&#39;</span><span class=p>,</span>     <span class=c1># &#39;10/25/2006 14:30:59&#39;</span>
+<a name=line-389></a>    <span class=s1>&#39;%m/</span><span class=si>%d</span><span class=s1>/%Y %H:%M:%S.</span><span class=si>%f</span><span class=s1>&#39;</span><span class=p>,</span>  <span class=c1># &#39;10/25/2006 14:30:59.000200&#39;</span>
+<a name=line-390></a>    <span class=s1>&#39;%m/</span><span class=si>%d</span><span class=s1>/%Y %H:%M&#39;</span><span class=p>,</span>        <span class=c1># &#39;10/25/2006 14:30&#39;</span>
+<a name=line-391></a>    <span class=s1>&#39;%m/</span><span class=si>%d</span><span class=s1>/%y %H:%M:%S&#39;</span><span class=p>,</span>     <span class=c1># &#39;10/25/06 14:30:59&#39;</span>
+<a name=line-392></a>    <span class=s1>&#39;%m/</span><span class=si>%d</span><span class=s1>/%y %H:%M:%S.</span><span class=si>%f</span><span class=s1>&#39;</span><span class=p>,</span>  <span class=c1># &#39;10/25/06 14:30:59.000200&#39;</span>
+<a name=line-393></a>    <span class=s1>&#39;%m/</span><span class=si>%d</span><span class=s1>/%y %H:%M&#39;</span><span class=p>,</span>        <span class=c1># &#39;10/25/06 14:30&#39;</span>
+<a name=line-394></a><span class=p>]</span>
+<a name=line-395></a>
+<a name=line-396></a><span class=c1># First day of week, to be used on calendars</span>
+<a name=line-397></a><span class=c1># 0 means Sunday, 1 means Monday...</span>
+<a name=line-398></a><span class=n>FIRST_DAY_OF_WEEK</span> <span class=o>=</span> <span class=mi>0</span>
+<a name=line-399></a>
+<a name=line-400></a><span class=c1># Decimal separator symbol</span>
+<a name=line-401></a><span class=n>DECIMAL_SEPARATOR</span> <span class=o>=</span> <span class=s1>&#39;.&#39;</span>
+<a name=line-402></a>
+<a name=line-403></a><span class=c1># Boolean that sets whether to add thousand separator when formatting numbers</span>
+<a name=line-404></a><span class=n>USE_THOUSAND_SEPARATOR</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-405></a>
+<a name=line-406></a><span class=c1># Number of digits that will be together, when splitting them by</span>
+<a name=line-407></a><span class=c1># THOUSAND_SEPARATOR. 0 means no grouping, 3 means splitting by thousands...</span>
+<a name=line-408></a><span class=n>NUMBER_GROUPING</span> <span class=o>=</span> <span class=mi>0</span>
+<a name=line-409></a>
+<a name=line-410></a><span class=c1># Thousand separator symbol</span>
+<a name=line-411></a><span class=n>THOUSAND_SEPARATOR</span> <span class=o>=</span> <span class=s1>&#39;,&#39;</span>
+<a name=line-412></a>
+<a name=line-413></a><span class=c1># The tablespaces to use for each model when not specified otherwise.</span>
+<a name=line-414></a><span class=n>DEFAULT_TABLESPACE</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-415></a><span class=n>DEFAULT_INDEX_TABLESPACE</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-416></a>
+<a name=line-417></a><span class=c1># Default X-Frame-Options header value</span>
+<a name=line-418></a><span class=n>X_FRAME_OPTIONS</span> <span class=o>=</span> <span class=s1>&#39;DENY&#39;</span>
+<a name=line-419></a>
+<a name=line-420></a><span class=n>USE_X_FORWARDED_HOST</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-421></a><span class=n>USE_X_FORWARDED_PORT</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-422></a>
+<a name=line-423></a><span class=c1># The Python dotted path to the WSGI application that Django&#39;s internal server</span>
+<a name=line-424></a><span class=c1># (runserver) will use. If `None`, the return value of</span>
+<a name=line-425></a><span class=c1># &#39;django.core.wsgi.get_wsgi_application&#39; is used, thus preserving the same</span>
+<a name=line-426></a><span class=c1># behavior as previous versions of Django. Otherwise this should point to an</span>
+<a name=line-427></a><span class=c1># actual WSGI application object.</span>
+<a name=line-428></a><span class=n>WSGI_APPLICATION</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-429></a>
+<a name=line-430></a><span class=c1># If your Django app is behind a proxy that sets a header to specify secure</span>
+<a name=line-431></a><span class=c1># connections, AND that proxy ensures that user-submitted headers with the</span>
+<a name=line-432></a><span class=c1># same name are ignored (so that people can&#39;t spoof it), set this value to</span>
+<a name=line-433></a><span class=c1># a tuple of (header_name, header_value). For any requests that come in with</span>
+<a name=line-434></a><span class=c1># that header/value, request.is_secure() will return True.</span>
+<a name=line-435></a><span class=c1># WARNING! Only set this if you fully understand what you&#39;re doing. Otherwise,</span>
+<a name=line-436></a><span class=c1># you may be opening yourself up to a security risk.</span>
+<a name=line-437></a><span class=n>SECURE_PROXY_SSL_HEADER</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-438></a>
+<a name=line-439></a><span class=c1># Default hashing algorithm to use for encoding cookies, password reset tokens</span>
+<a name=line-440></a><span class=c1># in the admin site, user sessions, and signatures. It&#39;s a transitional setting</span>
+<a name=line-441></a><span class=c1># helpful in migrating multiple instance of the same project to Django 3.1+.</span>
+<a name=line-442></a><span class=c1># Algorithm must be &#39;sha1&#39; or &#39;sha256&#39;.</span>
+<a name=line-443></a><span class=n>DEFAULT_HASHING_ALGORITHM</span> <span class=o>=</span> <span class=s1>&#39;sha256&#39;</span>
+<a name=line-444></a>
+<a name=line-445></a><span class=c1>##############</span>
+<a name=line-446></a><span class=c1># MIDDLEWARE #</span>
+<a name=line-447></a><span class=c1>##############</span>
+<a name=line-448></a>
+<a name=line-449></a><span class=c1># List of middleware to use. Order is important; in the request phase, these</span>
+<a name=line-450></a><span class=c1># middleware will be applied in the order given, and in the response</span>
+<a name=line-451></a><span class=c1># phase the middleware will be applied in reverse order.</span>
+<a name=line-452></a><span class=n>MIDDLEWARE</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-453></a>
+<a name=line-454></a><span class=c1>############</span>
+<a name=line-455></a><span class=c1># SESSIONS #</span>
+<a name=line-456></a><span class=c1>############</span>
+<a name=line-457></a>
+<a name=line-458></a><span class=c1># Cache to store session data if using the cache session backend.</span>
+<a name=line-459></a><span class=n>SESSION_CACHE_ALIAS</span> <span class=o>=</span> <span class=s1>&#39;default&#39;</span>
+<a name=line-460></a><span class=c1># Cookie name. This can be whatever you want.</span>
+<a name=line-461></a><span class=n>SESSION_COOKIE_NAME</span> <span class=o>=</span> <span class=s1>&#39;sessionid&#39;</span>
+<a name=line-462></a><span class=c1># Age of cookie, in seconds (default: 2 weeks).</span>
+<a name=line-463></a><span class=n>SESSION_COOKIE_AGE</span> <span class=o>=</span> <span class=mi>60</span> <span class=o>*</span> <span class=mi>60</span> <span class=o>*</span> <span class=mi>24</span> <span class=o>*</span> <span class=mi>7</span> <span class=o>*</span> <span class=mi>2</span>
+<a name=line-464></a><span class=c1># A string like &quot;example.com&quot;, or None for standard domain cookie.</span>
+<a name=line-465></a><span class=n>SESSION_COOKIE_DOMAIN</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-466></a><span class=c1># Whether the session cookie should be secure (https:// only).</span>
+<a name=line-467></a><span class=n>SESSION_COOKIE_SECURE</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-468></a><span class=c1># The path of the session cookie.</span>
+<a name=line-469></a><span class=n>SESSION_COOKIE_PATH</span> <span class=o>=</span> <span class=s1>&#39;/&#39;</span>
+<a name=line-470></a><span class=c1># Whether to use the HttpOnly flag.</span>
+<a name=line-471></a><span class=n>SESSION_COOKIE_HTTPONLY</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-472></a><span class=c1># Whether to set the flag restricting cookie leaks on cross-site requests.</span>
+<a name=line-473></a><span class=c1># This can be &#39;Lax&#39;, &#39;Strict&#39;, &#39;None&#39;, or False to disable the flag.</span>
+<a name=line-474></a><span class=n>SESSION_COOKIE_SAMESITE</span> <span class=o>=</span> <span class=s1>&#39;Lax&#39;</span>
+<a name=line-475></a><span class=c1># Whether to save the session data on every request.</span>
+<a name=line-476></a><span class=n>SESSION_SAVE_EVERY_REQUEST</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-477></a><span class=c1># Whether a user&#39;s session cookie expires when the Web browser is closed.</span>
+<a name=line-478></a><span class=n>SESSION_EXPIRE_AT_BROWSER_CLOSE</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-479></a><span class=c1># The module to store session data</span>
+<a name=line-480></a><span class=n>SESSION_ENGINE</span> <span class=o>=</span> <span class=s1>&#39;django.contrib.sessions.backends.db&#39;</span>
+<a name=line-481></a><span class=c1># Directory to store session files if using the file session module. If None,</span>
+<a name=line-482></a><span class=c1># the backend will use a sensible default.</span>
+<a name=line-483></a><span class=n>SESSION_FILE_PATH</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-484></a><span class=c1># class to serialize session data</span>
+<a name=line-485></a><span class=n>SESSION_SERIALIZER</span> <span class=o>=</span> <span class=s1>&#39;django.contrib.sessions.serializers.JSONSerializer&#39;</span>
+<a name=line-486></a>
+<a name=line-487></a><span class=c1>#########</span>
+<a name=line-488></a><span class=c1># CACHE #</span>
+<a name=line-489></a><span class=c1>#########</span>
+<a name=line-490></a>
+<a name=line-491></a><span class=c1># The cache backends to use.</span>
+<a name=line-492></a><span class=n>CACHES</span> <span class=o>=</span> <span class=p>{</span>
+<a name=line-493></a>    <span class=s1>&#39;default&#39;</span><span class=p>:</span> <span class=p>{</span>
+<a name=line-494></a>        <span class=s1>&#39;BACKEND&#39;</span><span class=p>:</span> <span class=s1>&#39;django.core.cache.backends.locmem.LocMemCache&#39;</span><span class=p>,</span>
+<a name=line-495></a>    <span class=p>}</span>
+<a name=line-496></a><span class=p>}</span>
+<a name=line-497></a><span class=n>CACHE_MIDDLEWARE_KEY_PREFIX</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-498></a><span class=n>CACHE_MIDDLEWARE_SECONDS</span> <span class=o>=</span> <span class=mi>600</span>
+<a name=line-499></a><span class=n>CACHE_MIDDLEWARE_ALIAS</span> <span class=o>=</span> <span class=s1>&#39;default&#39;</span>
+<a name=line-500></a>
+<a name=line-501></a><span class=c1>##################</span>
+<a name=line-502></a><span class=c1># AUTHENTICATION #</span>
+<a name=line-503></a><span class=c1>##################</span>
+<a name=line-504></a>
+<a name=line-505></a><span class=n>AUTH_USER_MODEL</span> <span class=o>=</span> <span class=s1>&#39;auth.User&#39;</span>
+<a name=line-506></a>
+<a name=line-507></a><span class=n>AUTHENTICATION_BACKENDS</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;django.contrib.auth.backends.ModelBackend&#39;</span><span class=p>]</span>
+<a name=line-508></a>
+<a name=line-509></a><span class=n>LOGIN_URL</span> <span class=o>=</span> <span class=s1>&#39;/accounts/login/&#39;</span>
+<a name=line-510></a>
+<a name=line-511></a><span class=n>LOGIN_REDIRECT_URL</span> <span class=o>=</span> <span class=s1>&#39;/accounts/profile/&#39;</span>
+<a name=line-512></a>
+<a name=line-513></a><span class=n>LOGOUT_REDIRECT_URL</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-514></a>
+<a name=line-515></a><span class=c1># The number of days a password reset link is valid for</span>
+<a name=line-516></a><span class=n>PASSWORD_RESET_TIMEOUT_DAYS</span> <span class=o>=</span> <span class=mi>3</span>
+<a name=line-517></a>
+<a name=line-518></a><span class=c1># The number of seconds a password reset link is valid for (default: 3 days).</span>
+<a name=line-519></a><span class=n>PASSWORD_RESET_TIMEOUT</span> <span class=o>=</span> <span class=mi>60</span> <span class=o>*</span> <span class=mi>60</span> <span class=o>*</span> <span class=mi>24</span> <span class=o>*</span> <span class=mi>3</span>
+<a name=line-520></a>
+<a name=line-521></a><span class=c1># the first hasher in this list is the preferred algorithm.  any</span>
+<a name=line-522></a><span class=c1># password using different algorithms will be converted automatically</span>
+<a name=line-523></a><span class=c1># upon login</span>
+<a name=line-524></a><span class=n>PASSWORD_HASHERS</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-525></a>    <span class=s1>&#39;django.contrib.auth.hashers.PBKDF2PasswordHasher&#39;</span><span class=p>,</span>
+<a name=line-526></a>    <span class=s1>&#39;django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher&#39;</span><span class=p>,</span>
+<a name=line-527></a>    <span class=s1>&#39;django.contrib.auth.hashers.Argon2PasswordHasher&#39;</span><span class=p>,</span>
+<a name=line-528></a>    <span class=s1>&#39;django.contrib.auth.hashers.BCryptSHA256PasswordHasher&#39;</span><span class=p>,</span>
+<a name=line-529></a><span class=p>]</span>
+<a name=line-530></a>
+<a name=line-531></a><span class=n>AUTH_PASSWORD_VALIDATORS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-532></a>
+<a name=line-533></a><span class=c1>###########</span>
+<a name=line-534></a><span class=c1># SIGNING #</span>
+<a name=line-535></a><span class=c1>###########</span>
+<a name=line-536></a>
+<a name=line-537></a><span class=n>SIGNING_BACKEND</span> <span class=o>=</span> <span class=s1>&#39;django.core.signing.TimestampSigner&#39;</span>
+<a name=line-538></a>
+<a name=line-539></a><span class=c1>########</span>
+<a name=line-540></a><span class=c1># CSRF #</span>
+<a name=line-541></a><span class=c1>########</span>
+<a name=line-542></a>
+<a name=line-543></a><span class=c1># Dotted path to callable to be used as view when a request is</span>
+<a name=line-544></a><span class=c1># rejected by the CSRF middleware.</span>
+<a name=line-545></a><span class=n>CSRF_FAILURE_VIEW</span> <span class=o>=</span> <span class=s1>&#39;django.views.csrf.csrf_failure&#39;</span>
+<a name=line-546></a>
+<a name=line-547></a><span class=c1># Settings for CSRF cookie.</span>
+<a name=line-548></a><span class=n>CSRF_COOKIE_NAME</span> <span class=o>=</span> <span class=s1>&#39;csrftoken&#39;</span>
+<a name=line-549></a><span class=n>CSRF_COOKIE_AGE</span> <span class=o>=</span> <span class=mi>60</span> <span class=o>*</span> <span class=mi>60</span> <span class=o>*</span> <span class=mi>24</span> <span class=o>*</span> <span class=mi>7</span> <span class=o>*</span> <span class=mi>52</span>
+<a name=line-550></a><span class=n>CSRF_COOKIE_DOMAIN</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-551></a><span class=n>CSRF_COOKIE_PATH</span> <span class=o>=</span> <span class=s1>&#39;/&#39;</span>
+<a name=line-552></a><span class=n>CSRF_COOKIE_SECURE</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-553></a><span class=n>CSRF_COOKIE_HTTPONLY</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-554></a><span class=n>CSRF_COOKIE_SAMESITE</span> <span class=o>=</span> <span class=s1>&#39;Lax&#39;</span>
+<a name=line-555></a><span class=n>CSRF_HEADER_NAME</span> <span class=o>=</span> <span class=s1>&#39;HTTP_X_CSRFTOKEN&#39;</span>
+<a name=line-556></a><span class=n>CSRF_TRUSTED_ORIGINS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-557></a><span class=n>CSRF_USE_SESSIONS</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-558></a>
+<a name=line-559></a><span class=c1>############</span>
+<a name=line-560></a><span class=c1># MESSAGES #</span>
+<a name=line-561></a><span class=c1>############</span>
+<a name=line-562></a>
+<a name=line-563></a><span class=c1># Class to use as messages backend</span>
+<a name=line-564></a><span class=n>MESSAGE_STORAGE</span> <span class=o>=</span> <span class=s1>&#39;django.contrib.messages.storage.fallback.FallbackStorage&#39;</span>
+<a name=line-565></a>
+<a name=line-566></a><span class=c1># Default values of MESSAGE_LEVEL and MESSAGE_TAGS are defined within</span>
+<a name=line-567></a><span class=c1># django.contrib.messages to avoid imports in this settings file.</span>
+<a name=line-568></a>
+<a name=line-569></a><span class=c1>###########</span>
+<a name=line-570></a><span class=c1># LOGGING #</span>
+<a name=line-571></a><span class=c1>###########</span>
+<a name=line-572></a>
+<a name=line-573></a><span class=c1># The callable to use to configure logging</span>
+<a name=line-574></a><span class=n>LOGGING_CONFIG</span> <span class=o>=</span> <span class=s1>&#39;logging.config.dictConfig&#39;</span>
+<a name=line-575></a>
+<a name=line-576></a><span class=c1># Custom logging configuration.</span>
+<a name=line-577></a><span class=n>LOGGING</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-578></a>
+<a name=line-579></a><span class=c1># Default exception reporter class used in case none has been</span>
+<a name=line-580></a><span class=c1># specifically assigned to the HttpRequest instance.</span>
+<a name=line-581></a><span class=n>DEFAULT_EXCEPTION_REPORTER</span> <span class=o>=</span> <span class=s1>&#39;django.views.debug.ExceptionReporter&#39;</span>
+<a name=line-582></a>
+<a name=line-583></a><span class=c1># Default exception reporter filter class used in case none has been</span>
+<a name=line-584></a><span class=c1># specifically assigned to the HttpRequest instance.</span>
+<a name=line-585></a><span class=n>DEFAULT_EXCEPTION_REPORTER_FILTER</span> <span class=o>=</span> <span class=s1>&#39;django.views.debug.SafeExceptionReporterFilter&#39;</span>
+<a name=line-586></a>
+<a name=line-587></a><span class=c1>###########</span>
+<a name=line-588></a><span class=c1># TESTING #</span>
+<a name=line-589></a><span class=c1>###########</span>
+<a name=line-590></a>
+<a name=line-591></a><span class=c1># The name of the class to use to run the test suite</span>
+<a name=line-592></a><span class=n>TEST_RUNNER</span> <span class=o>=</span> <span class=s1>&#39;django.test.runner.DiscoverRunner&#39;</span>
+<a name=line-593></a>
+<a name=line-594></a><span class=c1># Apps that don&#39;t need to be serialized at test database creation time</span>
+<a name=line-595></a><span class=c1># (only apps with migrations are to start with)</span>
+<a name=line-596></a><span class=n>TEST_NON_SERIALIZED_APPS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-597></a>
+<a name=line-598></a><span class=c1>############</span>
+<a name=line-599></a><span class=c1># FIXTURES #</span>
+<a name=line-600></a><span class=c1>############</span>
+<a name=line-601></a>
+<a name=line-602></a><span class=c1># The list of directories to search for fixtures</span>
+<a name=line-603></a><span class=n>FIXTURE_DIRS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-604></a>
+<a name=line-605></a><span class=c1>###############</span>
+<a name=line-606></a><span class=c1># STATICFILES #</span>
+<a name=line-607></a><span class=c1>###############</span>
+<a name=line-608></a>
+<a name=line-609></a><span class=c1># A list of locations of additional static files</span>
+<a name=line-610></a><span class=n>STATICFILES_DIRS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-611></a>
+<a name=line-612></a><span class=c1># The default file storage backend used during the build process</span>
+<a name=line-613></a><span class=n>STATICFILES_STORAGE</span> <span class=o>=</span> <span class=s1>&#39;django.contrib.staticfiles.storage.StaticFilesStorage&#39;</span>
+<a name=line-614></a>
+<a name=line-615></a><span class=c1># List of finder classes that know how to find static files in</span>
+<a name=line-616></a><span class=c1># various locations.</span>
+<a name=line-617></a><span class=n>STATICFILES_FINDERS</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-618></a>    <span class=s1>&#39;django.contrib.staticfiles.finders.FileSystemFinder&#39;</span><span class=p>,</span>
+<a name=line-619></a>    <span class=s1>&#39;django.contrib.staticfiles.finders.AppDirectoriesFinder&#39;</span><span class=p>,</span>
+<a name=line-620></a>    <span class=c1># &#39;django.contrib.staticfiles.finders.DefaultStorageFinder&#39;,</span>
+<a name=line-621></a><span class=p>]</span>
+<a name=line-622></a>
+<a name=line-623></a><span class=c1>##############</span>
+<a name=line-624></a><span class=c1># MIGRATIONS #</span>
+<a name=line-625></a><span class=c1>##############</span>
+<a name=line-626></a>
+<a name=line-627></a><span class=c1># Migration module overrides for apps, by app label.</span>
+<a name=line-628></a><span class=n>MIGRATION_MODULES</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-629></a>
+<a name=line-630></a><span class=c1>#################</span>
+<a name=line-631></a><span class=c1># SYSTEM CHECKS #</span>
+<a name=line-632></a><span class=c1>#################</span>
+<a name=line-633></a>
+<a name=line-634></a><span class=c1># List of all issues generated by system checks that should be silenced. Light</span>
+<a name=line-635></a><span class=c1># issues like warnings, infos or debugs will not generate a message. Silencing</span>
+<a name=line-636></a><span class=c1># serious issues like errors and criticals does not result in hiding the</span>
+<a name=line-637></a><span class=c1># message, but Django will not stop you from e.g. running server.</span>
+<a name=line-638></a><span class=n>SILENCED_SYSTEM_CHECKS</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-639></a>
+<a name=line-640></a><span class=c1>#######################</span>
+<a name=line-641></a><span class=c1># SECURITY MIDDLEWARE #</span>
+<a name=line-642></a><span class=c1>#######################</span>
+<a name=line-643></a><span class=n>SECURE_BROWSER_XSS_FILTER</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-644></a><span class=n>SECURE_CONTENT_TYPE_NOSNIFF</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-645></a><span class=n>SECURE_HSTS_INCLUDE_SUBDOMAINS</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-646></a><span class=n>SECURE_HSTS_PRELOAD</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-647></a><span class=n>SECURE_HSTS_SECONDS</span> <span class=o>=</span> <span class=mi>0</span>
+<a name=line-648></a><span class=n>SECURE_REDIRECT_EXEMPT</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-649></a><span class=n>SECURE_REFERRER_POLICY</span> <span class=o>=</span> <span class=s1>&#39;same-origin&#39;</span>
+<a name=line-650></a><span class=n>SECURE_SSL_HOST</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-651></a><span class=n>SECURE_SSL_REDIRECT</span> <span class=o>=</span> <span class=kc>False</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

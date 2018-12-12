@@ -1,0 +1,518 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>distributed.client.Client</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Distributed</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=distributed.html>&#9662; distributed</a> </li><li><ul><li><a href=distributed.actor.html>&#9656; actor</a> </li><li><a href=distributed.asyncio.html>&#9656; asyncio</a> </li><li><a href=distributed.batched.html>&#9656; batched</a> </li><li><a href=distributed.bokeh.html>&#9656; bokeh</a> </li><li><a href=distributed.cfexecutor.html>&#9656; cfexecutor</a> </li><li><a href=distributed.cli.html>&#9656; cli</a> </li><li><a href=distributed.client.html>&#9662; client</a> </li><li><ul><li><a href=distributed.client.AllExit.html> <i>class</i> AllExit</a> </li><li><div class=select><a href=distributed.client.Client.html> <i>class</i> Client</a> </div></li><li><a href=distributed.client.Executor.html> <i>class</i> Executor</a> </li><li><a href=distributed.client.Future.html> <i>class</i> Future</a> </li><li><a href=distributed.client.FutureState.html> <i>class</i> FutureState</a> </li><li><a href=distributed.client.as_completed.html> <i>class</i> as_completed</a> </li><li><a href=distributed.client.get_task_metadata.html> <i>class</i> get_task_metadata</a> </li><li><a href=distributed.client.get_task_stream.html> <i>class</i> get_task_stream</a> </li><li><a href=distributed.client.performance_report.html> <i>class</i> performance_report</a> </li></ul></li><li><a href=distributed.comm.html>&#9656; comm</a> </li><li><a href=distributed.compatibility.html>&#9656; compatibility</a> </li><li><a href=distributed.config.html>&#9656; config</a> </li><li><a href=distributed.core.html>&#9656; core</a> </li><li><a href=distributed.counter.html>&#9656; counter</a> </li><li><a href=distributed.dashboard.html>&#9656; dashboard</a> </li><li><a href=distributed.deploy.html>&#9656; deploy</a> </li><li><a href=distributed.diagnostics.html>&#9656; diagnostics</a> </li><li><a href=distributed.diskutils.html>&#9656; diskutils</a> </li><li><a href=distributed.event.html>&#9656; event</a> </li><li><a href=distributed.http.html>&#9656; http</a> </li><li><a href=distributed.lock.html>&#9656; lock</a> </li><li><a href=distributed.locket.html>&#9656; locket</a> </li><li><a href=distributed.metrics.html>&#9656; metrics</a> </li><li><a href=distributed.nanny.html>&#9656; nanny</a> </li><li><a href=distributed.node.html>&#9656; node</a> </li><li><a href=distributed.preloading.html>&#9656; preloading</a> </li><li><a href=distributed.process.html>&#9656; process</a> </li><li><a href=distributed.proctitle.html>&#9656; proctitle</a> </li><li><a href=distributed.profile.html>&#9656; profile</a> </li><li><a href=distributed.protocol.html>&#9656; protocol</a> </li><li><a href=distributed.publish.html>&#9656; publish</a> </li><li><a href=distributed.pubsub.html>&#9656; pubsub</a> </li><li><a href=distributed.pytest_resourceleaks.html>&#9656; pytest_resourceleaks</a> </li><li><a href=distributed.queues.html>&#9656; queues</a> </li><li><a href=distributed.recreate_exceptions.html>&#9656; recreate_exceptions</a> </li><li><a href=distributed.scheduler.html>&#9656; scheduler</a> </li><li><a href=distributed.security.html>&#9656; security</a> </li><li><a href=distributed.semaphore.html>&#9656; semaphore</a> </li><li><a href=distributed.sizeof.html>&#9656; sizeof</a> </li><li><a href=distributed.stealing.html>&#9656; stealing</a> </li><li><a href=distributed.system.html>&#9656; system</a> </li><li><a href=distributed.system_monitor.html>&#9656; system_monitor</a> </li><li><a href=distributed.tests.html>&#9656; tests</a> </li><li><a href=distributed.threadpoolexecutor.html>&#9656; threadpoolexecutor</a> </li><li><a href=distributed.utils.html>&#9656; utils</a> </li><li><a href=distributed.utils_comm.html>&#9656; utils_comm</a> </li><li><a href=distributed.utils_perf.html>&#9656; utils_perf</a> </li><li><a href=distributed.utils_test.html>&#9656; utils_test</a> </li><li><a href=distributed.variable.html>&#9656; variable</a> </li><li><a href=distributed.versions.html>&#9656; versions</a> </li><li><a href=distributed.worker.html>&#9656; worker</a> </li><li><a href=distributed.worker_client.html>&#9656; worker_client</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Class Client</h1><div id=path><a class=symbol href=distributed.html>distributed</a>.<a class=symbol href=distributed.client.html>client</a>.<a class=symbol href=distributed.client.Client.html>Client</a></div><p><div class=docline> Connect to and submit computation to a Dask cluster </div></p><h2>Declaration</h2><div class=decl><span class=kw>class</span> Client</div><a class=sourcelink href=source+distributed.client.py.html#line-500>source</a> <a class=sourcelink href=distributed.client.Client.html>link</a><h2>Documentation</h2><pre>The Client connects users to a Dask cluster.  It provides an asynchronous
+user interface around functions and futures.  This class resembles
+executors in ``concurrent.futures`` but also allows ``Future`` objects
+within ``submit/map`` calls.  When a Client is instantiated it takes over
+all ``dask.compute`` and ``dask.persist`` calls by default.
+
+It is also common to create a Client without specifying the scheduler
+address , like ``Client()``.  In this case the Client creates a
+:class:`LocalCluster` in the background and connects to that.  Any extra
+keywords are passed from Client to LocalCluster in this case.  See the
+LocalCluster documentation for more information.</pre><h3>Attributes</h3><ul class=params><li><strong>address</strong> : string, or Cluster <br><pre>This can be the address of a ``Scheduler`` server like a string
+``&#39;127.0.0.1:8786&#39;`` or a cluster object like ``LocalCluster()``</pre></li><li><strong>timeout</strong> : int <br><pre>Timeout duration for initial connection to the scheduler</pre></li><li><strong>set_as_default</strong> : bool (True) <br><pre>Claim this scheduler as the global dask scheduler</pre></li><li><strong>scheduler_file</strong> : string <br><pre>Path to a file with scheduler information if available</pre></li><li><strong>security</strong> : Security or bool <br><pre>Optional security information. If creating a local cluster can also
+pass in ``True``, in which case temporary self-signed credentials will
+be created automatically.</pre></li><li><strong>asynchronous</strong> : bool (False by default) <br><pre>Set to True if using this client within async/await functions or within
+Tornado gen.coroutines.  Otherwise this should remain False for normal
+use.</pre></li><li><strong>name</strong> : string <br><pre>Gives the client a name that will be included in logs generated on
+the scheduler for matters relating to this client</pre></li><li><strong>direct_to_workers</strong> : bool <br><pre>Whether or not to connect directly to the workers, or to ask
+the scheduler to serve as intermediary.</pre></li><li><strong>heartbeat_interval</strong> : int <br><pre>Time in milliseconds between heartbeats to scheduler</pre></li><li><strong>**kwargs</strong> : <br><pre>If you do not pass a scheduler address, Client will create a
+``LocalCluster`` object, passing any extra keyword arguments.</pre></li></ul><h3>Examples</h3><pre>Provide cluster&#39;s scheduler node address on initialization:
+
+&gt;&gt;&gt; client = Client(&#39;127.0.0.1:8786&#39;)  # doctest: +SKIP
+
+Use ``submit`` method to send individual computations to the cluster
+
+&gt;&gt;&gt; a = client.submit(add, 1, 2)  # doctest: +SKIP
+&gt;&gt;&gt; b = client.submit(add, 10, 20)  # doctest: +SKIP
+
+Continue using submit or map on results to build up larger computations
+
+&gt;&gt;&gt; c = client.submit(add, a, b)  # doctest: +SKIP
+
+Gather results with the ``gather`` method.
+
+&gt;&gt;&gt; client.gather(c)  # doctest: +SKIP
+33
+
+You can also call Client with no arguments in order to create your own
+local cluster.
+
+&gt;&gt;&gt; client = Client()  # makes your own local &#34;cluster&#34; # doctest: +SKIP
+
+Extra keywords will be passed directly to LocalCluster
+
+&gt;&gt;&gt; client = Client(processes=False, threads_per_worker=1)  # doctest: +SKIP</pre><h3>See also</h3><pre>distributed.scheduler.Scheduler: Internal scheduler
+distributed.LocalCluster:</pre><h2>Methods</h2><ul class=deflst><li><div class=fn><a id=f___await__></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f___await__>__await__</a>(<span class=args>self</span>) </span></div><div class=fdetail id=fn___await__><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-950>source</a> <a class=sourcelink href=distributed.client.Client.html#f___await__>link</a></div></div></div></li><li><div class=fn><a id=f___del__></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f___del__>__del__</a>(<span class=args>self</span>) </span></div><div class=fdetail id=fn___del__><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1189>source</a> <a class=sourcelink href=distributed.client.Client.html#f___del__>link</a></div></div></div></li><li><div class=fn><a id=f___enter__></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f___enter__>__enter__</a>(<span class=args>self</span>) </span></div><div class=fdetail id=fn___enter__><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1174>source</a> <a class=sourcelink href=distributed.client.Client.html#f___enter__>link</a></div></div></div></li><li><div class=fn><a id=f___exit__></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f___exit__>__exit__</a>(<span class=args>self, type, value, traceback</span>) </span></div><div class=fdetail id=fn___exit__><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1186>source</a> <a class=sourcelink href=distributed.client.Client.html#f___exit__>link</a></div></div></div></li><li><div class=fn><a id=f___init__></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f___init__>__init__</a>(<span class=args>self, address=None, loop=None, timeout=no_default, set_as_default=True, ...</span>) </span></div><div class=fdetail id=fn___init__><div class=decl><div class=def><span class=kw>def</span> __init__( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">address=<i>None</i>,</div><div class=args style="padding-left: 2em">loop=<i>None</i>,</div><div class=args style="padding-left: 2em">timeout=<i>no_default</i>,</div><div class=args style="padding-left: 2em">set_as_default=<i>True</i>,</div><div class=args style="padding-left: 2em">scheduler_file=<i>None</i>,</div><div class=args style="padding-left: 2em">security=<i>None</i>,</div><div class=args style="padding-left: 2em">asynchronous=<i>False</i>,</div><div class=args style="padding-left: 2em">name=<i>None</i>,</div><div class=args style="padding-left: 2em">heartbeat_interval=<i>None</i>,</div><div class=args style="padding-left: 2em">serializers=<i>None</i>,</div><div class=args style="padding-left: 2em">deserializers=<i>None</i>,</div><div class=args style="padding-left: 2em">extensions=<i>DEFAULT_EXTENSIONS</i>,</div><div class=args style="padding-left: 2em">direct_to_workers=<i>None</i>,</div><div class=args style="padding-left: 2em">connection_limit=<i>512</i>,</div><div class=args style="padding-left: 2em">**kwargs,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-583>source</a> <a class=sourcelink href=distributed.client.Client.html#f___init__>link</a></div><h3>Overrides</h3><p>This method is overriden in:</p><ul class=deflst2><li><a class=symbol href=distributed.html>distributed</a>.<a class=symbol href=distributed.client.html>client</a>.<a class=symbol href=distributed.client.Executor.html>Executor</a></li></ul></div></div></li><li><div class=fn><a id=f___repr__></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f___repr__>__repr__</a>(<span class=args>self</span>) </span></div><div class=fdetail id=fn___repr__><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-858>source</a> <a class=sourcelink href=distributed.client.Client.html#f___repr__>link</a></div></div></div></li><li><div class=fn><a id=f_as_current></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_as_current>as_current</a>(<span class=args>self</span>) <span class=label>@contextmanager</span></span><div class=docline> Thread-local, Task-local context manager that causes the Client.current class method to return self. Any Future objects deserialized inside this context manager will be automatically attached to this Client. </div></div><div class=fdetail id=fn_as_current><div class=decl><div class=def><i> @contextmanager<br></i><span class=kw>def</span> as_current(<span class=args><span class=kw>self</span></span>) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-751>source</a> <a class=sourcelink href=distributed.client.Client.html#f_as_current>link</a></div></div></div></li><li><div class=fn><a id=f_asynchronous></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_asynchronous>asynchronous</a>(<span class=args>self</span>) <span class=label>@property</span></span><div class=docline> Are we running in the event loop? </div></div><div class=fdetail id=fn_asynchronous><div class=decl><div class=def><i> @property<br></i><span class=kw>def</span> asynchronous(<span class=args><span class=kw>self</span></span>) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-787>source</a> <a class=sourcelink href=distributed.client.Client.html#f_asynchronous>link</a></div><pre>This is true if the user signaled that we might be when creating the
+client as in the following::
+
+    client = Client(asynchronous=True)
+
+However, we override this expectation if we can definitively tell that
+we are running from a thread that is not the event loop.  This is
+common when calling get_client() from within a worker task.  Even
+though the client was originally created in asynchronous mode we may
+find ourselves in contexts when it is better to operate synchronously.</pre></div></div></li><li><div class=fn><a id=f_call_stack></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_call_stack>call_stack</a>(<span class=args>self, futures=None, keys=None</span>) </span><div class=docline> The actively running call stack of all relevant keys </div></div><div class=fdetail id=fn_call_stack><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3326>source</a> <a class=sourcelink href=distributed.client.Client.html#f_call_stack>link</a></div><pre>You can specify data of interest either by providing futures or
+collections in the ``futures=`` keyword or a list of explicit keys in
+the ``keys=`` keyword.  If neither are provided then all call stacks
+will be returned.</pre><h3>Parameters</h3><ul class=params><li><strong>futures</strong> : list <br><pre>List of futures, defaults to all data</pre></li><li><strong>keys</strong> : list <br><pre>List of key names, defaults to all data</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; df = dd.read_parquet(...).persist()  # doctest: +SKIP
+&gt;&gt;&gt; client.call_stack(df)  # call on collections
+
+&gt;&gt;&gt; client.call_stack()  # Or call with no arguments for all activity  # doctest: +SKIP</pre></div></div></li><li><div class=fn><a id=f_cancel></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_cancel>cancel</a>(<span class=args>self, futures, asynchronous=None, force=False</span>) </span><div class=docline> Cancel running futures </div></div><div class=fdetail id=fn_cancel><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2208>source</a> <a class=sourcelink href=distributed.client.Client.html#f_cancel>link</a></div><pre>This stops future tasks from being scheduled if they have not yet run
+and deletes them if they have already run.  After calling, this result
+and all dependent results will no longer be accessible</pre><h3>Parameters</h3><ul class=params><li><strong>futures</strong> : list of Futures </li><li><strong>force</strong> : boolean (False) <br><pre>Cancel this future even if other clients desire it</pre></li></ul></div></div></li><li><div class=fn><a id=f_close></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_close>close</a>(<span class=args>self, timeout=no_default</span>) </span><div class=docline> Close this client </div></div><div class=fdetail id=fn_close><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1387>source</a> <a class=sourcelink href=distributed.client.Client.html#f_close>link</a></div><pre>Clients will also close automatically when your Python session ends
+
+If you started a client without arguments like ``Client()`` then this
+will also close the local cluster that was started at the same time.</pre><h3>See also</h3><pre>Client.restart</pre></div></div></li><li><div class=fn><a id=f_compute></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_compute>compute</a>(<span class=args>self, collections, sync=False, optimize_graph=True, workers=None, ...</span>) </span><div class=docline> Compute dask collections on cluster </div></div><div class=fdetail id=fn_compute><div class=decl><div class=def><span class=kw>def</span> compute( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">collections,</div><div class=args style="padding-left: 2em">sync=<i>False</i>,</div><div class=args style="padding-left: 2em">optimize_graph=<i>True</i>,</div><div class=args style="padding-left: 2em">workers=<i>None</i>,</div><div class=args style="padding-left: 2em">allow_other_workers=<i>False</i>,</div><div class=args style="padding-left: 2em">resources=<i>None</i>,</div><div class=args style="padding-left: 2em">retries=<i>0</i>,</div><div class=args style="padding-left: 2em">priority=<i>0</i>,</div><div class=args style="padding-left: 2em">fifo_timeout=<i>"60s"</i>,</div><div class=args style="padding-left: 2em">actors=<i>None</i>,</div><div class=args style="padding-left: 2em">traverse=<i>True</i>,</div><div class=args style="padding-left: 2em">**kwargs,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2740>source</a> <a class=sourcelink href=distributed.client.Client.html#f_compute>link</a></div><h3>Parameters</h3><ul class=params><li><strong>collections</strong> : iterable of dask objects or single dask object <br><pre>Collections like dask.array or dataframe or dask.value objects</pre></li><li><strong>sync</strong> : bool <br><pre>Returns Futures if False (default) or concrete values if True</pre></li><li><strong>optimize_graph</strong> : bool <br><pre>Whether or not to optimize the underlying graphs</pre></li><li><strong>workers</strong> : str, list, dict <br><pre>Which workers can run which parts of the computation
+If a string or list then the output collections will run on the listed
+workers, but other sub-computations can run anywhere
+If a dict then keys should be (tuples of) collections or
+task keys and values should be addresses or lists.</pre></li><li><strong>allow_other_workers</strong> : bool, list <br><pre>If True then all restrictions in workers= are considered loose
+If a list then only the keys for the listed collections are loose</pre></li><li><strong>retries</strong> : int (default to 0) <br><pre>Number of allowed automatic retries if computing a result fails</pre></li><li><strong>priority</strong> : Number <br><pre>Optional prioritization of task.  Zero is default.
+Higher priorities take precedence</pre></li><li><strong>fifo_timeout</strong> : timedelta str (defaults to &#39;60s&#39;) <br><pre>Allowed amount of time between calls to consider the same priority</pre></li><li><strong>traverse</strong> : bool (defaults to True) <br><pre>By default dask traverses builtin python collections looking for
+dask objects passed to ``compute``. For large collections this can
+be expensive. If none of the arguments contain any dask objects,
+set ``traverse=False`` to avoid doing this traversal.</pre></li><li><strong>resources</strong> : dict (defaults to {}) <br><pre>Defines the `resources` these tasks require on the worker. Can
+specify global resources (``{&#39;GPU&#39;: 2}``), or per-task resources
+(``{&#39;x&#39;: {&#39;GPU&#39;: 1}, &#39;y&#39;: {&#39;SSD&#39;: 4}}``), but not both.
+See :doc:`worker resources &lt;resources&gt;` for details on defining
+resources.</pre></li><li><strong>actors</strong> : bool or dict (default None) <br><pre>Whether these tasks should exist on the worker as stateful actors.
+Specified on a global (True/False) or per-task (``{&#39;x&#39;: True,
+&#39;y&#39;: False}``) basis. See :doc:`actors` for additional details.</pre></li><li><strong>**kwargs</strong> : <br><pre>Options to pass to the graph optimize calls</pre></li></ul><h3>Returns</h3><ul class=params><li> List of Futures if input is a sequence, or a single future otherwise </li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; from dask import delayed
+&gt;&gt;&gt; from operator import add
+&gt;&gt;&gt; x = delayed(add)(1, 2)
+&gt;&gt;&gt; y = delayed(add)(x, x)
+&gt;&gt;&gt; xx, yy = client.compute([x, y])  # doctest: +SKIP
+&gt;&gt;&gt; xx  # doctest: +SKIP
+&lt;Future: status: finished, key: add-8f6e709446674bad78ea8aeecfee188e&gt;
+&gt;&gt;&gt; xx.result()  # doctest: +SKIP
+3
+&gt;&gt;&gt; yy.result()  # doctest: +SKIP
+6
+
+Also support single arguments
+
+&gt;&gt;&gt; xx = client.compute(x)  # doctest: +SKIP</pre><h3>See also</h3><pre>Client.get: Normal synchronous dask.get function</pre></div></div></li><li><div class=fn><a id=f_dashboard_link></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f_dashboard_link>dashboard_link</a>(<span class=args>self</span>) <span class=label>@property</span></span></div><div class=fdetail id=fn_dashboard_link><div class=decl><div class=def><i> @property<br></i><span class=kw>def</span> dashboard_link(<span class=args><span class=kw>self</span></span>) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-804>source</a> <a class=sourcelink href=distributed.client.Client.html#f_dashboard_link>link</a></div></div></div></li><li><div class=fn><a id=f_futures_of></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f_futures_of>futures_of</a>(<span class=args>self, futures</span>) </span></div><div class=fdetail id=fn_futures_of><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3676>source</a> <a class=sourcelink href=distributed.client.Client.html#f_futures_of>link</a></div></div></div></li><li><div class=fn><a id=f_gather></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_gather>gather</a>(<span class=args>self, futures, errors=&#34;raise&#34;, direct=None, asynchronous=None</span>) </span><div class=docline> Gather futures from distributed memory </div></div><div class=fdetail id=fn_gather><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1934>source</a> <a class=sourcelink href=distributed.client.Client.html#f_gather>link</a></div><pre>Accepts a future, nested container of futures, iterator, or queue.
+The return type will match the input type.</pre><h3>Parameters</h3><ul class=params><li><strong>futures</strong> : Collection of futures <br><pre>This can be a possibly nested collection of Future objects.
+Collections can be lists, sets, or dictionaries</pre></li><li><strong>errors</strong> : string <br><pre>Either &#39;raise&#39; or &#39;skip&#39; if we should raise if a future has erred
+or skip its inclusion in the output collection</pre></li><li><strong>direct</strong> : boolean <br><pre>Whether or not to connect directly to the workers, or to ask
+the scheduler to serve as intermediary.  This can also be set when
+creating the Client.</pre></li></ul><h3>Returns</h3><ul class=params><li> a collection of the same type as the input, but now with </li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; from operator import add  # doctest: +SKIP
+&gt;&gt;&gt; c = Client(&#39;127.0.0.1:8787&#39;)  # doctest: +SKIP
+&gt;&gt;&gt; x = c.submit(add, 1, 2)  # doctest: +SKIP
+&gt;&gt;&gt; c.gather(x)  # doctest: +SKIP
+3
+&gt;&gt;&gt; c.gather([x, [x], x])  # support lists and dicts # doctest: +SKIP
+[3, [3], 3]</pre><h3>See also</h3><pre>Client.scatter: Send data out to cluster</pre></div></div></li><li><div class=fn><a id=f_get></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get>get</a>(<span class=args>self, dsk, keys, restrictions=None, loose_restrictions=None, resources=None, ...</span>) </span><div class=docline> Compute dask graph </div></div><div class=fdetail id=fn_get><div class=decl><div class=def><span class=kw>def</span> get( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">dsk,</div><div class=args style="padding-left: 2em">keys,</div><div class=args style="padding-left: 2em">restrictions=<i>None</i>,</div><div class=args style="padding-left: 2em">loose_restrictions=<i>None</i>,</div><div class=args style="padding-left: 2em">resources=<i>None</i>,</div><div class=args style="padding-left: 2em">sync=<i>True</i>,</div><div class=args style="padding-left: 2em">asynchronous=<i>None</i>,</div><div class=args style="padding-left: 2em">direct=<i>None</i>,</div><div class=args style="padding-left: 2em">retries=<i>None</i>,</div><div class=args style="padding-left: 2em">priority=<i>0</i>,</div><div class=args style="padding-left: 2em">fifo_timeout=<i>"60s"</i>,</div><div class=args style="padding-left: 2em">actors=<i>None</i>,</div><div class=args style="padding-left: 2em">**kwargs,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2608>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get>link</a></div><h3>Parameters</h3><ul class=params><li><strong>dsk</strong> : dict </li><li><strong>keys</strong> : object, or nested lists of objects </li><li><strong>restrictions</strong> : dict <br><pre>A mapping of {key: {set of worker hostnames}} that restricts where
+jobs can take place</pre></li><li><strong>retries</strong> : int (default to 0) <br><pre>Number of allowed automatic retries if computing a result fails</pre></li><li><strong>priority</strong> : Number <br><pre>Optional prioritization of task.  Zero is default.
+Higher priorities take precedence</pre></li><li><strong>sync</strong> : bool <br><pre>Returns Futures if False or concrete values if True (default).</pre></li><li><strong>direct</strong> : bool <br><pre>Whether or not to connect directly to the workers, or to ask
+the scheduler to serve as intermediary.  This can also be set when
+creating the Client.</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; from operator import add  # doctest: +SKIP
+&gt;&gt;&gt; c = Client(&#39;127.0.0.1:8787&#39;)  # doctest: +SKIP
+&gt;&gt;&gt; c.get({&#39;x&#39;: (add, 1, 2)}, &#39;x&#39;)  # doctest: +SKIP
+3</pre><h3>See also</h3><pre>Client.compute: Compute asynchronous collections</pre></div></div></li><li><div class=fn><a id=f_get_dataset></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get_dataset>get_dataset</a>(<span class=args>self, name, default=NO_DEFAULT_PLACEHOLDER, **kwargs</span>) </span><div class=docline> Get named dataset from the scheduler if present. Return the default or raise a KeyError if not present. </div></div><div class=fdetail id=fn_get_dataset><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2363>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get_dataset>link</a></div><h3>Parameters</h3><ul class=params><li><strong>name</strong> : name of the dataset to retrieve </li><li><strong>default</strong> : optional, not set by default <br><pre>If set, do not raise a KeyError if the name is not present but return this default</pre></li><li><strong>kwargs</strong> : dict <br><pre>additional arguments to _get_dataset</pre></li></ul><h3>See also</h3><pre>Client.publish_dataset
+Client.list_datasets</pre></div></div></li><li><div class=fn><a id=f_get_executor></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get_executor>get_executor</a>(<span class=args>self, **kwargs</span>) </span><div class=docline> Return a concurrent.futures Executor for submitting tasks on this Client </div></div><div class=fdetail id=fn_get_executor><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1458>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get_executor>link</a></div><h3>Parameters</h3><ul class=params><li><strong>**kwargs</strong> : <br><pre>Any submit()- or map()- compatible arguments, such as
+`workers` or `resources`.</pre></li></ul><h3>Returns</h3><ul class=params><li> An Executor object that&#39;s fully compatible with the concurrent.futures </li></ul></div></div></li><li><div class=fn><a id=f_get_metadata></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get_metadata>get_metadata</a>(<span class=args>self, keys, default=no_default</span>) </span><div class=docline> Get arbitrary metadata from scheduler </div></div><div class=fdetail id=fn_get_metadata><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3502>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get_metadata>link</a></div><pre>See set_metadata for the full docstring with examples</pre><h3>Parameters</h3><ul class=params><li><strong>keys</strong> : key or list <br><pre>Key to access.  If a list then gets within a nested collection</pre></li><li><strong>default</strong> : optional <br><pre>If the key does not exist then return this value instead.
+If not provided then this raises a KeyError if the key is not
+present</pre></li><li><strong>See also</strong> : None </li><li><strong>--------</strong> : None </li><li><strong>Client.set_metadata</strong> : None </li></ul></div></div></li><li><div class=fn><a id=f_get_scheduler_logs></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get_scheduler_logs>get_scheduler_logs</a>(<span class=args>self, n=None</span>) </span><div class=docline> Get logs from scheduler </div></div><div class=fdetail id=fn_get_scheduler_logs><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3524>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get_scheduler_logs>link</a></div><h3>Parameters</h3><ul class=params><li><strong>n</strong> : int <br><pre>Number of logs to retrive.  Maxes out at 10000 by default,
+confiruable in config.yaml::log-length</pre></li></ul><h3>Returns</h3><ul class=params><li> Logs in reversed order (newest first) </li></ul></div></div></li><li><div class=fn><a id=f_get_task_stream></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get_task_stream>get_task_stream</a>(<span class=args>self, start=None, stop=None, count=None, plot=False, ...</span>) </span><div class=docline> Get task stream data from scheduler </div></div><div class=fdetail id=fn_get_task_stream><div class=decl><div class=def><span class=kw>def</span> get_task_stream( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">start=<i>None</i>,</div><div class=args style="padding-left: 2em">stop=<i>None</i>,</div><div class=args style="padding-left: 2em">count=<i>None</i>,</div><div class=args style="padding-left: 2em">plot=<i>False</i>,</div><div class=args style="padding-left: 2em">filename=<i>"task-stream.html"</i>,</div><div class=args style="padding-left: 2em">bokeh_resources=<i>None</i>,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3935>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get_task_stream>link</a></div><pre>This collects the data present in the diagnostic &#34;Task Stream&#34; plot on
+the dashboard.  It includes the start, stop, transfer, and
+deserialization time of every task for a particular duration.
+
+Note that the task stream diagnostic does not run by default.  You may
+wish to call this function once before you start work to ensure that
+things start recording, and then again after you have completed.</pre><h3>Parameters</h3><ul class=params><li><strong>start</strong> : Number or string <br><pre>When you want to start recording
+If a number it should be the result of calling time()
+If a string then it should be a time difference before now,
+like &#39;60s&#39; or &#39;500 ms&#39;</pre></li><li><strong>stop</strong> : Number or string <br><pre>When you want to stop recording</pre></li><li><strong>count</strong> : int <br><pre>The number of desired records, ignored if both start and stop are
+specified</pre></li><li><strong>plot</strong> : boolean, str <br><pre>If true then also return a Bokeh figure
+If plot == &#39;save&#39; then save the figure to a file</pre></li><li><strong>filename</strong> : str <br><pre>The filename to save to if you set ``plot=&#39;save&#39;``</pre></li><li><strong>bokeh_resources</strong> : bokeh.resources.Resources <br><pre>Specifies if the resource component is INLINE or CDN</pre></li></ul><h3>Returns</h3><ul class=params><li> List[Dict] </li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; client.get_task_stream()  # prime plugin if not already connected
+&gt;&gt;&gt; x.compute()  # do some work
+&gt;&gt;&gt; client.get_task_stream()
+[{&#39;task&#39;: ...,
+  &#39;type&#39;: ...,
+  &#39;thread&#39;: ...,
+  ...}]
+
+Pass the ``plot=True`` or ``plot=&#39;save&#39;`` keywords to get back a Bokeh
+figure
+
+&gt;&gt;&gt; data, figure = client.get_task_stream(plot=&#39;save&#39;, filename=&#39;myfile.html&#39;)
+
+Alternatively consider the context manager
+
+&gt;&gt;&gt; from dask.distributed import get_task_stream
+&gt;&gt;&gt; with get_task_stream() as ts:
+...     x.compute()
+&gt;&gt;&gt; ts.data
+[...]</pre><h3>See also</h3><pre>get_task_stream: a context manager version of this method</pre></div></div></li><li><div class=fn><a id=f_get_versions></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get_versions>get_versions</a>(<span class=args>self, check=False, packages=[]</span>) </span><div class=docline> Return version info for the scheduler, all workers and myself </div></div><div class=fdetail id=fn_get_versions><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3634>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get_versions>link</a></div><h3>Parameters</h3><ul class=params><li><strong>check</strong> : boolean, default False <br><pre>raise ValueError if all required &amp; optional packages
+do not match</pre></li><li><strong>packages</strong> : List[str] <br><pre>Extra package names to check</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; c.get_versions()  # doctest: +SKIP
+
+&gt;&gt;&gt; c.get_versions(packages=[&#39;sklearn&#39;, &#39;geopandas&#39;])  # doctest: +SKIP</pre></div></div></li><li><div class=fn><a id=f_get_worker_logs></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get_worker_logs>get_worker_logs</a>(<span class=args>self, n=None, workers=None, nanny=False</span>) </span><div class=docline> Get logs from workers </div></div><div class=fdetail id=fn_get_worker_logs><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3539>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get_worker_logs>link</a></div><h3>Parameters</h3><ul class=params><li><strong>n</strong> : int <br><pre>Number of logs to retrive.  Maxes out at 10000 by default,
+confiruable in config.yaml::log-length</pre></li><li><strong>workers</strong> : iterable <br><pre>List of worker addresses to retrieve.  Gets all workers by default.</pre></li><li><strong>nanny</strong> : bool, default False <br><pre>Whether to get the logs from the workers (False) or the nannies (True). If
+specified, the addresses in `workers` should still be the worker addresses,
+not the nanny addresses.</pre></li></ul><h3>Returns</h3><ul class=params><li> Dictionary mapping worker address to logs. </li></ul></div></div></li><li><div class=fn><a id=f_has_what></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_has_what>has_what</a>(<span class=args>self, workers=None, **kwargs</span>) </span><div class=docline> Which keys are held by which workers </div></div><div class=fdetail id=fn_has_what><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3232>source</a> <a class=sourcelink href=distributed.client.Client.html#f_has_what>link</a></div><pre>This returns the keys of the data that are held in each worker&#39;s
+memory.</pre><h3>Parameters</h3><ul class=params><li><strong>workers</strong> : list <br><pre>A list of worker addresses, defaults to all</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; x, y, z = c.map(inc, [1, 2, 3])  # doctest: +SKIP
+&gt;&gt;&gt; wait([x, y, z])  # doctest: +SKIP
+&gt;&gt;&gt; c.has_what()  # doctest: +SKIP
+{&#39;192.168.1.141:46784&#39;: [&#39;inc-1c8dd6be1c21646c71f76c16d09304ea&#39;,
+                         &#39;inc-fd65c238a7ea60f6a01bf4c8a5fcf44b&#39;,
+                         &#39;inc-1e297fc27658d7b67b3a758f16bcf47a&#39;]}</pre><h3>See also</h3><pre>Client.who_has
+Client.nthreads
+Client.processing</pre></div></div></li><li><div class=fn><a id=f_list_datasets></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_list_datasets>list_datasets</a>(<span class=args>self, **kwargs</span>) </span><div class=docline> List named datasets available on the scheduler </div></div><div class=fdetail id=fn_list_datasets><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2341>source</a> <a class=sourcelink href=distributed.client.Client.html#f_list_datasets>link</a></div><h3>See also</h3><pre>Client.publish_dataset
+Client.get_dataset</pre></div></div></li><li><div class=fn><a id=f_map></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_map>map</a>(<span class=args>self, func, *iterables, key=None, workers=None, retries=None, resources=None, ...</span>) </span><div class=docline> Map a function on a sequence of arguments </div></div><div class=fdetail id=fn_map><div class=decl><div class=def><span class=kw>def</span> map( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">func,</div><div class=args style="padding-left: 2em">*iterables,</div><div class=args style="padding-left: 2em">key=<i>None</i>,</div><div class=args style="padding-left: 2em">workers=<i>None</i>,</div><div class=args style="padding-left: 2em">retries=<i>None</i>,</div><div class=args style="padding-left: 2em">resources=<i>None</i>,</div><div class=args style="padding-left: 2em">priority=<i>0</i>,</div><div class=args style="padding-left: 2em">allow_other_workers=<i>False</i>,</div><div class=args style="padding-left: 2em">fifo_timeout=<i>"100 ms"</i>,</div><div class=args style="padding-left: 2em">actor=<i>False</i>,</div><div class=args style="padding-left: 2em">actors=<i>False</i>,</div><div class=args style="padding-left: 2em">pure=<i>None</i>,</div><div class=args style="padding-left: 2em">batch_size=<i>None</i>,</div><div class=args style="padding-left: 2em">**kwargs,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1595>source</a> <a class=sourcelink href=distributed.client.Client.html#f_map>link</a></div><pre>Arguments can be normal objects or Futures</pre><h3>Parameters</h3><ul class=params><li><strong>func</strong> : callable </li><li><strong>iterables</strong> : Iterables <br><pre>List-like objects to map over.  They should have the same length.</pre></li><li><strong>key</strong> : str, list <br><pre>Prefix for task names if string.  Explicit names if list.</pre></li><li><strong>pure</strong> : bool (defaults to True) <br><pre>Whether or not the function is pure.  Set ``pure=False`` for
+impure functions like ``np.random.random``.</pre></li><li><strong>workers</strong> : set, iterable of sets <br><pre>A set of worker hostnames on which computations may be performed.
+Leave empty to default to all workers (common case)</pre></li><li><strong>allow_other_workers</strong> : bool (defaults to False) <br><pre>Used with `workers`. Indicates whether or not the computations
+may be performed on workers that are not in the `workers` set(s).</pre></li><li><strong>retries</strong> : int (default to 0) <br><pre>Number of allowed automatic retries if a task fails</pre></li><li><strong>priority</strong> : Number <br><pre>Optional prioritization of task.  Zero is default.
+Higher priorities take precedence</pre></li><li><strong>fifo_timeout</strong> : str timedelta (default &#39;100ms&#39;) <br><pre>Allowed amount of time between calls to consider the same priority</pre></li><li><strong>resources</strong> : dict (defaults to {}) <br><pre>Defines the `resources` each instance of this mapped task requires
+on the worker; e.g. ``{&#39;GPU&#39;: 2}``. See
+:doc:`worker resources &lt;resources&gt;` for details on defining
+resources.</pre></li><li><strong>actor</strong> : bool (default False) <br><pre>Whether these tasks should exist on the worker as stateful actors.
+See :doc:`actors` for additional details.</pre></li><li><strong>actors</strong> : bool (default False) <br><pre>Alias for `actor`</pre></li><li><strong>batch_size</strong> : int <br><pre>Submit tasks to the scheduler in batches of (at most) ``batch_size``.
+Larger batch sizes can be useful for very large ``iterables``,
+as the cluster can start processing tasks while later ones are
+submitted asynchronously.</pre></li><li><strong>**kwargs</strong> : dict <br><pre>Extra keywords to send to the function.
+Large values will be included explicitly in the task graph.</pre></li></ul><h3>Returns</h3><ul class=params><li> List, iterator, or Queue of futures, depending on the type of the </li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; L = client.map(func, sequence)  # doctest: +SKIP</pre></div></div></li><li><div class=fn><a id=f_nbytes></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_nbytes>nbytes</a>(<span class=args>self, keys=None, summary=True, **kwargs</span>) </span><div class=docline> The bytes taken up by each key on the cluster </div></div><div class=fdetail id=fn_nbytes><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3296>source</a> <a class=sourcelink href=distributed.client.Client.html#f_nbytes>link</a></div><pre>This is as measured by ``sys.getsizeof`` which may not accurately
+reflect the true cost.</pre><h3>Parameters</h3><ul class=params><li><strong>keys</strong> : list <br><pre>A list of keys, defaults to all keys</pre></li><li><strong>summary</strong> : boolean, <br><pre>Summarize keys into key types</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; x, y, z = c.map(inc, [1, 2, 3])  # doctest: +SKIP
+&gt;&gt;&gt; c.nbytes(summary=False)  # doctest: +SKIP
+{&#39;inc-1c8dd6be1c21646c71f76c16d09304ea&#39;: 28,
+ &#39;inc-1e297fc27658d7b67b3a758f16bcf47a&#39;: 28,
+ &#39;inc-fd65c238a7ea60f6a01bf4c8a5fcf44b&#39;: 28}
+
+&gt;&gt;&gt; c.nbytes(summary=True)  # doctest: +SKIP
+{&#39;inc&#39;: 84}</pre><h3>See also</h3><pre>Client.who_has</pre></div></div></li><li><div class=fn><a id=f_normalize_collection></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_normalize_collection>normalize_collection</a>(<span class=args>self, collection</span>) </span><div class=docline> Replace collection&#39;s tasks by already existing futures if they exist </div></div><div class=fdetail id=fn_normalize_collection><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2709>source</a> <a class=sourcelink href=distributed.client.Client.html#f_normalize_collection>link</a></div><pre>This normalizes the tasks within a collections task graph against the
+known futures within the scheduler.  It returns a copy of the
+collection with a task graph that includes the overlapping futures.</pre><h3>Examples</h3><pre>&gt;&gt;&gt; len(x.__dask_graph__())  # x is a dask collection with 100 tasks  # doctest: +SKIP
+100
+&gt;&gt;&gt; set(client.futures).intersection(x.__dask_graph__())  # some overlap exists  # doctest: +SKIP
+10
+
+&gt;&gt;&gt; x = client.normalize_collection(x)  # doctest: +SKIP
+&gt;&gt;&gt; len(x.__dask_graph__())  # smaller computational graph  # doctest: +SKIP
+20</pre><h3>See also</h3><pre>Client.persist: trigger computation of collection&#39;s tasks</pre></div></div></li><li><div class=fn><a id=f_nthreads></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_nthreads>nthreads</a>(<span class=args>self, workers=None, **kwargs</span>) </span><div class=docline> The number of threads/cores available on each worker node </div></div><div class=fdetail id=fn_nthreads><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3167>source</a> <a class=sourcelink href=distributed.client.Client.html#f_nthreads>link</a></div><h3>Parameters</h3><ul class=params><li><strong>workers</strong> : list <br><pre>A list of workers that we care about specifically.
+Leave empty to receive information about all workers.</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; c.threads()  # doctest: +SKIP
+{&#39;192.168.1.141:46784&#39;: 8,
+ &#39;192.167.1.142:47548&#39;: 8,
+ &#39;192.167.1.143:47329&#39;: 8,
+ &#39;192.167.1.144:37297&#39;: 8}</pre><h3>See also</h3><pre>Client.who_has
+Client.has_what</pre></div></div></li><li><div class=fn><a id=f_persist></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_persist>persist</a>(<span class=args>self, collections, optimize_graph=True, workers=None, ...</span>) </span><div class=docline> Persist dask collections on cluster </div></div><div class=fdetail id=fn_persist><div class=decl><div class=def><span class=kw>def</span> persist( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">collections,</div><div class=args style="padding-left: 2em">optimize_graph=<i>True</i>,</div><div class=args style="padding-left: 2em">workers=<i>None</i>,</div><div class=args style="padding-left: 2em">allow_other_workers=<i>None</i>,</div><div class=args style="padding-left: 2em">resources=<i>None</i>,</div><div class=args style="padding-left: 2em">retries=<i>None</i>,</div><div class=args style="padding-left: 2em">priority=<i>0</i>,</div><div class=args style="padding-left: 2em">fifo_timeout=<i>"60s"</i>,</div><div class=args style="padding-left: 2em">actors=<i>None</i>,</div><div class=args style="padding-left: 2em">**kwargs,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2901>source</a> <a class=sourcelink href=distributed.client.Client.html#f_persist>link</a></div><pre>Starts computation of the collection on the cluster in the background.
+Provides a new dask collection that is semantically identical to the
+previous one, but now based off of futures currently in execution.</pre><h3>Parameters</h3><ul class=params><li><strong>collections</strong> : sequence or single dask object <br><pre>Collections like dask.array or dataframe or dask.value objects</pre></li><li><strong>optimize_graph</strong> : bool <br><pre>Whether or not to optimize the underlying graphs</pre></li><li><strong>workers</strong> : str, list, dict <br><pre>Which workers can run which parts of the computation
+If a string or list then the output collections will run on the listed
+workers, but other sub-computations can run anywhere
+If a dict then keys should be (tuples of) collections or
+task keys and values should be addresses or lists.</pre></li><li><strong>allow_other_workers</strong> : bool, list <br><pre>If True then all restrictions in workers= are considered loose
+If a list then only the keys for the listed collections are loose</pre></li><li><strong>retries</strong> : int (default to 0) <br><pre>Number of allowed automatic retries if computing a result fails</pre></li><li><strong>priority</strong> : Number <br><pre>Optional prioritization of task.  Zero is default.
+Higher priorities take precedence</pre></li><li><strong>fifo_timeout</strong> : timedelta str (defaults to &#39;60s&#39;) <br><pre>Allowed amount of time between calls to consider the same priority</pre></li><li><strong>resources</strong> : dict (defaults to {}) <br><pre>Defines the `resources` these tasks require on the worker. Can
+specify global resources (``{&#39;GPU&#39;: 2}``), or per-task resources
+(``{&#39;x&#39;: {&#39;GPU&#39;: 1}, &#39;y&#39;: {&#39;SSD&#39;: 4}}``), but not both.
+See :doc:`worker resources &lt;resources&gt;` for details on defining
+resources.</pre></li><li><strong>actors</strong> : bool or dict (default None) <br><pre>Whether these tasks should exist on the worker as stateful actors.
+Specified on a global (True/False) or per-task (``{&#39;x&#39;: True,
+&#39;y&#39;: False}``) basis. See :doc:`actors` for additional details.</pre></li><li><strong>**kwargs</strong> : <br><pre>Options to pass to the graph optimize calls</pre></li></ul><h3>Returns</h3><ul class=params><li> List of collections, or single collection, depending on type of input. </li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; xx = client.persist(x)  # doctest: +SKIP
+&gt;&gt;&gt; xx, yy = client.persist([x, y])  # doctest: +SKIP</pre><h3>See also</h3><pre>Client.compute</pre></div></div></li><li><div class=fn><a id=f_processing></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_processing>processing</a>(<span class=args>self, workers=None</span>) </span><div class=docline> The tasks currently running on each worker </div></div><div class=fdetail id=fn_processing><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3266>source</a> <a class=sourcelink href=distributed.client.Client.html#f_processing>link</a></div><h3>Parameters</h3><ul class=params><li><strong>workers</strong> : list <br><pre>A list of worker addresses, defaults to all</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; x, y, z = c.map(inc, [1, 2, 3])  # doctest: +SKIP
+&gt;&gt;&gt; c.processing()  # doctest: +SKIP
+{&#39;192.168.1.141:46784&#39;: [&#39;inc-1c8dd6be1c21646c71f76c16d09304ea&#39;,
+                         &#39;inc-fd65c238a7ea60f6a01bf4c8a5fcf44b&#39;,
+                         &#39;inc-1e297fc27658d7b67b3a758f16bcf47a&#39;]}</pre><h3>See also</h3><pre>Client.who_has
+Client.has_what
+Client.nthreads</pre></div></div></li><li><div class=fn><a id=f_profile></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_profile>profile</a>(<span class=args>self, key=None, start=None, stop=None, workers=None, merge_workers=True, ...</span>) </span><div class=docline> Collect statistical profiling information about recent work </div></div><div class=fdetail id=fn_profile><div class=decl><div class=def><span class=kw>def</span> profile( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">key=<i>None</i>,</div><div class=args style="padding-left: 2em">start=<i>None</i>,</div><div class=args style="padding-left: 2em">stop=<i>None</i>,</div><div class=args style="padding-left: 2em">workers=<i>None</i>,</div><div class=args style="padding-left: 2em">merge_workers=<i>True</i>,</div><div class=args style="padding-left: 2em">plot=<i>False</i>,</div><div class=args style="padding-left: 2em">filename=<i>None</i>,</div><div class=args style="padding-left: 2em">server=<i>False</i>,</div><div class=args style="padding-left: 2em">scheduler=<i>False</i>,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3354>source</a> <a class=sourcelink href=distributed.client.Client.html#f_profile>link</a></div><h3>Parameters</h3><ul class=params><li><strong>key</strong> : str <br><pre>Key prefix to select, this is typically a function name like &#39;inc&#39;
+Leave as None to collect all data</pre></li><li><strong>start</strong> : time </li><li><strong>stop</strong> : time </li><li><strong>workers</strong> : list <br><pre>List of workers to restrict profile information</pre></li><li><strong>server</strong> : bool <br><pre>If true, return the profile of the worker&#39;s administrative thread
+rather than the worker threads.
+This is useful when profiling Dask itself, rather than user code.</pre></li><li><strong>scheduler</strong> : bool <br><pre>If true, return the profile information from the scheduler&#39;s
+administrative thread rather than the workers.
+This is useful when profiling Dask&#39;s scheduling itself.</pre></li><li><strong>plot</strong> : boolean or string <br><pre>Whether or not to return a plot object</pre></li><li><strong>filename</strong> : str <br><pre>Filename to save the plot</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; client.profile()  # call on collections
+&gt;&gt;&gt; client.profile(filename=&#39;dask-profile.html&#39;)  # save to html file</pre></div></div></li><li><div class=fn><a id=f_publish_dataset></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_publish_dataset>publish_dataset</a>(<span class=args>self, *args, **kwargs</span>) </span><div class=docline> Publish named datasets to scheduler </div></div><div class=fdetail id=fn_publish_dataset><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2273>source</a> <a class=sourcelink href=distributed.client.Client.html#f_publish_dataset>link</a></div><pre>This stores a named reference to a dask collection or list of futures
+on the scheduler.  These references are available to other Clients
+which can download the collection or futures with ``get_dataset``.
+
+Datasets are not immediately computed.  You may wish to call
+``Client.persist`` prior to publishing a dataset.</pre><h3>Parameters</h3><ul class=params><li><strong>args</strong> : list of objects to publish as name </li><li><strong>name</strong> : optional name of the dataset to publish </li><li><strong>override</strong> : bool (optional, default False) <br><pre>if true, override any already present dataset with the same name</pre></li><li><strong>kwargs</strong> : dict <br><pre>named collections to publish on the scheduler</pre></li></ul><h3>Returns</h3><ul class=params><li> None </li></ul><h3>Examples</h3><pre>Publishing client:
+
+&gt;&gt;&gt; df = dd.read_csv(&#39;s3://...&#39;)  # doctest: +SKIP
+&gt;&gt;&gt; df = c.persist(df) # doctest: +SKIP
+&gt;&gt;&gt; c.publish_dataset(my_dataset=df)  # doctest: +SKIP
+
+Alternative invocation
+&gt;&gt;&gt; c.publish_dataset(df, name=&#39;my_dataset&#39;)
+
+Receiving client:
+
+&gt;&gt;&gt; c.list_datasets()  # doctest: +SKIP
+[&#39;my_dataset&#39;]
+&gt;&gt;&gt; df2 = c.get_dataset(&#39;my_dataset&#39;)  # doctest: +SKIP</pre><h3>See also</h3><pre>Client.list_datasets
+Client.get_dataset
+Client.unpublish_dataset
+Client.persist</pre></div></div></li><li><div class=fn><a id=f_rebalance></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_rebalance>rebalance</a>(<span class=args>self, futures=None, workers=None, **kwargs</span>) </span><div class=docline> Rebalance data within network </div></div><div class=fdetail id=fn_rebalance><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3094>source</a> <a class=sourcelink href=distributed.client.Client.html#f_rebalance>link</a></div><pre>Move data between workers to roughly balance memory burden.  This
+either affects a subset of the keys/workers or the entire network,
+depending on keyword arguments.
+
+This operation is generally not well tested against normal operation of
+the scheduler.  It is not recommended to use it while waiting on
+computations.</pre><h3>Parameters</h3><ul class=params><li><strong>futures</strong> : list <br><pre>A list of futures to balance, defaults all data</pre></li><li><strong>workers</strong> : list <br><pre>A list of workers on which to balance, defaults to all workers</pre></li></ul></div></div></li><li><div class=fn><a id=f_register_worker_callbacks></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_register_worker_callbacks>register_worker_callbacks</a>(<span class=args>self, setup=None</span>) </span><div class=docline> Registers a setup callback function for all current and future workers. </div></div><div class=fdetail id=fn_register_worker_callbacks><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-4042>source</a> <a class=sourcelink href=distributed.client.Client.html#f_register_worker_callbacks>link</a></div><pre>This registers a new setup function for workers in this cluster. The
+function will run immediately on all currently connected workers. It
+will also be run upon connection by any workers that are added in the
+future. Multiple setup functions can be registered - these will be
+called in the order they were added.
+
+If the function takes an input argument named ``dask_worker`` then
+that variable will be populated with the worker itself.</pre><h3>Parameters</h3><ul class=params><li><strong>setup</strong> : callable(dask_worker: Worker) -&gt; None <br><pre>Function to register and run on all workers</pre></li></ul></div></div></li><li><div class=fn><a id=f_register_worker_plugin></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_register_worker_plugin>register_worker_plugin</a>(<span class=args>self, plugin=None, name=None, **kwargs</span>) </span><div class=docline> Registers a lifecycle worker plugin for all current and future workers. </div></div><div class=fdetail id=fn_register_worker_plugin><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-4074>source</a> <a class=sourcelink href=distributed.client.Client.html#f_register_worker_plugin>link</a></div><pre>This registers a new object to handle setup, task state transitions and
+teardown for workers in this cluster. The plugin will instantiate itself
+on all currently connected workers. It will also be run on any worker
+that connects in the future.
+
+The plugin may include methods ``setup``, ``teardown``, ``transition``,
+``release_key``, and ``release_dep``.  See the
+``dask.distributed.WorkerPlugin`` class or the examples below for the
+interface and docstrings.  It must be serializable with the pickle or
+cloudpickle modules.
+
+If the plugin has a ``name`` attribute, or if the ``name=`` keyword is
+used then that will control idempotency.  If a plugin with that name has
+already been registered then any future plugins will not run.
+
+For alternatives to plugins, you may also wish to look into preload
+scripts.</pre><h3>Parameters</h3><ul class=params><li><strong>plugin</strong> : WorkerPlugin <br><pre>The plugin object to pass to the workers</pre></li><li><strong>name</strong> : str <br><pre>A name for the plugin.
+Registering a plugin with the same name will have no effect.</pre></li><li><strong>**kwargs</strong> : optional <br><pre>If you pass a class as the plugin, instead of a class instance, then the
+class will be instantiated with any extra keyword arguments.</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; class MyPlugin(WorkerPlugin):
+...     def __init__(self, *args, **kwargs):
+...         pass  # the constructor is up to you
+...     def setup(self, worker: dask.distributed.Worker):
+...         pass
+...     def teardown(self, worker: dask.distributed.Worker):
+...         pass
+...     def transition(self, key: str, start: str, finish: str, **kwargs):
+...         pass
+...     def release_key(self, key: str, state: str, cause: Optional[str], reason: None, report: bool):
+...         pass
+...     def release_dep(self, dep: str, state: str, report: bool):
+...         pass
+
+&gt;&gt;&gt; plugin = MyPlugin(1, 2, 3)
+&gt;&gt;&gt; client.register_worker_plugin(plugin)
+
+You can get access to the plugin with the ``get_worker`` function
+
+&gt;&gt;&gt; client.register_worker_plugin(other_plugin, name=&#39;my-plugin&#39;)
+&gt;&gt;&gt; def f():
+...    worker = get_worker()
+...    plugin = worker.plugins[&#39;my-plugin&#39;]
+...    return plugin.my_state
+
+&gt;&gt;&gt; future = client.run(f)</pre><h3>See also</h3><pre>distributed.WorkerPlugin</pre></div></div></li><li><div class=fn><a id=f_replicate></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_replicate>replicate</a>(<span class=args>self, futures, n=None, workers=None, branching_factor=2, **kwargs</span>) </span><div class=docline> Set replication of futures within network </div></div><div class=fdetail id=fn_replicate><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3122>source</a> <a class=sourcelink href=distributed.client.Client.html#f_replicate>link</a></div><pre>Copy data onto many workers.  This helps to broadcast frequently
+accessed data and it helps to improve resilience.
+
+This performs a tree copy of the data throughout the network
+individually on each piece of data.  This operation blocks until
+complete.  It does not guarantee replication of data to future workers.</pre><h3>Parameters</h3><ul class=params><li><strong>futures</strong> : list of futures <br><pre>Futures we wish to replicate</pre></li><li><strong>n</strong> : int <br><pre>Number of processes on the cluster on which to replicate the data.
+Defaults to all.</pre></li><li><strong>workers</strong> : list of worker addresses <br><pre>Workers on which we want to restrict the replication.
+Defaults to all.</pre></li><li><strong>branching_factor</strong> : int <br><pre>The number of workers that can copy data in each generation</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; x = c.submit(func, *args)  # doctest: +SKIP
+&gt;&gt;&gt; c.replicate([x])  # send to all workers  # doctest: +SKIP
+&gt;&gt;&gt; c.replicate([x], n=3)  # send to three workers  # doctest: +SKIP
+&gt;&gt;&gt; c.replicate([x], workers=[&#39;alice&#39;, &#39;bob&#39;])  # send to specific  # doctest: +SKIP
+&gt;&gt;&gt; c.replicate([x], n=1, workers=[&#39;alice&#39;, &#39;bob&#39;])  # send to one of specific workers  # doctest: +SKIP
+&gt;&gt;&gt; c.replicate([x], n=1)  # reduce replications # doctest: +SKIP
+
+See also
+--------
+Client.rebalance</pre></div></div></li><li><div class=fn><a id=f_restart></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_restart>restart</a>(<span class=args>self, **kwargs</span>) </span><div class=docline> Restart the distributed network </div></div><div class=fdetail id=fn_restart><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3028>source</a> <a class=sourcelink href=distributed.client.Client.html#f_restart>link</a></div><pre>This kills all active work, deletes all data on the network, and
+restarts the worker processes.</pre></div></div></li><li><div class=fn><a id=f_retire_workers></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_retire_workers>retire_workers</a>(<span class=args>self, workers=None, close_workers=True, **kwargs</span>) </span><div class=docline> Retire certain workers on the scheduler </div></div><div class=fdetail id=fn_retire_workers><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3561>source</a> <a class=sourcelink href=distributed.client.Client.html#f_retire_workers>link</a></div><pre>See dask.distributed.Scheduler.retire_workers for the full docstring.</pre><h3>Examples</h3><pre>You can get information about active workers using the following:
+
+&gt;&gt;&gt; workers = client.scheduler_info()[&#39;workers&#39;]
+
+From that list you may want to select some workers to close
+
+&gt;&gt;&gt; client.retire_workers(workers=[&#39;tcp://address:port&#39;, ...])</pre><h3>See also</h3><pre>dask.distributed.Scheduler.retire_workers</pre></div></div></li><li><div class=fn><a id=f_retry></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_retry>retry</a>(<span class=args>self, futures, asynchronous=None</span>) </span><div class=docline> Retry failed futures </div></div><div class=fdetail id=fn_retry><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2231>source</a> <a class=sourcelink href=distributed.client.Client.html#f_retry>link</a></div><h3>Parameters</h3><ul class=params><li><strong>futures</strong> : list of Futures </li></ul></div></div></li><li><div class=fn><a id=f_run></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_run>run</a>(<span class=args>self, function, *args, **kwargs</span>) </span><div class=docline> Run a function on all workers outside of task scheduling system </div></div><div class=fdetail id=fn_run><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2452>source</a> <a class=sourcelink href=distributed.client.Client.html#f_run>link</a></div><pre>This calls a function on all currently known workers immediately,
+blocks until those results come back, and returns the results
+asynchronously as a dictionary keyed by worker address.  This method
+if generally used for side effects, such and collecting diagnostic
+information or installing libraries.
+
+If your function takes an input argument named ``dask_worker`` then
+that variable will be populated with the worker itself.</pre><h3>Parameters</h3><ul class=params><li><strong>function</strong> : callable </li><li><strong>*args</strong> : arguments for remote function </li><li><strong>**kwargs</strong> : keyword arguments for remote function </li><li><strong>workers</strong> : list <br><pre>Workers on which to run the function. Defaults to all known workers.</pre></li><li><strong>wait</strong> : boolean <br><pre>If the function is asynchronous whether or not to wait until that
+function finishes.</pre></li><li><strong>nanny</strong> : bool, defualt False <br><pre>Whether to run ``function`` on the nanny. By default, the function
+is run on the worker process.  If specified, the addresses in
+``workers`` should still be the worker addresses, not the nanny addresses.</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; c.run(os.getpid)  # doctest: +SKIP
+{&#39;192.168.0.100:9000&#39;: 1234,
+ &#39;192.168.0.101:9000&#39;: 4321,
+ &#39;192.168.0.102:9000&#39;: 5555}
+
+Restrict computation to particular workers with the ``workers=``
+keyword argument.
+
+&gt;&gt;&gt; c.run(os.getpid, workers=[&#39;192.168.0.100:9000&#39;,
+...                           &#39;192.168.0.101:9000&#39;])  # doctest: +SKIP
+{&#39;192.168.0.100:9000&#39;: 1234,
+ &#39;192.168.0.101:9000&#39;: 4321}
+
+&gt;&gt;&gt; def get_status(dask_worker):
+...     return dask_worker.status
+
+&gt;&gt;&gt; c.run(get_hostname)  # doctest: +SKIP
+{&#39;192.168.0.100:9000&#39;: &#39;running&#39;,
+ &#39;192.168.0.101:9000&#39;: &#39;running}
+
+Run asynchronous functions in the background:
+
+&gt;&gt;&gt; async def print_state(dask_worker):  # doctest: +SKIP
+...    while True:
+...        print(dask_worker.status)
+...        await asyncio.sleep(1)
+
+&gt;&gt;&gt; c.run(print_state, wait=False)  # doctest: +SKIP</pre></div></div></li><li><div class=fn><a id=f_run_coroutine></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_run_coroutine>run_coroutine</a>(<span class=args>self, function, *args, **kwargs</span>) </span><div class=docline> Spawn a coroutine on all workers. </div></div><div class=fdetail id=fn_run_coroutine><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2513>source</a> <a class=sourcelink href=distributed.client.Client.html#f_run_coroutine>link</a></div><pre>This spawns a coroutine on all currently known workers and then waits
+for the coroutine on each worker.  The coroutines&#39; results are returned
+as a dictionary keyed by worker address.</pre><h3>Parameters</h3><ul class=params><li><strong>function</strong> : a coroutine function <br><pre>(typically a function wrapped in gen.coroutine or
+ a Python 3.5+ async function)</pre></li><li><strong>*args</strong> : arguments for remote function </li><li><strong>**kwargs</strong> : keyword arguments for remote function </li><li><strong>wait</strong> : boolean (default True) <br><pre>Whether to wait for coroutines to end.</pre></li><li><strong>workers</strong> : list <br><pre>Workers on which to run the function. Defaults to all known workers.</pre></li></ul></div></div></li><li><div class=fn><a id=f_run_on_scheduler></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_run_on_scheduler>run_on_scheduler</a>(<span class=args>self, function, *args, **kwargs</span>) </span><div class=docline> Run a function on the scheduler process </div></div><div class=fdetail id=fn_run_on_scheduler><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2396>source</a> <a class=sourcelink href=distributed.client.Client.html#f_run_on_scheduler>link</a></div><pre>This is typically used for live debugging.  The function should take a
+keyword argument ``dask_scheduler=``, which will be given the scheduler
+object itself.</pre><h3>Examples</h3><pre>&gt;&gt;&gt; def get_number_of_tasks(dask_scheduler=None):
+...     return len(dask_scheduler.tasks)
+
+&gt;&gt;&gt; client.run_on_scheduler(get_number_of_tasks)  # doctest: +SKIP
+100
+
+Run asynchronous functions in the background:
+
+&gt;&gt;&gt; async def print_state(dask_scheduler):  # doctest: +SKIP
+...    while True:
+...        print(dask_scheduler.status)
+...        await asyncio.sleep(1)
+
+&gt;&gt;&gt; c.run(print_state, wait=False)  # doctest: +SKIP</pre><h3>See also</h3><pre>Client.run: Run a function on all workers
+Client.start_ipython_scheduler: Start an IPython session on scheduler</pre></div></div></li><li><div class=fn><a id=f_scatter></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_scatter>scatter</a>(<span class=args>self, data, workers=None, broadcast=False, direct=None, hash=True, ...</span>) </span><div class=docline> Scatter data into distributed memory </div></div><div class=fdetail id=fn_scatter><div class=decl><div class=def><span class=kw>def</span> scatter( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">data,</div><div class=args style="padding-left: 2em">workers=<i>None</i>,</div><div class=args style="padding-left: 2em">broadcast=<i>False</i>,</div><div class=args style="padding-left: 2em">direct=<i>None</i>,</div><div class=args style="padding-left: 2em">hash=<i>True</i>,</div><div class=args style="padding-left: 2em">timeout=<i>no_default</i>,</div><div class=args style="padding-left: 2em">asynchronous=<i>None</i>,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2103>source</a> <a class=sourcelink href=distributed.client.Client.html#f_scatter>link</a></div><pre>This moves data from the local client process into the workers of the
+distributed scheduler.  Note that it is often better to submit jobs to
+your workers to have them load the data rather than loading data
+locally and then scattering it out to them.</pre><h3>Parameters</h3><ul class=params><li><strong>data</strong> : list, dict, or object <br><pre>Data to scatter out to workers.  Output type matches input type.</pre></li><li><strong>workers</strong> : list of tuples <br><pre>Optionally constrain locations of data.
+Specify workers as hostname/port pairs, e.g. ``(&#39;127.0.0.1&#39;, 8787)``.</pre></li><li><strong>broadcast</strong> : bool (defaults to False) <br><pre>Whether to send each data element to all workers.
+By default we round-robin based on number of cores.</pre></li><li><strong>direct</strong> : bool (defaults to automatically check) <br><pre>Whether or not to connect directly to the workers, or to ask
+the scheduler to serve as intermediary.  This can also be set when
+creating the Client.</pre></li><li><strong>hash</strong> : bool <br><pre>Whether or not to hash data to determine key.
+If False then this uses a random key</pre></li></ul><h3>Returns</h3><ul class=params><li> List, dict, iterator, or queue of futures matching the type of input. </li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; c = Client(&#39;127.0.0.1:8787&#39;)  # doctest: +SKIP
+&gt;&gt;&gt; c.scatter(1) # doctest: +SKIP
+&lt;Future: status: finished, key: c0a8a20f903a4915b94db8de3ea63195&gt;
+
+&gt;&gt;&gt; c.scatter([1, 2, 3])  # doctest: +SKIP
+[&lt;Future: status: finished, key: c0a8a20f903a4915b94db8de3ea63195&gt;,
+ &lt;Future: status: finished, key: 58e78e1b34eb49a68c65b54815d1b158&gt;,
+ &lt;Future: status: finished, key: d3395e15f605bc35ab1bac6341a285e2&gt;]
+
+&gt;&gt;&gt; c.scatter({&#39;x&#39;: 1, &#39;y&#39;: 2, &#39;z&#39;: 3})  # doctest: +SKIP
+{&#39;x&#39;: &lt;Future: status: finished, key: x&gt;,
+ &#39;y&#39;: &lt;Future: status: finished, key: y&gt;,
+ &#39;z&#39;: &lt;Future: status: finished, key: z&gt;}
+
+Constrain location of data to subset of workers
+
+&gt;&gt;&gt; c.scatter([1, 2, 3], workers=[(&#39;hostname&#39;, 8788)])   # doctest: +SKIP
+
+Broadcast data to all workers
+
+&gt;&gt;&gt; [future] = c.scatter([element], broadcast=True)  # doctest: +SKIP
+
+Send scattered data to parallelized function using client futures
+interface
+
+&gt;&gt;&gt; data = c.scatter(data, broadcast=True)  # doctest: +SKIP
+&gt;&gt;&gt; res = [c.submit(func, data, i) for i in range(100)]</pre><h3>See also</h3><pre>Client.gather: Gather data back to local process</pre></div></div></li><li><div class=fn><a id=f_scheduler_info></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_scheduler_info>scheduler_info</a>(<span class=args>self, **kwargs</span>) </span><div class=docline> Basic information about the workers in the cluster </div></div><div class=fdetail id=fn_scheduler_info><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3455>source</a> <a class=sourcelink href=distributed.client.Client.html#f_scheduler_info>link</a></div><h3>Examples</h3><pre>&gt;&gt;&gt; c.scheduler_info()  # doctest: +SKIP
+{&#39;id&#39;: &#39;2de2b6da-69ee-11e6-ab6a-e82aea155996&#39;,
+ &#39;services&#39;: {},
+ &#39;type&#39;: &#39;Scheduler&#39;,
+ &#39;workers&#39;: {&#39;127.0.0.1:40575&#39;: {&#39;active&#39;: 0,
+                                 &#39;last-seen&#39;: 1472038237.4845693,
+                                 &#39;name&#39;: &#39;127.0.0.1:40575&#39;,
+                                 &#39;services&#39;: {},
+                                 &#39;stored&#39;: 0,
+                                 &#39;time-delay&#39;: 0.0061032772064208984}}}</pre></div></div></li><li><div class=fn><a id=f_set_metadata></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_set_metadata>set_metadata</a>(<span class=args>self, key, value</span>) </span><div class=docline> Set arbitrary metadata in the scheduler </div></div><div class=fdetail id=fn_set_metadata><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3587>source</a> <a class=sourcelink href=distributed.client.Client.html#f_set_metadata>link</a></div><pre>This allows you to store small amounts of data on the central scheduler
+process for administrative purposes.  Data should be msgpack
+serializable (ints, strings, lists, dicts)
+
+If the key corresponds to a task then that key will be cleaned up when
+the task is forgotten by the scheduler.
+
+If the key is a list then it will be assumed that you want to index
+into a nested dictionary structure using those keys.  For example if
+you call the following::
+
+    &gt;&gt;&gt; client.set_metadata([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], 123)
+
+Then this is the same as setting
+
+    &gt;&gt;&gt; scheduler.task_metadata[&#39;a&#39;][&#39;b&#39;][&#39;c&#39;] = 123
+
+The lower level dictionaries will be created on demand.</pre><h3>Examples</h3><pre>&gt;&gt;&gt; client.set_metadata(&#39;x&#39;, 123)  # doctest: +SKIP
+&gt;&gt;&gt; client.get_metadata(&#39;x&#39;)  # doctest: +SKIP
+123
+
+&gt;&gt;&gt; client.set_metadata([&#39;x&#39;, &#39;y&#39;], 123)  # doctest: +SKIP
+&gt;&gt;&gt; client.get_metadata(&#39;x&#39;)  # doctest: +SKIP
+{&#39;y&#39;: 123}
+
+&gt;&gt;&gt; client.set_metadata([&#39;x&#39;, &#39;w&#39;, &#39;z&#39;], 456)  # doctest: +SKIP
+&gt;&gt;&gt; client.get_metadata(&#39;x&#39;)  # doctest: +SKIP
+{&#39;y&#39;: 123, &#39;w&#39;: {&#39;z&#39;: 456}}
+
+&gt;&gt;&gt; client.get_metadata([&#39;x&#39;, &#39;w&#39;])  # doctest: +SKIP
+{&#39;z&#39;: 456}</pre><h3>See also</h3><pre>get_metadata</pre></div></div></li><li><div class=fn><a id=f_shutdown></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_shutdown>shutdown</a>(<span class=args>self</span>) </span><div class=docline> Shut down the connected scheduler and workers </div></div><div class=fdetail id=fn_shutdown><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1446>source</a> <a class=sourcelink href=distributed.client.Client.html#f_shutdown>link</a></div><pre>Note, this may disrupt other clients that may be using the same
+scheduler and workers.
+
+See also
+--------
+Client.close: close only this client</pre></div></div></li><li><div class=fn><a id=f_start></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_start>start</a>(<span class=args>self, **kwargs</span>) </span><div class=docline> Start scheduler running in separate thread </div></div><div class=fdetail id=fn_start><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-935>source</a> <a class=sourcelink href=distributed.client.Client.html#f_start>link</a></div></div></div></li><li><div class=fn><a id=f_start_ipython></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f_start_ipython>start_ipython</a>(<span class=args>self, *args, **kwargs</span>) </span></div><div class=fdetail id=fn_start_ipython><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3679>source</a> <a class=sourcelink href=distributed.client.Client.html#f_start_ipython>link</a></div></div></div></li><li><div class=fn><a id=f_start_ipython_scheduler></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_start_ipython_scheduler>start_ipython_scheduler</a>(<span class=args>self, magic_name=&#34;scheduler_if_ipython&#34;, qtconsole=False, qtconsole_args=None</span>) </span><div class=docline> Start IPython kernel on the scheduler </div></div><div class=fdetail id=fn_start_ipython_scheduler><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3773>source</a> <a class=sourcelink href=distributed.client.Client.html#f_start_ipython_scheduler>link</a></div><h3>Parameters</h3><ul class=params><li><strong>magic_name</strong> : str or None <br><pre>If defined, register IPython magic with this name for
+executing code on the scheduler.
+If not defined, register %scheduler magic if IPython is running.</pre></li><li><strong>qtconsole</strong> : bool <br><pre>If True, launch a Jupyter QtConsole connected to the worker(s).</pre></li><li><strong>qtconsole_args</strong> : list(str) <br><pre>Additional arguments to pass to the qtconsole on startup.</pre></li></ul><h3>Returns</h3><ul class=params><li> dict <br><pre>connection_info dict containing info necessary
+to connect Jupyter clients to the scheduler.</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; c.start_ipython_scheduler() # doctest: +SKIP
+&gt;&gt;&gt; %scheduler scheduler.processing  # doctest: +SKIP
+{&#39;127.0.0.1:3595&#39;: {&#39;inc-1&#39;, &#39;inc-2&#39;},
+ &#39;127.0.0.1:53589&#39;: {&#39;inc-2&#39;, &#39;add-5&#39;}}
+
+&gt;&gt;&gt; c.start_ipython_scheduler(qtconsole=True) # doctest: +SKIP</pre><h3>See also</h3><pre>Client.start_ipython_workers: Start IPython on the workers</pre></div></div></li><li><div class=fn><a id=f_start_ipython_workers></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_start_ipython_workers>start_ipython_workers</a>(<span class=args>self, workers=None, magic_names=False, qtconsole=False, qtconsole_args=None</span>) </span><div class=docline> Start IPython kernels on workers </div></div><div class=fdetail id=fn_start_ipython_workers><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3691>source</a> <a class=sourcelink href=distributed.client.Client.html#f_start_ipython_workers>link</a></div><h3>Parameters</h3><ul class=params><li><strong>workers</strong> : list <br><pre>A list of worker addresses, defaults to all</pre></li><li><strong>magic_names</strong> : str or list(str) <br><pre>If defined, register IPython magics with these names for
+executing code on the workers.  If string has asterix then expand
+asterix into 0, 1, ..., n for n workers</pre></li><li><strong>qtconsole</strong> : bool <br><pre>If True, launch a Jupyter QtConsole connected to the worker(s).</pre></li><li><strong>qtconsole_args</strong> : list(str) <br><pre>Additional arguments to pass to the qtconsole on startup.</pre></li></ul><h3>Returns</h3><ul class=params><li> list <br><pre>List of connection_info dicts containing info necessary
+to connect Jupyter clients to the workers.</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; info = c.start_ipython_workers() # doctest: +SKIP
+&gt;&gt;&gt; %remote info[&#39;192.168.1.101:5752&#39;] worker.data  # doctest: +SKIP
+{&#39;x&#39;: 1, &#39;y&#39;: 100}
+
+&gt;&gt;&gt; c.start_ipython_workers(&#39;192.168.1.101:5752&#39;, magic_names=&#39;w&#39;) # doctest: +SKIP
+&gt;&gt;&gt; %w worker.data  # doctest: +SKIP
+{&#39;x&#39;: 1, &#39;y&#39;: 100}
+
+&gt;&gt;&gt; c.start_ipython_workers(&#39;192.168.1.101:5752&#39;, qtconsole=True) # doctest: +SKIP
+
+Add asterix * in magic names to add one magic per worker
+
+&gt;&gt;&gt; c.start_ipython_workers(magic_names=&#39;w_*&#39;) # doctest: +SKIP
+&gt;&gt;&gt; %w_0 worker.data  # doctest: +SKIP
+{&#39;x&#39;: 1, &#39;y&#39;: 100}
+&gt;&gt;&gt; %w_1 worker.data  # doctest: +SKIP
+{&#39;z&#39;: 5}</pre><h3>See also</h3><pre>Client.start_ipython_scheduler: start ipython on the scheduler</pre></div></div></li><li><div class=fn><a id=f_submit></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_submit>submit</a>(<span class=args>self, func, *args, key=None, workers=None, resources=None, retries=None, ...</span>) </span><div class=docline> Submit a function application to the scheduler </div></div><div class=fdetail id=fn_submit><div class=decl><div class=def><span class=kw>def</span> submit( <div class=args style="padding-left: 2em"><span class=kw>self</span>,</div><div class=args style="padding-left: 2em">func,</div><div class=args style="padding-left: 2em">*args,</div><div class=args style="padding-left: 2em">key=<i>None</i>,</div><div class=args style="padding-left: 2em">workers=<i>None</i>,</div><div class=args style="padding-left: 2em">resources=<i>None</i>,</div><div class=args style="padding-left: 2em">retries=<i>None</i>,</div><div class=args style="padding-left: 2em">priority=<i>0</i>,</div><div class=args style="padding-left: 2em">fifo_timeout=<i>"100 ms"</i>,</div><div class=args style="padding-left: 2em">allow_other_workers=<i>False</i>,</div><div class=args style="padding-left: 2em">actor=<i>False</i>,</div><div class=args style="padding-left: 2em">actors=<i>False</i>,</div><div class=args style="padding-left: 2em">pure=<i>None</i>,</div><div class=args style="padding-left: 2em">**kwargs,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1475>source</a> <a class=sourcelink href=distributed.client.Client.html#f_submit>link</a></div><h3>Parameters</h3><ul class=params><li><strong>func</strong> : callable </li><li><strong>*args</strong> : </li><li><strong>**kwargs</strong> : </li><li><strong>pure</strong> : bool (defaults to True) <br><pre>Whether or not the function is pure.  Set ``pure=False`` for
+impure functions like ``np.random.random``.</pre></li><li><strong>workers</strong> : set, iterable of sets <br><pre>A set of worker hostnames on which computations may be performed.
+Leave empty to default to all workers (common case)</pre></li><li><strong>key</strong> : str <br><pre>Unique identifier for the task.  Defaults to function-name and hash</pre></li><li><strong>allow_other_workers</strong> : bool (defaults to False) <br><pre>Used with `workers`. Indicates whether or not the computations
+may be performed on workers that are not in the `workers` set(s).</pre></li><li><strong>retries</strong> : int (default to 0) <br><pre>Number of allowed automatic retries if the task fails</pre></li><li><strong>priority</strong> : Number <br><pre>Optional prioritization of task.  Zero is default.
+Higher priorities take precedence</pre></li><li><strong>fifo_timeout</strong> : str timedelta (default &#39;100ms&#39;) <br><pre>Allowed amount of time between calls to consider the same priority</pre></li><li><strong>resources</strong> : dict (defaults to {}) <br><pre>Defines the `resources` this job requires on the worker; e.g.
+``{&#39;GPU&#39;: 2}``. See :doc:`worker resources &lt;resources&gt;` for details
+on defining resources.</pre></li><li><strong>actor</strong> : bool (default False) <br><pre>Whether this task should exist on the worker as a stateful actor.
+See :doc:`actors` for additional details.</pre></li><li><strong>actors</strong> : bool (default False) <br><pre>Alias for `actor`</pre></li></ul><h3>Returns</h3><ul class=params><li> Future </li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; c = client.submit(add, a, b)  # doctest: +SKIP</pre><h3>See also</h3><pre>Client.map: Submit on many arguments at once</pre></div></div></li><li><div class=fn><a id=f_sync></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f_sync>sync</a>(<span class=args>self, func, *args, asynchronous=None, callback_timeout=None, **kwargs</span>) </span></div><div class=fdetail id=fn_sync><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-819>source</a> <a class=sourcelink href=distributed.client.Client.html#f_sync>link</a></div></div></div></li><li><div class=fn><a id=f_unpublish_dataset></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_unpublish_dataset>unpublish_dataset</a>(<span class=args>self, name, **kwargs</span>) </span><div class=docline> Remove named datasets from scheduler </div></div><div class=fdetail id=fn_unpublish_dataset><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-2323>source</a> <a class=sourcelink href=distributed.client.Client.html#f_unpublish_dataset>link</a></div><h3>Examples</h3><pre>&gt;&gt;&gt; c.list_datasets()  # doctest: +SKIP
+[&#39;my_dataset&#39;]
+&gt;&gt;&gt; c.unpublish_datasets(&#39;my_dataset&#39;)  # doctest: +SKIP
+&gt;&gt;&gt; c.list_datasets()  # doctest: +SKIP
+[]</pre><h3>See also</h3><pre>Client.publish_dataset</pre></div></div></li><li><div class=fn><a id=f_upload_file></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_upload_file>upload_file</a>(<span class=args>self, filename, **kwargs</span>) </span><div class=docline> Upload local package to workers </div></div><div class=fdetail id=fn_upload_file><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3061>source</a> <a class=sourcelink href=distributed.client.Client.html#f_upload_file>link</a></div><pre>This sends a local file up to all worker nodes.  This file is placed
+into a temporary directory on Python&#39;s system path so any .py,  .egg
+or .zip  files will be importable.</pre><h3>Parameters</h3><ul class=params><li><strong>filename</strong> : string <br><pre>Filename of .py, .egg or .zip file to send to workers</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; client.upload_file(&#39;mylibrary.egg&#39;)  # doctest: +SKIP
+&gt;&gt;&gt; from mylibrary import myfunc  # doctest: +SKIP
+&gt;&gt;&gt; L = client.map(myfunc, seq)  # doctest: +SKIP</pre></div></div></li><li><div class=fn><a id=f_wait_for_workers></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_wait_for_workers>wait_for_workers</a>(<span class=args>self, n_workers=0, timeout=None</span>) </span><div class=docline> Blocking call to wait for n workers before continuing </div></div><div class=fdetail id=fn_wait_for_workers><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-1166>source</a> <a class=sourcelink href=distributed.client.Client.html#f_wait_for_workers>link</a></div></div></div></li><li><div class=fn><a id=f_who_has></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_who_has>who_has</a>(<span class=args>self, futures=None, **kwargs</span>) </span><div class=docline> The workers storing each future&#39;s data </div></div><div class=fdetail id=fn_who_has><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3199>source</a> <a class=sourcelink href=distributed.client.Client.html#f_who_has>link</a></div><h3>Parameters</h3><ul class=params><li><strong>futures</strong> : list <br><pre>A list of futures, defaults to all data</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; x, y, z = c.map(inc, [1, 2, 3])  # doctest: +SKIP
+&gt;&gt;&gt; wait([x, y, z])  # doctest: +SKIP
+&gt;&gt;&gt; c.who_has()  # doctest: +SKIP
+{&#39;inc-1c8dd6be1c21646c71f76c16d09304ea&#39;: [&#39;192.168.1.141:46784&#39;],
+ &#39;inc-1e297fc27658d7b67b3a758f16bcf47a&#39;: [&#39;192.168.1.141:46784&#39;],
+ &#39;inc-fd65c238a7ea60f6a01bf4c8a5fcf44b&#39;: [&#39;192.168.1.141:46784&#39;]}
+
+&gt;&gt;&gt; c.who_has([x, y])  # doctest: +SKIP
+{&#39;inc-1c8dd6be1c21646c71f76c16d09304ea&#39;: [&#39;192.168.1.141:46784&#39;],
+ &#39;inc-1e297fc27658d7b67b3a758f16bcf47a&#39;: [&#39;192.168.1.141:46784&#39;]}</pre><h3>See also</h3><pre>Client.has_what
+Client.nthreads</pre></div></div></li><li><div class=fn><a id=f_write_scheduler_file></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_write_scheduler_file>write_scheduler_file</a>(<span class=args>self, scheduler_file</span>) </span><div class=docline> Write the scheduler information to a json file. </div></div><div class=fdetail id=fn_write_scheduler_file><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3475>source</a> <a class=sourcelink href=distributed.client.Client.html#f_write_scheduler_file>link</a></div><pre>This facilitates easy sharing of scheduler information using a file
+system. The scheduler file can be used to instantiate a second Client
+using the same scheduler.</pre><h3>Parameters</h3><ul class=params><li><strong>scheduler_file</strong> : str <br><pre>Path to a write the scheduler file.</pre></li></ul><h3>Examples</h3><pre>&gt;&gt;&gt; client = Client()  # doctest: +SKIP
+&gt;&gt;&gt; client.write_scheduler_file(&#39;scheduler.json&#39;)  # doctest: +SKIP
+# connect to previous client&#39;s scheduler
+&gt;&gt;&gt; client2 = Client(scheduler_file=&#39;scheduler.json&#39;)  # doctest: +SKIP</pre></div></div></li></ul><h2>Class methods</h2><ul class=deflst><li><div class=fn><a id=f_collections_to_dsk></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=distributed.client.Client.html#f_collections_to_dsk>collections_to_dsk</a>(<span class=args>collections, *args, **kwargs</span>) <span class=label>@staticmethod</span></span></div><div class=fdetail id=fn_collections_to_dsk><div class=decl><div class=def><i> @staticmethod<br></i><span class=kw>def</span> collections_to_dsk(<span class=args>collections, *args, **kwargs</span>) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3932>source</a> <a class=sourcelink href=distributed.client.Client.html#f_collections_to_dsk>link</a></div></div></div></li><li><div class=fn><a id=f_current></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_current>current</a>(<span class=args>cls, allow_global=True</span>) <span class=label>@classmethod</span></span><div class=docline> When running within the context of `as_client`, return the context-local </div></div><div class=fdetail id=fn_current><div class=decl><div class=def><i> @classmethod<br></i><span class=kw>def</span> current( <div class=args style="padding-left: 2em">cls,</div><div class=args style="padding-left: 2em">allow_global=<i>True</i>,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-772>source</a> <a class=sourcelink href=distributed.client.Client.html#f_current>link</a></div><pre>current client. Otherwise, return the latest initialised Client.
+If no Client instances exist, raise ValueError.
+If allow_global is set to False, raise ValueError if running outside of the
+`as_client` context manager.</pre></div></div></li><li><div class=fn><a id=f_get_restrictions></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=distributed.client.Client.html#f_get_restrictions>get_restrictions</a>(<span class=args>cls, collections, workers, allow_other_workers</span>) <span class=label>@classmethod</span></span><div class=docline> Get restrictions from inputs to compute/persist </div></div><div class=fdetail id=fn_get_restrictions><div class=decl><div class=def><i> @classmethod<br></i><span class=kw>def</span> get_restrictions( <div class=args style="padding-left: 2em">cls,</div><div class=args style="padding-left: 2em">collections,</div><div class=args style="padding-left: 2em">workers,</div><div class=args style="padding-left: 2em">allow_other_workers,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+distributed.client.py.html#line-3899>source</a> <a class=sourcelink href=distributed.client.Client.html#f_get_restrictions>link</a></div></div></div></li></ul><h2>Subclasses</h2><ul class=deflst><li><a class=symbol href=distributed.html>distributed</a>.<a class=symbol href=distributed.client.html>client</a>.<a class=symbol href=distributed.client.Executor.html>Executor</a></li></ul><h2>Reexports</h2><ul class=deflst><li> Imported in <a class=symbol href=distributed.lock.html>distributed.lock</a>. </li><li> Imported in <a class=symbol href=distributed.queues.html>distributed.queues</a>. </li><li> Imported in <a class=symbol href=distributed.utils_test.html>distributed.utils_test</a>. </li><li> Imported in <a class=symbol href=distributed.variable.html>distributed.variable</a>. </li><li> Imported in <a class=symbol href=distributed.event.html>distributed.event</a>. </li><li> Imported in <a class=symbol href=distributed.comm.tests.test_ucx_config.html>distributed.comm.tests.test_ucx_config</a>. </li><li> Imported in <a class=symbol href=distributed.comm.tests.test_ucx.html>distributed.comm.tests.test_ucx</a>. </li><li> Imported in <a class=symbol href=distributed.cli.tests.test_dask_worker.html>distributed.cli.tests.test_dask_worker</a>. </li><li> Imported in <a class=symbol href=distributed.cli.tests.test_dask_scheduler.html>distributed.cli.tests.test_dask_scheduler</a>. </li><li> Imported in <a class=symbol href=distributed.cli.tests.test_tls_cli.html>distributed.cli.tests.test_tls_cli</a>. </li><li> Imported in <a class=symbol href=distributed.cli.tests.test_dask_spec.html>distributed.cli.tests.test_dask_spec</a>. </li><li> Imported in <a class=symbol href=distributed.deploy.utils_test.html>distributed.deploy.utils_test</a>. </li><li> Imported in <a class=symbol href=distributed.deploy.tests.test_local.html>distributed.deploy.tests.test_local</a>. </li><li> Imported in <a class=symbol href=distributed.deploy.tests.test_adaptive.html>distributed.deploy.tests.test_adaptive</a>. </li><li> Imported in <a class=symbol href=distributed.deploy.tests.test_old_ssh.html>distributed.deploy.tests.test_old_ssh</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_utils_test.html>distributed.tests.test_utils_test</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_failed_workers.html>distributed.tests.test_failed_workers</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_locks.html>distributed.tests.test_locks</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_versions.html>distributed.tests.test_versions</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_ipython.html>distributed.tests.test_ipython</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_stress.html>distributed.tests.test_stress</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_queues.html>distributed.tests.test_queues</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_client_loop.html>distributed.tests.test_client_loop</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_tls_functional.html>distributed.tests.test_tls_functional</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_preload.html>distributed.tests.test_preload</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_nanny.html>distributed.tests.test_nanny</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_variable.html>distributed.tests.test_variable</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_actor.html>distributed.tests.test_actor</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_scheduler.html>distributed.tests.test_scheduler</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_publish.html>distributed.tests.test_publish</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_client.html>distributed.tests.test_client</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_client_executor.html>distributed.tests.test_client_executor</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_worker.html>distributed.tests.test_worker</a>. </li><li> Imported in <a class=symbol href=distributed.tests.test_worker_client.html>distributed.tests.test_worker_client</a>. </li><li> Imported in <a class=symbol href=distributed.html>distributed</a>. </li></ul><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

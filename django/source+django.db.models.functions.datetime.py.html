@@ -1,0 +1,664 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.db.models.functions.datetime</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9662; db</a> </li><li><ul><li><a href=django.db.backends.html>&#9656; backends</a> </li><li><a href=django.db.migrations.html>&#9656; migrations</a> </li><li><a href=django.db.models.html>&#9662; models</a> </li><li><ul><li><a href=django.db.models.aggregates.html>&#9656; aggregates</a> </li><li><a href=django.db.models.base.html>&#9656; base</a> </li><li><a href=django.db.models.constants.html>&#9656; constants</a> </li><li><a href=django.db.models.constraints.html>&#9656; constraints</a> </li><li><a href=django.db.models.deletion.html>&#9656; deletion</a> </li><li><a href=django.db.models.enums.html>&#9656; enums</a> </li><li><a href=django.db.models.expressions.html>&#9656; expressions</a> </li><li><a href=django.db.models.fields.html>&#9656; fields</a> </li><li><a href=django.db.models.functions.html>&#9662; functions</a> </li><li><ul><li><a href=django.db.models.functions.comparison.html>&#9656; comparison</a> </li><li><div class=select><a href=django.db.models.functions.datetime.html>&#9662; datetime</a> </div></li><li><ul><li><a href=django.db.models.functions.datetime.Extract.html> <i>class</i> Extract</a> </li><li><a href=django.db.models.functions.datetime.ExtractDay.html> <i>class</i> ExtractDay</a> </li><li><a href=django.db.models.functions.datetime.ExtractHour.html> <i>class</i> ExtractHour</a> </li><li><a href=django.db.models.functions.datetime.ExtractIsoWeekDay.html> <i>class</i> ExtractIsoWeekDay</a> </li><li><a href=django.db.models.functions.datetime.ExtractIsoYear.html> <i>class</i> ExtractIsoYear</a> </li><li><a href=django.db.models.functions.datetime.ExtractMinute.html> <i>class</i> ExtractMinute</a> </li><li><a href=django.db.models.functions.datetime.ExtractMonth.html> <i>class</i> ExtractMonth</a> </li><li><a href=django.db.models.functions.datetime.ExtractQuarter.html> <i>class</i> ExtractQuarter</a> </li><li><a href=django.db.models.functions.datetime.ExtractSecond.html> <i>class</i> ExtractSecond</a> </li><li><a href=django.db.models.functions.datetime.ExtractWeek.html> <i>class</i> ExtractWeek</a> </li><li><a href=django.db.models.functions.datetime.ExtractWeekDay.html> <i>class</i> ExtractWeekDay</a> </li><li><a href=django.db.models.functions.datetime.ExtractYear.html> <i>class</i> ExtractYear</a> </li><li><a href=django.db.models.functions.datetime.Now.html> <i>class</i> Now</a> </li><li><a href=django.db.models.functions.datetime.TimezoneMixin.html> <i>class</i> TimezoneMixin</a> </li><li><a href=django.db.models.functions.datetime.Trunc.html> <i>class</i> Trunc</a> </li><li><a href=django.db.models.functions.datetime.TruncBase.html> <i>class</i> TruncBase</a> </li><li><a href=django.db.models.functions.datetime.TruncDate.html> <i>class</i> TruncDate</a> </li><li><a href=django.db.models.functions.datetime.TruncDay.html> <i>class</i> TruncDay</a> </li><li><a href=django.db.models.functions.datetime.TruncHour.html> <i>class</i> TruncHour</a> </li><li><a href=django.db.models.functions.datetime.TruncMinute.html> <i>class</i> TruncMinute</a> </li><li><a href=django.db.models.functions.datetime.TruncMonth.html> <i>class</i> TruncMonth</a> </li><li><a href=django.db.models.functions.datetime.TruncQuarter.html> <i>class</i> TruncQuarter</a> </li><li><a href=django.db.models.functions.datetime.TruncSecond.html> <i>class</i> TruncSecond</a> </li><li><a href=django.db.models.functions.datetime.TruncTime.html> <i>class</i> TruncTime</a> </li><li><a href=django.db.models.functions.datetime.TruncWeek.html> <i>class</i> TruncWeek</a> </li><li><a href=django.db.models.functions.datetime.TruncYear.html> <i>class</i> TruncYear</a> </li></ul></li><li><a href=django.db.models.functions.math.html>&#9656; math</a> </li><li><a href=django.db.models.functions.mixins.html>&#9656; mixins</a> </li><li><a href=django.db.models.functions.text.html>&#9656; text</a> </li><li><a href=django.db.models.functions.window.html>&#9656; window</a> </li></ul></li><li><a href=django.db.models.indexes.html>&#9656; indexes</a> </li><li><a href=django.db.models.lookups.html>&#9656; lookups</a> </li><li><a href=django.db.models.manager.html>&#9656; manager</a> </li><li><a href=django.db.models.options.html>&#9656; options</a> </li><li><a href=django.db.models.query.html>&#9656; query</a> </li><li><a href=django.db.models.query_utils.html>&#9656; query_utils</a> </li><li><a href=django.db.models.signals.html>&#9656; signals</a> </li><li><a href=django.db.models.sql.html>&#9656; sql</a> </li><li><a href=django.db.models.utils.html>&#9656; utils</a> </li></ul></li><li><a href=django.db.transaction.html>&#9656; transaction</a> </li><li><a href=django.db.utils.html>&#9656; utils</a> </li><li><a href=django.db.DefaultConnectionProxy.html> <i>class</i> DefaultConnectionProxy</a> </li></ul></li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/db/models/functions/datetime.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.db.html>db</a>.<a class=symbol href=django.db.models.html>models</a>.<a class=symbol href=django.db.models.functions.html>functions</a>.<a class=symbol href=django.db.models.functions.datetime.html>datetime</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>from</span> <span class=nn>datetime</span> <span class=kn>import</span> <span class=n>datetime</span>
+<a name=line-2></a>
+<a name=line-3></a><span class=kn>from</span> <span class=nn>django.conf</span> <span class=kn>import</span> <span class=n>settings</span>
+<a name=line-4></a><span class=kn>from</span> <span class=nn>django.db.models.expressions</span> <span class=kn>import</span> <span class=n>Func</span>
+<a name=line-5></a><span class=kn>from</span> <span class=nn>django.db.models.fields</span> <span class=kn>import</span> <span class=p>(</span>
+<a name=line-6></a>    <span class=n>DateField</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>,</span> <span class=n>DurationField</span><span class=p>,</span> <span class=n>Field</span><span class=p>,</span> <span class=n>IntegerField</span><span class=p>,</span> <span class=n>TimeField</span><span class=p>,</span>
+<a name=line-7></a><span class=p>)</span>
+<a name=line-8></a><span class=kn>from</span> <span class=nn>django.db.models.lookups</span> <span class=kn>import</span> <span class=p>(</span>
+<a name=line-9></a>    <span class=n>Transform</span><span class=p>,</span> <span class=n>YearExact</span><span class=p>,</span> <span class=n>YearGt</span><span class=p>,</span> <span class=n>YearGte</span><span class=p>,</span> <span class=n>YearLt</span><span class=p>,</span> <span class=n>YearLte</span><span class=p>,</span>
+<a name=line-10></a><span class=p>)</span>
+<a name=line-11></a><span class=kn>from</span> <span class=nn>django.utils</span> <span class=kn>import</span> <span class=n>timezone</span>
+<a name=line-12></a>
+<a name=line-13></a>
+<a name=line-14></a><span class=k>class</span> <span class=nc>TimezoneMixin</span><span class=p>:</span>
+<a name=line-15></a>    <span class=n>tzinfo</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-16></a>
+<a name=line-17></a>    <span class=k>def</span> <span class=nf>get_tzname</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-18></a>        <span class=c1># Timezone conversions must happen to the input datetime *before*</span>
+<a name=line-19></a>        <span class=c1># applying a function. 2015-12-31 23:00:00 -02:00 is stored in the</span>
+<a name=line-20></a>        <span class=c1># database as 2016-01-01 01:00:00 +00:00. Any results should be</span>
+<a name=line-21></a>        <span class=c1># based on the input datetime not the stored datetime.</span>
+<a name=line-22></a>        <span class=n>tzname</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-23></a>        <span class=k>if</span> <span class=n>settings</span><span class=o>.</span><span class=n>USE_TZ</span><span class=p>:</span>
+<a name=line-24></a>            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>tzinfo</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-25></a>                <span class=n>tzname</span> <span class=o>=</span> <span class=n>timezone</span><span class=o>.</span><span class=n>get_current_timezone_name</span><span class=p>()</span>
+<a name=line-26></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-27></a>                <span class=n>tzname</span> <span class=o>=</span> <span class=n>timezone</span><span class=o>.</span><span class=n>_get_timezone_name</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>tzinfo</span><span class=p>)</span>
+<a name=line-28></a>        <span class=k>return</span> <span class=n>tzname</span>
+<a name=line-29></a>
+<a name=line-30></a>
+<a name=line-31></a><span class=k>class</span> <span class=nc>Extract</span><span class=p>(</span><span class=n>TimezoneMixin</span><span class=p>,</span> <span class=n>Transform</span><span class=p>):</span>
+<a name=line-32></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-33></a>    <span class=n>output_field</span> <span class=o>=</span> <span class=n>IntegerField</span><span class=p>()</span>
+<a name=line-34></a>
+<a name=line-35></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>expression</span><span class=p>,</span> <span class=n>lookup_name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>tzinfo</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>extra</span><span class=p>):</span>
+<a name=line-36></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>lookup_name</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-37></a>            <span class=bp>self</span><span class=o>.</span><span class=n>lookup_name</span> <span class=o>=</span> <span class=n>lookup_name</span>
+<a name=line-38></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>lookup_name</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-39></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;lookup_name must be provided&#39;</span><span class=p>)</span>
+<a name=line-40></a>        <span class=bp>self</span><span class=o>.</span><span class=n>tzinfo</span> <span class=o>=</span> <span class=n>tzinfo</span>
+<a name=line-41></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>expression</span><span class=p>,</span> <span class=o>**</span><span class=n>extra</span><span class=p>)</span>
+<a name=line-42></a>
+<a name=line-43></a>    <span class=k>def</span> <span class=nf>as_sql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-44></a>        <span class=n>sql</span><span class=p>,</span> <span class=n>params</span> <span class=o>=</span> <span class=n>compiler</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lhs</span><span class=p>)</span>
+<a name=line-45></a>        <span class=n>lhs_output_field</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>lhs</span><span class=o>.</span><span class=n>output_field</span>
+<a name=line-46></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>lhs_output_field</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>):</span>
+<a name=line-47></a>            <span class=n>tzname</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_tzname</span><span class=p>()</span>
+<a name=line-48></a>            <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>datetime_extract_sql</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lookup_name</span><span class=p>,</span> <span class=n>sql</span><span class=p>,</span> <span class=n>tzname</span><span class=p>)</span>
+<a name=line-49></a>        <span class=k>elif</span> <span class=bp>self</span><span class=o>.</span><span class=n>tzinfo</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-50></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;tzinfo can only be used with DateTimeField.&#39;</span><span class=p>)</span>
+<a name=line-51></a>        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>lhs_output_field</span><span class=p>,</span> <span class=n>DateField</span><span class=p>):</span>
+<a name=line-52></a>            <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>date_extract_sql</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lookup_name</span><span class=p>,</span> <span class=n>sql</span><span class=p>)</span>
+<a name=line-53></a>        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>lhs_output_field</span><span class=p>,</span> <span class=n>TimeField</span><span class=p>):</span>
+<a name=line-54></a>            <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>time_extract_sql</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lookup_name</span><span class=p>,</span> <span class=n>sql</span><span class=p>)</span>
+<a name=line-55></a>        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>lhs_output_field</span><span class=p>,</span> <span class=n>DurationField</span><span class=p>):</span>
+<a name=line-56></a>            <span class=k>if</span> <span class=ow>not</span> <span class=n>connection</span><span class=o>.</span><span class=n>features</span><span class=o>.</span><span class=n>has_native_duration_field</span><span class=p>:</span>
+<a name=line-57></a>                <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;Extract requires native DurationField database support.&#39;</span><span class=p>)</span>
+<a name=line-58></a>            <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>time_extract_sql</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lookup_name</span><span class=p>,</span> <span class=n>sql</span><span class=p>)</span>
+<a name=line-59></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-60></a>            <span class=c1># resolve_expression has already validated the output_field so this</span>
+<a name=line-61></a>            <span class=c1># assert should never be hit.</span>
+<a name=line-62></a>            <span class=k>assert</span> <span class=kc>False</span><span class=p>,</span> <span class=s2>&quot;Tried to Extract from an invalid type.&quot;</span>
+<a name=line-63></a>        <span class=k>return</span> <span class=n>sql</span><span class=p>,</span> <span class=n>params</span>
+<a name=line-64></a>
+<a name=line-65></a>    <span class=k>def</span> <span class=nf>resolve_expression</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>query</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>allow_joins</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>reuse</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>summarize</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=n>for_save</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+<a name=line-66></a>        <span class=n>copy</span> <span class=o>=</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=n>resolve_expression</span><span class=p>(</span><span class=n>query</span><span class=p>,</span> <span class=n>allow_joins</span><span class=p>,</span> <span class=n>reuse</span><span class=p>,</span> <span class=n>summarize</span><span class=p>,</span> <span class=n>for_save</span><span class=p>)</span>
+<a name=line-67></a>        <span class=n>field</span> <span class=o>=</span> <span class=n>copy</span><span class=o>.</span><span class=n>lhs</span><span class=o>.</span><span class=n>output_field</span>
+<a name=line-68></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=p>(</span><span class=n>DateField</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>,</span> <span class=n>TimeField</span><span class=p>,</span> <span class=n>DurationField</span><span class=p>)):</span>
+<a name=line-69></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-70></a>                <span class=s1>&#39;Extract input expression must be DateField, DateTimeField, &#39;</span>
+<a name=line-71></a>                <span class=s1>&#39;TimeField, or DurationField.&#39;</span>
+<a name=line-72></a>            <span class=p>)</span>
+<a name=line-73></a>        <span class=c1># Passing dates to functions expecting datetimes is most likely a mistake.</span>
+<a name=line-74></a>        <span class=k>if</span> <span class=nb>type</span><span class=p>(</span><span class=n>field</span><span class=p>)</span> <span class=o>==</span> <span class=n>DateField</span> <span class=ow>and</span> <span class=n>copy</span><span class=o>.</span><span class=n>lookup_name</span> <span class=ow>in</span> <span class=p>(</span><span class=s1>&#39;hour&#39;</span><span class=p>,</span> <span class=s1>&#39;minute&#39;</span><span class=p>,</span> <span class=s1>&#39;second&#39;</span><span class=p>):</span>
+<a name=line-75></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-76></a>                <span class=s2>&quot;Cannot extract time component &#39;</span><span class=si>%s</span><span class=s2>&#39; from DateField &#39;</span><span class=si>%s</span><span class=s2>&#39;. &quot;</span> <span class=o>%</span> <span class=p>(</span><span class=n>copy</span><span class=o>.</span><span class=n>lookup_name</span><span class=p>,</span> <span class=n>field</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+<a name=line-77></a>            <span class=p>)</span>
+<a name=line-78></a>        <span class=k>if</span> <span class=p>(</span>
+<a name=line-79></a>            <span class=nb>isinstance</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=n>DurationField</span><span class=p>)</span> <span class=ow>and</span>
+<a name=line-80></a>            <span class=n>copy</span><span class=o>.</span><span class=n>lookup_name</span> <span class=ow>in</span> <span class=p>(</span><span class=s1>&#39;year&#39;</span><span class=p>,</span> <span class=s1>&#39;iso_year&#39;</span><span class=p>,</span> <span class=s1>&#39;month&#39;</span><span class=p>,</span> <span class=s1>&#39;week&#39;</span><span class=p>,</span> <span class=s1>&#39;week_day&#39;</span><span class=p>,</span> <span class=s1>&#39;iso_week_day&#39;</span><span class=p>,</span> <span class=s1>&#39;quarter&#39;</span><span class=p>)</span>
+<a name=line-81></a>        <span class=p>):</span>
+<a name=line-82></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-83></a>                <span class=s2>&quot;Cannot extract component &#39;</span><span class=si>%s</span><span class=s2>&#39; from DurationField &#39;</span><span class=si>%s</span><span class=s2>&#39;.&quot;</span>
+<a name=line-84></a>                <span class=o>%</span> <span class=p>(</span><span class=n>copy</span><span class=o>.</span><span class=n>lookup_name</span><span class=p>,</span> <span class=n>field</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+<a name=line-85></a>            <span class=p>)</span>
+<a name=line-86></a>        <span class=k>return</span> <span class=n>copy</span>
+<a name=line-87></a>
+<a name=line-88></a>
+<a name=line-89></a><span class=k>class</span> <span class=nc>ExtractYear</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-90></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;year&#39;</span>
+<a name=line-91></a>
+<a name=line-92></a>
+<a name=line-93></a><span class=k>class</span> <span class=nc>ExtractIsoYear</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-94></a>    <span class=sd>&quot;&quot;&quot;Return the ISO-8601 week-numbering year.&quot;&quot;&quot;</span>
+<a name=line-95></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;iso_year&#39;</span>
+<a name=line-96></a>
+<a name=line-97></a>
+<a name=line-98></a><span class=k>class</span> <span class=nc>ExtractMonth</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-99></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;month&#39;</span>
+<a name=line-100></a>
+<a name=line-101></a>
+<a name=line-102></a><span class=k>class</span> <span class=nc>ExtractDay</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-103></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;day&#39;</span>
+<a name=line-104></a>
+<a name=line-105></a>
+<a name=line-106></a><span class=k>class</span> <span class=nc>ExtractWeek</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-107></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-108></a><span class=sd>    Return 1-52 or 53, based on ISO-8601, i.e., Monday is the first of the</span>
+<a name=line-109></a><span class=sd>    week.</span>
+<a name=line-110></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-111></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;week&#39;</span>
+<a name=line-112></a>
+<a name=line-113></a>
+<a name=line-114></a><span class=k>class</span> <span class=nc>ExtractWeekDay</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-115></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-116></a><span class=sd>    Return Sunday=1 through Saturday=7.</span>
+<a name=line-117></a>
+<a name=line-118></a><span class=sd>    To replicate this in Python: (mydatetime.isoweekday() % 7) + 1</span>
+<a name=line-119></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-120></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;week_day&#39;</span>
+<a name=line-121></a>
+<a name=line-122></a>
+<a name=line-123></a><span class=k>class</span> <span class=nc>ExtractIsoWeekDay</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-124></a>    <span class=sd>&quot;&quot;&quot;Return Monday=1 through Sunday=7, based on ISO-8601.&quot;&quot;&quot;</span>
+<a name=line-125></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;iso_week_day&#39;</span>
+<a name=line-126></a>
+<a name=line-127></a>
+<a name=line-128></a><span class=k>class</span> <span class=nc>ExtractQuarter</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-129></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;quarter&#39;</span>
+<a name=line-130></a>
+<a name=line-131></a>
+<a name=line-132></a><span class=k>class</span> <span class=nc>ExtractHour</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-133></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;hour&#39;</span>
+<a name=line-134></a>
+<a name=line-135></a>
+<a name=line-136></a><span class=k>class</span> <span class=nc>ExtractMinute</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-137></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;minute&#39;</span>
+<a name=line-138></a>
+<a name=line-139></a>
+<a name=line-140></a><span class=k>class</span> <span class=nc>ExtractSecond</span><span class=p>(</span><span class=n>Extract</span><span class=p>):</span>
+<a name=line-141></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;second&#39;</span>
+<a name=line-142></a>
+<a name=line-143></a>
+<a name=line-144></a><span class=n>DateField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractYear</span><span class=p>)</span>
+<a name=line-145></a><span class=n>DateField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractMonth</span><span class=p>)</span>
+<a name=line-146></a><span class=n>DateField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractDay</span><span class=p>)</span>
+<a name=line-147></a><span class=n>DateField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractWeekDay</span><span class=p>)</span>
+<a name=line-148></a><span class=n>DateField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractIsoWeekDay</span><span class=p>)</span>
+<a name=line-149></a><span class=n>DateField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractWeek</span><span class=p>)</span>
+<a name=line-150></a><span class=n>DateField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractIsoYear</span><span class=p>)</span>
+<a name=line-151></a><span class=n>DateField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractQuarter</span><span class=p>)</span>
+<a name=line-152></a>
+<a name=line-153></a><span class=n>TimeField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractHour</span><span class=p>)</span>
+<a name=line-154></a><span class=n>TimeField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractMinute</span><span class=p>)</span>
+<a name=line-155></a><span class=n>TimeField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractSecond</span><span class=p>)</span>
+<a name=line-156></a>
+<a name=line-157></a><span class=n>DateTimeField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractHour</span><span class=p>)</span>
+<a name=line-158></a><span class=n>DateTimeField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractMinute</span><span class=p>)</span>
+<a name=line-159></a><span class=n>DateTimeField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>ExtractSecond</span><span class=p>)</span>
+<a name=line-160></a>
+<a name=line-161></a><span class=n>ExtractYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearExact</span><span class=p>)</span>
+<a name=line-162></a><span class=n>ExtractYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearGt</span><span class=p>)</span>
+<a name=line-163></a><span class=n>ExtractYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearGte</span><span class=p>)</span>
+<a name=line-164></a><span class=n>ExtractYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearLt</span><span class=p>)</span>
+<a name=line-165></a><span class=n>ExtractYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearLte</span><span class=p>)</span>
+<a name=line-166></a>
+<a name=line-167></a><span class=n>ExtractIsoYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearExact</span><span class=p>)</span>
+<a name=line-168></a><span class=n>ExtractIsoYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearGt</span><span class=p>)</span>
+<a name=line-169></a><span class=n>ExtractIsoYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearGte</span><span class=p>)</span>
+<a name=line-170></a><span class=n>ExtractIsoYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearLt</span><span class=p>)</span>
+<a name=line-171></a><span class=n>ExtractIsoYear</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>YearLte</span><span class=p>)</span>
+<a name=line-172></a>
+<a name=line-173></a>
+<a name=line-174></a><span class=k>class</span> <span class=nc>Now</span><span class=p>(</span><span class=n>Func</span><span class=p>):</span>
+<a name=line-175></a>    <span class=n>template</span> <span class=o>=</span> <span class=s1>&#39;CURRENT_TIMESTAMP&#39;</span>
+<a name=line-176></a>    <span class=n>output_field</span> <span class=o>=</span> <span class=n>DateTimeField</span><span class=p>()</span>
+<a name=line-177></a>
+<a name=line-178></a>    <span class=k>def</span> <span class=nf>as_postgresql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=p>,</span> <span class=n>connection</span><span class=p>,</span> <span class=o>**</span><span class=n>extra_context</span><span class=p>):</span>
+<a name=line-179></a>        <span class=c1># PostgreSQL&#39;s CURRENT_TIMESTAMP means &quot;the time at the start of the</span>
+<a name=line-180></a>        <span class=c1># transaction&quot;. Use STATEMENT_TIMESTAMP to be cross-compatible with</span>
+<a name=line-181></a>        <span class=c1># other databases.</span>
+<a name=line-182></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>as_sql</span><span class=p>(</span><span class=n>compiler</span><span class=p>,</span> <span class=n>connection</span><span class=p>,</span> <span class=n>template</span><span class=o>=</span><span class=s1>&#39;STATEMENT_TIMESTAMP()&#39;</span><span class=p>,</span> <span class=o>**</span><span class=n>extra_context</span><span class=p>)</span>
+<a name=line-183></a>
+<a name=line-184></a>
+<a name=line-185></a><span class=k>class</span> <span class=nc>TruncBase</span><span class=p>(</span><span class=n>TimezoneMixin</span><span class=p>,</span> <span class=n>Transform</span><span class=p>):</span>
+<a name=line-186></a>    <span class=n>kind</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-187></a>    <span class=n>tzinfo</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-188></a>
+<a name=line-189></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>expression</span><span class=p>,</span> <span class=n>output_field</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>tzinfo</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>is_dst</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>extra</span><span class=p>):</span>
+<a name=line-190></a>        <span class=bp>self</span><span class=o>.</span><span class=n>tzinfo</span> <span class=o>=</span> <span class=n>tzinfo</span>
+<a name=line-191></a>        <span class=bp>self</span><span class=o>.</span><span class=n>is_dst</span> <span class=o>=</span> <span class=n>is_dst</span>
+<a name=line-192></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>expression</span><span class=p>,</span> <span class=n>output_field</span><span class=o>=</span><span class=n>output_field</span><span class=p>,</span> <span class=o>**</span><span class=n>extra</span><span class=p>)</span>
+<a name=line-193></a>
+<a name=line-194></a>    <span class=k>def</span> <span class=nf>as_sql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-195></a>        <span class=n>inner_sql</span><span class=p>,</span> <span class=n>inner_params</span> <span class=o>=</span> <span class=n>compiler</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lhs</span><span class=p>)</span>
+<a name=line-196></a>        <span class=n>tzname</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-197></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lhs</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>):</span>
+<a name=line-198></a>            <span class=n>tzname</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_tzname</span><span class=p>()</span>
+<a name=line-199></a>        <span class=k>elif</span> <span class=bp>self</span><span class=o>.</span><span class=n>tzinfo</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-200></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;tzinfo can only be used with DateTimeField.&#39;</span><span class=p>)</span>
+<a name=line-201></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>):</span>
+<a name=line-202></a>            <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>datetime_trunc_sql</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>kind</span><span class=p>,</span> <span class=n>inner_sql</span><span class=p>,</span> <span class=n>tzname</span><span class=p>)</span>
+<a name=line-203></a>        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>DateField</span><span class=p>):</span>
+<a name=line-204></a>            <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>date_trunc_sql</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>kind</span><span class=p>,</span> <span class=n>inner_sql</span><span class=p>,</span> <span class=n>tzname</span><span class=p>)</span>
+<a name=line-205></a>        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>TimeField</span><span class=p>):</span>
+<a name=line-206></a>            <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>time_trunc_sql</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>kind</span><span class=p>,</span> <span class=n>inner_sql</span><span class=p>,</span> <span class=n>tzname</span><span class=p>)</span>
+<a name=line-207></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-208></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;Trunc only valid on DateField, TimeField, or DateTimeField.&#39;</span><span class=p>)</span>
+<a name=line-209></a>        <span class=k>return</span> <span class=n>sql</span><span class=p>,</span> <span class=n>inner_params</span>
+<a name=line-210></a>
+<a name=line-211></a>    <span class=k>def</span> <span class=nf>resolve_expression</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>query</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>allow_joins</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>reuse</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>summarize</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=n>for_save</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+<a name=line-212></a>        <span class=n>copy</span> <span class=o>=</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=n>resolve_expression</span><span class=p>(</span><span class=n>query</span><span class=p>,</span> <span class=n>allow_joins</span><span class=p>,</span> <span class=n>reuse</span><span class=p>,</span> <span class=n>summarize</span><span class=p>,</span> <span class=n>for_save</span><span class=p>)</span>
+<a name=line-213></a>        <span class=n>field</span> <span class=o>=</span> <span class=n>copy</span><span class=o>.</span><span class=n>lhs</span><span class=o>.</span><span class=n>output_field</span>
+<a name=line-214></a>        <span class=c1># DateTimeField is a subclass of DateField so this works for both.</span>
+<a name=line-215></a>        <span class=k>assert</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=p>(</span><span class=n>DateField</span><span class=p>,</span> <span class=n>TimeField</span><span class=p>)),</span> <span class=p>(</span>
+<a name=line-216></a>            <span class=s2>&quot;</span><span class=si>%r</span><span class=s2> isn&#39;t a DateField, TimeField, or DateTimeField.&quot;</span> <span class=o>%</span> <span class=n>field</span><span class=o>.</span><span class=n>name</span>
+<a name=line-217></a>        <span class=p>)</span>
+<a name=line-218></a>        <span class=c1># If self.output_field was None, then accessing the field will trigger</span>
+<a name=line-219></a>        <span class=c1># the resolver to assign it to self.lhs.output_field.</span>
+<a name=line-220></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>copy</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=p>(</span><span class=n>DateField</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>,</span> <span class=n>TimeField</span><span class=p>)):</span>
+<a name=line-221></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;output_field must be either DateField, TimeField, or DateTimeField&#39;</span><span class=p>)</span>
+<a name=line-222></a>        <span class=c1># Passing dates or times to functions expecting datetimes is most</span>
+<a name=line-223></a>        <span class=c1># likely a mistake.</span>
+<a name=line-224></a>        <span class=n>class_output_field</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=n>output_field</span> <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>Field</span><span class=p>)</span> <span class=k>else</span> <span class=kc>None</span>
+<a name=line-225></a>        <span class=n>output_field</span> <span class=o>=</span> <span class=n>class_output_field</span> <span class=ow>or</span> <span class=n>copy</span><span class=o>.</span><span class=n>output_field</span>
+<a name=line-226></a>        <span class=n>has_explicit_output_field</span> <span class=o>=</span> <span class=n>class_output_field</span> <span class=ow>or</span> <span class=n>field</span><span class=o>.</span><span class=vm>__class__</span> <span class=ow>is</span> <span class=ow>not</span> <span class=n>copy</span><span class=o>.</span><span class=n>output_field</span><span class=o>.</span><span class=vm>__class__</span>
+<a name=line-227></a>        <span class=k>if</span> <span class=nb>type</span><span class=p>(</span><span class=n>field</span><span class=p>)</span> <span class=o>==</span> <span class=n>DateField</span> <span class=ow>and</span> <span class=p>(</span>
+<a name=line-228></a>                <span class=nb>isinstance</span><span class=p>(</span><span class=n>output_field</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>)</span> <span class=ow>or</span> <span class=n>copy</span><span class=o>.</span><span class=n>kind</span> <span class=ow>in</span> <span class=p>(</span><span class=s1>&#39;hour&#39;</span><span class=p>,</span> <span class=s1>&#39;minute&#39;</span><span class=p>,</span> <span class=s1>&#39;second&#39;</span><span class=p>,</span> <span class=s1>&#39;time&#39;</span><span class=p>)):</span>
+<a name=line-229></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s2>&quot;Cannot truncate DateField &#39;</span><span class=si>%s</span><span class=s2>&#39; to </span><span class=si>%s</span><span class=s2>. &quot;</span> <span class=o>%</span> <span class=p>(</span>
+<a name=line-230></a>                <span class=n>field</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>output_field</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=vm>__name__</span> <span class=k>if</span> <span class=n>has_explicit_output_field</span> <span class=k>else</span> <span class=s1>&#39;DateTimeField&#39;</span>
+<a name=line-231></a>            <span class=p>))</span>
+<a name=line-232></a>        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=n>TimeField</span><span class=p>)</span> <span class=ow>and</span> <span class=p>(</span>
+<a name=line-233></a>                <span class=nb>isinstance</span><span class=p>(</span><span class=n>output_field</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>)</span> <span class=ow>or</span>
+<a name=line-234></a>                <span class=n>copy</span><span class=o>.</span><span class=n>kind</span> <span class=ow>in</span> <span class=p>(</span><span class=s1>&#39;year&#39;</span><span class=p>,</span> <span class=s1>&#39;quarter&#39;</span><span class=p>,</span> <span class=s1>&#39;month&#39;</span><span class=p>,</span> <span class=s1>&#39;week&#39;</span><span class=p>,</span> <span class=s1>&#39;day&#39;</span><span class=p>,</span> <span class=s1>&#39;date&#39;</span><span class=p>)):</span>
+<a name=line-235></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s2>&quot;Cannot truncate TimeField &#39;</span><span class=si>%s</span><span class=s2>&#39; to </span><span class=si>%s</span><span class=s2>. &quot;</span> <span class=o>%</span> <span class=p>(</span>
+<a name=line-236></a>                <span class=n>field</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>output_field</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=vm>__name__</span> <span class=k>if</span> <span class=n>has_explicit_output_field</span> <span class=k>else</span> <span class=s1>&#39;DateTimeField&#39;</span>
+<a name=line-237></a>            <span class=p>))</span>
+<a name=line-238></a>        <span class=k>return</span> <span class=n>copy</span>
+<a name=line-239></a>
+<a name=line-240></a>    <span class=k>def</span> <span class=nf>convert_value</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>value</span><span class=p>,</span> <span class=n>expression</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-241></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>DateTimeField</span><span class=p>):</span>
+<a name=line-242></a>            <span class=k>if</span> <span class=ow>not</span> <span class=n>settings</span><span class=o>.</span><span class=n>USE_TZ</span><span class=p>:</span>
+<a name=line-243></a>                <span class=k>pass</span>
+<a name=line-244></a>            <span class=k>elif</span> <span class=n>value</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-245></a>                <span class=n>value</span> <span class=o>=</span> <span class=n>value</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=n>tzinfo</span><span class=o>=</span><span class=kc>None</span><span class=p>)</span>
+<a name=line-246></a>                <span class=n>value</span> <span class=o>=</span> <span class=n>timezone</span><span class=o>.</span><span class=n>make_aware</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>tzinfo</span><span class=p>,</span> <span class=n>is_dst</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>is_dst</span><span class=p>)</span>
+<a name=line-247></a>            <span class=k>elif</span> <span class=ow>not</span> <span class=n>connection</span><span class=o>.</span><span class=n>features</span><span class=o>.</span><span class=n>has_zoneinfo_database</span><span class=p>:</span>
+<a name=line-248></a>                <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-249></a>                    <span class=s1>&#39;Database returned an invalid datetime value. Are time &#39;</span>
+<a name=line-250></a>                    <span class=s1>&#39;zone definitions for your database installed?&#39;</span>
+<a name=line-251></a>                <span class=p>)</span>
+<a name=line-252></a>        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=n>datetime</span><span class=p>):</span>
+<a name=line-253></a>            <span class=k>if</span> <span class=n>value</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-254></a>                <span class=k>pass</span>
+<a name=line-255></a>            <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>DateField</span><span class=p>):</span>
+<a name=line-256></a>                <span class=n>value</span> <span class=o>=</span> <span class=n>value</span><span class=o>.</span><span class=n>date</span><span class=p>()</span>
+<a name=line-257></a>            <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>output_field</span><span class=p>,</span> <span class=n>TimeField</span><span class=p>):</span>
+<a name=line-258></a>                <span class=n>value</span> <span class=o>=</span> <span class=n>value</span><span class=o>.</span><span class=n>time</span><span class=p>()</span>
+<a name=line-259></a>        <span class=k>return</span> <span class=n>value</span>
+<a name=line-260></a>
+<a name=line-261></a>
+<a name=line-262></a><span class=k>class</span> <span class=nc>Trunc</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-263></a>
+<a name=line-264></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>expression</span><span class=p>,</span> <span class=n>kind</span><span class=p>,</span> <span class=n>output_field</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>tzinfo</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>is_dst</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>extra</span><span class=p>):</span>
+<a name=line-265></a>        <span class=bp>self</span><span class=o>.</span><span class=n>kind</span> <span class=o>=</span> <span class=n>kind</span>
+<a name=line-266></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span>
+<a name=line-267></a>            <span class=n>expression</span><span class=p>,</span> <span class=n>output_field</span><span class=o>=</span><span class=n>output_field</span><span class=p>,</span> <span class=n>tzinfo</span><span class=o>=</span><span class=n>tzinfo</span><span class=p>,</span>
+<a name=line-268></a>            <span class=n>is_dst</span><span class=o>=</span><span class=n>is_dst</span><span class=p>,</span> <span class=o>**</span><span class=n>extra</span>
+<a name=line-269></a>        <span class=p>)</span>
+<a name=line-270></a>
+<a name=line-271></a>
+<a name=line-272></a><span class=k>class</span> <span class=nc>TruncYear</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-273></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;year&#39;</span>
+<a name=line-274></a>
+<a name=line-275></a>
+<a name=line-276></a><span class=k>class</span> <span class=nc>TruncQuarter</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-277></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;quarter&#39;</span>
+<a name=line-278></a>
+<a name=line-279></a>
+<a name=line-280></a><span class=k>class</span> <span class=nc>TruncMonth</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-281></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;month&#39;</span>
+<a name=line-282></a>
+<a name=line-283></a>
+<a name=line-284></a><span class=k>class</span> <span class=nc>TruncWeek</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-285></a>    <span class=sd>&quot;&quot;&quot;Truncate to midnight on the Monday of the week.&quot;&quot;&quot;</span>
+<a name=line-286></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;week&#39;</span>
+<a name=line-287></a>
+<a name=line-288></a>
+<a name=line-289></a><span class=k>class</span> <span class=nc>TruncDay</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-290></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;day&#39;</span>
+<a name=line-291></a>
+<a name=line-292></a>
+<a name=line-293></a><span class=k>class</span> <span class=nc>TruncDate</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-294></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;date&#39;</span>
+<a name=line-295></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;date&#39;</span>
+<a name=line-296></a>    <span class=n>output_field</span> <span class=o>=</span> <span class=n>DateField</span><span class=p>()</span>
+<a name=line-297></a>
+<a name=line-298></a>    <span class=k>def</span> <span class=nf>as_sql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-299></a>        <span class=c1># Cast to date rather than truncate to date.</span>
+<a name=line-300></a>        <span class=n>lhs</span><span class=p>,</span> <span class=n>lhs_params</span> <span class=o>=</span> <span class=n>compiler</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lhs</span><span class=p>)</span>
+<a name=line-301></a>        <span class=n>tzname</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_tzname</span><span class=p>()</span>
+<a name=line-302></a>        <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>datetime_cast_date_sql</span><span class=p>(</span><span class=n>lhs</span><span class=p>,</span> <span class=n>tzname</span><span class=p>)</span>
+<a name=line-303></a>        <span class=k>return</span> <span class=n>sql</span><span class=p>,</span> <span class=n>lhs_params</span>
+<a name=line-304></a>
+<a name=line-305></a>
+<a name=line-306></a><span class=k>class</span> <span class=nc>TruncTime</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-307></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;time&#39;</span>
+<a name=line-308></a>    <span class=n>lookup_name</span> <span class=o>=</span> <span class=s1>&#39;time&#39;</span>
+<a name=line-309></a>    <span class=n>output_field</span> <span class=o>=</span> <span class=n>TimeField</span><span class=p>()</span>
+<a name=line-310></a>
+<a name=line-311></a>    <span class=k>def</span> <span class=nf>as_sql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-312></a>        <span class=c1># Cast to time rather than truncate to time.</span>
+<a name=line-313></a>        <span class=n>lhs</span><span class=p>,</span> <span class=n>lhs_params</span> <span class=o>=</span> <span class=n>compiler</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>lhs</span><span class=p>)</span>
+<a name=line-314></a>        <span class=n>tzname</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_tzname</span><span class=p>()</span>
+<a name=line-315></a>        <span class=n>sql</span> <span class=o>=</span> <span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>datetime_cast_time_sql</span><span class=p>(</span><span class=n>lhs</span><span class=p>,</span> <span class=n>tzname</span><span class=p>)</span>
+<a name=line-316></a>        <span class=k>return</span> <span class=n>sql</span><span class=p>,</span> <span class=n>lhs_params</span>
+<a name=line-317></a>
+<a name=line-318></a>
+<a name=line-319></a><span class=k>class</span> <span class=nc>TruncHour</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-320></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;hour&#39;</span>
+<a name=line-321></a>
+<a name=line-322></a>
+<a name=line-323></a><span class=k>class</span> <span class=nc>TruncMinute</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-324></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;minute&#39;</span>
+<a name=line-325></a>
+<a name=line-326></a>
+<a name=line-327></a><span class=k>class</span> <span class=nc>TruncSecond</span><span class=p>(</span><span class=n>TruncBase</span><span class=p>):</span>
+<a name=line-328></a>    <span class=n>kind</span> <span class=o>=</span> <span class=s1>&#39;second&#39;</span>
+<a name=line-329></a>
+<a name=line-330></a>
+<a name=line-331></a><span class=n>DateTimeField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>TruncDate</span><span class=p>)</span>
+<a name=line-332></a><span class=n>DateTimeField</span><span class=o>.</span><span class=n>register_lookup</span><span class=p>(</span><span class=n>TruncTime</span><span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

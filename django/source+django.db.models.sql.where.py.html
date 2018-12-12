@@ -1,0 +1,496 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.db.models.sql.where</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9662; db</a> </li><li><ul><li><a href=django.db.backends.html>&#9656; backends</a> </li><li><a href=django.db.migrations.html>&#9656; migrations</a> </li><li><a href=django.db.models.html>&#9662; models</a> </li><li><ul><li><a href=django.db.models.aggregates.html>&#9656; aggregates</a> </li><li><a href=django.db.models.base.html>&#9656; base</a> </li><li><a href=django.db.models.constants.html>&#9656; constants</a> </li><li><a href=django.db.models.constraints.html>&#9656; constraints</a> </li><li><a href=django.db.models.deletion.html>&#9656; deletion</a> </li><li><a href=django.db.models.enums.html>&#9656; enums</a> </li><li><a href=django.db.models.expressions.html>&#9656; expressions</a> </li><li><a href=django.db.models.fields.html>&#9656; fields</a> </li><li><a href=django.db.models.functions.html>&#9656; functions</a> </li><li><a href=django.db.models.indexes.html>&#9656; indexes</a> </li><li><a href=django.db.models.lookups.html>&#9656; lookups</a> </li><li><a href=django.db.models.manager.html>&#9656; manager</a> </li><li><a href=django.db.models.options.html>&#9656; options</a> </li><li><a href=django.db.models.query.html>&#9656; query</a> </li><li><a href=django.db.models.query_utils.html>&#9656; query_utils</a> </li><li><a href=django.db.models.signals.html>&#9656; signals</a> </li><li><a href=django.db.models.sql.html>&#9662; sql</a> </li><li><ul><li><a href=django.db.models.sql.compiler.html>&#9656; compiler</a> </li><li><a href=django.db.models.sql.constants.html>&#9656; constants</a> </li><li><a href=django.db.models.sql.datastructures.html>&#9656; datastructures</a> </li><li><a href=django.db.models.sql.query.html>&#9656; query</a> </li><li><a href=django.db.models.sql.subqueries.html>&#9656; subqueries</a> </li><li><div class=select><a href=django.db.models.sql.where.html>&#9662; where</a> </div></li><li><ul><li><a href=django.db.models.sql.where.ExtraWhere.html> <i>class</i> ExtraWhere</a> </li><li><a href=django.db.models.sql.where.NothingNode.html> <i>class</i> NothingNode</a> </li><li><a href=django.db.models.sql.where.SubqueryConstraint.html> <i>class</i> SubqueryConstraint</a> </li><li><a href=django.db.models.sql.where.WhereNode.html> <i>class</i> WhereNode</a> </li></ul></li><li><a href=django.db.models.utils.html>&#9656; utils</a> </li></ul></li><li><a href=django.db.transaction.html>&#9656; transaction</a> </li><li><a href=django.db.utils.html>&#9656; utils</a> </li><li><a href=django.db.DefaultConnectionProxy.html> <i>class</i> DefaultConnectionProxy</a> </li></ul></li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/db/models/sql/where.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.db.html>db</a>.<a class=symbol href=django.db.models.html>models</a>.<a class=symbol href=django.db.models.sql.html>sql</a>.<a class=symbol href=django.db.models.sql.where.html>where</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-2></a><span class=sd>Code to manage the creation and SQL rendering of &#39;where&#39; constraints.</span>
+<a name=line-3></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-4></a>
+<a name=line-5></a><span class=kn>from</span> <span class=nn>django.core.exceptions</span> <span class=kn>import</span> <span class=n>EmptyResultSet</span>
+<a name=line-6></a><span class=kn>from</span> <span class=nn>django.utils</span> <span class=kn>import</span> <span class=n>tree</span>
+<a name=line-7></a><span class=kn>from</span> <span class=nn>django.utils.functional</span> <span class=kn>import</span> <span class=n>cached_property</span>
+<a name=line-8></a>
+<a name=line-9></a><span class=c1># Connection types</span>
+<a name=line-10></a><span class=n>AND</span> <span class=o>=</span> <span class=s1>&#39;AND&#39;</span>
+<a name=line-11></a><span class=n>OR</span> <span class=o>=</span> <span class=s1>&#39;OR&#39;</span>
+<a name=line-12></a>
+<a name=line-13></a>
+<a name=line-14></a><span class=k>class</span> <span class=nc>WhereNode</span><span class=p>(</span><span class=n>tree</span><span class=o>.</span><span class=n>Node</span><span class=p>):</span>
+<a name=line-15></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-16></a><span class=sd>    An SQL WHERE clause.</span>
+<a name=line-17></a>
+<a name=line-18></a><span class=sd>    The class is tied to the Query class that created it (in order to create</span>
+<a name=line-19></a><span class=sd>    the correct SQL).</span>
+<a name=line-20></a>
+<a name=line-21></a><span class=sd>    A child is usually an expression producing boolean values. Most likely the</span>
+<a name=line-22></a><span class=sd>    expression is a Lookup instance.</span>
+<a name=line-23></a>
+<a name=line-24></a><span class=sd>    However, a child could also be any class with as_sql() and either</span>
+<a name=line-25></a><span class=sd>    relabeled_clone() method or relabel_aliases() and clone() methods and</span>
+<a name=line-26></a><span class=sd>    contains_aggregate attribute.</span>
+<a name=line-27></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-28></a>    <span class=n>default</span> <span class=o>=</span> <span class=n>AND</span>
+<a name=line-29></a>    <span class=n>resolved</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-30></a>    <span class=n>conditional</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-31></a>
+<a name=line-32></a>    <span class=k>def</span> <span class=nf>split_having</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>negated</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+<a name=line-33></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-34></a><span class=sd>        Return two possibly None nodes: one for those parts of self that</span>
+<a name=line-35></a><span class=sd>        should be included in the WHERE clause and one for those parts of</span>
+<a name=line-36></a><span class=sd>        self that must be included in the HAVING clause.</span>
+<a name=line-37></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-38></a>        <span class=k>if</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>contains_aggregate</span><span class=p>:</span>
+<a name=line-39></a>            <span class=k>return</span> <span class=bp>self</span><span class=p>,</span> <span class=kc>None</span>
+<a name=line-40></a>        <span class=n>in_negated</span> <span class=o>=</span> <span class=n>negated</span> <span class=o>^</span> <span class=bp>self</span><span class=o>.</span><span class=n>negated</span>
+<a name=line-41></a>        <span class=c1># If the effective connector is OR and this node contains an aggregate,</span>
+<a name=line-42></a>        <span class=c1># then we need to push the whole branch to HAVING clause.</span>
+<a name=line-43></a>        <span class=n>may_need_split</span> <span class=o>=</span> <span class=p>(</span>
+<a name=line-44></a>            <span class=p>(</span><span class=n>in_negated</span> <span class=ow>and</span> <span class=bp>self</span><span class=o>.</span><span class=n>connector</span> <span class=o>==</span> <span class=n>AND</span><span class=p>)</span> <span class=ow>or</span>
+<a name=line-45></a>            <span class=p>(</span><span class=ow>not</span> <span class=n>in_negated</span> <span class=ow>and</span> <span class=bp>self</span><span class=o>.</span><span class=n>connector</span> <span class=o>==</span> <span class=n>OR</span><span class=p>))</span>
+<a name=line-46></a>        <span class=k>if</span> <span class=n>may_need_split</span> <span class=ow>and</span> <span class=bp>self</span><span class=o>.</span><span class=n>contains_aggregate</span><span class=p>:</span>
+<a name=line-47></a>            <span class=k>return</span> <span class=kc>None</span><span class=p>,</span> <span class=bp>self</span>
+<a name=line-48></a>        <span class=n>where_parts</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-49></a>        <span class=n>having_parts</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-50></a>        <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>:</span>
+<a name=line-51></a>            <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>c</span><span class=p>,</span> <span class=s1>&#39;split_having&#39;</span><span class=p>):</span>
+<a name=line-52></a>                <span class=n>where_part</span><span class=p>,</span> <span class=n>having_part</span> <span class=o>=</span> <span class=n>c</span><span class=o>.</span><span class=n>split_having</span><span class=p>(</span><span class=n>in_negated</span><span class=p>)</span>
+<a name=line-53></a>                <span class=k>if</span> <span class=n>where_part</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-54></a>                    <span class=n>where_parts</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>where_part</span><span class=p>)</span>
+<a name=line-55></a>                <span class=k>if</span> <span class=n>having_part</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-56></a>                    <span class=n>having_parts</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>having_part</span><span class=p>)</span>
+<a name=line-57></a>            <span class=k>elif</span> <span class=n>c</span><span class=o>.</span><span class=n>contains_aggregate</span><span class=p>:</span>
+<a name=line-58></a>                <span class=n>having_parts</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>c</span><span class=p>)</span>
+<a name=line-59></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-60></a>                <span class=n>where_parts</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>c</span><span class=p>)</span>
+<a name=line-61></a>        <span class=n>having_node</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=p>(</span><span class=n>having_parts</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>connector</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>negated</span><span class=p>)</span> <span class=k>if</span> <span class=n>having_parts</span> <span class=k>else</span> <span class=kc>None</span>
+<a name=line-62></a>        <span class=n>where_node</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=p>(</span><span class=n>where_parts</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>connector</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>negated</span><span class=p>)</span> <span class=k>if</span> <span class=n>where_parts</span> <span class=k>else</span> <span class=kc>None</span>
+<a name=line-63></a>        <span class=k>return</span> <span class=n>where_node</span><span class=p>,</span> <span class=n>having_node</span>
+<a name=line-64></a>
+<a name=line-65></a>    <span class=k>def</span> <span class=nf>as_sql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-66></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-67></a><span class=sd>        Return the SQL version of the where clause and the value to be</span>
+<a name=line-68></a><span class=sd>        substituted in. Return &#39;&#39;, [] if this node matches everything,</span>
+<a name=line-69></a><span class=sd>        None, [] if this node is empty, and raise EmptyResultSet if this</span>
+<a name=line-70></a><span class=sd>        node can&#39;t match anything.</span>
+<a name=line-71></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-72></a>        <span class=n>result</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-73></a>        <span class=n>result_params</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-74></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>connector</span> <span class=o>==</span> <span class=n>AND</span><span class=p>:</span>
+<a name=line-75></a>            <span class=n>full_needed</span><span class=p>,</span> <span class=n>empty_needed</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>),</span> <span class=mi>1</span>
+<a name=line-76></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-77></a>            <span class=n>full_needed</span><span class=p>,</span> <span class=n>empty_needed</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>)</span>
+<a name=line-78></a>
+<a name=line-79></a>        <span class=k>for</span> <span class=n>child</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>:</span>
+<a name=line-80></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-81></a>                <span class=n>sql</span><span class=p>,</span> <span class=n>params</span> <span class=o>=</span> <span class=n>compiler</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=n>child</span><span class=p>)</span>
+<a name=line-82></a>            <span class=k>except</span> <span class=n>EmptyResultSet</span><span class=p>:</span>
+<a name=line-83></a>                <span class=n>empty_needed</span> <span class=o>-=</span> <span class=mi>1</span>
+<a name=line-84></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-85></a>                <span class=k>if</span> <span class=n>sql</span><span class=p>:</span>
+<a name=line-86></a>                    <span class=n>result</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>sql</span><span class=p>)</span>
+<a name=line-87></a>                    <span class=n>result_params</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>params</span><span class=p>)</span>
+<a name=line-88></a>                <span class=k>else</span><span class=p>:</span>
+<a name=line-89></a>                    <span class=n>full_needed</span> <span class=o>-=</span> <span class=mi>1</span>
+<a name=line-90></a>            <span class=c1># Check if this node matches nothing or everything.</span>
+<a name=line-91></a>            <span class=c1># First check the amount of full nodes and empty nodes</span>
+<a name=line-92></a>            <span class=c1># to make this node empty/full.</span>
+<a name=line-93></a>            <span class=c1># Now, check if this node is full/empty using the</span>
+<a name=line-94></a>            <span class=c1># counts.</span>
+<a name=line-95></a>            <span class=k>if</span> <span class=n>empty_needed</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+<a name=line-96></a>                <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>negated</span><span class=p>:</span>
+<a name=line-97></a>                    <span class=k>return</span> <span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=p>[]</span>
+<a name=line-98></a>                <span class=k>else</span><span class=p>:</span>
+<a name=line-99></a>                    <span class=k>raise</span> <span class=n>EmptyResultSet</span>
+<a name=line-100></a>            <span class=k>if</span> <span class=n>full_needed</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+<a name=line-101></a>                <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>negated</span><span class=p>:</span>
+<a name=line-102></a>                    <span class=k>raise</span> <span class=n>EmptyResultSet</span>
+<a name=line-103></a>                <span class=k>else</span><span class=p>:</span>
+<a name=line-104></a>                    <span class=k>return</span> <span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=p>[]</span>
+<a name=line-105></a>        <span class=n>conn</span> <span class=o>=</span> <span class=s1>&#39; </span><span class=si>%s</span><span class=s1> &#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>connector</span>
+<a name=line-106></a>        <span class=n>sql_string</span> <span class=o>=</span> <span class=n>conn</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>result</span><span class=p>)</span>
+<a name=line-107></a>        <span class=k>if</span> <span class=n>sql_string</span><span class=p>:</span>
+<a name=line-108></a>            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>negated</span><span class=p>:</span>
+<a name=line-109></a>                <span class=c1># Some backends (Oracle at least) need parentheses</span>
+<a name=line-110></a>                <span class=c1># around the inner SQL in the negated case, even if the</span>
+<a name=line-111></a>                <span class=c1># inner SQL contains just a single expression.</span>
+<a name=line-112></a>                <span class=n>sql_string</span> <span class=o>=</span> <span class=s1>&#39;NOT (</span><span class=si>%s</span><span class=s1>)&#39;</span> <span class=o>%</span> <span class=n>sql_string</span>
+<a name=line-113></a>            <span class=k>elif</span> <span class=nb>len</span><span class=p>(</span><span class=n>result</span><span class=p>)</span> <span class=o>&gt;</span> <span class=mi>1</span> <span class=ow>or</span> <span class=bp>self</span><span class=o>.</span><span class=n>resolved</span><span class=p>:</span>
+<a name=line-114></a>                <span class=n>sql_string</span> <span class=o>=</span> <span class=s1>&#39;(</span><span class=si>%s</span><span class=s1>)&#39;</span> <span class=o>%</span> <span class=n>sql_string</span>
+<a name=line-115></a>        <span class=k>return</span> <span class=n>sql_string</span><span class=p>,</span> <span class=n>result_params</span>
+<a name=line-116></a>
+<a name=line-117></a>    <span class=k>def</span> <span class=nf>get_group_by_cols</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>alias</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-118></a>        <span class=n>cols</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-119></a>        <span class=k>for</span> <span class=n>child</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>:</span>
+<a name=line-120></a>            <span class=n>cols</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>child</span><span class=o>.</span><span class=n>get_group_by_cols</span><span class=p>())</span>
+<a name=line-121></a>        <span class=k>return</span> <span class=n>cols</span>
+<a name=line-122></a>
+<a name=line-123></a>    <span class=k>def</span> <span class=nf>get_source_expressions</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-124></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>[:]</span>
+<a name=line-125></a>
+<a name=line-126></a>    <span class=k>def</span> <span class=nf>set_source_expressions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>children</span><span class=p>):</span>
+<a name=line-127></a>        <span class=k>assert</span> <span class=nb>len</span><span class=p>(</span><span class=n>children</span><span class=p>)</span> <span class=o>==</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>)</span>
+<a name=line-128></a>        <span class=bp>self</span><span class=o>.</span><span class=n>children</span> <span class=o>=</span> <span class=n>children</span>
+<a name=line-129></a>
+<a name=line-130></a>    <span class=k>def</span> <span class=nf>relabel_aliases</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>change_map</span><span class=p>):</span>
+<a name=line-131></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-132></a><span class=sd>        Relabel the alias values of any children. &#39;change_map&#39; is a dictionary</span>
+<a name=line-133></a><span class=sd>        mapping old (current) alias values to the new values.</span>
+<a name=line-134></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-135></a>        <span class=k>for</span> <span class=n>pos</span><span class=p>,</span> <span class=n>child</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>):</span>
+<a name=line-136></a>            <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>child</span><span class=p>,</span> <span class=s1>&#39;relabel_aliases&#39;</span><span class=p>):</span>
+<a name=line-137></a>                <span class=c1># For example another WhereNode</span>
+<a name=line-138></a>                <span class=n>child</span><span class=o>.</span><span class=n>relabel_aliases</span><span class=p>(</span><span class=n>change_map</span><span class=p>)</span>
+<a name=line-139></a>            <span class=k>elif</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>child</span><span class=p>,</span> <span class=s1>&#39;relabeled_clone&#39;</span><span class=p>):</span>
+<a name=line-140></a>                <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>[</span><span class=n>pos</span><span class=p>]</span> <span class=o>=</span> <span class=n>child</span><span class=o>.</span><span class=n>relabeled_clone</span><span class=p>(</span><span class=n>change_map</span><span class=p>)</span>
+<a name=line-141></a>
+<a name=line-142></a>    <span class=k>def</span> <span class=nf>clone</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-143></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-144></a><span class=sd>        Create a clone of the tree. Must only be called on root nodes (nodes</span>
+<a name=line-145></a><span class=sd>        with empty subtree_parents). Childs must be either (Constraint, lookup,</span>
+<a name=line-146></a><span class=sd>        value) tuples, or objects supporting .clone().</span>
+<a name=line-147></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-148></a>        <span class=n>clone</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=n>_new_instance</span><span class=p>(</span>
+<a name=line-149></a>            <span class=n>children</span><span class=o>=</span><span class=p>[],</span> <span class=n>connector</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>connector</span><span class=p>,</span> <span class=n>negated</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>negated</span><span class=p>)</span>
+<a name=line-150></a>        <span class=k>for</span> <span class=n>child</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>:</span>
+<a name=line-151></a>            <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>child</span><span class=p>,</span> <span class=s1>&#39;clone&#39;</span><span class=p>):</span>
+<a name=line-152></a>                <span class=n>clone</span><span class=o>.</span><span class=n>children</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>child</span><span class=o>.</span><span class=n>clone</span><span class=p>())</span>
+<a name=line-153></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-154></a>                <span class=n>clone</span><span class=o>.</span><span class=n>children</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>child</span><span class=p>)</span>
+<a name=line-155></a>        <span class=k>return</span> <span class=n>clone</span>
+<a name=line-156></a>
+<a name=line-157></a>    <span class=k>def</span> <span class=nf>relabeled_clone</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>change_map</span><span class=p>):</span>
+<a name=line-158></a>        <span class=n>clone</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>clone</span><span class=p>()</span>
+<a name=line-159></a>        <span class=n>clone</span><span class=o>.</span><span class=n>relabel_aliases</span><span class=p>(</span><span class=n>change_map</span><span class=p>)</span>
+<a name=line-160></a>        <span class=k>return</span> <span class=n>clone</span>
+<a name=line-161></a>
+<a name=line-162></a>    <span class=k>def</span> <span class=nf>copy</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-163></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>clone</span><span class=p>()</span>
+<a name=line-164></a>
+<a name=line-165></a>    <span class=nd>@classmethod</span>
+<a name=line-166></a>    <span class=k>def</span> <span class=nf>_contains_aggregate</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>obj</span><span class=p>):</span>
+<a name=line-167></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>obj</span><span class=p>,</span> <span class=n>tree</span><span class=o>.</span><span class=n>Node</span><span class=p>):</span>
+<a name=line-168></a>            <span class=k>return</span> <span class=nb>any</span><span class=p>(</span><span class=bp>cls</span><span class=o>.</span><span class=n>_contains_aggregate</span><span class=p>(</span><span class=n>c</span><span class=p>)</span> <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=n>obj</span><span class=o>.</span><span class=n>children</span><span class=p>)</span>
+<a name=line-169></a>        <span class=k>return</span> <span class=n>obj</span><span class=o>.</span><span class=n>contains_aggregate</span>
+<a name=line-170></a>
+<a name=line-171></a>    <span class=nd>@cached_property</span>
+<a name=line-172></a>    <span class=k>def</span> <span class=nf>contains_aggregate</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-173></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_contains_aggregate</span><span class=p>(</span><span class=bp>self</span><span class=p>)</span>
+<a name=line-174></a>
+<a name=line-175></a>    <span class=nd>@classmethod</span>
+<a name=line-176></a>    <span class=k>def</span> <span class=nf>_contains_over_clause</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>obj</span><span class=p>):</span>
+<a name=line-177></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>obj</span><span class=p>,</span> <span class=n>tree</span><span class=o>.</span><span class=n>Node</span><span class=p>):</span>
+<a name=line-178></a>            <span class=k>return</span> <span class=nb>any</span><span class=p>(</span><span class=bp>cls</span><span class=o>.</span><span class=n>_contains_over_clause</span><span class=p>(</span><span class=n>c</span><span class=p>)</span> <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=n>obj</span><span class=o>.</span><span class=n>children</span><span class=p>)</span>
+<a name=line-179></a>        <span class=k>return</span> <span class=n>obj</span><span class=o>.</span><span class=n>contains_over_clause</span>
+<a name=line-180></a>
+<a name=line-181></a>    <span class=nd>@cached_property</span>
+<a name=line-182></a>    <span class=k>def</span> <span class=nf>contains_over_clause</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-183></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_contains_over_clause</span><span class=p>(</span><span class=bp>self</span><span class=p>)</span>
+<a name=line-184></a>
+<a name=line-185></a>    <span class=nd>@property</span>
+<a name=line-186></a>    <span class=k>def</span> <span class=nf>is_summary</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-187></a>        <span class=k>return</span> <span class=nb>any</span><span class=p>(</span><span class=n>child</span><span class=o>.</span><span class=n>is_summary</span> <span class=k>for</span> <span class=n>child</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>)</span>
+<a name=line-188></a>
+<a name=line-189></a>    <span class=nd>@staticmethod</span>
+<a name=line-190></a>    <span class=k>def</span> <span class=nf>_resolve_leaf</span><span class=p>(</span><span class=n>expr</span><span class=p>,</span> <span class=n>query</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-191></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>expr</span><span class=p>,</span> <span class=s1>&#39;resolve_expression&#39;</span><span class=p>):</span>
+<a name=line-192></a>            <span class=n>expr</span> <span class=o>=</span> <span class=n>expr</span><span class=o>.</span><span class=n>resolve_expression</span><span class=p>(</span><span class=n>query</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-193></a>        <span class=k>return</span> <span class=n>expr</span>
+<a name=line-194></a>
+<a name=line-195></a>    <span class=nd>@classmethod</span>
+<a name=line-196></a>    <span class=k>def</span> <span class=nf>_resolve_node</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>node</span><span class=p>,</span> <span class=n>query</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-197></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>node</span><span class=p>,</span> <span class=s1>&#39;children&#39;</span><span class=p>):</span>
+<a name=line-198></a>            <span class=k>for</span> <span class=n>child</span> <span class=ow>in</span> <span class=n>node</span><span class=o>.</span><span class=n>children</span><span class=p>:</span>
+<a name=line-199></a>                <span class=bp>cls</span><span class=o>.</span><span class=n>_resolve_node</span><span class=p>(</span><span class=n>child</span><span class=p>,</span> <span class=n>query</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-200></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>node</span><span class=p>,</span> <span class=s1>&#39;lhs&#39;</span><span class=p>):</span>
+<a name=line-201></a>            <span class=n>node</span><span class=o>.</span><span class=n>lhs</span> <span class=o>=</span> <span class=bp>cls</span><span class=o>.</span><span class=n>_resolve_leaf</span><span class=p>(</span><span class=n>node</span><span class=o>.</span><span class=n>lhs</span><span class=p>,</span> <span class=n>query</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-202></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>node</span><span class=p>,</span> <span class=s1>&#39;rhs&#39;</span><span class=p>):</span>
+<a name=line-203></a>            <span class=n>node</span><span class=o>.</span><span class=n>rhs</span> <span class=o>=</span> <span class=bp>cls</span><span class=o>.</span><span class=n>_resolve_leaf</span><span class=p>(</span><span class=n>node</span><span class=o>.</span><span class=n>rhs</span><span class=p>,</span> <span class=n>query</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-204></a>
+<a name=line-205></a>    <span class=k>def</span> <span class=nf>resolve_expression</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-206></a>        <span class=n>clone</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>clone</span><span class=p>()</span>
+<a name=line-207></a>        <span class=n>clone</span><span class=o>.</span><span class=n>_resolve_node</span><span class=p>(</span><span class=n>clone</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-208></a>        <span class=n>clone</span><span class=o>.</span><span class=n>resolved</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-209></a>        <span class=k>return</span> <span class=n>clone</span>
+<a name=line-210></a>
+<a name=line-211></a>
+<a name=line-212></a><span class=k>class</span> <span class=nc>NothingNode</span><span class=p>:</span>
+<a name=line-213></a>    <span class=sd>&quot;&quot;&quot;A node that matches nothing.&quot;&quot;&quot;</span>
+<a name=line-214></a>    <span class=n>contains_aggregate</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-215></a>
+<a name=line-216></a>    <span class=k>def</span> <span class=nf>as_sql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>connection</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-217></a>        <span class=k>raise</span> <span class=n>EmptyResultSet</span>
+<a name=line-218></a>
+<a name=line-219></a>
+<a name=line-220></a><span class=k>class</span> <span class=nc>ExtraWhere</span><span class=p>:</span>
+<a name=line-221></a>    <span class=c1># The contents are a black box - assume no aggregates are used.</span>
+<a name=line-222></a>    <span class=n>contains_aggregate</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-223></a>
+<a name=line-224></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>sqls</span><span class=p>,</span> <span class=n>params</span><span class=p>):</span>
+<a name=line-225></a>        <span class=bp>self</span><span class=o>.</span><span class=n>sqls</span> <span class=o>=</span> <span class=n>sqls</span>
+<a name=line-226></a>        <span class=bp>self</span><span class=o>.</span><span class=n>params</span> <span class=o>=</span> <span class=n>params</span>
+<a name=line-227></a>
+<a name=line-228></a>    <span class=k>def</span> <span class=nf>as_sql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>connection</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-229></a>        <span class=n>sqls</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&quot;(</span><span class=si>%s</span><span class=s2>)&quot;</span> <span class=o>%</span> <span class=n>sql</span> <span class=k>for</span> <span class=n>sql</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>sqls</span><span class=p>]</span>
+<a name=line-230></a>        <span class=k>return</span> <span class=s2>&quot; AND &quot;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>sqls</span><span class=p>),</span> <span class=nb>list</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>params</span> <span class=ow>or</span> <span class=p>())</span>
+<a name=line-231></a>
+<a name=line-232></a>
+<a name=line-233></a><span class=k>class</span> <span class=nc>SubqueryConstraint</span><span class=p>:</span>
+<a name=line-234></a>    <span class=c1># Even if aggregates would be used in a subquery, the outer query isn&#39;t</span>
+<a name=line-235></a>    <span class=c1># interested about those.</span>
+<a name=line-236></a>    <span class=n>contains_aggregate</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-237></a>
+<a name=line-238></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>alias</span><span class=p>,</span> <span class=n>columns</span><span class=p>,</span> <span class=n>targets</span><span class=p>,</span> <span class=n>query_object</span><span class=p>):</span>
+<a name=line-239></a>        <span class=bp>self</span><span class=o>.</span><span class=n>alias</span> <span class=o>=</span> <span class=n>alias</span>
+<a name=line-240></a>        <span class=bp>self</span><span class=o>.</span><span class=n>columns</span> <span class=o>=</span> <span class=n>columns</span>
+<a name=line-241></a>        <span class=bp>self</span><span class=o>.</span><span class=n>targets</span> <span class=o>=</span> <span class=n>targets</span>
+<a name=line-242></a>        <span class=bp>self</span><span class=o>.</span><span class=n>query_object</span> <span class=o>=</span> <span class=n>query_object</span>
+<a name=line-243></a>
+<a name=line-244></a>    <span class=k>def</span> <span class=nf>as_sql</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>compiler</span><span class=p>,</span> <span class=n>connection</span><span class=p>):</span>
+<a name=line-245></a>        <span class=n>query</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>query_object</span>
+<a name=line-246></a>        <span class=n>query</span><span class=o>.</span><span class=n>set_values</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>targets</span><span class=p>)</span>
+<a name=line-247></a>        <span class=n>query_compiler</span> <span class=o>=</span> <span class=n>query</span><span class=o>.</span><span class=n>get_compiler</span><span class=p>(</span><span class=n>connection</span><span class=o>=</span><span class=n>connection</span><span class=p>)</span>
+<a name=line-248></a>        <span class=k>return</span> <span class=n>query_compiler</span><span class=o>.</span><span class=n>as_subquery_condition</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>alias</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>columns</span><span class=p>,</span> <span class=n>compiler</span><span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

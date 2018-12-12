@@ -1,0 +1,280 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>distributed.tests.test_utils_perf</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Distributed</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=distributed.html>&#9662; distributed</a> </li><li><ul><li><a href=distributed.actor.html>&#9656; actor</a> </li><li><a href=distributed.asyncio.html>&#9656; asyncio</a> </li><li><a href=distributed.batched.html>&#9656; batched</a> </li><li><a href=distributed.bokeh.html>&#9656; bokeh</a> </li><li><a href=distributed.cfexecutor.html>&#9656; cfexecutor</a> </li><li><a href=distributed.cli.html>&#9656; cli</a> </li><li><a href=distributed.client.html>&#9656; client</a> </li><li><a href=distributed.comm.html>&#9656; comm</a> </li><li><a href=distributed.compatibility.html>&#9656; compatibility</a> </li><li><a href=distributed.config.html>&#9656; config</a> </li><li><a href=distributed.core.html>&#9656; core</a> </li><li><a href=distributed.counter.html>&#9656; counter</a> </li><li><a href=distributed.dashboard.html>&#9656; dashboard</a> </li><li><a href=distributed.deploy.html>&#9656; deploy</a> </li><li><a href=distributed.diagnostics.html>&#9656; diagnostics</a> </li><li><a href=distributed.diskutils.html>&#9656; diskutils</a> </li><li><a href=distributed.event.html>&#9656; event</a> </li><li><a href=distributed.http.html>&#9656; http</a> </li><li><a href=distributed.lock.html>&#9656; lock</a> </li><li><a href=distributed.locket.html>&#9656; locket</a> </li><li><a href=distributed.metrics.html>&#9656; metrics</a> </li><li><a href=distributed.nanny.html>&#9656; nanny</a> </li><li><a href=distributed.node.html>&#9656; node</a> </li><li><a href=distributed.preloading.html>&#9656; preloading</a> </li><li><a href=distributed.process.html>&#9656; process</a> </li><li><a href=distributed.proctitle.html>&#9656; proctitle</a> </li><li><a href=distributed.profile.html>&#9656; profile</a> </li><li><a href=distributed.protocol.html>&#9656; protocol</a> </li><li><a href=distributed.publish.html>&#9656; publish</a> </li><li><a href=distributed.pubsub.html>&#9656; pubsub</a> </li><li><a href=distributed.pytest_resourceleaks.html>&#9656; pytest_resourceleaks</a> </li><li><a href=distributed.queues.html>&#9656; queues</a> </li><li><a href=distributed.recreate_exceptions.html>&#9656; recreate_exceptions</a> </li><li><a href=distributed.scheduler.html>&#9656; scheduler</a> </li><li><a href=distributed.security.html>&#9656; security</a> </li><li><a href=distributed.semaphore.html>&#9656; semaphore</a> </li><li><a href=distributed.sizeof.html>&#9656; sizeof</a> </li><li><a href=distributed.stealing.html>&#9656; stealing</a> </li><li><a href=distributed.system.html>&#9656; system</a> </li><li><a href=distributed.system_monitor.html>&#9656; system_monitor</a> </li><li><a href=distributed.tests.html>&#9662; tests</a> </li><li><ul><li><a href=distributed.tests.make_tls_certs.html>&#9656; make_tls_certs</a> </li><li><a href=distributed.tests.test_actor.html>&#9656; test_actor</a> </li><li><a href=distributed.tests.test_as_completed.html>&#9656; test_as_completed</a> </li><li><a href=distributed.tests.test_asyncprocess.html>&#9656; test_asyncprocess</a> </li><li><a href=distributed.tests.test_batched.html>&#9656; test_batched</a> </li><li><a href=distributed.tests.test_client.html>&#9656; test_client</a> </li><li><a href=distributed.tests.test_client_executor.html>&#9656; test_client_executor</a> </li><li><a href=distributed.tests.test_client_loop.html>&#9656; test_client_loop</a> </li><li><a href=distributed.tests.test_collections.html>&#9656; test_collections</a> </li><li><a href=distributed.tests.test_config.html>&#9656; test_config</a> </li><li><a href=distributed.tests.test_core.html>&#9656; test_core</a> </li><li><a href=distributed.tests.test_counter.html>&#9656; test_counter</a> </li><li><a href=distributed.tests.test_diskutils.html>&#9656; test_diskutils</a> </li><li><a href=distributed.tests.test_events.html>&#9656; test_events</a> </li><li><a href=distributed.tests.test_failed_workers.html>&#9656; test_failed_workers</a> </li><li><a href=distributed.tests.test_ipython.html>&#9656; test_ipython</a> </li><li><a href=distributed.tests.test_locks.html>&#9656; test_locks</a> </li><li><a href=distributed.tests.test_metrics.html>&#9656; test_metrics</a> </li><li><a href=distributed.tests.test_nanny.html>&#9656; test_nanny</a> </li><li><a href=distributed.tests.test_preload.html>&#9656; test_preload</a> </li><li><a href=distributed.tests.test_priorities.html>&#9656; test_priorities</a> </li><li><a href=distributed.tests.test_profile.html>&#9656; test_profile</a> </li><li><a href=distributed.tests.test_publish.html>&#9656; test_publish</a> </li><li><a href=distributed.tests.test_pubsub.html>&#9656; test_pubsub</a> </li><li><a href=distributed.tests.test_queues.html>&#9656; test_queues</a> </li><li><a href=distributed.tests.test_resources.html>&#9656; test_resources</a> </li><li><a href=distributed.tests.test_scheduler.html>&#9656; test_scheduler</a> </li><li><a href=distributed.tests.test_security.html>&#9656; test_security</a> </li><li><a href=distributed.tests.test_semaphore.html>&#9656; test_semaphore</a> </li><li><a href=distributed.tests.test_sizeof.html>&#9656; test_sizeof</a> </li><li><a href=distributed.tests.test_spec.html>&#9656; test_spec</a> </li><li><a href=distributed.tests.test_steal.html>&#9656; test_steal</a> </li><li><a href=distributed.tests.test_stress.html>&#9656; test_stress</a> </li><li><a href=distributed.tests.test_system.html>&#9656; test_system</a> </li><li><a href=distributed.tests.test_system_monitor.html>&#9656; test_system_monitor</a> </li><li><a href=distributed.tests.test_threadpoolexecutor.html>&#9656; test_threadpoolexecutor</a> </li><li><a href=distributed.tests.test_tls_functional.html>&#9656; test_tls_functional</a> </li><li><a href=distributed.tests.test_utils.html>&#9656; test_utils</a> </li><li><a href=distributed.tests.test_utils_comm.html>&#9656; test_utils_comm</a> </li><li><div class=select><a href=distributed.tests.test_utils_perf.html>&#9662; test_utils_perf</a> </div></li><li><ul><li><a href=distributed.tests.test_utils_perf.RandomTimer.html> <i>class</i> RandomTimer</a> </li></ul></li><li><a href=distributed.tests.test_utils_test.html>&#9656; test_utils_test</a> </li><li><a href=distributed.tests.test_variable.html>&#9656; test_variable</a> </li><li><a href=distributed.tests.test_versions.html>&#9656; test_versions</a> </li><li><a href=distributed.tests.test_worker.html>&#9656; test_worker</a> </li><li><a href=distributed.tests.test_worker_client.html>&#9656; test_worker_client</a> </li></ul></li><li><a href=distributed.threadpoolexecutor.html>&#9656; threadpoolexecutor</a> </li><li><a href=distributed.utils.html>&#9656; utils</a> </li><li><a href=distributed.utils_comm.html>&#9656; utils_comm</a> </li><li><a href=distributed.utils_perf.html>&#9656; utils_perf</a> </li><li><a href=distributed.utils_test.html>&#9656; utils_test</a> </li><li><a href=distributed.variable.html>&#9656; variable</a> </li><li><a href=distributed.versions.html>&#9656; versions</a> </li><li><a href=distributed.worker.html>&#9656; worker</a> </li><li><a href=distributed.worker_client.html>&#9656; worker_client</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code distributed/tests/test_utils_perf.py</h1><div id=path><a class=symbol href=distributed.html>distributed</a>.<a class=symbol href=distributed.tests.html>tests</a>.<a class=symbol href=distributed.tests.test_utils_perf.html>test_utils_perf</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>import</span> <span class=nn>contextlib</span>
+<a name=line-2></a><span class=kn>import</span> <span class=nn>gc</span>
+<a name=line-3></a><span class=kn>import</span> <span class=nn>itertools</span>
+<a name=line-4></a><span class=kn>import</span> <span class=nn>random</span>
+<a name=line-5></a><span class=kn>import</span> <span class=nn>re</span>
+<a name=line-6></a>
+<a name=line-7></a><span class=kn>import</span> <span class=nn>pytest</span>
+<a name=line-8></a>
+<a name=line-9></a><span class=kn>from</span> <span class=nn>distributed.metrics</span> <span class=kn>import</span> <span class=n>thread_time</span>
+<a name=line-10></a><span class=kn>from</span> <span class=nn>distributed.utils_perf</span> <span class=kn>import</span> <span class=n>FractionalTimer</span><span class=p>,</span> <span class=n>GCDiagnosis</span><span class=p>,</span> <span class=n>disable_gc_diagnosis</span>
+<a name=line-11></a><span class=kn>from</span> <span class=nn>distributed.utils_test</span> <span class=kn>import</span> <span class=n>captured_logger</span><span class=p>,</span> <span class=n>run_for</span>
+<a name=line-12></a>
+<a name=line-13></a>
+<a name=line-14></a><span class=k>class</span> <span class=nc>RandomTimer</span><span class=p>:</span>
+<a name=line-15></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-16></a><span class=sd>    A mock timer producing random (but monotonic) values.</span>
+<a name=line-17></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-18></a>
+<a name=line-19></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-20></a>        <span class=bp>self</span><span class=o>.</span><span class=n>last</span> <span class=o>=</span> <span class=mf>0.0</span>
+<a name=line-21></a>        <span class=bp>self</span><span class=o>.</span><span class=n>timings</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-22></a>        <span class=bp>self</span><span class=o>.</span><span class=n>durations</span> <span class=o>=</span> <span class=p>([],</span> <span class=p>[])</span>
+<a name=line-23></a>        <span class=bp>self</span><span class=o>.</span><span class=n>i_durations</span> <span class=o>=</span> <span class=n>itertools</span><span class=o>.</span><span class=n>cycle</span><span class=p>((</span><span class=mi>0</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span>
+<a name=line-24></a>        <span class=bp>self</span><span class=o>.</span><span class=n>random</span> <span class=o>=</span> <span class=n>random</span><span class=o>.</span><span class=n>Random</span><span class=p>(</span><span class=mi>42</span><span class=p>)</span>
+<a name=line-25></a>
+<a name=line-26></a>    <span class=k>def</span> <span class=fm>__call__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-27></a>        <span class=n>dt</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>random</span><span class=o>.</span><span class=n>expovariate</span><span class=p>(</span><span class=mf>1.0</span><span class=p>)</span>
+<a name=line-28></a>        <span class=bp>self</span><span class=o>.</span><span class=n>last</span> <span class=o>+=</span> <span class=n>dt</span>
+<a name=line-29></a>        <span class=bp>self</span><span class=o>.</span><span class=n>timings</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>last</span><span class=p>)</span>
+<a name=line-30></a>        <span class=bp>self</span><span class=o>.</span><span class=n>durations</span><span class=p>[</span><span class=nb>next</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>i_durations</span><span class=p>)]</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>dt</span><span class=p>)</span>
+<a name=line-31></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>last</span>
+<a name=line-32></a>
+<a name=line-33></a>
+<a name=line-34></a><span class=k>def</span> <span class=nf>test_fractional_timer</span><span class=p>():</span>
+<a name=line-35></a>    <span class=n>N</span> <span class=o>=</span> <span class=mi>10</span>
+<a name=line-36></a>
+<a name=line-37></a>    <span class=k>def</span> <span class=nf>check_fraction</span><span class=p>(</span><span class=n>timer</span><span class=p>,</span> <span class=n>ft</span><span class=p>):</span>
+<a name=line-38></a>        <span class=c1># The running fraction should be approximately equal to the</span>
+<a name=line-39></a>        <span class=c1># sum of last N &quot;measurement&quot; intervals over the sum of last</span>
+<a name=line-40></a>        <span class=c1># 2N intervals (not 2N - 1 or 2N + 1)</span>
+<a name=line-41></a>        <span class=n>actual</span> <span class=o>=</span> <span class=n>ft</span><span class=o>.</span><span class=n>running_fraction</span>
+<a name=line-42></a>        <span class=n>expected</span> <span class=o>=</span> <span class=nb>sum</span><span class=p>(</span><span class=n>timer</span><span class=o>.</span><span class=n>durations</span><span class=p>[</span><span class=mi>1</span><span class=p>][</span><span class=o>-</span><span class=n>N</span><span class=p>:])</span> <span class=o>/</span> <span class=p>(</span>
+<a name=line-43></a>            <span class=nb>sum</span><span class=p>(</span><span class=n>timer</span><span class=o>.</span><span class=n>durations</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=o>-</span><span class=n>N</span><span class=p>:]</span> <span class=o>+</span> <span class=n>timer</span><span class=o>.</span><span class=n>durations</span><span class=p>[</span><span class=mi>1</span><span class=p>][</span><span class=o>-</span><span class=n>N</span><span class=p>:])</span>
+<a name=line-44></a>        <span class=p>)</span>
+<a name=line-45></a>        <span class=k>assert</span> <span class=n>actual</span> <span class=o>==</span> <span class=n>pytest</span><span class=o>.</span><span class=n>approx</span><span class=p>(</span><span class=n>expected</span><span class=p>)</span>
+<a name=line-46></a>
+<a name=line-47></a>    <span class=n>timer</span> <span class=o>=</span> <span class=n>RandomTimer</span><span class=p>()</span>
+<a name=line-48></a>    <span class=n>ft</span> <span class=o>=</span> <span class=n>FractionalTimer</span><span class=p>(</span><span class=n>n_samples</span><span class=o>=</span><span class=n>N</span><span class=p>,</span> <span class=n>timer</span><span class=o>=</span><span class=n>timer</span><span class=p>)</span>
+<a name=line-49></a>    <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span><span class=p>):</span>
+<a name=line-50></a>        <span class=n>ft</span><span class=o>.</span><span class=n>start_timing</span><span class=p>()</span>
+<a name=line-51></a>        <span class=n>ft</span><span class=o>.</span><span class=n>stop_timing</span><span class=p>()</span>
+<a name=line-52></a>    <span class=k>assert</span> <span class=nb>len</span><span class=p>(</span><span class=n>timer</span><span class=o>.</span><span class=n>timings</span><span class=p>)</span> <span class=o>==</span> <span class=n>N</span> <span class=o>*</span> <span class=mi>2</span>
+<a name=line-53></a>    <span class=k>assert</span> <span class=n>ft</span><span class=o>.</span><span class=n>running_fraction</span> <span class=ow>is</span> <span class=kc>None</span>
+<a name=line-54></a>
+<a name=line-55></a>    <span class=n>ft</span><span class=o>.</span><span class=n>start_timing</span><span class=p>()</span>
+<a name=line-56></a>    <span class=n>ft</span><span class=o>.</span><span class=n>stop_timing</span><span class=p>()</span>
+<a name=line-57></a>    <span class=k>assert</span> <span class=nb>len</span><span class=p>(</span><span class=n>timer</span><span class=o>.</span><span class=n>timings</span><span class=p>)</span> <span class=o>==</span> <span class=p>(</span><span class=n>N</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span> <span class=o>*</span> <span class=mi>2</span>
+<a name=line-58></a>    <span class=k>assert</span> <span class=n>ft</span><span class=o>.</span><span class=n>running_fraction</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span>
+<a name=line-59></a>    <span class=n>check_fraction</span><span class=p>(</span><span class=n>timer</span><span class=p>,</span> <span class=n>ft</span><span class=p>)</span>
+<a name=line-60></a>
+<a name=line-61></a>    <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>N</span> <span class=o>*</span> <span class=mi>10</span><span class=p>):</span>
+<a name=line-62></a>        <span class=n>ft</span><span class=o>.</span><span class=n>start_timing</span><span class=p>()</span>
+<a name=line-63></a>        <span class=n>ft</span><span class=o>.</span><span class=n>stop_timing</span><span class=p>()</span>
+<a name=line-64></a>        <span class=n>check_fraction</span><span class=p>(</span><span class=n>timer</span><span class=p>,</span> <span class=n>ft</span><span class=p>)</span>
+<a name=line-65></a>
+<a name=line-66></a>
+<a name=line-67></a><span class=nd>@contextlib</span><span class=o>.</span><span class=n>contextmanager</span>
+<a name=line-68></a><span class=k>def</span> <span class=nf>enable_gc_diagnosis_and_log</span><span class=p>(</span><span class=n>diag</span><span class=p>,</span> <span class=n>level</span><span class=o>=</span><span class=s2>&quot;INFO&quot;</span><span class=p>):</span>
+<a name=line-69></a>    <span class=n>disable_gc_diagnosis</span><span class=p>(</span><span class=n>force</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>  <span class=c1># just in case</span>
+<a name=line-70></a>    <span class=k>if</span> <span class=n>gc</span><span class=o>.</span><span class=n>callbacks</span><span class=p>:</span>
+<a name=line-71></a>        <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;Unexpected gc.callbacks&quot;</span><span class=p>,</span> <span class=n>gc</span><span class=o>.</span><span class=n>callbacks</span><span class=p>)</span>
+<a name=line-72></a>
+<a name=line-73></a>    <span class=k>with</span> <span class=n>captured_logger</span><span class=p>(</span><span class=s2>&quot;distributed.utils_perf&quot;</span><span class=p>,</span> <span class=n>level</span><span class=o>=</span><span class=n>level</span><span class=p>,</span> <span class=n>propagate</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span> <span class=k>as</span> <span class=n>sio</span><span class=p>:</span>
+<a name=line-74></a>        <span class=n>gc</span><span class=o>.</span><span class=n>disable</span><span class=p>()</span>
+<a name=line-75></a>        <span class=n>gc</span><span class=o>.</span><span class=n>collect</span><span class=p>()</span>  <span class=c1># drain any leftover from previous tests</span>
+<a name=line-76></a>        <span class=n>diag</span><span class=o>.</span><span class=n>enable</span><span class=p>()</span>
+<a name=line-77></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-78></a>            <span class=k>yield</span> <span class=n>sio</span>
+<a name=line-79></a>        <span class=k>finally</span><span class=p>:</span>
+<a name=line-80></a>            <span class=n>diag</span><span class=o>.</span><span class=n>disable</span><span class=p>()</span>
+<a name=line-81></a>            <span class=n>gc</span><span class=o>.</span><span class=n>enable</span><span class=p>()</span>
+<a name=line-82></a>
+<a name=line-83></a>
+<a name=line-84></a><span class=k>def</span> <span class=nf>test_gc_diagnosis_cpu_time</span><span class=p>():</span>
+<a name=line-85></a>    <span class=n>diag</span> <span class=o>=</span> <span class=n>GCDiagnosis</span><span class=p>(</span><span class=n>warn_over_frac</span><span class=o>=</span><span class=mf>0.75</span><span class=p>)</span>
+<a name=line-86></a>    <span class=n>diag</span><span class=o>.</span><span class=n>N_SAMPLES</span> <span class=o>=</span> <span class=mi>3</span>  <span class=c1># shorten tests</span>
+<a name=line-87></a>
+<a name=line-88></a>    <span class=k>with</span> <span class=n>enable_gc_diagnosis_and_log</span><span class=p>(</span><span class=n>diag</span><span class=p>,</span> <span class=n>level</span><span class=o>=</span><span class=s2>&quot;WARN&quot;</span><span class=p>)</span> <span class=k>as</span> <span class=n>sio</span><span class=p>:</span>
+<a name=line-89></a>        <span class=c1># Spend some CPU time doing only full GCs</span>
+<a name=line-90></a>        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>diag</span><span class=o>.</span><span class=n>N_SAMPLES</span><span class=p>):</span>
+<a name=line-91></a>            <span class=n>gc</span><span class=o>.</span><span class=n>collect</span><span class=p>()</span>
+<a name=line-92></a>        <span class=k>assert</span> <span class=ow>not</span> <span class=n>sio</span><span class=o>.</span><span class=n>getvalue</span><span class=p>()</span>
+<a name=line-93></a>        <span class=n>gc</span><span class=o>.</span><span class=n>collect</span><span class=p>()</span>
+<a name=line-94></a>        <span class=n>lines</span> <span class=o>=</span> <span class=n>sio</span><span class=o>.</span><span class=n>getvalue</span><span class=p>()</span><span class=o>.</span><span class=n>splitlines</span><span class=p>()</span>
+<a name=line-95></a>        <span class=k>assert</span> <span class=nb>len</span><span class=p>(</span><span class=n>lines</span><span class=p>)</span> <span class=o>==</span> <span class=mi>1</span>
+<a name=line-96></a>        <span class=c1># Between 80% and 100%</span>
+<a name=line-97></a>        <span class=k>assert</span> <span class=n>re</span><span class=o>.</span><span class=n>match</span><span class=p>(</span>
+<a name=line-98></a>            <span class=sa>r</span><span class=s2>&quot;full garbage collections took (100|[89][0-9])% &quot;</span> <span class=sa>r</span><span class=s2>&quot;CPU time recently&quot;</span><span class=p>,</span>
+<a name=line-99></a>            <span class=n>lines</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span>
+<a name=line-100></a>        <span class=p>)</span>
+<a name=line-101></a>
+<a name=line-102></a>    <span class=k>with</span> <span class=n>enable_gc_diagnosis_and_log</span><span class=p>(</span><span class=n>diag</span><span class=p>,</span> <span class=n>level</span><span class=o>=</span><span class=s2>&quot;WARN&quot;</span><span class=p>)</span> <span class=k>as</span> <span class=n>sio</span><span class=p>:</span>
+<a name=line-103></a>        <span class=c1># Spend half the CPU time doing full GCs</span>
+<a name=line-104></a>        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>diag</span><span class=o>.</span><span class=n>N_SAMPLES</span> <span class=o>+</span> <span class=mi>1</span><span class=p>):</span>
+<a name=line-105></a>            <span class=n>t1</span> <span class=o>=</span> <span class=n>thread_time</span><span class=p>()</span>
+<a name=line-106></a>            <span class=n>gc</span><span class=o>.</span><span class=n>collect</span><span class=p>()</span>
+<a name=line-107></a>            <span class=n>dt</span> <span class=o>=</span> <span class=n>thread_time</span><span class=p>()</span> <span class=o>-</span> <span class=n>t1</span>
+<a name=line-108></a>            <span class=n>run_for</span><span class=p>(</span><span class=n>dt</span><span class=p>,</span> <span class=n>timer</span><span class=o>=</span><span class=n>thread_time</span><span class=p>)</span>
+<a name=line-109></a>        <span class=c1># Less than 75% so nothing printed</span>
+<a name=line-110></a>        <span class=k>assert</span> <span class=ow>not</span> <span class=n>sio</span><span class=o>.</span><span class=n>getvalue</span><span class=p>()</span>
+<a name=line-111></a>
+<a name=line-112></a>
+<a name=line-113></a><span class=nd>@pytest</span><span class=o>.</span><span class=n>mark</span><span class=o>.</span><span class=n>xfail</span><span class=p>(</span><span class=n>reason</span><span class=o>=</span><span class=s2>&quot;unknown&quot;</span><span class=p>)</span>
+<a name=line-114></a><span class=k>def</span> <span class=nf>test_gc_diagnosis_rss_win</span><span class=p>():</span>
+<a name=line-115></a>    <span class=n>diag</span> <span class=o>=</span> <span class=n>GCDiagnosis</span><span class=p>(</span><span class=n>info_over_rss_win</span><span class=o>=</span><span class=mf>10e6</span><span class=p>)</span>
+<a name=line-116></a>
+<a name=line-117></a>    <span class=k>def</span> <span class=nf>make_refcycle</span><span class=p>(</span><span class=n>nbytes</span><span class=p>):</span>
+<a name=line-118></a>        <span class=n>l</span> <span class=o>=</span> <span class=p>[</span><span class=sa>b</span><span class=s2>&quot;x&quot;</span> <span class=o>*</span> <span class=n>nbytes</span><span class=p>]</span>
+<a name=line-119></a>        <span class=n>l</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>l</span><span class=p>)</span>
+<a name=line-120></a>        <span class=k>return</span>
+<a name=line-121></a>
+<a name=line-122></a>    <span class=k>with</span> <span class=n>enable_gc_diagnosis_and_log</span><span class=p>(</span><span class=n>diag</span><span class=p>)</span> <span class=k>as</span> <span class=n>sio</span><span class=p>:</span>
+<a name=line-123></a>        <span class=n>make_refcycle</span><span class=p>(</span><span class=mi>100</span> <span class=o>*</span> <span class=mi>1024</span><span class=p>)</span>
+<a name=line-124></a>        <span class=n>gc</span><span class=o>.</span><span class=n>collect</span><span class=p>()</span>
+<a name=line-125></a>        <span class=c1># Too small, nothing printed</span>
+<a name=line-126></a>        <span class=k>assert</span> <span class=ow>not</span> <span class=n>sio</span><span class=o>.</span><span class=n>getvalue</span><span class=p>()</span>
+<a name=line-127></a>
+<a name=line-128></a>        <span class=c1># NOTE: need to allocate a very large value to make sure RSS</span>
+<a name=line-129></a>        <span class=c1># really shrinks (depending on the system memory allocator,</span>
+<a name=line-130></a>        <span class=c1># &quot;small&quot; memory deallocations may keep the memory in the pool)</span>
+<a name=line-131></a>        <span class=n>make_refcycle</span><span class=p>(</span><span class=mi>200</span> <span class=o>*</span> <span class=mi>1024</span> <span class=o>*</span> <span class=mi>1024</span><span class=p>)</span>
+<a name=line-132></a>        <span class=n>gc</span><span class=o>.</span><span class=n>collect</span><span class=p>()</span>
+<a name=line-133></a>        <span class=n>lines</span> <span class=o>=</span> <span class=n>sio</span><span class=o>.</span><span class=n>getvalue</span><span class=p>()</span><span class=o>.</span><span class=n>splitlines</span><span class=p>()</span>
+<a name=line-134></a>        <span class=k>assert</span> <span class=nb>len</span><span class=p>(</span><span class=n>lines</span><span class=p>)</span> <span class=o>==</span> <span class=mi>1</span>
+<a name=line-135></a>        <span class=c1># Several MB released, and at least 1 reference cycles</span>
+<a name=line-136></a>        <span class=k>assert</span> <span class=n>re</span><span class=o>.</span><span class=n>match</span><span class=p>(</span>
+<a name=line-137></a>            <span class=sa>r</span><span class=s2>&quot;full garbage collection released [\d\.]+ MB &quot;</span>
+<a name=line-138></a>            <span class=sa>r</span><span class=s2>&quot;from [1-9]\d* reference cycles&quot;</span><span class=p>,</span>
+<a name=line-139></a>            <span class=n>lines</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span>
+<a name=line-140></a>        <span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

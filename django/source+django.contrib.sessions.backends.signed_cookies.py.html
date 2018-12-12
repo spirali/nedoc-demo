@@ -1,0 +1,162 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.contrib.sessions.backends.signed_cookies</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9662; contrib</a> </li><li><ul><li><a href=django.contrib.admin.html>&#9656; admin</a> </li><li><a href=django.contrib.admindocs.html>&#9656; admindocs</a> </li><li><a href=django.contrib.auth.html>&#9656; auth</a> </li><li><a href=django.contrib.contenttypes.html>&#9656; contenttypes</a> </li><li><a href=django.contrib.flatpages.html>&#9656; flatpages</a> </li><li><a href=django.contrib.gis.html>&#9656; gis</a> </li><li><a href=django.contrib.humanize.html>&#9656; humanize</a> </li><li><a href=django.contrib.messages.html>&#9656; messages</a> </li><li><a href=django.contrib.postgres.html>&#9656; postgres</a> </li><li><a href=django.contrib.redirects.html>&#9656; redirects</a> </li><li><a href=django.contrib.sessions.html>&#9662; sessions</a> </li><li><ul><li><a href=django.contrib.sessions.apps.html>&#9656; apps</a> </li><li><a href=django.contrib.sessions.backends.html>&#9662; backends</a> </li><li><ul><li><a href=django.contrib.sessions.backends.base.html>&#9656; base</a> </li><li><a href=django.contrib.sessions.backends.cache.html>&#9656; cache</a> </li><li><a href=django.contrib.sessions.backends.cached_db.html>&#9656; cached_db</a> </li><li><a href=django.contrib.sessions.backends.db.html>&#9656; db</a> </li><li><a href=django.contrib.sessions.backends.file.html>&#9656; file</a> </li><li><div class=select><a href=django.contrib.sessions.backends.signed_cookies.html>&#9662; signed_cookies</a> </div></li><li><ul><li><a href=django.contrib.sessions.backends.signed_cookies.SessionStore.html> <i>class</i> SessionStore</a> </li></ul></li><li><a href=django.contrib.sessions.base_session.html>&#9656; base_session</a> </li><li><a href=django.contrib.sessions.exceptions.html>&#9656; exceptions</a> </li><li><a href=django.contrib.sessions.management.html>&#9656; management</a> </li><li><a href=django.contrib.sessions.middleware.html>&#9656; middleware</a> </li><li><a href=django.contrib.sessions.migrations.html>&#9656; migrations</a> </li><li><a href=django.contrib.sessions.models.html>&#9656; models</a> </li><li><a href=django.contrib.sessions.serializers.html>&#9656; serializers</a> </li></ul></li><li><a href=django.contrib.sitemaps.html>&#9656; sitemaps</a> </li><li><a href=django.contrib.sites.html>&#9656; sites</a> </li><li><a href=django.contrib.staticfiles.html>&#9656; staticfiles</a> </li><li><a href=django.contrib.syndication.html>&#9656; syndication</a> </li></ul></li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/contrib/sessions/backends/signed_cookies.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.contrib.html>contrib</a>.<a class=symbol href=django.contrib.sessions.html>sessions</a>.<a class=symbol href=django.contrib.sessions.backends.html>backends</a>.<a class=symbol href=django.contrib.sessions.backends.signed_cookies.html>signed_cookies</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>from</span> <span class=nn>django.contrib.sessions.backends.base</span> <span class=kn>import</span> <span class=n>SessionBase</span>
+<a name=line-2></a><span class=kn>from</span> <span class=nn>django.core</span> <span class=kn>import</span> <span class=n>signing</span>
+<a name=line-3></a>
+<a name=line-4></a>
+<a name=line-5></a><span class=k>class</span> <span class=nc>SessionStore</span><span class=p>(</span><span class=n>SessionBase</span><span class=p>):</span>
+<a name=line-6></a>
+<a name=line-7></a>    <span class=k>def</span> <span class=nf>load</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-8></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-9></a><span class=sd>        Load the data from the key itself instead of fetching from some</span>
+<a name=line-10></a><span class=sd>        external data store. Opposite of _get_session_key(), raise BadSignature</span>
+<a name=line-11></a><span class=sd>        if signature fails.</span>
+<a name=line-12></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-13></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-14></a>            <span class=k>return</span> <span class=n>signing</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span>
+<a name=line-15></a>                <span class=bp>self</span><span class=o>.</span><span class=n>session_key</span><span class=p>,</span>
+<a name=line-16></a>                <span class=n>serializer</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>serializer</span><span class=p>,</span>
+<a name=line-17></a>                <span class=c1># This doesn&#39;t handle non-default expiry dates, see #19201</span>
+<a name=line-18></a>                <span class=n>max_age</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>get_session_cookie_age</span><span class=p>(),</span>
+<a name=line-19></a>                <span class=n>salt</span><span class=o>=</span><span class=s1>&#39;django.contrib.sessions.backends.signed_cookies&#39;</span><span class=p>,</span>
+<a name=line-20></a>            <span class=p>)</span>
+<a name=line-21></a>        <span class=k>except</span> <span class=ne>Exception</span><span class=p>:</span>
+<a name=line-22></a>            <span class=c1># BadSignature, ValueError, or unpickling exceptions. If any of</span>
+<a name=line-23></a>            <span class=c1># these happen, reset the session.</span>
+<a name=line-24></a>            <span class=bp>self</span><span class=o>.</span><span class=n>create</span><span class=p>()</span>
+<a name=line-25></a>        <span class=k>return</span> <span class=p>{}</span>
+<a name=line-26></a>
+<a name=line-27></a>    <span class=k>def</span> <span class=nf>create</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-28></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-29></a><span class=sd>        To create a new key, set the modified flag so that the cookie is set</span>
+<a name=line-30></a><span class=sd>        on the client for the current request.</span>
+<a name=line-31></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-32></a>        <span class=bp>self</span><span class=o>.</span><span class=n>modified</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-33></a>
+<a name=line-34></a>    <span class=k>def</span> <span class=nf>save</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>must_create</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+<a name=line-35></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-36></a><span class=sd>        To save, get the session key as a securely signed string and then set</span>
+<a name=line-37></a><span class=sd>        the modified flag so that the cookie is set on the client for the</span>
+<a name=line-38></a><span class=sd>        current request.</span>
+<a name=line-39></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-40></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_session_key</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_get_session_key</span><span class=p>()</span>
+<a name=line-41></a>        <span class=bp>self</span><span class=o>.</span><span class=n>modified</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-42></a>
+<a name=line-43></a>    <span class=k>def</span> <span class=nf>exists</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>session_key</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-44></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-45></a><span class=sd>        This method makes sense when you&#39;re talking to a shared resource, but</span>
+<a name=line-46></a><span class=sd>        it doesn&#39;t matter when you&#39;re storing the information in the client&#39;s</span>
+<a name=line-47></a><span class=sd>        cookie.</span>
+<a name=line-48></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-49></a>        <span class=k>return</span> <span class=kc>False</span>
+<a name=line-50></a>
+<a name=line-51></a>    <span class=k>def</span> <span class=nf>delete</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>session_key</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-52></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-53></a><span class=sd>        To delete, clear the session key and the underlying data structure</span>
+<a name=line-54></a><span class=sd>        and set the modified flag so that the cookie is set on the client for</span>
+<a name=line-55></a><span class=sd>        the current request.</span>
+<a name=line-56></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-57></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_session_key</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-58></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_session_cache</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-59></a>        <span class=bp>self</span><span class=o>.</span><span class=n>modified</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-60></a>
+<a name=line-61></a>    <span class=k>def</span> <span class=nf>cycle_key</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-62></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-63></a><span class=sd>        Keep the same data but with a new key. Call save() and it will</span>
+<a name=line-64></a><span class=sd>        automatically save a cookie with a new key at the end of the request.</span>
+<a name=line-65></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-66></a>        <span class=bp>self</span><span class=o>.</span><span class=n>save</span><span class=p>()</span>
+<a name=line-67></a>
+<a name=line-68></a>    <span class=k>def</span> <span class=nf>_get_session_key</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-69></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-70></a><span class=sd>        Instead of generating a random string, generate a secure url-safe</span>
+<a name=line-71></a><span class=sd>        base64-encoded string of data as our session key.</span>
+<a name=line-72></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-73></a>        <span class=k>return</span> <span class=n>signing</span><span class=o>.</span><span class=n>dumps</span><span class=p>(</span>
+<a name=line-74></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_session</span><span class=p>,</span> <span class=n>compress</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-75></a>            <span class=n>salt</span><span class=o>=</span><span class=s1>&#39;django.contrib.sessions.backends.signed_cookies&#39;</span><span class=p>,</span>
+<a name=line-76></a>            <span class=n>serializer</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>serializer</span><span class=p>,</span>
+<a name=line-77></a>        <span class=p>)</span>
+<a name=line-78></a>
+<a name=line-79></a>    <span class=nd>@classmethod</span>
+<a name=line-80></a>    <span class=k>def</span> <span class=nf>clear_expired</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+<a name=line-81></a>        <span class=k>pass</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

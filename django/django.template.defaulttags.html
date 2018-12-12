@@ -1,0 +1,393 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.template.defaulttags</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9662; template</a> </li><li><ul><li><a href=django.template.autoreload.html>&#9656; autoreload</a> </li><li><a href=django.template.backends.html>&#9656; backends</a> </li><li><a href=django.template.base.html>&#9656; base</a> </li><li><a href=django.template.context.html>&#9656; context</a> </li><li><a href=django.template.context_processors.html>&#9656; context_processors</a> </li><li><a href=django.template.defaultfilters.html>&#9656; defaultfilters</a> </li><li><div class=select><a href=django.template.defaulttags.html>&#9662; defaulttags</a> </div></li><li><ul><li><a href=django.template.defaulttags.AutoEscapeControlNode.html> <i>class</i> AutoEscapeControlNode</a> </li><li><a href=django.template.defaulttags.CommentNode.html> <i>class</i> CommentNode</a> </li><li><a href=django.template.defaulttags.CsrfTokenNode.html> <i>class</i> CsrfTokenNode</a> </li><li><a href=django.template.defaulttags.CycleNode.html> <i>class</i> CycleNode</a> </li><li><a href=django.template.defaulttags.DebugNode.html> <i>class</i> DebugNode</a> </li><li><a href=django.template.defaulttags.FilterNode.html> <i>class</i> FilterNode</a> </li><li><a href=django.template.defaulttags.FirstOfNode.html> <i>class</i> FirstOfNode</a> </li><li><a href=django.template.defaulttags.ForNode.html> <i>class</i> ForNode</a> </li><li><a href=django.template.defaulttags.IfChangedNode.html> <i>class</i> IfChangedNode</a> </li><li><a href=django.template.defaulttags.IfEqualNode.html> <i>class</i> IfEqualNode</a> </li><li><a href=django.template.defaulttags.IfNode.html> <i>class</i> IfNode</a> </li><li><a href=django.template.defaulttags.LoadNode.html> <i>class</i> LoadNode</a> </li><li><a href=django.template.defaulttags.LoremNode.html> <i>class</i> LoremNode</a> </li><li><a href=django.template.defaulttags.NowNode.html> <i>class</i> NowNode</a> </li><li><a href=django.template.defaulttags.RegroupNode.html> <i>class</i> RegroupNode</a> </li><li><a href=django.template.defaulttags.ResetCycleNode.html> <i>class</i> ResetCycleNode</a> </li><li><a href=django.template.defaulttags.SpacelessNode.html> <i>class</i> SpacelessNode</a> </li><li><a href=django.template.defaulttags.TemplateIfParser.html> <i>class</i> TemplateIfParser</a> </li><li><a href=django.template.defaulttags.TemplateLiteral.html> <i>class</i> TemplateLiteral</a> </li><li><a href=django.template.defaulttags.TemplateTagNode.html> <i>class</i> TemplateTagNode</a> </li><li><a href=django.template.defaulttags.URLNode.html> <i>class</i> URLNode</a> </li><li><a href=django.template.defaulttags.VerbatimNode.html> <i>class</i> VerbatimNode</a> </li><li><a href=django.template.defaulttags.WidthRatioNode.html> <i>class</i> WidthRatioNode</a> </li><li><a href=django.template.defaulttags.WithNode.html> <i>class</i> WithNode</a> </li></ul></li><li><a href=django.template.engine.html>&#9656; engine</a> </li><li><a href=django.template.exceptions.html>&#9656; exceptions</a> </li><li><a href=django.template.library.html>&#9656; library</a> </li><li><a href=django.template.loader.html>&#9656; loader</a> </li><li><a href=django.template.loader_tags.html>&#9656; loader_tags</a> </li><li><a href=django.template.loaders.html>&#9656; loaders</a> </li><li><a href=django.template.response.html>&#9656; response</a> </li><li><a href=django.template.smartif.html>&#9656; smartif</a> </li><li><a href=django.template.utils.html>&#9656; utils</a> </li></ul></li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Module defaulttags</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.template.html>template</a>.<a class=symbol href=django.template.defaulttags.html>defaulttags</a></div><div class=docline> Default tags used by the template system, available to all templates. </div><a class=sourcelink href=source+django.template.defaulttags.py.html>source</a> <a class=sourcelink href=django.template.defaulttags.html>link</a><h2>Classes</h2><ul class=deflst><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.AutoEscapeControlNode.html>AutoEscapeControlNode</a></span> </div><div class=docline> Implement the actions of the autoescape tag. </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.CommentNode.html>CommentNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.CsrfTokenNode.html>CsrfTokenNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.CycleNode.html>CycleNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.DebugNode.html>DebugNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.FilterNode.html>FilterNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.FirstOfNode.html>FirstOfNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.ForNode.html>ForNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.IfChangedNode.html>IfChangedNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.IfEqualNode.html>IfEqualNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.IfNode.html>IfNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.LoadNode.html>LoadNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.LoremNode.html>LoremNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.NowNode.html>NowNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.RegroupNode.html>RegroupNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.ResetCycleNode.html>ResetCycleNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.SpacelessNode.html>SpacelessNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.TemplateIfParser.html>TemplateIfParser</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.TemplateLiteral.html>TemplateLiteral</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.TemplateTagNode.html>TemplateTagNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.URLNode.html>URLNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.VerbatimNode.html>VerbatimNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.WidthRatioNode.html>WidthRatioNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.template.defaulttags.WithNode.html>WithNode</a></span> </div></li></ul><h2>Functions</h2><ul class=deflst><li><div class=fn><a id=f_autoescape></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_autoescape>autoescape</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Force autoescape behavior for this block. </div></div><div class=fdetail id=fn_autoescape><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> autoescape( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-519>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_autoescape>link</a></div></div></div></li><li><div class=fn><a id=f_comment></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_comment>comment</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Ignore everything between ``{% comment %}`` and ``{% endcomment %}``. </div></div><div class=fdetail id=fn_comment><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> comment( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-536>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_comment>link</a></div></div></div></li><li><div class=fn><a id=f_csrf_token></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=django.template.defaulttags.html#f_csrf_token>csrf_token</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span></div><div class=fdetail id=fn_csrf_token><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> csrf_token( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-633>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_csrf_token>link</a></div></div></div></li><li><div class=fn><a id=f_cycle></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_cycle>cycle</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Cycle among the given strings each time this tag is encountered. </div></div><div class=fdetail id=fn_cycle><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> cycle( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-545>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_cycle>link</a></div><pre>Within a loop, cycles among the given strings each time through
+the loop::
+
+    {% for o in some_list %}
+        &lt;tr class=&#34;{% cycle &#39;row1&#39; &#39;row2&#39; %}&#34;&gt;
+            ...
+        &lt;/tr&gt;
+    {% endfor %}
+
+Outside of a loop, give the values a unique name the first time you call
+it, then use that name each successive time through::
+
+        &lt;tr class=&#34;{% cycle &#39;row1&#39; &#39;row2&#39; &#39;row3&#39; as rowcolors %}&#34;&gt;...&lt;/tr&gt;
+        &lt;tr class=&#34;{% cycle rowcolors %}&#34;&gt;...&lt;/tr&gt;
+        &lt;tr class=&#34;{% cycle rowcolors %}&#34;&gt;...&lt;/tr&gt;
+
+You can use any number of values, separated by spaces. Commas can also
+be used to separate values; if a comma is used, the cycle values are
+interpreted as literal strings.
+
+The optional flag &#34;silent&#34; can be used to prevent the cycle declaration
+from returning any value::
+
+    {% for o in some_list %}
+        {% cycle &#39;row1&#39; &#39;row2&#39; as rowcolors silent %}
+        &lt;tr class=&#34;{{ rowcolors }}&#34;&gt;{% include &#34;subtemplate.html &#34; %}&lt;/tr&gt;
+    {% endfor %}</pre></div></div></li><li><div class=fn><a id=f_debug></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_debug>debug</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Output a whole load of debugging information, including the current context and imported modules. </div></div><div class=fdetail id=fn_debug><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> debug( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-638>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_debug>link</a></div><pre>Sample usage::
+
+    &lt;pre&gt;
+        {% debug %}
+    &lt;/pre&gt;</pre></div></div></li><li><div class=fn><a id=f_do_filter></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_do_filter>do_filter</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#39;filter&#39;)</span></span><div class=docline> Filter the contents of the block through variable filters. </div></div><div class=fdetail id=fn_do_filter><div class=decl><div class=def><i> @register.tag(&#39;filter&#39;)<br></i><span class=kw>def</span> do_filter( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-653>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_do_filter>link</a></div><pre>Filters can also be piped through each other, and they can have
+arguments -- just like in variable syntax.
+
+Sample usage::
+
+    {% filter force_escape|lower %}
+        This text will be HTML-escaped, and will appear in lowercase.
+    {% endfilter %}
+
+Note that the ``escape`` and ``safe`` filters are not acceptable arguments.
+Instead, use the ``autoescape`` tag to manage autoescaping for blocks of
+template code.</pre></div></div></li><li><div class=fn><a id=f_do_for></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_do_for>do_for</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#39;for&#39;)</span></span><div class=docline> Loop over each item in an array. </div></div><div class=fdetail id=fn_do_for><div class=decl><div class=def><i> @register.tag(&#39;for&#39;)<br></i><span class=kw>def</span> do_for( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-732>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_do_for>link</a></div><pre>For example, to display a list of athletes given ``athlete_list``::
+
+    &lt;ul&gt;
+    {% for athlete in athlete_list %}
+        &lt;li&gt;{{ athlete.name }}&lt;/li&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+
+You can loop over a list in reverse by using
+``{% for obj in list reversed %}``.
+
+You can also unpack multiple values from a two-dimensional array::
+
+    {% for key,value in dict.items %}
+        {{ key }}: {{ value }}
+    {% endfor %}
+
+The ``for`` tag can take an optional ``{% empty %}`` clause that will
+be displayed if the given array is empty or could not be found::
+
+    &lt;ul&gt;
+      {% for athlete in athlete_list %}
+        &lt;li&gt;{{ athlete.name }}&lt;/li&gt;
+      {% empty %}
+        &lt;li&gt;Sorry, no athletes in this list.&lt;/li&gt;
+      {% endfor %}
+    &lt;ul&gt;
+
+The above is equivalent to -- but shorter, cleaner, and possibly faster
+than -- the following::
+
+    &lt;ul&gt;
+      {% if athlete_list %}
+        {% for athlete in athlete_list %}
+          &lt;li&gt;{{ athlete.name }}&lt;/li&gt;
+        {% endfor %}
+      {% else %}
+        &lt;li&gt;Sorry, no athletes in this list.&lt;/li&gt;
+      {% endif %}
+    &lt;/ul&gt;
+
+The for loop sets a number of variables available within the loop:
+
+    ==========================  ================================================
+    Variable                    Description
+    ==========================  ================================================
+    ``forloop.counter``         The current iteration of the loop (1-indexed)
+    ``forloop.counter0``        The current iteration of the loop (0-indexed)
+    ``forloop.revcounter``      The number of iterations from the end of the
+                                loop (1-indexed)
+    ``forloop.revcounter0``     The number of iterations from the end of the
+                                loop (0-indexed)
+    ``forloop.first``           True if this is the first time through the loop
+    ``forloop.last``            True if this is the last time through the loop
+    ``forloop.parentloop``      For nested loops, this is the loop &#34;above&#34; the
+                                current one
+    ==========================  ================================================</pre></div></div></li><li><div class=fn><a id=f_do_if></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_do_if>do_if</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#39;if&#39;)</span></span><div class=docline> Evaluate a variable, and if that variable is &#34;true&#34; (i.e., exists, is not empty, and is not a false boolean value), output the contents of the block: </div></div><div class=fdetail id=fn_do_if><div class=decl><div class=def><i> @register.tag(&#39;if&#39;)<br></i><span class=kw>def</span> do_if( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-903>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_do_if>link</a></div><pre>::
+
+    {% if athlete_list %}
+        Number of athletes: {{ athlete_list|count }}
+    {% elif athlete_in_locker_room_list %}
+        Athletes should be out of the locker room soon!
+    {% else %}
+        No athletes.
+    {% endif %}
+
+In the above, if ``athlete_list`` is not empty, the number of athletes will
+be displayed by the ``{{ athlete_list|count }}`` variable.
+
+The ``if`` tag may take one or several `` {% elif %}`` clauses, as well as
+an ``{% else %}`` clause that will be displayed if all previous conditions
+fail. These clauses are optional.
+
+``if`` tags may use ``or``, ``and`` or ``not`` to test a number of
+variables or to negate a given variable::
+
+    {% if not athlete_list %}
+        There are no athletes.
+    {% endif %}
+
+    {% if athlete_list or coach_list %}
+        There are some athletes or some coaches.
+    {% endif %}
+
+    {% if athlete_list and coach_list %}
+        Both athletes and coaches are available.
+    {% endif %}
+
+    {% if not athlete_list or coach_list %}
+        There are no athletes, or there are some coaches.
+    {% endif %}
+
+    {% if athlete_list and not coach_list %}
+        There are some athletes and absolutely no coaches.
+    {% endif %}
+
+Comparison operators are also available, and the use of filters is also
+allowed, for example::
+
+    {% if articles|length &gt;= 5 %}...{% endif %}
+
+Arguments and operators _must_ have a space between them, so
+``{% if 1&gt;2 %}`` is not a valid if tag.
+
+All supported operators are: ``or``, ``and``, ``in``, ``not in``
+``==``, ``!=``, ``&gt;``, ``&gt;=``, ``&lt;`` and ``&lt;=``.
+
+Operator precedence follows Python.</pre></div></div></li><li><div class=fn><a id=f_do_ifequal></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=django.template.defaulttags.html#f_do_ifequal>do_ifequal</a>(<span class=args>parser, token, negate</span>) </span></div><div class=fdetail id=fn_do_ifequal><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-823>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_do_ifequal>link</a></div></div></div></li><li><div class=fn><a id=f_do_with></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_do_with>do_with</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#39;with&#39;)</span></span><div class=docline> Add one or more values to the context (inside of this block) for caching and easy access. </div></div><div class=fdetail id=fn_do_with><div class=decl><div class=def><i> @register.tag(&#39;with&#39;)<br></i><span class=kw>def</span> do_with( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1455>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_do_with>link</a></div><pre>For example::
+
+    {% with total=person.some_sql_method %}
+        {{ total }} object{{ total|pluralize }}
+    {% endwith %}
+
+Multiple values can be added to the context::
+
+    {% with foo=1 bar=2 %}
+        ...
+    {% endwith %}
+
+The legacy format of ``{% with person.some_sql_method as total %}`` is
+still accepted.</pre></div></div></li><li><div class=fn><a id=f_find_library></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=django.template.defaulttags.html#f_find_library>find_library</a>(<span class=args>parser, name</span>) </span></div><div class=fdetail id=fn_find_library><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1031>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_find_library>link</a></div></div></div></li><li><div class=fn><a id=f_firstof></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_firstof>firstof</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Output the first variable passed that is not False. </div></div><div class=fdetail id=fn_firstof><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> firstof( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-683>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_firstof>link</a></div><pre>Output nothing if all the passed variables are False.
+
+Sample usage::
+
+    {% firstof var1 var2 var3 as myvar %}
+
+This is equivalent to::
+
+    {% if var1 %}
+        {{ var1 }}
+    {% elif var2 %}
+        {{ var2 }}
+    {% elif var3 %}
+        {{ var3 }}
+    {% endif %}
+
+but much cleaner!
+
+You can also use a literal string as a fallback value in case all
+passed variables are False::
+
+    {% firstof var1 var2 var3 &#34;fallback value&#34; %}
+
+If you want to disable auto-escaping of variables you can use::
+
+    {% autoescape off %}
+        {% firstof var1 var2 var3 &#34;&lt;strong&gt;fallback value&lt;/strong&gt;&#34; %}
+    {% autoescape %}
+
+Or if only some variables should be escaped, you can use::
+
+    {% firstof var1 var2|safe var3 &#34;&lt;strong&gt;fallback value&lt;/strong&gt;&#34;|safe %}</pre></div></div></li><li><div class=fn><a id=f_ifchanged></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_ifchanged>ifchanged</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Check if a value has changed from the last iteration of a loop. </div></div><div class=fdetail id=fn_ifchanged><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> ifchanged( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-990>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_ifchanged>link</a></div><pre>The ``{% ifchanged %}`` block tag is used within a loop. It has two
+possible uses.
+
+1. Check its own rendered contents against its previous state and only
+   displays the content if it has changed. For example, this displays a
+   list of days, only displaying the month if it changes::
+
+        &lt;h1&gt;Archive for {{ year }}&lt;/h1&gt;
+
+        {% for date in days %}
+            {% ifchanged %}&lt;h3&gt;{{ date|date:&#34;F&#34; }}&lt;/h3&gt;{% endifchanged %}
+            &lt;a href=&#34;{{ date|date:&#34;M/d&#34;|lower }}/&#34;&gt;{{ date|date:&#34;j&#34; }}&lt;/a&gt;
+        {% endfor %}
+
+2. If given one or more variables, check whether any variable has changed.
+   For example, the following shows the date every time it changes, while
+   showing the hour if either the hour or the date has changed::
+
+        {% for date in days %}
+            {% ifchanged date.date %} {{ date.date }} {% endifchanged %}
+            {% ifchanged date.hour date.date %}
+                {{ date.hour }}
+            {% endifchanged %}
+        {% endfor %}</pre></div></div></li><li><div class=fn><a id=f_ifequal></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_ifequal>ifequal</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Output the contents of the block if the two arguments equal each other. </div></div><div class=fdetail id=fn_ifequal><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> ifequal( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-842>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_ifequal>link</a></div><pre>Examples::
+
+    {% ifequal user.id comment.user_id %}
+        ...
+    {% endifequal %}
+
+    {% ifnotequal user.id comment.user_id %}
+        ...
+    {% else %}
+        ...
+    {% endifnotequal %}</pre></div></div></li><li><div class=fn><a id=f_ifnotequal></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_ifnotequal>ifnotequal</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Output the contents of the block if the two arguments are not equal. See ifequal. </div></div><div class=fdetail id=fn_ifnotequal><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> ifnotequal( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-866>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_ifnotequal>link</a></div></div></div></li><li><div class=fn><a id=f_load></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_load>load</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Load a custom template tag library into the parser. </div></div><div class=fdetail id=fn_load><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> load( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1065>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_load>link</a></div><pre>For example, to load the template tags in
+``django/templatetags/news/photos.py``::
+
+    {% load news.photos %}
+
+Can also be used to load an individual tag/filter from
+a library::
+
+    {% load byline from news %}</pre></div></div></li><li><div class=fn><a id=f_load_from_library></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_load_from_library>load_from_library</a>(<span class=args>library, label, names</span>) </span><div class=docline> Return a subset of tags and filters from a library. </div></div><div class=fdetail id=fn_load_from_library><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1042>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_load_from_library>link</a></div></div></div></li><li><div class=fn><a id=f_lorem></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_lorem>lorem</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Create random Latin text useful for providing test data in templates. </div></div><div class=fdetail id=fn_lorem><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> lorem( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1096>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_lorem>link</a></div><pre>Usage format::
+
+    {% lorem [count] [method] [random] %}
+
+``count`` is a number (or variable) containing the number of paragraphs or
+words to generate (default is 1).
+
+``method`` is either ``w`` for words, ``p`` for HTML paragraphs, ``b`` for
+plain-text paragraph blocks (default is ``b``).
+
+``random`` is the word ``random``, which if given, does not use the common
+paragraph (starting &#34;Lorem ipsum dolor sit amet, consectetuer...&#34;).
+
+Examples:
+
+* ``{% lorem %}`` outputs the common &#34;lorem ipsum&#34; paragraph
+* ``{% lorem 3 p %}`` outputs the common &#34;lorem ipsum&#34; paragraph
+  and two random paragraphs each wrapped in HTML ``&lt;p&gt;`` tags
+* ``{% lorem 2 w random %}`` outputs two random latin words</pre></div></div></li><li><div class=fn><a id=f_now></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_now>now</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Display the date, formatted according to the given string. </div></div><div class=fdetail id=fn_now><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> now( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1143>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_now>link</a></div><pre>Use the same format as PHP&#39;s ``date()`` function; see https://php.net/date
+for all the possible values.
+
+Sample usage::
+
+    It is {% now &#34;jS F Y H:i&#34; %}</pre></div></div></li><li><div class=fn><a id=f_regroup></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_regroup>regroup</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Regroup a list of alike objects by a common attribute. </div></div><div class=fdetail id=fn_regroup><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> regroup( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1166>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_regroup>link</a></div><pre>This complex tag is best illustrated by use of an example: say that
+``musicians`` is a list of ``Musician`` objects that have ``name`` and
+``instrument`` attributes, and you&#39;d like to display a list that
+looks like:
+
+    * Guitar:
+        * Django Reinhardt
+        * Emily Remler
+    * Piano:
+        * Lovie Austin
+        * Bud Powell
+    * Trumpet:
+        * Duke Ellington
+
+The following snippet of template code would accomplish this dubious task::
+
+    {% regroup musicians by instrument as grouped %}
+    &lt;ul&gt;
+    {% for group in grouped %}
+        &lt;li&gt;{{ group.grouper }}
+        &lt;ul&gt;
+            {% for musician in group.list %}
+            &lt;li&gt;{{ musician.name }}&lt;/li&gt;
+            {% endfor %}
+        &lt;/ul&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+
+As you can see, ``{% regroup %}`` populates a variable with a list of
+objects with ``grouper`` and ``list`` attributes. ``grouper`` contains the
+item that was grouped by; ``list`` contains the list of objects that share
+that ``grouper``. In this case, ``grouper`` would be ``Guitar``, ``Piano``
+and ``Trumpet``, and ``list`` is the list of musicians who play this
+instrument.
+
+Note that ``{% regroup %}`` does not work when the list to be grouped is not
+sorted by the key you are grouping by! This means that if your list of
+musicians was not sorted by instrument, you&#39;d need to make sure it is sorted
+before using it, i.e.::
+
+    {% regroup musicians|dictsort:&#34;instrument&#34; by instrument as grouped %}</pre></div></div></li><li><div class=fn><a id=f_resetcycle></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_resetcycle>resetcycle</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Reset a cycle tag. </div></div><div class=fdetail id=fn_resetcycle><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> resetcycle( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1235>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_resetcycle>link</a></div><pre>If an argument is given, reset the last rendered cycle tag whose name
+matches the argument, else reset the last rendered cycle tag (named or
+unnamed).</pre></div></div></li><li><div class=fn><a id=f_spaceless></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_spaceless>spaceless</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Remove whitespace between HTML tags, including tab and newline characters. </div></div><div class=fdetail id=fn_spaceless><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> spaceless( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1261>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_spaceless>link</a></div><pre>Example usage::
+
+    {% spaceless %}
+        &lt;p&gt;
+            &lt;a href=&#34;foo/&#34;&gt;Foo&lt;/a&gt;
+        &lt;/p&gt;
+    {% endspaceless %}
+
+This example returns this HTML::
+
+    &lt;p&gt;&lt;a href=&#34;foo/&#34;&gt;Foo&lt;/a&gt;&lt;/p&gt;
+
+Only space between *tags* is normalized -- not space between tags and text.
+In this example, the space around ``Hello`` isn&#39;t stripped::
+
+    {% spaceless %}
+        &lt;strong&gt;
+            Hello
+        &lt;/strong&gt;
+    {% endspaceless %}</pre></div></div></li><li><div class=fn><a id=f_templatetag></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_templatetag>templatetag</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Output one of the bits used to compose template tags. </div></div><div class=fdetail id=fn_templatetag><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> templatetag( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1292>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_templatetag>link</a></div><pre>Since the template system has no concept of &#34;escaping&#34;, to display one of
+the bits used in template tags, you must use the ``{% templatetag %}`` tag.
+
+The argument tells which template bit to output:
+
+    ==================  =======
+    Argument            Outputs
+    ==================  =======
+    ``openblock``       ``{%``
+    ``closeblock``      ``%}``
+    ``openvariable``    ``{{``
+    ``closevariable``   ``}}``
+    ``openbrace``       ``{``
+    ``closebrace``      ``}``
+    ``opencomment``     ``{#``
+    ``closecomment``    ``#}``
+    ==================  =======</pre></div></div></li><li><div class=fn><a id=f_url></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_url>url</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Return an absolute URL matching the given view with its parameters. </div></div><div class=fdetail id=fn_url><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> url( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1327>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_url>link</a></div><pre>This is a way to define links that aren&#39;t tied to a particular URL
+configuration::
+
+    {% url &#34;url_name&#34; arg1 arg2 %}
+
+    or
+
+    {% url &#34;url_name&#34; name1=value1 name2=value2 %}
+
+The first argument is a URL pattern name. Other arguments are
+space-separated values that will be filled in place of positional and
+keyword arguments in the URL. Don&#39;t mix positional and keyword arguments.
+All arguments for the URL must be present.
+
+For example, if you have a view ``app_name.views.client_details`` taking
+the client&#39;s id and the corresponding line in a URLconf looks like this::
+
+    path(&#39;client/&lt;int:id&gt;/&#39;, views.client_details, name=&#39;client-detail-view&#39;)
+
+and this app&#39;s URLconf is included into the project&#39;s URLconf under some
+path::
+
+    path(&#39;clients/&#39;, include(&#39;app_name.urls&#39;))
+
+then in a template you can create a link for a certain client like this::
+
+    {% url &#34;client-detail-view&#34; client.id %}
+
+The URL will look like ``/clients/client/123/``.
+
+The first argument may also be the name of a template variable that will be
+evaluated to obtain the view name or the URL name, e.g.::
+
+    {% with url_name=&#34;client-detail-view&#34; %}
+    {% url url_name client.id %}
+    {% endwith %}</pre></div></div></li><li><div class=fn><a id=f_verbatim></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_verbatim>verbatim</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Stop the template engine from rendering the contents of this block tag. </div></div><div class=fdetail id=fn_verbatim><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> verbatim( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1394>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_verbatim>link</a></div><pre>Usage::
+
+    {% verbatim %}
+        {% don&#39;t process this %}
+    {% endverbatim %}
+
+You can also designate a specific closing tag block (allowing the
+unrendered use of ``{% endverbatim %}``)::
+
+    {% verbatim myblock %}
+        ...
+    {% endverbatim myblock %}</pre></div></div></li><li><div class=fn><a id=f_widthratio></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.template.defaulttags.html#f_widthratio>widthratio</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> For creating bar charts and such. Calculate the ratio of a given value to a maximum value, and then apply that ratio to a constant. </div></div><div class=fdetail id=fn_widthratio><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> widthratio( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.template.defaulttags.py.html#line-1417>source</a> <a class=sourcelink href=django.template.defaulttags.html#f_widthratio>link</a></div><pre>For example::
+
+    &lt;img src=&#34;bar.png&#34; alt=&#34;Bar&#34;
+         height=&#34;10&#34; width=&#34;{% widthratio this_value max_value max_width %}&#34;&gt;
+
+If ``this_value`` is 175, ``max_value`` is 200, and ``max_width`` is 100,
+the image in the above example will be 88 pixels wide
+(because 175/200 = .875; .875 * 100 = 87.5 which is rounded up to 88).
+
+In some cases you might want to capture the result of widthratio in a
+variable. It can be useful for instance in a blocktranslate like this::
+
+    {% widthratio this_value max_value max_width as width %}
+    {% blocktranslate %}The width is: {{ width }}{% endblocktranslate %}</pre></div></div></li></ul><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

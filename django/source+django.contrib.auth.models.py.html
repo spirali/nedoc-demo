@@ -1,0 +1,938 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.contrib.auth.models</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9662; contrib</a> </li><li><ul><li><a href=django.contrib.admin.html>&#9656; admin</a> </li><li><a href=django.contrib.admindocs.html>&#9656; admindocs</a> </li><li><a href=django.contrib.auth.html>&#9662; auth</a> </li><li><ul><li><a href=django.contrib.auth.admin.html>&#9656; admin</a> </li><li><a href=django.contrib.auth.apps.html>&#9656; apps</a> </li><li><a href=django.contrib.auth.backends.html>&#9656; backends</a> </li><li><a href=django.contrib.auth.base_user.html>&#9656; base_user</a> </li><li><a href=django.contrib.auth.checks.html>&#9656; checks</a> </li><li><a href=django.contrib.auth.context_processors.html>&#9656; context_processors</a> </li><li><a href=django.contrib.auth.decorators.html>&#9656; decorators</a> </li><li><a href=django.contrib.auth.forms.html>&#9656; forms</a> </li><li><a href=django.contrib.auth.handlers.html>&#9656; handlers</a> </li><li><a href=django.contrib.auth.hashers.html>&#9656; hashers</a> </li><li><a href=django.contrib.auth.management.html>&#9656; management</a> </li><li><a href=django.contrib.auth.middleware.html>&#9656; middleware</a> </li><li><a href=django.contrib.auth.migrations.html>&#9656; migrations</a> </li><li><a href=django.contrib.auth.mixins.html>&#9656; mixins</a> </li><li><div class=select><a href=django.contrib.auth.models.html>&#9662; models</a> </div></li><li><ul><li><a href=django.contrib.auth.models.AbstractUser.html> <i>class</i> AbstractUser</a> </li><li><a href=django.contrib.auth.models.AnonymousUser.html> <i>class</i> AnonymousUser</a> </li><li><a href=django.contrib.auth.models.Group.html> <i>class</i> Group</a> </li><li><a href=django.contrib.auth.models.GroupManager.html> <i>class</i> GroupManager</a> </li><li><a href=django.contrib.auth.models.Permission.html> <i>class</i> Permission</a> </li><li><a href=django.contrib.auth.models.PermissionManager.html> <i>class</i> PermissionManager</a> </li><li><a href=django.contrib.auth.models.PermissionsMixin.html> <i>class</i> PermissionsMixin</a> </li><li><a href=django.contrib.auth.models.User.html> <i>class</i> User</a> </li><li><a href=django.contrib.auth.models.UserManager.html> <i>class</i> UserManager</a> </li></ul></li><li><a href=django.contrib.auth.password_validation.html>&#9656; password_validation</a> </li><li><a href=django.contrib.auth.signals.html>&#9656; signals</a> </li><li><a href=django.contrib.auth.tokens.html>&#9656; tokens</a> </li><li><a href=django.contrib.auth.urls.html>&#9656; urls</a> </li><li><a href=django.contrib.auth.validators.html>&#9656; validators</a> </li><li><a href=django.contrib.auth.views.html>&#9656; views</a> </li></ul></li><li><a href=django.contrib.contenttypes.html>&#9656; contenttypes</a> </li><li><a href=django.contrib.flatpages.html>&#9656; flatpages</a> </li><li><a href=django.contrib.gis.html>&#9656; gis</a> </li><li><a href=django.contrib.humanize.html>&#9656; humanize</a> </li><li><a href=django.contrib.messages.html>&#9656; messages</a> </li><li><a href=django.contrib.postgres.html>&#9656; postgres</a> </li><li><a href=django.contrib.redirects.html>&#9656; redirects</a> </li><li><a href=django.contrib.sessions.html>&#9656; sessions</a> </li><li><a href=django.contrib.sitemaps.html>&#9656; sitemaps</a> </li><li><a href=django.contrib.sites.html>&#9656; sites</a> </li><li><a href=django.contrib.staticfiles.html>&#9656; staticfiles</a> </li><li><a href=django.contrib.syndication.html>&#9656; syndication</a> </li></ul></li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/contrib/auth/models.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.contrib.html>contrib</a>.<a class=symbol href=django.contrib.auth.html>auth</a>.<a class=symbol href=django.contrib.auth.models.html>models</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>from</span> <span class=nn>django.apps</span> <span class=kn>import</span> <span class=n>apps</span>
+<a name=line-2></a><span class=kn>from</span> <span class=nn>django.contrib</span> <span class=kn>import</span> <span class=n>auth</span>
+<a name=line-3></a><span class=kn>from</span> <span class=nn>django.contrib.auth.base_user</span> <span class=kn>import</span> <span class=n>AbstractBaseUser</span><span class=p>,</span> <span class=n>BaseUserManager</span>
+<a name=line-4></a><span class=kn>from</span> <span class=nn>django.contrib.auth.hashers</span> <span class=kn>import</span> <span class=n>make_password</span>
+<a name=line-5></a><span class=kn>from</span> <span class=nn>django.contrib.contenttypes.models</span> <span class=kn>import</span> <span class=n>ContentType</span>
+<a name=line-6></a><span class=kn>from</span> <span class=nn>django.core.exceptions</span> <span class=kn>import</span> <span class=n>PermissionDenied</span>
+<a name=line-7></a><span class=kn>from</span> <span class=nn>django.core.mail</span> <span class=kn>import</span> <span class=n>send_mail</span>
+<a name=line-8></a><span class=kn>from</span> <span class=nn>django.db</span> <span class=kn>import</span> <span class=n>models</span>
+<a name=line-9></a><span class=kn>from</span> <span class=nn>django.db.models.manager</span> <span class=kn>import</span> <span class=n>EmptyManager</span>
+<a name=line-10></a><span class=kn>from</span> <span class=nn>django.utils</span> <span class=kn>import</span> <span class=n>timezone</span>
+<a name=line-11></a><span class=kn>from</span> <span class=nn>django.utils.translation</span> <span class=kn>import</span> <span class=n>gettext_lazy</span> <span class=k>as</span> <span class=n>_</span>
+<a name=line-12></a>
+<a name=line-13></a><span class=kn>from</span> <span class=nn>.validators</span> <span class=kn>import</span> <span class=n>UnicodeUsernameValidator</span>
+<a name=line-14></a>
+<a name=line-15></a>
+<a name=line-16></a><span class=k>def</span> <span class=nf>update_last_login</span><span class=p>(</span><span class=n>sender</span><span class=p>,</span> <span class=n>user</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-17></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-18></a><span class=sd>    A signal receiver which updates the last_login date for</span>
+<a name=line-19></a><span class=sd>    the user logging in.</span>
+<a name=line-20></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-21></a>    <span class=n>user</span><span class=o>.</span><span class=n>last_login</span> <span class=o>=</span> <span class=n>timezone</span><span class=o>.</span><span class=n>now</span><span class=p>()</span>
+<a name=line-22></a>    <span class=n>user</span><span class=o>.</span><span class=n>save</span><span class=p>(</span><span class=n>update_fields</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;last_login&#39;</span><span class=p>])</span>
+<a name=line-23></a>
+<a name=line-24></a>
+<a name=line-25></a><span class=k>class</span> <span class=nc>PermissionManager</span><span class=p>(</span><span class=n>models</span><span class=o>.</span><span class=n>Manager</span><span class=p>):</span>
+<a name=line-26></a>    <span class=n>use_in_migrations</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-27></a>
+<a name=line-28></a>    <span class=k>def</span> <span class=nf>get_by_natural_key</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>codename</span><span class=p>,</span> <span class=n>app_label</span><span class=p>,</span> <span class=n>model</span><span class=p>):</span>
+<a name=line-29></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>get</span><span class=p>(</span>
+<a name=line-30></a>            <span class=n>codename</span><span class=o>=</span><span class=n>codename</span><span class=p>,</span>
+<a name=line-31></a>            <span class=n>content_type</span><span class=o>=</span><span class=n>ContentType</span><span class=o>.</span><span class=n>objects</span><span class=o>.</span><span class=n>db_manager</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>db</span><span class=p>)</span><span class=o>.</span><span class=n>get_by_natural_key</span><span class=p>(</span><span class=n>app_label</span><span class=p>,</span> <span class=n>model</span><span class=p>),</span>
+<a name=line-32></a>        <span class=p>)</span>
+<a name=line-33></a>
+<a name=line-34></a>
+<a name=line-35></a><span class=k>class</span> <span class=nc>Permission</span><span class=p>(</span><span class=n>models</span><span class=o>.</span><span class=n>Model</span><span class=p>):</span>
+<a name=line-36></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-37></a><span class=sd>    The permissions system provides a way to assign permissions to specific</span>
+<a name=line-38></a><span class=sd>    users and groups of users.</span>
+<a name=line-39></a>
+<a name=line-40></a><span class=sd>    The permission system is used by the Django admin site, but may also be</span>
+<a name=line-41></a><span class=sd>    useful in your own code. The Django admin site uses permissions as follows:</span>
+<a name=line-42></a>
+<a name=line-43></a><span class=sd>        - The &quot;add&quot; permission limits the user&#39;s ability to view the &quot;add&quot; form</span>
+<a name=line-44></a><span class=sd>          and add an object.</span>
+<a name=line-45></a><span class=sd>        - The &quot;change&quot; permission limits a user&#39;s ability to view the change</span>
+<a name=line-46></a><span class=sd>          list, view the &quot;change&quot; form and change an object.</span>
+<a name=line-47></a><span class=sd>        - The &quot;delete&quot; permission limits the ability to delete an object.</span>
+<a name=line-48></a><span class=sd>        - The &quot;view&quot; permission limits the ability to view an object.</span>
+<a name=line-49></a>
+<a name=line-50></a><span class=sd>    Permissions are set globally per type of object, not per specific object</span>
+<a name=line-51></a><span class=sd>    instance. It is possible to say &quot;Mary may change news stories,&quot; but it&#39;s</span>
+<a name=line-52></a><span class=sd>    not currently possible to say &quot;Mary may change news stories, but only the</span>
+<a name=line-53></a><span class=sd>    ones she created herself&quot; or &quot;Mary may only change news stories that have a</span>
+<a name=line-54></a><span class=sd>    certain status or publication date.&quot;</span>
+<a name=line-55></a>
+<a name=line-56></a><span class=sd>    The permissions listed above are automatically created for each model.</span>
+<a name=line-57></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-58></a>    <span class=n>name</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>),</span> <span class=n>max_length</span><span class=o>=</span><span class=mi>255</span><span class=p>)</span>
+<a name=line-59></a>    <span class=n>content_type</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>ForeignKey</span><span class=p>(</span>
+<a name=line-60></a>        <span class=n>ContentType</span><span class=p>,</span>
+<a name=line-61></a>        <span class=n>models</span><span class=o>.</span><span class=n>CASCADE</span><span class=p>,</span>
+<a name=line-62></a>        <span class=n>verbose_name</span><span class=o>=</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;content type&#39;</span><span class=p>),</span>
+<a name=line-63></a>    <span class=p>)</span>
+<a name=line-64></a>    <span class=n>codename</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;codename&#39;</span><span class=p>),</span> <span class=n>max_length</span><span class=o>=</span><span class=mi>100</span><span class=p>)</span>
+<a name=line-65></a>
+<a name=line-66></a>    <span class=n>objects</span> <span class=o>=</span> <span class=n>PermissionManager</span><span class=p>()</span>
+<a name=line-67></a>
+<a name=line-68></a>    <span class=k>class</span> <span class=nc>Meta</span><span class=p>:</span>
+<a name=line-69></a>        <span class=n>verbose_name</span> <span class=o>=</span> <span class=n>_</span><span class=p>(</span><span class=s1>&#39;permission&#39;</span><span class=p>)</span>
+<a name=line-70></a>        <span class=n>verbose_name_plural</span> <span class=o>=</span> <span class=n>_</span><span class=p>(</span><span class=s1>&#39;permissions&#39;</span><span class=p>)</span>
+<a name=line-71></a>        <span class=n>unique_together</span> <span class=o>=</span> <span class=p>[[</span><span class=s1>&#39;content_type&#39;</span><span class=p>,</span> <span class=s1>&#39;codename&#39;</span><span class=p>]]</span>
+<a name=line-72></a>        <span class=n>ordering</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;content_type__app_label&#39;</span><span class=p>,</span> <span class=s1>&#39;content_type__model&#39;</span><span class=p>,</span> <span class=s1>&#39;codename&#39;</span><span class=p>]</span>
+<a name=line-73></a>
+<a name=line-74></a>    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-75></a>        <span class=k>return</span> <span class=s1>&#39;</span><span class=si>%s</span><span class=s1> | </span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>content_type</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+<a name=line-76></a>
+<a name=line-77></a>    <span class=k>def</span> <span class=nf>natural_key</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-78></a>        <span class=k>return</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>codename</span><span class=p>,)</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>content_type</span><span class=o>.</span><span class=n>natural_key</span><span class=p>()</span>
+<a name=line-79></a>    <span class=n>natural_key</span><span class=o>.</span><span class=n>dependencies</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;contenttypes.contenttype&#39;</span><span class=p>]</span>
+<a name=line-80></a>
+<a name=line-81></a>
+<a name=line-82></a><span class=k>class</span> <span class=nc>GroupManager</span><span class=p>(</span><span class=n>models</span><span class=o>.</span><span class=n>Manager</span><span class=p>):</span>
+<a name=line-83></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-84></a><span class=sd>    The manager for the auth&#39;s Group model.</span>
+<a name=line-85></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-86></a>    <span class=n>use_in_migrations</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-87></a>
+<a name=line-88></a>    <span class=k>def</span> <span class=nf>get_by_natural_key</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+<a name=line-89></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>name</span><span class=o>=</span><span class=n>name</span><span class=p>)</span>
+<a name=line-90></a>
+<a name=line-91></a>
+<a name=line-92></a><span class=k>class</span> <span class=nc>Group</span><span class=p>(</span><span class=n>models</span><span class=o>.</span><span class=n>Model</span><span class=p>):</span>
+<a name=line-93></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-94></a><span class=sd>    Groups are a generic way of categorizing users to apply permissions, or</span>
+<a name=line-95></a><span class=sd>    some other label, to those users. A user can belong to any number of</span>
+<a name=line-96></a><span class=sd>    groups.</span>
+<a name=line-97></a>
+<a name=line-98></a><span class=sd>    A user in a group automatically has all the permissions granted to that</span>
+<a name=line-99></a><span class=sd>    group. For example, if the group &#39;Site editors&#39; has the permission</span>
+<a name=line-100></a><span class=sd>    can_edit_home_page, any user in that group will have that permission.</span>
+<a name=line-101></a>
+<a name=line-102></a><span class=sd>    Beyond permissions, groups are a convenient way to categorize users to</span>
+<a name=line-103></a><span class=sd>    apply some label, or extended functionality, to them. For example, you</span>
+<a name=line-104></a><span class=sd>    could create a group &#39;Special users&#39;, and you could write code that would</span>
+<a name=line-105></a><span class=sd>    do special things to those users -- such as giving them access to a</span>
+<a name=line-106></a><span class=sd>    members-only portion of your site, or sending them members-only email</span>
+<a name=line-107></a><span class=sd>    messages.</span>
+<a name=line-108></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-109></a>    <span class=n>name</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;name&#39;</span><span class=p>),</span> <span class=n>max_length</span><span class=o>=</span><span class=mi>150</span><span class=p>,</span> <span class=n>unique</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+<a name=line-110></a>    <span class=n>permissions</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>ManyToManyField</span><span class=p>(</span>
+<a name=line-111></a>        <span class=n>Permission</span><span class=p>,</span>
+<a name=line-112></a>        <span class=n>verbose_name</span><span class=o>=</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;permissions&#39;</span><span class=p>),</span>
+<a name=line-113></a>        <span class=n>blank</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-114></a>    <span class=p>)</span>
+<a name=line-115></a>
+<a name=line-116></a>    <span class=n>objects</span> <span class=o>=</span> <span class=n>GroupManager</span><span class=p>()</span>
+<a name=line-117></a>
+<a name=line-118></a>    <span class=k>class</span> <span class=nc>Meta</span><span class=p>:</span>
+<a name=line-119></a>        <span class=n>verbose_name</span> <span class=o>=</span> <span class=n>_</span><span class=p>(</span><span class=s1>&#39;group&#39;</span><span class=p>)</span>
+<a name=line-120></a>        <span class=n>verbose_name_plural</span> <span class=o>=</span> <span class=n>_</span><span class=p>(</span><span class=s1>&#39;groups&#39;</span><span class=p>)</span>
+<a name=line-121></a>
+<a name=line-122></a>    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-123></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span>
+<a name=line-124></a>
+<a name=line-125></a>    <span class=k>def</span> <span class=nf>natural_key</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-126></a>        <span class=k>return</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>,)</span>
+<a name=line-127></a>
+<a name=line-128></a>
+<a name=line-129></a><span class=k>class</span> <span class=nc>UserManager</span><span class=p>(</span><span class=n>BaseUserManager</span><span class=p>):</span>
+<a name=line-130></a>    <span class=n>use_in_migrations</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-131></a>
+<a name=line-132></a>    <span class=k>def</span> <span class=nf>_create_user</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>username</span><span class=p>,</span> <span class=n>email</span><span class=p>,</span> <span class=n>password</span><span class=p>,</span> <span class=o>**</span><span class=n>extra_fields</span><span class=p>):</span>
+<a name=line-133></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-134></a><span class=sd>        Create and save a user with the given username, email, and password.</span>
+<a name=line-135></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-136></a>        <span class=k>if</span> <span class=ow>not</span> <span class=n>username</span><span class=p>:</span>
+<a name=line-137></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;The given username must be set&#39;</span><span class=p>)</span>
+<a name=line-138></a>        <span class=n>email</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>normalize_email</span><span class=p>(</span><span class=n>email</span><span class=p>)</span>
+<a name=line-139></a>        <span class=c1># Lookup the real model class from the global app registry so this</span>
+<a name=line-140></a>        <span class=c1># manager method can be used in migrations. This is fine because</span>
+<a name=line-141></a>        <span class=c1># managers are by definition working on the real model.</span>
+<a name=line-142></a>        <span class=n>GlobalUserModel</span> <span class=o>=</span> <span class=n>apps</span><span class=o>.</span><span class=n>get_model</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>model</span><span class=o>.</span><span class=n>_meta</span><span class=o>.</span><span class=n>app_label</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>model</span><span class=o>.</span><span class=n>_meta</span><span class=o>.</span><span class=n>object_name</span><span class=p>)</span>
+<a name=line-143></a>        <span class=n>username</span> <span class=o>=</span> <span class=n>GlobalUserModel</span><span class=o>.</span><span class=n>normalize_username</span><span class=p>(</span><span class=n>username</span><span class=p>)</span>
+<a name=line-144></a>        <span class=n>user</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>model</span><span class=p>(</span><span class=n>username</span><span class=o>=</span><span class=n>username</span><span class=p>,</span> <span class=n>email</span><span class=o>=</span><span class=n>email</span><span class=p>,</span> <span class=o>**</span><span class=n>extra_fields</span><span class=p>)</span>
+<a name=line-145></a>        <span class=n>user</span><span class=o>.</span><span class=n>password</span> <span class=o>=</span> <span class=n>make_password</span><span class=p>(</span><span class=n>password</span><span class=p>)</span>
+<a name=line-146></a>        <span class=n>user</span><span class=o>.</span><span class=n>save</span><span class=p>(</span><span class=n>using</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>_db</span><span class=p>)</span>
+<a name=line-147></a>        <span class=k>return</span> <span class=n>user</span>
+<a name=line-148></a>
+<a name=line-149></a>    <span class=k>def</span> <span class=nf>create_user</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>username</span><span class=p>,</span> <span class=n>email</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>password</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>extra_fields</span><span class=p>):</span>
+<a name=line-150></a>        <span class=n>extra_fields</span><span class=o>.</span><span class=n>setdefault</span><span class=p>(</span><span class=s1>&#39;is_staff&#39;</span><span class=p>,</span> <span class=kc>False</span><span class=p>)</span>
+<a name=line-151></a>        <span class=n>extra_fields</span><span class=o>.</span><span class=n>setdefault</span><span class=p>(</span><span class=s1>&#39;is_superuser&#39;</span><span class=p>,</span> <span class=kc>False</span><span class=p>)</span>
+<a name=line-152></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_create_user</span><span class=p>(</span><span class=n>username</span><span class=p>,</span> <span class=n>email</span><span class=p>,</span> <span class=n>password</span><span class=p>,</span> <span class=o>**</span><span class=n>extra_fields</span><span class=p>)</span>
+<a name=line-153></a>
+<a name=line-154></a>    <span class=k>def</span> <span class=nf>create_superuser</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>username</span><span class=p>,</span> <span class=n>email</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>password</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>extra_fields</span><span class=p>):</span>
+<a name=line-155></a>        <span class=n>extra_fields</span><span class=o>.</span><span class=n>setdefault</span><span class=p>(</span><span class=s1>&#39;is_staff&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>)</span>
+<a name=line-156></a>        <span class=n>extra_fields</span><span class=o>.</span><span class=n>setdefault</span><span class=p>(</span><span class=s1>&#39;is_superuser&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>)</span>
+<a name=line-157></a>
+<a name=line-158></a>        <span class=k>if</span> <span class=n>extra_fields</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;is_staff&#39;</span><span class=p>)</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>True</span><span class=p>:</span>
+<a name=line-159></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;Superuser must have is_staff=True.&#39;</span><span class=p>)</span>
+<a name=line-160></a>        <span class=k>if</span> <span class=n>extra_fields</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;is_superuser&#39;</span><span class=p>)</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>True</span><span class=p>:</span>
+<a name=line-161></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;Superuser must have is_superuser=True.&#39;</span><span class=p>)</span>
+<a name=line-162></a>
+<a name=line-163></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_create_user</span><span class=p>(</span><span class=n>username</span><span class=p>,</span> <span class=n>email</span><span class=p>,</span> <span class=n>password</span><span class=p>,</span> <span class=o>**</span><span class=n>extra_fields</span><span class=p>)</span>
+<a name=line-164></a>
+<a name=line-165></a>    <span class=k>def</span> <span class=nf>with_perm</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>perm</span><span class=p>,</span> <span class=n>is_active</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>include_superusers</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>backend</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-166></a>        <span class=k>if</span> <span class=n>backend</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-167></a>            <span class=n>backends</span> <span class=o>=</span> <span class=n>auth</span><span class=o>.</span><span class=n>_get_backends</span><span class=p>(</span><span class=n>return_tuples</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+<a name=line-168></a>            <span class=k>if</span> <span class=nb>len</span><span class=p>(</span><span class=n>backends</span><span class=p>)</span> <span class=o>==</span> <span class=mi>1</span><span class=p>:</span>
+<a name=line-169></a>                <span class=n>backend</span><span class=p>,</span> <span class=n>_</span> <span class=o>=</span> <span class=n>backends</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+<a name=line-170></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-171></a>                <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-172></a>                    <span class=s1>&#39;You have multiple authentication backends configured and &#39;</span>
+<a name=line-173></a>                    <span class=s1>&#39;therefore must provide the `backend` argument.&#39;</span>
+<a name=line-174></a>                <span class=p>)</span>
+<a name=line-175></a>        <span class=k>elif</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>backend</span><span class=p>,</span> <span class=nb>str</span><span class=p>):</span>
+<a name=line-176></a>            <span class=k>raise</span> <span class=ne>TypeError</span><span class=p>(</span>
+<a name=line-177></a>                <span class=s1>&#39;backend must be a dotted import path string (got </span><span class=si>%r</span><span class=s1>).&#39;</span>
+<a name=line-178></a>                <span class=o>%</span> <span class=n>backend</span>
+<a name=line-179></a>            <span class=p>)</span>
+<a name=line-180></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-181></a>            <span class=n>backend</span> <span class=o>=</span> <span class=n>auth</span><span class=o>.</span><span class=n>load_backend</span><span class=p>(</span><span class=n>backend</span><span class=p>)</span>
+<a name=line-182></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>backend</span><span class=p>,</span> <span class=s1>&#39;with_perm&#39;</span><span class=p>):</span>
+<a name=line-183></a>            <span class=k>return</span> <span class=n>backend</span><span class=o>.</span><span class=n>with_perm</span><span class=p>(</span>
+<a name=line-184></a>                <span class=n>perm</span><span class=p>,</span>
+<a name=line-185></a>                <span class=n>is_active</span><span class=o>=</span><span class=n>is_active</span><span class=p>,</span>
+<a name=line-186></a>                <span class=n>include_superusers</span><span class=o>=</span><span class=n>include_superusers</span><span class=p>,</span>
+<a name=line-187></a>                <span class=n>obj</span><span class=o>=</span><span class=n>obj</span><span class=p>,</span>
+<a name=line-188></a>            <span class=p>)</span>
+<a name=line-189></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>none</span><span class=p>()</span>
+<a name=line-190></a>
+<a name=line-191></a>
+<a name=line-192></a><span class=c1># A few helper functions for common logic between User and AnonymousUser.</span>
+<a name=line-193></a><span class=k>def</span> <span class=nf>_user_get_permissions</span><span class=p>(</span><span class=n>user</span><span class=p>,</span> <span class=n>obj</span><span class=p>,</span> <span class=n>from_name</span><span class=p>):</span>
+<a name=line-194></a>    <span class=n>permissions</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-195></a>    <span class=n>name</span> <span class=o>=</span> <span class=s1>&#39;get_</span><span class=si>%s</span><span class=s1>_permissions&#39;</span> <span class=o>%</span> <span class=n>from_name</span>
+<a name=line-196></a>    <span class=k>for</span> <span class=n>backend</span> <span class=ow>in</span> <span class=n>auth</span><span class=o>.</span><span class=n>get_backends</span><span class=p>():</span>
+<a name=line-197></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>backend</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+<a name=line-198></a>            <span class=n>permissions</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=nb>getattr</span><span class=p>(</span><span class=n>backend</span><span class=p>,</span> <span class=n>name</span><span class=p>)(</span><span class=n>user</span><span class=p>,</span> <span class=n>obj</span><span class=p>))</span>
+<a name=line-199></a>    <span class=k>return</span> <span class=n>permissions</span>
+<a name=line-200></a>
+<a name=line-201></a>
+<a name=line-202></a><span class=k>def</span> <span class=nf>_user_has_perm</span><span class=p>(</span><span class=n>user</span><span class=p>,</span> <span class=n>perm</span><span class=p>,</span> <span class=n>obj</span><span class=p>):</span>
+<a name=line-203></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-204></a><span class=sd>    A backend can raise `PermissionDenied` to short-circuit permission checking.</span>
+<a name=line-205></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-206></a>    <span class=k>for</span> <span class=n>backend</span> <span class=ow>in</span> <span class=n>auth</span><span class=o>.</span><span class=n>get_backends</span><span class=p>():</span>
+<a name=line-207></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>backend</span><span class=p>,</span> <span class=s1>&#39;has_perm&#39;</span><span class=p>):</span>
+<a name=line-208></a>            <span class=k>continue</span>
+<a name=line-209></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-210></a>            <span class=k>if</span> <span class=n>backend</span><span class=o>.</span><span class=n>has_perm</span><span class=p>(</span><span class=n>user</span><span class=p>,</span> <span class=n>perm</span><span class=p>,</span> <span class=n>obj</span><span class=p>):</span>
+<a name=line-211></a>                <span class=k>return</span> <span class=kc>True</span>
+<a name=line-212></a>        <span class=k>except</span> <span class=n>PermissionDenied</span><span class=p>:</span>
+<a name=line-213></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-214></a>    <span class=k>return</span> <span class=kc>False</span>
+<a name=line-215></a>
+<a name=line-216></a>
+<a name=line-217></a><span class=k>def</span> <span class=nf>_user_has_module_perms</span><span class=p>(</span><span class=n>user</span><span class=p>,</span> <span class=n>app_label</span><span class=p>):</span>
+<a name=line-218></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-219></a><span class=sd>    A backend can raise `PermissionDenied` to short-circuit permission checking.</span>
+<a name=line-220></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-221></a>    <span class=k>for</span> <span class=n>backend</span> <span class=ow>in</span> <span class=n>auth</span><span class=o>.</span><span class=n>get_backends</span><span class=p>():</span>
+<a name=line-222></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>backend</span><span class=p>,</span> <span class=s1>&#39;has_module_perms&#39;</span><span class=p>):</span>
+<a name=line-223></a>            <span class=k>continue</span>
+<a name=line-224></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-225></a>            <span class=k>if</span> <span class=n>backend</span><span class=o>.</span><span class=n>has_module_perms</span><span class=p>(</span><span class=n>user</span><span class=p>,</span> <span class=n>app_label</span><span class=p>):</span>
+<a name=line-226></a>                <span class=k>return</span> <span class=kc>True</span>
+<a name=line-227></a>        <span class=k>except</span> <span class=n>PermissionDenied</span><span class=p>:</span>
+<a name=line-228></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-229></a>    <span class=k>return</span> <span class=kc>False</span>
+<a name=line-230></a>
+<a name=line-231></a>
+<a name=line-232></a><span class=k>class</span> <span class=nc>PermissionsMixin</span><span class=p>(</span><span class=n>models</span><span class=o>.</span><span class=n>Model</span><span class=p>):</span>
+<a name=line-233></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-234></a><span class=sd>    Add the fields and methods necessary to support the Group and Permission</span>
+<a name=line-235></a><span class=sd>    models using the ModelBackend.</span>
+<a name=line-236></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-237></a>    <span class=n>is_superuser</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>BooleanField</span><span class=p>(</span>
+<a name=line-238></a>        <span class=n>_</span><span class=p>(</span><span class=s1>&#39;superuser status&#39;</span><span class=p>),</span>
+<a name=line-239></a>        <span class=n>default</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+<a name=line-240></a>        <span class=n>help_text</span><span class=o>=</span><span class=n>_</span><span class=p>(</span>
+<a name=line-241></a>            <span class=s1>&#39;Designates that this user has all permissions without &#39;</span>
+<a name=line-242></a>            <span class=s1>&#39;explicitly assigning them.&#39;</span>
+<a name=line-243></a>        <span class=p>),</span>
+<a name=line-244></a>    <span class=p>)</span>
+<a name=line-245></a>    <span class=n>groups</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>ManyToManyField</span><span class=p>(</span>
+<a name=line-246></a>        <span class=n>Group</span><span class=p>,</span>
+<a name=line-247></a>        <span class=n>verbose_name</span><span class=o>=</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;groups&#39;</span><span class=p>),</span>
+<a name=line-248></a>        <span class=n>blank</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-249></a>        <span class=n>help_text</span><span class=o>=</span><span class=n>_</span><span class=p>(</span>
+<a name=line-250></a>            <span class=s1>&#39;The groups this user belongs to. A user will get all permissions &#39;</span>
+<a name=line-251></a>            <span class=s1>&#39;granted to each of their groups.&#39;</span>
+<a name=line-252></a>        <span class=p>),</span>
+<a name=line-253></a>        <span class=n>related_name</span><span class=o>=</span><span class=s2>&quot;user_set&quot;</span><span class=p>,</span>
+<a name=line-254></a>        <span class=n>related_query_name</span><span class=o>=</span><span class=s2>&quot;user&quot;</span><span class=p>,</span>
+<a name=line-255></a>    <span class=p>)</span>
+<a name=line-256></a>    <span class=n>user_permissions</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>ManyToManyField</span><span class=p>(</span>
+<a name=line-257></a>        <span class=n>Permission</span><span class=p>,</span>
+<a name=line-258></a>        <span class=n>verbose_name</span><span class=o>=</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;user permissions&#39;</span><span class=p>),</span>
+<a name=line-259></a>        <span class=n>blank</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-260></a>        <span class=n>help_text</span><span class=o>=</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;Specific permissions for this user.&#39;</span><span class=p>),</span>
+<a name=line-261></a>        <span class=n>related_name</span><span class=o>=</span><span class=s2>&quot;user_set&quot;</span><span class=p>,</span>
+<a name=line-262></a>        <span class=n>related_query_name</span><span class=o>=</span><span class=s2>&quot;user&quot;</span><span class=p>,</span>
+<a name=line-263></a>    <span class=p>)</span>
+<a name=line-264></a>
+<a name=line-265></a>    <span class=k>class</span> <span class=nc>Meta</span><span class=p>:</span>
+<a name=line-266></a>        <span class=n>abstract</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-267></a>
+<a name=line-268></a>    <span class=k>def</span> <span class=nf>get_user_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-269></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-270></a><span class=sd>        Return a list of permission strings that this user has directly.</span>
+<a name=line-271></a><span class=sd>        Query all available auth backends. If an object is passed in,</span>
+<a name=line-272></a><span class=sd>        return only permissions matching this object.</span>
+<a name=line-273></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-274></a>        <span class=k>return</span> <span class=n>_user_get_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=p>,</span> <span class=s1>&#39;user&#39;</span><span class=p>)</span>
+<a name=line-275></a>
+<a name=line-276></a>    <span class=k>def</span> <span class=nf>get_group_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-277></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-278></a><span class=sd>        Return a list of permission strings that this user has through their</span>
+<a name=line-279></a><span class=sd>        groups. Query all available auth backends. If an object is passed in,</span>
+<a name=line-280></a><span class=sd>        return only permissions matching this object.</span>
+<a name=line-281></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-282></a>        <span class=k>return</span> <span class=n>_user_get_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=p>,</span> <span class=s1>&#39;group&#39;</span><span class=p>)</span>
+<a name=line-283></a>
+<a name=line-284></a>    <span class=k>def</span> <span class=nf>get_all_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-285></a>        <span class=k>return</span> <span class=n>_user_get_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=p>,</span> <span class=s1>&#39;all&#39;</span><span class=p>)</span>
+<a name=line-286></a>
+<a name=line-287></a>    <span class=k>def</span> <span class=nf>has_perm</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>perm</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-288></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-289></a><span class=sd>        Return True if the user has the specified permission. Query all</span>
+<a name=line-290></a><span class=sd>        available auth backends, but return immediately if any backend returns</span>
+<a name=line-291></a><span class=sd>        True. Thus, a user who has permission from a single auth backend is</span>
+<a name=line-292></a><span class=sd>        assumed to have permission in general. If an object is provided, check</span>
+<a name=line-293></a><span class=sd>        permissions for that object.</span>
+<a name=line-294></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-295></a>        <span class=c1># Active superusers have all permissions.</span>
+<a name=line-296></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>is_active</span> <span class=ow>and</span> <span class=bp>self</span><span class=o>.</span><span class=n>is_superuser</span><span class=p>:</span>
+<a name=line-297></a>            <span class=k>return</span> <span class=kc>True</span>
+<a name=line-298></a>
+<a name=line-299></a>        <span class=c1># Otherwise we need to check the backends.</span>
+<a name=line-300></a>        <span class=k>return</span> <span class=n>_user_has_perm</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>perm</span><span class=p>,</span> <span class=n>obj</span><span class=p>)</span>
+<a name=line-301></a>
+<a name=line-302></a>    <span class=k>def</span> <span class=nf>has_perms</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>perm_list</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-303></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-304></a><span class=sd>        Return True if the user has each of the specified permissions. If</span>
+<a name=line-305></a><span class=sd>        object is passed, check if the user has all required perms for it.</span>
+<a name=line-306></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-307></a>        <span class=k>return</span> <span class=nb>all</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>has_perm</span><span class=p>(</span><span class=n>perm</span><span class=p>,</span> <span class=n>obj</span><span class=p>)</span> <span class=k>for</span> <span class=n>perm</span> <span class=ow>in</span> <span class=n>perm_list</span><span class=p>)</span>
+<a name=line-308></a>
+<a name=line-309></a>    <span class=k>def</span> <span class=nf>has_module_perms</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>app_label</span><span class=p>):</span>
+<a name=line-310></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-311></a><span class=sd>        Return True if the user has any permissions in the given app label.</span>
+<a name=line-312></a><span class=sd>        Use similar logic as has_perm(), above.</span>
+<a name=line-313></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-314></a>        <span class=c1># Active superusers have all permissions.</span>
+<a name=line-315></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>is_active</span> <span class=ow>and</span> <span class=bp>self</span><span class=o>.</span><span class=n>is_superuser</span><span class=p>:</span>
+<a name=line-316></a>            <span class=k>return</span> <span class=kc>True</span>
+<a name=line-317></a>
+<a name=line-318></a>        <span class=k>return</span> <span class=n>_user_has_module_perms</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>app_label</span><span class=p>)</span>
+<a name=line-319></a>
+<a name=line-320></a>
+<a name=line-321></a><span class=k>class</span> <span class=nc>AbstractUser</span><span class=p>(</span><span class=n>AbstractBaseUser</span><span class=p>,</span> <span class=n>PermissionsMixin</span><span class=p>):</span>
+<a name=line-322></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-323></a><span class=sd>    An abstract base class implementing a fully featured User model with</span>
+<a name=line-324></a><span class=sd>    admin-compliant permissions.</span>
+<a name=line-325></a>
+<a name=line-326></a><span class=sd>    Username and password are required. Other fields are optional.</span>
+<a name=line-327></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-328></a>    <span class=n>username_validator</span> <span class=o>=</span> <span class=n>UnicodeUsernameValidator</span><span class=p>()</span>
+<a name=line-329></a>
+<a name=line-330></a>    <span class=n>username</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span>
+<a name=line-331></a>        <span class=n>_</span><span class=p>(</span><span class=s1>&#39;username&#39;</span><span class=p>),</span>
+<a name=line-332></a>        <span class=n>max_length</span><span class=o>=</span><span class=mi>150</span><span class=p>,</span>
+<a name=line-333></a>        <span class=n>unique</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-334></a>        <span class=n>help_text</span><span class=o>=</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.&#39;</span><span class=p>),</span>
+<a name=line-335></a>        <span class=n>validators</span><span class=o>=</span><span class=p>[</span><span class=n>username_validator</span><span class=p>],</span>
+<a name=line-336></a>        <span class=n>error_messages</span><span class=o>=</span><span class=p>{</span>
+<a name=line-337></a>            <span class=s1>&#39;unique&#39;</span><span class=p>:</span> <span class=n>_</span><span class=p>(</span><span class=s2>&quot;A user with that username already exists.&quot;</span><span class=p>),</span>
+<a name=line-338></a>        <span class=p>},</span>
+<a name=line-339></a>    <span class=p>)</span>
+<a name=line-340></a>    <span class=n>first_name</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;first name&#39;</span><span class=p>),</span> <span class=n>max_length</span><span class=o>=</span><span class=mi>150</span><span class=p>,</span> <span class=n>blank</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+<a name=line-341></a>    <span class=n>last_name</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;last name&#39;</span><span class=p>),</span> <span class=n>max_length</span><span class=o>=</span><span class=mi>150</span><span class=p>,</span> <span class=n>blank</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+<a name=line-342></a>    <span class=n>email</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>EmailField</span><span class=p>(</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;email address&#39;</span><span class=p>),</span> <span class=n>blank</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+<a name=line-343></a>    <span class=n>is_staff</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>BooleanField</span><span class=p>(</span>
+<a name=line-344></a>        <span class=n>_</span><span class=p>(</span><span class=s1>&#39;staff status&#39;</span><span class=p>),</span>
+<a name=line-345></a>        <span class=n>default</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+<a name=line-346></a>        <span class=n>help_text</span><span class=o>=</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;Designates whether the user can log into this admin site.&#39;</span><span class=p>),</span>
+<a name=line-347></a>    <span class=p>)</span>
+<a name=line-348></a>    <span class=n>is_active</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>BooleanField</span><span class=p>(</span>
+<a name=line-349></a>        <span class=n>_</span><span class=p>(</span><span class=s1>&#39;active&#39;</span><span class=p>),</span>
+<a name=line-350></a>        <span class=n>default</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-351></a>        <span class=n>help_text</span><span class=o>=</span><span class=n>_</span><span class=p>(</span>
+<a name=line-352></a>            <span class=s1>&#39;Designates whether this user should be treated as active. &#39;</span>
+<a name=line-353></a>            <span class=s1>&#39;Unselect this instead of deleting accounts.&#39;</span>
+<a name=line-354></a>        <span class=p>),</span>
+<a name=line-355></a>    <span class=p>)</span>
+<a name=line-356></a>    <span class=n>date_joined</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>DateTimeField</span><span class=p>(</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;date joined&#39;</span><span class=p>),</span> <span class=n>default</span><span class=o>=</span><span class=n>timezone</span><span class=o>.</span><span class=n>now</span><span class=p>)</span>
+<a name=line-357></a>
+<a name=line-358></a>    <span class=n>objects</span> <span class=o>=</span> <span class=n>UserManager</span><span class=p>()</span>
+<a name=line-359></a>
+<a name=line-360></a>    <span class=n>EMAIL_FIELD</span> <span class=o>=</span> <span class=s1>&#39;email&#39;</span>
+<a name=line-361></a>    <span class=n>USERNAME_FIELD</span> <span class=o>=</span> <span class=s1>&#39;username&#39;</span>
+<a name=line-362></a>    <span class=n>REQUIRED_FIELDS</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;email&#39;</span><span class=p>]</span>
+<a name=line-363></a>
+<a name=line-364></a>    <span class=k>class</span> <span class=nc>Meta</span><span class=p>:</span>
+<a name=line-365></a>        <span class=n>verbose_name</span> <span class=o>=</span> <span class=n>_</span><span class=p>(</span><span class=s1>&#39;user&#39;</span><span class=p>)</span>
+<a name=line-366></a>        <span class=n>verbose_name_plural</span> <span class=o>=</span> <span class=n>_</span><span class=p>(</span><span class=s1>&#39;users&#39;</span><span class=p>)</span>
+<a name=line-367></a>        <span class=n>abstract</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-368></a>
+<a name=line-369></a>    <span class=k>def</span> <span class=nf>clean</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-370></a>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=n>clean</span><span class=p>()</span>
+<a name=line-371></a>        <span class=bp>self</span><span class=o>.</span><span class=n>email</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=n>objects</span><span class=o>.</span><span class=n>normalize_email</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>email</span><span class=p>)</span>
+<a name=line-372></a>
+<a name=line-373></a>    <span class=k>def</span> <span class=nf>get_full_name</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-374></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-375></a><span class=sd>        Return the first_name plus the last_name, with a space in between.</span>
+<a name=line-376></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-377></a>        <span class=n>full_name</span> <span class=o>=</span> <span class=s1>&#39;</span><span class=si>%s</span><span class=s1> </span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>first_name</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>last_name</span><span class=p>)</span>
+<a name=line-378></a>        <span class=k>return</span> <span class=n>full_name</span><span class=o>.</span><span class=n>strip</span><span class=p>()</span>
+<a name=line-379></a>
+<a name=line-380></a>    <span class=k>def</span> <span class=nf>get_short_name</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-381></a>        <span class=sd>&quot;&quot;&quot;Return the short name for the user.&quot;&quot;&quot;</span>
+<a name=line-382></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>first_name</span>
+<a name=line-383></a>
+<a name=line-384></a>    <span class=k>def</span> <span class=nf>email_user</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>subject</span><span class=p>,</span> <span class=n>message</span><span class=p>,</span> <span class=n>from_email</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-385></a>        <span class=sd>&quot;&quot;&quot;Send an email to this user.&quot;&quot;&quot;</span>
+<a name=line-386></a>        <span class=n>send_mail</span><span class=p>(</span><span class=n>subject</span><span class=p>,</span> <span class=n>message</span><span class=p>,</span> <span class=n>from_email</span><span class=p>,</span> <span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>email</span><span class=p>],</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+<a name=line-387></a>
+<a name=line-388></a>
+<a name=line-389></a><span class=k>class</span> <span class=nc>User</span><span class=p>(</span><span class=n>AbstractUser</span><span class=p>):</span>
+<a name=line-390></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-391></a><span class=sd>    Users within the Django authentication system are represented by this</span>
+<a name=line-392></a><span class=sd>    model.</span>
+<a name=line-393></a>
+<a name=line-394></a><span class=sd>    Username and password are required. Other fields are optional.</span>
+<a name=line-395></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-396></a>    <span class=k>class</span> <span class=nc>Meta</span><span class=p>(</span><span class=n>AbstractUser</span><span class=o>.</span><span class=n>Meta</span><span class=p>):</span>
+<a name=line-397></a>        <span class=n>swappable</span> <span class=o>=</span> <span class=s1>&#39;AUTH_USER_MODEL&#39;</span>
+<a name=line-398></a>
+<a name=line-399></a>
+<a name=line-400></a><span class=k>class</span> <span class=nc>AnonymousUser</span><span class=p>:</span>
+<a name=line-401></a>    <span class=nb>id</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-402></a>    <span class=n>pk</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-403></a>    <span class=n>username</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-404></a>    <span class=n>is_staff</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-405></a>    <span class=n>is_active</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-406></a>    <span class=n>is_superuser</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-407></a>    <span class=n>_groups</span> <span class=o>=</span> <span class=n>EmptyManager</span><span class=p>(</span><span class=n>Group</span><span class=p>)</span>
+<a name=line-408></a>    <span class=n>_user_permissions</span> <span class=o>=</span> <span class=n>EmptyManager</span><span class=p>(</span><span class=n>Permission</span><span class=p>)</span>
+<a name=line-409></a>
+<a name=line-410></a>    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-411></a>        <span class=k>return</span> <span class=s1>&#39;AnonymousUser&#39;</span>
+<a name=line-412></a>
+<a name=line-413></a>    <span class=k>def</span> <span class=fm>__eq__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
+<a name=line-414></a>        <span class=k>return</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>other</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=p>)</span>
+<a name=line-415></a>
+<a name=line-416></a>    <span class=k>def</span> <span class=fm>__hash__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-417></a>        <span class=k>return</span> <span class=mi>1</span>  <span class=c1># instances always return the same hash value</span>
+<a name=line-418></a>
+<a name=line-419></a>    <span class=k>def</span> <span class=fm>__int__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-420></a>        <span class=k>raise</span> <span class=ne>TypeError</span><span class=p>(</span><span class=s1>&#39;Cannot cast AnonymousUser to int. Are you trying to use it in place of User?&#39;</span><span class=p>)</span>
+<a name=line-421></a>
+<a name=line-422></a>    <span class=k>def</span> <span class=nf>save</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-423></a>        <span class=k>raise</span> <span class=ne>NotImplementedError</span><span class=p>(</span><span class=s2>&quot;Django doesn&#39;t provide a DB representation for AnonymousUser.&quot;</span><span class=p>)</span>
+<a name=line-424></a>
+<a name=line-425></a>    <span class=k>def</span> <span class=nf>delete</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-426></a>        <span class=k>raise</span> <span class=ne>NotImplementedError</span><span class=p>(</span><span class=s2>&quot;Django doesn&#39;t provide a DB representation for AnonymousUser.&quot;</span><span class=p>)</span>
+<a name=line-427></a>
+<a name=line-428></a>    <span class=k>def</span> <span class=nf>set_password</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>raw_password</span><span class=p>):</span>
+<a name=line-429></a>        <span class=k>raise</span> <span class=ne>NotImplementedError</span><span class=p>(</span><span class=s2>&quot;Django doesn&#39;t provide a DB representation for AnonymousUser.&quot;</span><span class=p>)</span>
+<a name=line-430></a>
+<a name=line-431></a>    <span class=k>def</span> <span class=nf>check_password</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>raw_password</span><span class=p>):</span>
+<a name=line-432></a>        <span class=k>raise</span> <span class=ne>NotImplementedError</span><span class=p>(</span><span class=s2>&quot;Django doesn&#39;t provide a DB representation for AnonymousUser.&quot;</span><span class=p>)</span>
+<a name=line-433></a>
+<a name=line-434></a>    <span class=nd>@property</span>
+<a name=line-435></a>    <span class=k>def</span> <span class=nf>groups</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-436></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_groups</span>
+<a name=line-437></a>
+<a name=line-438></a>    <span class=nd>@property</span>
+<a name=line-439></a>    <span class=k>def</span> <span class=nf>user_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-440></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_user_permissions</span>
+<a name=line-441></a>
+<a name=line-442></a>    <span class=k>def</span> <span class=nf>get_user_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-443></a>        <span class=k>return</span> <span class=n>_user_get_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=p>,</span> <span class=s1>&#39;user&#39;</span><span class=p>)</span>
+<a name=line-444></a>
+<a name=line-445></a>    <span class=k>def</span> <span class=nf>get_group_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-446></a>        <span class=k>return</span> <span class=nb>set</span><span class=p>()</span>
+<a name=line-447></a>
+<a name=line-448></a>    <span class=k>def</span> <span class=nf>get_all_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-449></a>        <span class=k>return</span> <span class=n>_user_get_permissions</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=p>,</span> <span class=s1>&#39;all&#39;</span><span class=p>)</span>
+<a name=line-450></a>
+<a name=line-451></a>    <span class=k>def</span> <span class=nf>has_perm</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>perm</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-452></a>        <span class=k>return</span> <span class=n>_user_has_perm</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>perm</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=n>obj</span><span class=p>)</span>
+<a name=line-453></a>
+<a name=line-454></a>    <span class=k>def</span> <span class=nf>has_perms</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>perm_list</span><span class=p>,</span> <span class=n>obj</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-455></a>        <span class=k>return</span> <span class=nb>all</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>has_perm</span><span class=p>(</span><span class=n>perm</span><span class=p>,</span> <span class=n>obj</span><span class=p>)</span> <span class=k>for</span> <span class=n>perm</span> <span class=ow>in</span> <span class=n>perm_list</span><span class=p>)</span>
+<a name=line-456></a>
+<a name=line-457></a>    <span class=k>def</span> <span class=nf>has_module_perms</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>module</span><span class=p>):</span>
+<a name=line-458></a>        <span class=k>return</span> <span class=n>_user_has_module_perms</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>module</span><span class=p>)</span>
+<a name=line-459></a>
+<a name=line-460></a>    <span class=nd>@property</span>
+<a name=line-461></a>    <span class=k>def</span> <span class=nf>is_anonymous</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-462></a>        <span class=k>return</span> <span class=kc>True</span>
+<a name=line-463></a>
+<a name=line-464></a>    <span class=nd>@property</span>
+<a name=line-465></a>    <span class=k>def</span> <span class=nf>is_authenticated</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-466></a>        <span class=k>return</span> <span class=kc>False</span>
+<a name=line-467></a>
+<a name=line-468></a>    <span class=k>def</span> <span class=nf>get_username</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-469></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>username</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

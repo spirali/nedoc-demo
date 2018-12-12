@@ -1,0 +1,1080 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>distributed.semaphore</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Distributed</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=distributed.html>&#9662; distributed</a> </li><li><ul><li><a href=distributed.actor.html>&#9656; actor</a> </li><li><a href=distributed.asyncio.html>&#9656; asyncio</a> </li><li><a href=distributed.batched.html>&#9656; batched</a> </li><li><a href=distributed.bokeh.html>&#9656; bokeh</a> </li><li><a href=distributed.cfexecutor.html>&#9656; cfexecutor</a> </li><li><a href=distributed.cli.html>&#9656; cli</a> </li><li><a href=distributed.client.html>&#9656; client</a> </li><li><a href=distributed.comm.html>&#9656; comm</a> </li><li><a href=distributed.compatibility.html>&#9656; compatibility</a> </li><li><a href=distributed.config.html>&#9656; config</a> </li><li><a href=distributed.core.html>&#9656; core</a> </li><li><a href=distributed.counter.html>&#9656; counter</a> </li><li><a href=distributed.dashboard.html>&#9656; dashboard</a> </li><li><a href=distributed.deploy.html>&#9656; deploy</a> </li><li><a href=distributed.diagnostics.html>&#9656; diagnostics</a> </li><li><a href=distributed.diskutils.html>&#9656; diskutils</a> </li><li><a href=distributed.event.html>&#9656; event</a> </li><li><a href=distributed.http.html>&#9656; http</a> </li><li><a href=distributed.lock.html>&#9656; lock</a> </li><li><a href=distributed.locket.html>&#9656; locket</a> </li><li><a href=distributed.metrics.html>&#9656; metrics</a> </li><li><a href=distributed.nanny.html>&#9656; nanny</a> </li><li><a href=distributed.node.html>&#9656; node</a> </li><li><a href=distributed.preloading.html>&#9656; preloading</a> </li><li><a href=distributed.process.html>&#9656; process</a> </li><li><a href=distributed.proctitle.html>&#9656; proctitle</a> </li><li><a href=distributed.profile.html>&#9656; profile</a> </li><li><a href=distributed.protocol.html>&#9656; protocol</a> </li><li><a href=distributed.publish.html>&#9656; publish</a> </li><li><a href=distributed.pubsub.html>&#9656; pubsub</a> </li><li><a href=distributed.pytest_resourceleaks.html>&#9656; pytest_resourceleaks</a> </li><li><a href=distributed.queues.html>&#9656; queues</a> </li><li><a href=distributed.recreate_exceptions.html>&#9656; recreate_exceptions</a> </li><li><a href=distributed.scheduler.html>&#9656; scheduler</a> </li><li><a href=distributed.security.html>&#9656; security</a> </li><li><div class=select><a href=distributed.semaphore.html>&#9662; semaphore</a> </div></li><li><ul><li><a href=distributed.semaphore.Semaphore.html> <i>class</i> Semaphore</a> </li><li><a href=distributed.semaphore.SemaphoreExtension.html> <i>class</i> SemaphoreExtension</a> </li></ul></li><li><a href=distributed.sizeof.html>&#9656; sizeof</a> </li><li><a href=distributed.stealing.html>&#9656; stealing</a> </li><li><a href=distributed.system.html>&#9656; system</a> </li><li><a href=distributed.system_monitor.html>&#9656; system_monitor</a> </li><li><a href=distributed.tests.html>&#9656; tests</a> </li><li><a href=distributed.threadpoolexecutor.html>&#9656; threadpoolexecutor</a> </li><li><a href=distributed.utils.html>&#9656; utils</a> </li><li><a href=distributed.utils_comm.html>&#9656; utils_comm</a> </li><li><a href=distributed.utils_perf.html>&#9656; utils_perf</a> </li><li><a href=distributed.utils_test.html>&#9656; utils_test</a> </li><li><a href=distributed.variable.html>&#9656; variable</a> </li><li><a href=distributed.versions.html>&#9656; versions</a> </li><li><a href=distributed.worker.html>&#9656; worker</a> </li><li><a href=distributed.worker_client.html>&#9656; worker_client</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code distributed/semaphore.py</h1><div id=path><a class=symbol href=distributed.html>distributed</a>.<a class=symbol href=distributed.semaphore.html>semaphore</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>import</span> <span class=nn>asyncio</span>
+<a name=line-2></a><span class=kn>import</span> <span class=nn>logging</span>
+<a name=line-3></a><span class=kn>import</span> <span class=nn>uuid</span>
+<a name=line-4></a><span class=kn>import</span> <span class=nn>warnings</span>
+<a name=line-5></a><span class=kn>from</span> <span class=nn>asyncio</span> <span class=kn>import</span> <span class=ne>TimeoutError</span>
+<a name=line-6></a><span class=kn>from</span> <span class=nn>collections</span> <span class=kn>import</span> <span class=n>defaultdict</span><span class=p>,</span> <span class=n>deque</span>
+<a name=line-7></a>
+<a name=line-8></a><span class=kn>import</span> <span class=nn>dask</span>
+<a name=line-9></a><span class=kn>from</span> <span class=nn>tornado.ioloop</span> <span class=kn>import</span> <span class=n>PeriodicCallback</span>
+<a name=line-10></a>
+<a name=line-11></a><span class=kn>from</span> <span class=nn>distributed.utils_comm</span> <span class=kn>import</span> <span class=n>retry_operation</span>
+<a name=line-12></a><span class=kn>from</span> <span class=nn>.metrics</span> <span class=kn>import</span> <span class=n>time</span>
+<a name=line-13></a><span class=kn>from</span> <span class=nn>.utils</span> <span class=kn>import</span> <span class=n>log_errors</span><span class=p>,</span> <span class=n>parse_timedelta</span>
+<a name=line-14></a><span class=kn>from</span> <span class=nn>.worker</span> <span class=kn>import</span> <span class=n>get_client</span>
+<a name=line-15></a>
+<a name=line-16></a><span class=n>logger</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=vm>__name__</span><span class=p>)</span>
+<a name=line-17></a>
+<a name=line-18></a>
+<a name=line-19></a><span class=k>class</span> <span class=nc>_Watch</span><span class=p>:</span>
+<a name=line-20></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>duration</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-21></a>        <span class=bp>self</span><span class=o>.</span><span class=n>duration</span> <span class=o>=</span> <span class=n>duration</span>
+<a name=line-22></a>        <span class=bp>self</span><span class=o>.</span><span class=n>started_at</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-23></a>
+<a name=line-24></a>    <span class=k>def</span> <span class=nf>start</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-25></a>        <span class=bp>self</span><span class=o>.</span><span class=n>started_at</span> <span class=o>=</span> <span class=n>time</span><span class=p>()</span>
+<a name=line-26></a>
+<a name=line-27></a>    <span class=k>def</span> <span class=nf>elapsed</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-28></a>        <span class=k>return</span> <span class=n>time</span><span class=p>()</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>started_at</span>
+<a name=line-29></a>
+<a name=line-30></a>    <span class=k>def</span> <span class=nf>leftover</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-31></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>duration</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-32></a>            <span class=k>return</span> <span class=kc>None</span>
+<a name=line-33></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-34></a>            <span class=k>return</span> <span class=nb>max</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>duration</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>elapsed</span><span class=p>())</span>
+<a name=line-35></a>
+<a name=line-36></a>
+<a name=line-37></a><span class=k>class</span> <span class=nc>SemaphoreExtension</span><span class=p>:</span>
+<a name=line-38></a>    <span class=sd>&quot;&quot;&quot;An extension for the scheduler to manage Semaphores</span>
+<a name=line-39></a>
+<a name=line-40></a><span class=sd>    This adds the following routes to the scheduler</span>
+<a name=line-41></a>
+<a name=line-42></a><span class=sd>    * semaphore_acquire</span>
+<a name=line-43></a><span class=sd>    * semaphore_release</span>
+<a name=line-44></a><span class=sd>    * semaphore_close</span>
+<a name=line-45></a><span class=sd>    * semaphore_refresh_leases</span>
+<a name=line-46></a><span class=sd>    * semaphore_register</span>
+<a name=line-47></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-48></a>
+<a name=line-49></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>scheduler</span><span class=p>):</span>
+<a name=line-50></a>        <span class=bp>self</span><span class=o>.</span><span class=n>scheduler</span> <span class=o>=</span> <span class=n>scheduler</span>
+<a name=line-51></a>
+<a name=line-52></a>        <span class=c1># {semaphore_name: asyncio.Event}</span>
+<a name=line-53></a>        <span class=bp>self</span><span class=o>.</span><span class=n>events</span> <span class=o>=</span> <span class=n>defaultdict</span><span class=p>(</span><span class=n>asyncio</span><span class=o>.</span><span class=n>Event</span><span class=p>)</span>
+<a name=line-54></a>        <span class=c1># {semaphore_name: max_leases}</span>
+<a name=line-55></a>        <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span> <span class=o>=</span> <span class=nb>dict</span><span class=p>()</span>
+<a name=line-56></a>        <span class=c1># {semaphore_name: {lease_id: lease_last_seen_timestamp}}</span>
+<a name=line-57></a>        <span class=bp>self</span><span class=o>.</span><span class=n>leases</span> <span class=o>=</span> <span class=n>defaultdict</span><span class=p>(</span><span class=nb>dict</span><span class=p>)</span>
+<a name=line-58></a>
+<a name=line-59></a>        <span class=bp>self</span><span class=o>.</span><span class=n>scheduler</span><span class=o>.</span><span class=n>handlers</span><span class=o>.</span><span class=n>update</span><span class=p>(</span>
+<a name=line-60></a>            <span class=p>{</span>
+<a name=line-61></a>                <span class=s2>&quot;semaphore_register&quot;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>create</span><span class=p>,</span>
+<a name=line-62></a>                <span class=s2>&quot;semaphore_acquire&quot;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>acquire</span><span class=p>,</span>
+<a name=line-63></a>                <span class=s2>&quot;semaphore_release&quot;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>release</span><span class=p>,</span>
+<a name=line-64></a>                <span class=s2>&quot;semaphore_close&quot;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>close</span><span class=p>,</span>
+<a name=line-65></a>                <span class=s2>&quot;semaphore_refresh_leases&quot;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>refresh_leases</span><span class=p>,</span>
+<a name=line-66></a>                <span class=s2>&quot;semaphore_value&quot;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_value</span><span class=p>,</span>
+<a name=line-67></a>            <span class=p>}</span>
+<a name=line-68></a>        <span class=p>)</span>
+<a name=line-69></a>
+<a name=line-70></a>        <span class=bp>self</span><span class=o>.</span><span class=n>scheduler</span><span class=o>.</span><span class=n>extensions</span><span class=p>[</span><span class=s2>&quot;semaphores&quot;</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span>
+<a name=line-71></a>
+<a name=line-72></a>        <span class=c1># {metric_name: {semaphore_name: metric}}</span>
+<a name=line-73></a>        <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span> <span class=o>=</span> <span class=p>{</span>
+<a name=line-74></a>            <span class=s2>&quot;acquire_total&quot;</span><span class=p>:</span> <span class=n>defaultdict</span><span class=p>(</span><span class=nb>int</span><span class=p>),</span>  <span class=c1># counter</span>
+<a name=line-75></a>            <span class=s2>&quot;release_total&quot;</span><span class=p>:</span> <span class=n>defaultdict</span><span class=p>(</span><span class=nb>int</span><span class=p>),</span>  <span class=c1># counter</span>
+<a name=line-76></a>            <span class=s2>&quot;average_pending_lease_time&quot;</span><span class=p>:</span> <span class=n>defaultdict</span><span class=p>(</span><span class=nb>float</span><span class=p>),</span>  <span class=c1># gauge</span>
+<a name=line-77></a>            <span class=s2>&quot;pending&quot;</span><span class=p>:</span> <span class=n>defaultdict</span><span class=p>(</span><span class=nb>int</span><span class=p>),</span>  <span class=c1># gauge</span>
+<a name=line-78></a>        <span class=p>}</span>
+<a name=line-79></a>
+<a name=line-80></a>        <span class=n>validation_callback_time</span> <span class=o>=</span> <span class=n>parse_timedelta</span><span class=p>(</span>
+<a name=line-81></a>            <span class=n>dask</span><span class=o>.</span><span class=n>config</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&quot;distributed.scheduler.locks.lease-validation-interval&quot;</span><span class=p>),</span>
+<a name=line-82></a>            <span class=n>default</span><span class=o>=</span><span class=s2>&quot;s&quot;</span><span class=p>,</span>
+<a name=line-83></a>        <span class=p>)</span>
+<a name=line-84></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_pc_lease_timeout</span> <span class=o>=</span> <span class=n>PeriodicCallback</span><span class=p>(</span>
+<a name=line-85></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_check_lease_timeout</span><span class=p>,</span> <span class=n>validation_callback_time</span> <span class=o>*</span> <span class=mi>1000</span>
+<a name=line-86></a>        <span class=p>)</span>
+<a name=line-87></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_pc_lease_timeout</span><span class=o>.</span><span class=n>start</span><span class=p>()</span>
+<a name=line-88></a>        <span class=bp>self</span><span class=o>.</span><span class=n>lease_timeout</span> <span class=o>=</span> <span class=n>parse_timedelta</span><span class=p>(</span>
+<a name=line-89></a>            <span class=n>dask</span><span class=o>.</span><span class=n>config</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&quot;distributed.scheduler.locks.lease-timeout&quot;</span><span class=p>),</span> <span class=n>default</span><span class=o>=</span><span class=s2>&quot;s&quot;</span>
+<a name=line-90></a>        <span class=p>)</span>
+<a name=line-91></a>
+<a name=line-92></a>    <span class=k>async</span> <span class=k>def</span> <span class=nf>get_value</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>comm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-93></a>        <span class=k>return</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>])</span>
+<a name=line-94></a>
+<a name=line-95></a>    <span class=c1># `comm` here is required by the handler interface</span>
+<a name=line-96></a>    <span class=k>def</span> <span class=nf>create</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>comm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>max_leases</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-97></a>        <span class=c1># We use `self.max_leases` as the point of truth to find out if a semaphore with a specific</span>
+<a name=line-98></a>        <span class=c1># `name` has been created.</span>
+<a name=line-99></a>        <span class=k>if</span> <span class=n>name</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>:</span>
+<a name=line-100></a>            <span class=k>assert</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>max_leases</span><span class=p>,</span> <span class=nb>int</span><span class=p>),</span> <span class=n>max_leases</span>
+<a name=line-101></a>            <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>[</span><span class=n>name</span><span class=p>]</span> <span class=o>=</span> <span class=n>max_leases</span>
+<a name=line-102></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-103></a>            <span class=k>if</span> <span class=n>max_leases</span> <span class=o>!=</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>[</span><span class=n>name</span><span class=p>]:</span>
+<a name=line-104></a>                <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-105></a>                    <span class=s2>&quot;Inconsistent max leases: </span><span class=si>%s</span><span class=s2>, expected: </span><span class=si>%s</span><span class=s2>&quot;</span>
+<a name=line-106></a>                    <span class=o>%</span> <span class=p>(</span><span class=n>max_leases</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>[</span><span class=n>name</span><span class=p>])</span>
+<a name=line-107></a>                <span class=p>)</span>
+<a name=line-108></a>
+<a name=line-109></a>    <span class=k>def</span> <span class=nf>refresh_leases</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>comm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>lease_ids</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-110></a>        <span class=k>with</span> <span class=n>log_errors</span><span class=p>():</span>
+<a name=line-111></a>            <span class=n>now</span> <span class=o>=</span> <span class=n>time</span><span class=p>()</span>
+<a name=line-112></a>            <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span>
+<a name=line-113></a>                <span class=s2>&quot;Refresh leases for </span><span class=si>%s</span><span class=s2> with ids </span><span class=si>%s</span><span class=s2> at </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>lease_ids</span><span class=p>,</span> <span class=n>now</span>
+<a name=line-114></a>            <span class=p>)</span>
+<a name=line-115></a>            <span class=k>for</span> <span class=n>id_</span> <span class=ow>in</span> <span class=n>lease_ids</span><span class=p>:</span>
+<a name=line-116></a>                <span class=k>if</span> <span class=n>id_</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>]:</span>
+<a name=line-117></a>                    <span class=n>logger</span><span class=o>.</span><span class=n>critical</span><span class=p>(</span>
+<a name=line-118></a>                        <span class=sa>f</span><span class=s2>&quot;Refreshing an unknown lease ID </span><span class=si>{</span><span class=n>id_</span><span class=si>}</span><span class=s2> for </span><span class=si>{</span><span class=n>name</span><span class=si>}</span><span class=s2>. This might be due to leases &quot;</span>
+<a name=line-119></a>                        <span class=sa>f</span><span class=s2>&quot;timing out and may cause overbooking of the semaphore!&quot;</span>
+<a name=line-120></a>                        <span class=sa>f</span><span class=s2>&quot;This is often caused by long-running GIL-holding in the task which acquired the lease.&quot;</span>
+<a name=line-121></a>                    <span class=p>)</span>
+<a name=line-122></a>                <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>][</span><span class=n>id_</span><span class=p>]</span> <span class=o>=</span> <span class=n>now</span>
+<a name=line-123></a>
+<a name=line-124></a>    <span class=k>def</span> <span class=nf>_get_lease</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>):</span>
+<a name=line-125></a>        <span class=n>result</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-126></a>
+<a name=line-127></a>        <span class=k>if</span> <span class=p>(</span>
+<a name=line-128></a>            <span class=c1># This allows request idempotency</span>
+<a name=line-129></a>            <span class=n>lease_id</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-130></a>            <span class=ow>or</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>])</span> <span class=o>&lt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-131></a>        <span class=p>):</span>
+<a name=line-132></a>            <span class=n>now</span> <span class=o>=</span> <span class=n>time</span><span class=p>()</span>
+<a name=line-133></a>            <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span><span class=s2>&quot;Acquire lease </span><span class=si>%s</span><span class=s2> for </span><span class=si>%s</span><span class=s2> at </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>now</span><span class=p>)</span>
+<a name=line-134></a>            <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>][</span><span class=n>lease_id</span><span class=p>]</span> <span class=o>=</span> <span class=n>now</span>
+<a name=line-135></a>            <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;acquire_total&quot;</span><span class=p>][</span><span class=n>name</span><span class=p>]</span> <span class=o>+=</span> <span class=mi>1</span>
+<a name=line-136></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-137></a>            <span class=n>result</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-138></a>        <span class=k>return</span> <span class=n>result</span>
+<a name=line-139></a>
+<a name=line-140></a>    <span class=k>def</span> <span class=nf>_semaphore_exists</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+<a name=line-141></a>        <span class=k>if</span> <span class=n>name</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>:</span>
+<a name=line-142></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-143></a>        <span class=k>return</span> <span class=kc>True</span>
+<a name=line-144></a>
+<a name=line-145></a>    <span class=k>async</span> <span class=k>def</span> <span class=nf>acquire</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>comm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>timeout</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>lease_id</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-146></a>        <span class=k>with</span> <span class=n>log_errors</span><span class=p>():</span>
+<a name=line-147></a>            <span class=k>if</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>_semaphore_exists</span><span class=p>(</span><span class=n>name</span><span class=p>):</span>
+<a name=line-148></a>                <span class=k>raise</span> <span class=ne>RuntimeError</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;Semaphore `</span><span class=si>{</span><span class=n>name</span><span class=si>}</span><span class=s2>` not known or already closed.&quot;</span><span class=p>)</span>
+<a name=line-149></a>
+<a name=line-150></a>            <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=nb>list</span><span class=p>):</span>
+<a name=line-151></a>                <span class=n>name</span> <span class=o>=</span> <span class=nb>tuple</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+<a name=line-152></a>            <span class=n>w</span> <span class=o>=</span> <span class=n>_Watch</span><span class=p>(</span><span class=n>timeout</span><span class=p>)</span>
+<a name=line-153></a>            <span class=n>w</span><span class=o>.</span><span class=n>start</span><span class=p>()</span>
+<a name=line-154></a>
+<a name=line-155></a>            <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;pending&quot;</span><span class=p>][</span><span class=n>name</span><span class=p>]</span> <span class=o>+=</span> <span class=mi>1</span>
+<a name=line-156></a>            <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+<a name=line-157></a>                <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span>
+<a name=line-158></a>                    <span class=s2>&quot;Trying to acquire </span><span class=si>%s</span><span class=s2> for </span><span class=si>%s</span><span class=s2> with </span><span class=si>%s</span><span class=s2>s left.&quot;</span><span class=p>,</span>
+<a name=line-159></a>                    <span class=n>lease_id</span><span class=p>,</span>
+<a name=line-160></a>                    <span class=n>name</span><span class=p>,</span>
+<a name=line-161></a>                    <span class=n>w</span><span class=o>.</span><span class=n>leftover</span><span class=p>(),</span>
+<a name=line-162></a>                <span class=p>)</span>
+<a name=line-163></a>                <span class=c1># Reset the event and try to get a release. The event will be set if the state</span>
+<a name=line-164></a>                <span class=c1># is changed and helps to identify when it is worth to retry an acquire</span>
+<a name=line-165></a>                <span class=bp>self</span><span class=o>.</span><span class=n>events</span><span class=p>[</span><span class=n>name</span><span class=p>]</span><span class=o>.</span><span class=n>clear</span><span class=p>()</span>
+<a name=line-166></a>
+<a name=line-167></a>                <span class=n>result</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_get_lease</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>)</span>
+<a name=line-168></a>
+<a name=line-169></a>                <span class=c1># If acquiring fails, we wait for the event to be set, i.e. something has</span>
+<a name=line-170></a>                <span class=c1># been released and we can try to acquire again (continue loop)</span>
+<a name=line-171></a>                <span class=k>if</span> <span class=ow>not</span> <span class=n>result</span><span class=p>:</span>
+<a name=line-172></a>                    <span class=n>future</span> <span class=o>=</span> <span class=n>asyncio</span><span class=o>.</span><span class=n>wait_for</span><span class=p>(</span>
+<a name=line-173></a>                        <span class=bp>self</span><span class=o>.</span><span class=n>events</span><span class=p>[</span><span class=n>name</span><span class=p>]</span><span class=o>.</span><span class=n>wait</span><span class=p>(),</span> <span class=n>timeout</span><span class=o>=</span><span class=n>w</span><span class=o>.</span><span class=n>leftover</span><span class=p>()</span>
+<a name=line-174></a>                    <span class=p>)</span>
+<a name=line-175></a>                    <span class=k>try</span><span class=p>:</span>
+<a name=line-176></a>                        <span class=k>await</span> <span class=n>future</span>
+<a name=line-177></a>                        <span class=k>continue</span>
+<a name=line-178></a>                    <span class=k>except</span> <span class=ne>TimeoutError</span><span class=p>:</span>
+<a name=line-179></a>                        <span class=n>result</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-180></a>                <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span>
+<a name=line-181></a>                    <span class=s2>&quot;Acquisition of lease </span><span class=si>%s</span><span class=s2> for </span><span class=si>%s</span><span class=s2> is </span><span class=si>%s</span><span class=s2> after waiting for </span><span class=si>%s</span><span class=s2>s.&quot;</span><span class=p>,</span>
+<a name=line-182></a>                    <span class=n>lease_id</span><span class=p>,</span>
+<a name=line-183></a>                    <span class=n>name</span><span class=p>,</span>
+<a name=line-184></a>                    <span class=n>result</span><span class=p>,</span>
+<a name=line-185></a>                    <span class=n>w</span><span class=o>.</span><span class=n>elapsed</span><span class=p>(),</span>
+<a name=line-186></a>                <span class=p>)</span>
+<a name=line-187></a>                <span class=c1># We&#39;re about to return, so the lease is no longer &quot;pending&quot;</span>
+<a name=line-188></a>                <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;average_pending_lease_time&quot;</span><span class=p>][</span><span class=n>name</span><span class=p>]</span> <span class=o>=</span> <span class=p>(</span>
+<a name=line-189></a>                    <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;average_pending_lease_time&quot;</span><span class=p>][</span><span class=n>name</span><span class=p>]</span> <span class=o>+</span> <span class=n>w</span><span class=o>.</span><span class=n>elapsed</span><span class=p>()</span>
+<a name=line-190></a>                <span class=p>)</span> <span class=o>/</span> <span class=mi>2</span>
+<a name=line-191></a>                <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;pending&quot;</span><span class=p>][</span><span class=n>name</span><span class=p>]</span> <span class=o>-=</span> <span class=mi>1</span>
+<a name=line-192></a>
+<a name=line-193></a>                <span class=k>return</span> <span class=n>result</span>
+<a name=line-194></a>
+<a name=line-195></a>    <span class=k>def</span> <span class=nf>release</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>comm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>lease_id</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-196></a>        <span class=k>with</span> <span class=n>log_errors</span><span class=p>():</span>
+<a name=line-197></a>            <span class=k>if</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>_semaphore_exists</span><span class=p>(</span><span class=n>name</span><span class=p>):</span>
+<a name=line-198></a>                <span class=n>logger</span><span class=o>.</span><span class=n>warning</span><span class=p>(</span>
+<a name=line-199></a>                    <span class=sa>f</span><span class=s2>&quot;Tried to release semaphore `</span><span class=si>{</span><span class=n>name</span><span class=si>}</span><span class=s2>` but it is not known or already closed.&quot;</span>
+<a name=line-200></a>                <span class=p>)</span>
+<a name=line-201></a>                <span class=k>return</span>
+<a name=line-202></a>            <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=nb>list</span><span class=p>):</span>
+<a name=line-203></a>                <span class=n>name</span> <span class=o>=</span> <span class=nb>tuple</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+<a name=line-204></a>            <span class=k>if</span> <span class=n>name</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span> <span class=ow>and</span> <span class=n>lease_id</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>]:</span>
+<a name=line-205></a>                <span class=bp>self</span><span class=o>.</span><span class=n>_release_value</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>)</span>
+<a name=line-206></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-207></a>                <span class=n>logger</span><span class=o>.</span><span class=n>warning</span><span class=p>(</span>
+<a name=line-208></a>                    <span class=sa>f</span><span class=s2>&quot;Tried to release semaphore but it was already released: &quot;</span>
+<a name=line-209></a>                    <span class=sa>f</span><span class=s2>&quot;name=</span><span class=si>{</span><span class=n>name</span><span class=si>}</span><span class=s2>, lease_id=</span><span class=si>{</span><span class=n>lease_id</span><span class=si>}</span><span class=s2>. This can happen if the semaphore timed out before.&quot;</span>
+<a name=line-210></a>                <span class=p>)</span>
+<a name=line-211></a>
+<a name=line-212></a>    <span class=k>def</span> <span class=nf>_release_value</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>):</span>
+<a name=line-213></a>        <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span><span class=s2>&quot;Releasing </span><span class=si>%s</span><span class=s2> for </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>,</span> <span class=n>name</span><span class=p>)</span>
+<a name=line-214></a>        <span class=c1># Everything needs to be atomic here.</span>
+<a name=line-215></a>        <span class=k>del</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>][</span><span class=n>lease_id</span><span class=p>]</span>
+<a name=line-216></a>        <span class=bp>self</span><span class=o>.</span><span class=n>events</span><span class=p>[</span><span class=n>name</span><span class=p>]</span><span class=o>.</span><span class=n>set</span><span class=p>()</span>
+<a name=line-217></a>        <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;release_total&quot;</span><span class=p>][</span><span class=n>name</span><span class=p>]</span> <span class=o>+=</span> <span class=mi>1</span>
+<a name=line-218></a>
+<a name=line-219></a>    <span class=k>def</span> <span class=nf>_check_lease_timeout</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-220></a>        <span class=n>now</span> <span class=o>=</span> <span class=n>time</span><span class=p>()</span>
+<a name=line-221></a>        <span class=n>semaphore_names</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=o>.</span><span class=n>keys</span><span class=p>())</span>
+<a name=line-222></a>        <span class=k>for</span> <span class=n>name</span> <span class=ow>in</span> <span class=n>semaphore_names</span><span class=p>:</span>
+<a name=line-223></a>            <span class=n>ids</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>])</span>
+<a name=line-224></a>            <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span>
+<a name=line-225></a>                <span class=s2>&quot;Validating leases for </span><span class=si>%s</span><span class=s2> at time </span><span class=si>%s</span><span class=s2>. Currently known </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span>
+<a name=line-226></a>                <span class=n>name</span><span class=p>,</span>
+<a name=line-227></a>                <span class=n>now</span><span class=p>,</span>
+<a name=line-228></a>                <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>],</span>
+<a name=line-229></a>            <span class=p>)</span>
+<a name=line-230></a>            <span class=k>for</span> <span class=n>_id</span> <span class=ow>in</span> <span class=n>ids</span><span class=p>:</span>
+<a name=line-231></a>                <span class=n>time_since_refresh</span> <span class=o>=</span> <span class=n>now</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>][</span><span class=n>_id</span><span class=p>]</span>
+<a name=line-232></a>                <span class=k>if</span> <span class=n>time_since_refresh</span> <span class=o>&gt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>lease_timeout</span><span class=p>:</span>
+<a name=line-233></a>                    <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span>
+<a name=line-234></a>                        <span class=s2>&quot;Lease </span><span class=si>%s</span><span class=s2> for </span><span class=si>%s</span><span class=s2> timed out after </span><span class=si>%s</span><span class=s2>s.&quot;</span><span class=p>,</span>
+<a name=line-235></a>                        <span class=n>_id</span><span class=p>,</span>
+<a name=line-236></a>                        <span class=n>name</span><span class=p>,</span>
+<a name=line-237></a>                        <span class=n>time_since_refresh</span><span class=p>,</span>
+<a name=line-238></a>                    <span class=p>)</span>
+<a name=line-239></a>                    <span class=bp>self</span><span class=o>.</span><span class=n>_release_value</span><span class=p>(</span><span class=n>name</span><span class=o>=</span><span class=n>name</span><span class=p>,</span> <span class=n>lease_id</span><span class=o>=</span><span class=n>_id</span><span class=p>)</span>
+<a name=line-240></a>
+<a name=line-241></a>    <span class=k>def</span> <span class=nf>close</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>comm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-242></a>        <span class=sd>&quot;&quot;&quot;Hard close the semaphore without warning clients which still hold a lease.&quot;&quot;&quot;</span>
+<a name=line-243></a>        <span class=k>with</span> <span class=n>log_errors</span><span class=p>():</span>
+<a name=line-244></a>            <span class=k>if</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>_semaphore_exists</span><span class=p>(</span><span class=n>name</span><span class=p>):</span>
+<a name=line-245></a>                <span class=k>return</span>
+<a name=line-246></a>
+<a name=line-247></a>            <span class=k>del</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-248></a>            <span class=k>if</span> <span class=n>name</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>events</span><span class=p>:</span>
+<a name=line-249></a>                <span class=k>del</span> <span class=bp>self</span><span class=o>.</span><span class=n>events</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-250></a>            <span class=k>if</span> <span class=n>name</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>:</span>
+<a name=line-251></a>                <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>]:</span>
+<a name=line-252></a>                    <span class=n>warnings</span><span class=o>.</span><span class=n>warn</span><span class=p>(</span>
+<a name=line-253></a>                        <span class=sa>f</span><span class=s2>&quot;Closing semaphore </span><span class=si>{</span><span class=n>name</span><span class=si>}</span><span class=s2> but there remain unreleased leases </span><span class=si>{</span><span class=nb>sorted</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>])</span><span class=si>}</span><span class=s2>&quot;</span><span class=p>,</span>
+<a name=line-254></a>                        <span class=ne>RuntimeWarning</span><span class=p>,</span>
+<a name=line-255></a>                    <span class=p>)</span>
+<a name=line-256></a>                <span class=k>del</span> <span class=bp>self</span><span class=o>.</span><span class=n>leases</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-257></a>            <span class=k>if</span> <span class=n>name</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;pending&quot;</span><span class=p>]:</span>
+<a name=line-258></a>                <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=p>[</span><span class=s2>&quot;pending&quot;</span><span class=p>][</span><span class=n>name</span><span class=p>]:</span>
+<a name=line-259></a>                    <span class=n>warnings</span><span class=o>.</span><span class=n>warn</span><span class=p>(</span>
+<a name=line-260></a>                        <span class=sa>f</span><span class=s2>&quot;Closing semaphore </span><span class=si>{</span><span class=n>name</span><span class=si>}</span><span class=s2> but there remain pending leases&quot;</span><span class=p>,</span>
+<a name=line-261></a>                        <span class=ne>RuntimeWarning</span><span class=p>,</span>
+<a name=line-262></a>                    <span class=p>)</span>
+<a name=line-263></a>            <span class=c1># Clean-up state of semaphore metrics</span>
+<a name=line-264></a>            <span class=k>for</span> <span class=n>_</span><span class=p>,</span> <span class=n>metric_dict</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>metrics</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-265></a>                <span class=k>if</span> <span class=n>name</span> <span class=ow>in</span> <span class=n>metric_dict</span><span class=p>:</span>
+<a name=line-266></a>                    <span class=k>del</span> <span class=n>metric_dict</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-267></a>
+<a name=line-268></a>
+<a name=line-269></a><span class=k>class</span> <span class=nc>Semaphore</span><span class=p>:</span>
+<a name=line-270></a>    <span class=sd>&quot;&quot;&quot;Semaphore</span>
+<a name=line-271></a>
+<a name=line-272></a><span class=sd>    This `semaphore &lt;https://en.wikipedia.org/wiki/Semaphore_(programming)&gt;`_</span>
+<a name=line-273></a><span class=sd>    will track leases on the scheduler which can be acquired and</span>
+<a name=line-274></a><span class=sd>    released by an instance of this class. If the maximum amount of leases are</span>
+<a name=line-275></a><span class=sd>    already acquired, it is not possible to acquire more and the caller waits</span>
+<a name=line-276></a><span class=sd>    until another lease has been released.</span>
+<a name=line-277></a>
+<a name=line-278></a><span class=sd>    The lifetime or leases are controlled using a timeout. This timeout is</span>
+<a name=line-279></a><span class=sd>    refreshed in regular intervals by the ``Client`` of this instance and</span>
+<a name=line-280></a><span class=sd>    provides protection from deadlocks or resource starvation in case of worker</span>
+<a name=line-281></a><span class=sd>    failure.</span>
+<a name=line-282></a><span class=sd>    The timeout can be controlled using the configuration option</span>
+<a name=line-283></a><span class=sd>    ``distributed.scheduler.locks.lease-timeout`` and the interval in which the</span>
+<a name=line-284></a><span class=sd>    scheduler verifies the timeout is set using the option</span>
+<a name=line-285></a><span class=sd>    ``distributed.scheduler.locks.lease-validation-interval``.</span>
+<a name=line-286></a>
+<a name=line-287></a><span class=sd>    A noticeable difference to the Semaphore of the python standard library is</span>
+<a name=line-288></a><span class=sd>    that this implementation does not allow to release more often than it was</span>
+<a name=line-289></a><span class=sd>    acquired. If this happens, a warning is emitted but the internal state is</span>
+<a name=line-290></a><span class=sd>    not modified.</span>
+<a name=line-291></a>
+<a name=line-292></a><span class=sd>    .. warning::</span>
+<a name=line-293></a>
+<a name=line-294></a><span class=sd>        This implementation is still in an experimental state and subtle</span>
+<a name=line-295></a><span class=sd>        changes in behavior may occur without any change in the major version</span>
+<a name=line-296></a><span class=sd>        of this library.</span>
+<a name=line-297></a>
+<a name=line-298></a><span class=sd>    .. warning::</span>
+<a name=line-299></a>
+<a name=line-300></a><span class=sd>        This implementation is susceptible to lease overbooking in case of</span>
+<a name=line-301></a><span class=sd>        lease timeouts. It is advised to monitor log information and adjust</span>
+<a name=line-302></a><span class=sd>        above configuration options to suitable values for the user application.</span>
+<a name=line-303></a>
+<a name=line-304></a><span class=sd>    Parameters</span>
+<a name=line-305></a><span class=sd>    ----------</span>
+<a name=line-306></a><span class=sd>    max_leases: int (optional)</span>
+<a name=line-307></a><span class=sd>        The maximum amount of leases that may be granted at the same time. This</span>
+<a name=line-308></a><span class=sd>        effectively sets an upper limit to the amount of parallel access to a specific resource.</span>
+<a name=line-309></a><span class=sd>        Defaults to 1.</span>
+<a name=line-310></a><span class=sd>    name: string (optional)</span>
+<a name=line-311></a><span class=sd>        Name of the semaphore to acquire.  Choosing the same name allows two</span>
+<a name=line-312></a><span class=sd>        disconnected processes to coordinate.  If not given, a random</span>
+<a name=line-313></a><span class=sd>        name will be generated.</span>
+<a name=line-314></a><span class=sd>    client: Client (optional)</span>
+<a name=line-315></a><span class=sd>        Client to use for communication with the scheduler.  If not given, the</span>
+<a name=line-316></a><span class=sd>        default global client will be used.</span>
+<a name=line-317></a><span class=sd>    register: bool</span>
+<a name=line-318></a><span class=sd>        If True, register the semaphore with the scheduler. This needs to be</span>
+<a name=line-319></a><span class=sd>        done before any leases can be acquired. If not done during</span>
+<a name=line-320></a><span class=sd>        initialization, this can also be done by calling the register method of</span>
+<a name=line-321></a><span class=sd>        this class.</span>
+<a name=line-322></a><span class=sd>        When registering, this needs to be awaited.</span>
+<a name=line-323></a>
+<a name=line-324></a><span class=sd>    Examples</span>
+<a name=line-325></a><span class=sd>    --------</span>
+<a name=line-326></a><span class=sd>    &gt;&gt;&gt; from distributed import Semaphore</span>
+<a name=line-327></a><span class=sd>    ... sem = Semaphore(max_leases=2, name=&#39;my_database&#39;)</span>
+<a name=line-328></a><span class=sd>    ...</span>
+<a name=line-329></a><span class=sd>    ... def access_resource(s, sem):</span>
+<a name=line-330></a><span class=sd>    ...     # This automatically acquires a lease from the semaphore (if available) which will be</span>
+<a name=line-331></a><span class=sd>    ...     # released when leaving the context manager.</span>
+<a name=line-332></a><span class=sd>    ...     with sem:</span>
+<a name=line-333></a><span class=sd>    ...         pass</span>
+<a name=line-334></a><span class=sd>    ...</span>
+<a name=line-335></a><span class=sd>    ... futures = client.map(access_resource, range(10), sem=sem)</span>
+<a name=line-336></a><span class=sd>    ... client.gather(futures)</span>
+<a name=line-337></a><span class=sd>    ... # Once done, close the semaphore to clean up the state on scheduler side.</span>
+<a name=line-338></a><span class=sd>    ... sem.close()</span>
+<a name=line-339></a>
+<a name=line-340></a><span class=sd>    Notes</span>
+<a name=line-341></a><span class=sd>    -----</span>
+<a name=line-342></a><span class=sd>    If a client attempts to release the semaphore but doesn&#39;t have a lease acquired, this will raise an exception.</span>
+<a name=line-343></a>
+<a name=line-344></a>
+<a name=line-345></a><span class=sd>    When a semaphore is closed, if, for that closed semaphore, a client attempts to:</span>
+<a name=line-346></a>
+<a name=line-347></a><span class=sd>    - Acquire a lease: an exception will be raised.</span>
+<a name=line-348></a><span class=sd>    - Release: a warning will be logged.</span>
+<a name=line-349></a><span class=sd>    - Close: nothing will happen.</span>
+<a name=line-350></a>
+<a name=line-351></a>
+<a name=line-352></a><span class=sd>    dask executes functions by default assuming they are pure, when using semaphore acquire/releases inside</span>
+<a name=line-353></a><span class=sd>    such a function, it must be noted that there *are* in fact side-effects, thus, the function can no longer be</span>
+<a name=line-354></a><span class=sd>    considered pure. If this is not taken into account, this may lead to unexpected behavior.</span>
+<a name=line-355></a>
+<a name=line-356></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-357></a>
+<a name=line-358></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>max_leases</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>client</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>register</span><span class=o>=</span><span class=kc>True</span><span class=p>):</span>
+<a name=line-359></a>        <span class=bp>self</span><span class=o>.</span><span class=n>client</span> <span class=o>=</span> <span class=n>client</span> <span class=ow>or</span> <span class=n>get_client</span><span class=p>()</span>
+<a name=line-360></a>        <span class=bp>self</span><span class=o>.</span><span class=n>name</span> <span class=o>=</span> <span class=n>name</span> <span class=ow>or</span> <span class=s2>&quot;semaphore-&quot;</span> <span class=o>+</span> <span class=n>uuid</span><span class=o>.</span><span class=n>uuid4</span><span class=p>()</span><span class=o>.</span><span class=n>hex</span>
+<a name=line-361></a>        <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span> <span class=o>=</span> <span class=n>max_leases</span>
+<a name=line-362></a>        <span class=bp>self</span><span class=o>.</span><span class=n>id</span> <span class=o>=</span> <span class=n>uuid</span><span class=o>.</span><span class=n>uuid4</span><span class=p>()</span><span class=o>.</span><span class=n>hex</span>
+<a name=line-363></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_leases</span> <span class=o>=</span> <span class=n>deque</span><span class=p>()</span>
+<a name=line-364></a>
+<a name=line-365></a>        <span class=bp>self</span><span class=o>.</span><span class=n>refresh_leases</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-366></a>
+<a name=line-367></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_registered</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-368></a>        <span class=k>if</span> <span class=n>register</span><span class=p>:</span>
+<a name=line-369></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_registered</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>register</span><span class=p>()</span>
+<a name=line-370></a>
+<a name=line-371></a>        <span class=c1># this should give ample time to refresh without introducing another</span>
+<a name=line-372></a>        <span class=c1># config parameter since this *must* be smaller than the timeout anyhow</span>
+<a name=line-373></a>        <span class=n>refresh_leases_interval</span> <span class=o>=</span> <span class=p>(</span>
+<a name=line-374></a>            <span class=n>parse_timedelta</span><span class=p>(</span>
+<a name=line-375></a>                <span class=n>dask</span><span class=o>.</span><span class=n>config</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s2>&quot;distributed.scheduler.locks.lease-timeout&quot;</span><span class=p>),</span>
+<a name=line-376></a>                <span class=n>default</span><span class=o>=</span><span class=s2>&quot;s&quot;</span><span class=p>,</span>
+<a name=line-377></a>            <span class=p>)</span>
+<a name=line-378></a>            <span class=o>/</span> <span class=mi>5</span>
+<a name=line-379></a>        <span class=p>)</span>
+<a name=line-380></a>        <span class=n>pc</span> <span class=o>=</span> <span class=n>PeriodicCallback</span><span class=p>(</span>
+<a name=line-381></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_refresh_leases</span><span class=p>,</span> <span class=n>callback_time</span><span class=o>=</span><span class=n>refresh_leases_interval</span> <span class=o>*</span> <span class=mi>1000</span>
+<a name=line-382></a>        <span class=p>)</span>
+<a name=line-383></a>        <span class=bp>self</span><span class=o>.</span><span class=n>refresh_callback</span> <span class=o>=</span> <span class=n>pc</span>
+<a name=line-384></a>        <span class=c1># Registering the pc to the client here is important for proper cleanup</span>
+<a name=line-385></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_periodic_callback_name</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;refresh_semaphores_</span><span class=si>{</span><span class=bp>self</span><span class=o>.</span><span class=n>id</span><span class=si>}</span><span class=s2>&quot;</span>
+<a name=line-386></a>        <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>_periodic_callbacks</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>_periodic_callback_name</span><span class=p>]</span> <span class=o>=</span> <span class=n>pc</span>
+<a name=line-387></a>
+<a name=line-388></a>        <span class=c1># Need to start the callback using IOLoop.add_callback to ensure that the</span>
+<a name=line-389></a>        <span class=c1># PC uses the correct event loop.</span>
+<a name=line-390></a>        <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>io_loop</span><span class=o>.</span><span class=n>add_callback</span><span class=p>(</span><span class=n>pc</span><span class=o>.</span><span class=n>start</span><span class=p>)</span>
+<a name=line-391></a>
+<a name=line-392></a>    <span class=k>def</span> <span class=nf>register</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-393></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-394></a><span class=sd>        Register the semaphore on scheduler side</span>
+<a name=line-395></a>
+<a name=line-396></a><span class=sd>        This will register the semaphore on scheduler side and ensure that all necessary data structures exist.</span>
+<a name=line-397></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-398></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_registered</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-399></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_registered</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>sync</span><span class=p>(</span>
+<a name=line-400></a>                <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>scheduler</span><span class=o>.</span><span class=n>semaphore_register</span><span class=p>,</span>
+<a name=line-401></a>                <span class=n>name</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>,</span>
+<a name=line-402></a>                <span class=n>max_leases</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>,</span>
+<a name=line-403></a>            <span class=p>)</span>
+<a name=line-404></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_registered</span>
+<a name=line-405></a>
+<a name=line-406></a>    <span class=k>def</span> <span class=fm>__await__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-407></a>        <span class=k>async</span> <span class=k>def</span> <span class=nf>create_semaphore</span><span class=p>():</span>
+<a name=line-408></a>            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_registered</span><span class=p>:</span>
+<a name=line-409></a>                <span class=k>await</span> <span class=bp>self</span><span class=o>.</span><span class=n>_registered</span>
+<a name=line-410></a>            <span class=k>return</span> <span class=bp>self</span>
+<a name=line-411></a>
+<a name=line-412></a>        <span class=k>return</span> <span class=n>create_semaphore</span><span class=p>()</span><span class=o>.</span><span class=fm>__await__</span><span class=p>()</span>
+<a name=line-413></a>
+<a name=line-414></a>    <span class=k>async</span> <span class=k>def</span> <span class=nf>_refresh_leases</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-415></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>refresh_leases</span> <span class=ow>and</span> <span class=bp>self</span><span class=o>.</span><span class=n>_leases</span><span class=p>:</span>
+<a name=line-416></a>            <span class=n>logger</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span>
+<a name=line-417></a>                <span class=s2>&quot;</span><span class=si>%s</span><span class=s2> refreshing leases for </span><span class=si>%s</span><span class=s2> with IDs </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span>
+<a name=line-418></a>                <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>id</span><span class=p>,</span>
+<a name=line-419></a>                <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>,</span>
+<a name=line-420></a>                <span class=bp>self</span><span class=o>.</span><span class=n>_leases</span><span class=p>,</span>
+<a name=line-421></a>            <span class=p>)</span>
+<a name=line-422></a>            <span class=k>await</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>scheduler</span><span class=o>.</span><span class=n>semaphore_refresh_leases</span><span class=p>(</span>
+<a name=line-423></a>                <span class=n>lease_ids</span><span class=o>=</span><span class=nb>list</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_leases</span><span class=p>),</span> <span class=n>name</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span>
+<a name=line-424></a>            <span class=p>)</span>
+<a name=line-425></a>
+<a name=line-426></a>    <span class=k>async</span> <span class=k>def</span> <span class=nf>_acquire</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>timeout</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-427></a>        <span class=n>lease_id</span> <span class=o>=</span> <span class=n>uuid</span><span class=o>.</span><span class=n>uuid4</span><span class=p>()</span><span class=o>.</span><span class=n>hex</span>
+<a name=line-428></a>        <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span>
+<a name=line-429></a>            <span class=s2>&quot;</span><span class=si>%s</span><span class=s2> requests lease for </span><span class=si>%s</span><span class=s2> with ID </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>id</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>lease_id</span>
+<a name=line-430></a>        <span class=p>)</span>
+<a name=line-431></a>
+<a name=line-432></a>        <span class=c1># Using a unique lease id generated here allows us to retry since the</span>
+<a name=line-433></a>        <span class=c1># server handle is idempotent</span>
+<a name=line-434></a>
+<a name=line-435></a>        <span class=n>result</span> <span class=o>=</span> <span class=k>await</span> <span class=n>retry_operation</span><span class=p>(</span>
+<a name=line-436></a>            <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>scheduler</span><span class=o>.</span><span class=n>semaphore_acquire</span><span class=p>,</span>
+<a name=line-437></a>            <span class=n>name</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>,</span>
+<a name=line-438></a>            <span class=n>timeout</span><span class=o>=</span><span class=n>timeout</span><span class=p>,</span>
+<a name=line-439></a>            <span class=n>lease_id</span><span class=o>=</span><span class=n>lease_id</span><span class=p>,</span>
+<a name=line-440></a>            <span class=n>operation</span><span class=o>=</span><span class=s2>&quot;semaphore acquire: client=</span><span class=si>%s</span><span class=s2>, lease_id=</span><span class=si>%s</span><span class=s2>, name=</span><span class=si>%s</span><span class=s2>&quot;</span>
+<a name=line-441></a>            <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>id</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>),</span>
+<a name=line-442></a>        <span class=p>)</span>
+<a name=line-443></a>        <span class=k>if</span> <span class=n>result</span><span class=p>:</span>
+<a name=line-444></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_leases</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>lease_id</span><span class=p>)</span>
+<a name=line-445></a>        <span class=k>return</span> <span class=n>result</span>
+<a name=line-446></a>
+<a name=line-447></a>    <span class=k>def</span> <span class=nf>acquire</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>timeout</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-448></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-449></a><span class=sd>        Acquire a semaphore.</span>
+<a name=line-450></a>
+<a name=line-451></a><span class=sd>        If the internal counter is greater than zero, decrement it by one and return True immediately.</span>
+<a name=line-452></a><span class=sd>        If it is zero, wait until a release() is called and return True.</span>
+<a name=line-453></a>
+<a name=line-454></a><span class=sd>        Parameters</span>
+<a name=line-455></a><span class=sd>        ----------</span>
+<a name=line-456></a><span class=sd>        timeout : number or string or timedelta, optional</span>
+<a name=line-457></a><span class=sd>            Seconds to wait on acquiring the semaphore.  This does not</span>
+<a name=line-458></a><span class=sd>            include local coroutine time, network transfer time, etc..</span>
+<a name=line-459></a><span class=sd>            Instead of number of seconds, it is also possible to specify</span>
+<a name=line-460></a><span class=sd>            a timedelta in string format, e.g. &quot;200ms&quot;.</span>
+<a name=line-461></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-462></a>        <span class=n>timeout</span> <span class=o>=</span> <span class=n>parse_timedelta</span><span class=p>(</span><span class=n>timeout</span><span class=p>)</span>
+<a name=line-463></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>sync</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_acquire</span><span class=p>,</span> <span class=n>timeout</span><span class=o>=</span><span class=n>timeout</span><span class=p>)</span>
+<a name=line-464></a>
+<a name=line-465></a>    <span class=k>async</span> <span class=k>def</span> <span class=nf>_release</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-466></a>        <span class=c1># popleft to release the oldest lease first</span>
+<a name=line-467></a>        <span class=n>lease_id</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_leases</span><span class=o>.</span><span class=n>popleft</span><span class=p>()</span>
+<a name=line-468></a>        <span class=n>logger</span><span class=o>.</span><span class=n>info</span><span class=p>(</span><span class=s2>&quot;</span><span class=si>%s</span><span class=s2> releases </span><span class=si>%s</span><span class=s2> for </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>id</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+<a name=line-469></a>
+<a name=line-470></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-471></a>            <span class=k>await</span> <span class=n>retry_operation</span><span class=p>(</span>
+<a name=line-472></a>                <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>scheduler</span><span class=o>.</span><span class=n>semaphore_release</span><span class=p>,</span>
+<a name=line-473></a>                <span class=n>name</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>,</span>
+<a name=line-474></a>                <span class=n>lease_id</span><span class=o>=</span><span class=n>lease_id</span><span class=p>,</span>
+<a name=line-475></a>                <span class=n>operation</span><span class=o>=</span><span class=s2>&quot;semaphore release: client=</span><span class=si>%s</span><span class=s2>, lease_id=</span><span class=si>%s</span><span class=s2>, name=</span><span class=si>%s</span><span class=s2>&quot;</span>
+<a name=line-476></a>                <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>id</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>),</span>
+<a name=line-477></a>            <span class=p>)</span>
+<a name=line-478></a>            <span class=k>return</span> <span class=kc>True</span>
+<a name=line-479></a>        <span class=k>except</span> <span class=ne>Exception</span><span class=p>:</span>  <span class=c1># Release fails for whatever reason</span>
+<a name=line-480></a>            <span class=n>logger</span><span class=o>.</span><span class=n>error</span><span class=p>(</span>
+<a name=line-481></a>                <span class=s2>&quot;Release failed for client=</span><span class=si>%s</span><span class=s2>, lease_id=</span><span class=si>%s</span><span class=s2>, name=</span><span class=si>%s</span><span class=s2>. Cluster network might be unstable?&quot;</span>
+<a name=line-482></a>                <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>id</span><span class=p>,</span> <span class=n>lease_id</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>),</span>
+<a name=line-483></a>                <span class=n>exc_info</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-484></a>            <span class=p>)</span>
+<a name=line-485></a>            <span class=k>return</span> <span class=kc>False</span>
+<a name=line-486></a>
+<a name=line-487></a>    <span class=k>def</span> <span class=nf>release</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-488></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-489></a><span class=sd>        Release the semaphore.</span>
+<a name=line-490></a>
+<a name=line-491></a><span class=sd>        Returns</span>
+<a name=line-492></a><span class=sd>        -------</span>
+<a name=line-493></a><span class=sd>        bool</span>
+<a name=line-494></a><span class=sd>            This value indicates whether a lease was released immediately or not. Note that a user should  *not* retry</span>
+<a name=line-495></a><span class=sd>            this operation. Under certain circumstances (e.g. scheduler overload) the lease may not be released</span>
+<a name=line-496></a><span class=sd>            immediately, but it will always be automatically released after a specific interval configured using</span>
+<a name=line-497></a><span class=sd>            &quot;distributed.scheduler.locks.lease-validation-interval&quot; and &quot;distributed.scheduler.locks.lease-timeout&quot;.</span>
+<a name=line-498></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-499></a>        <span class=k>if</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>_leases</span><span class=p>:</span>
+<a name=line-500></a>            <span class=k>raise</span> <span class=ne>RuntimeError</span><span class=p>(</span><span class=s2>&quot;Released too often&quot;</span><span class=p>)</span>
+<a name=line-501></a>
+<a name=line-502></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>sync</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_release</span><span class=p>)</span>
+<a name=line-503></a>
+<a name=line-504></a>    <span class=k>def</span> <span class=nf>get_value</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-505></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-506></a><span class=sd>        Return the number of currently registered leases.</span>
+<a name=line-507></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-508></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>sync</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>scheduler</span><span class=o>.</span><span class=n>semaphore_value</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+<a name=line-509></a>
+<a name=line-510></a>    <span class=k>def</span> <span class=fm>__enter__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-511></a>        <span class=bp>self</span><span class=o>.</span><span class=n>acquire</span><span class=p>()</span>
+<a name=line-512></a>        <span class=k>return</span> <span class=bp>self</span>
+<a name=line-513></a>
+<a name=line-514></a>    <span class=k>def</span> <span class=fm>__exit__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-515></a>        <span class=bp>self</span><span class=o>.</span><span class=n>release</span><span class=p>()</span>
+<a name=line-516></a>
+<a name=line-517></a>    <span class=k>async</span> <span class=k>def</span> <span class=fm>__aenter__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-518></a>        <span class=k>await</span> <span class=bp>self</span><span class=o>.</span><span class=n>acquire</span><span class=p>()</span>
+<a name=line-519></a>        <span class=k>return</span> <span class=bp>self</span>
+<a name=line-520></a>
+<a name=line-521></a>    <span class=k>async</span> <span class=k>def</span> <span class=fm>__aexit__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-522></a>        <span class=k>await</span> <span class=bp>self</span><span class=o>.</span><span class=n>release</span><span class=p>()</span>
+<a name=line-523></a>
+<a name=line-524></a>    <span class=k>def</span> <span class=nf>__getstate__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-525></a>        <span class=c1># Do not serialize the address since workers may have different</span>
+<a name=line-526></a>        <span class=c1># addresses for the scheduler (e.g. if a proxy is between them)</span>
+<a name=line-527></a>        <span class=k>return</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_leases</span><span class=p>)</span>
+<a name=line-528></a>
+<a name=line-529></a>    <span class=k>def</span> <span class=nf>__setstate__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>state</span><span class=p>):</span>
+<a name=line-530></a>        <span class=n>name</span><span class=p>,</span> <span class=n>max_leases</span> <span class=o>=</span> <span class=n>state</span>
+<a name=line-531></a>        <span class=n>client</span> <span class=o>=</span> <span class=n>get_client</span><span class=p>()</span>
+<a name=line-532></a>        <span class=bp>self</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=o>=</span><span class=n>name</span><span class=p>,</span> <span class=n>client</span><span class=o>=</span><span class=n>client</span><span class=p>,</span> <span class=n>max_leases</span><span class=o>=</span><span class=n>max_leases</span><span class=p>,</span> <span class=n>register</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+<a name=line-533></a>
+<a name=line-534></a>    <span class=k>def</span> <span class=nf>close</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-535></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>sync</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>scheduler</span><span class=o>.</span><span class=n>semaphore_close</span><span class=p>,</span> <span class=n>name</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+<a name=line-536></a>
+<a name=line-537></a>    <span class=k>def</span> <span class=fm>__del__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-538></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_periodic_callback_name</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>_periodic_callbacks</span><span class=p>:</span>
+<a name=line-539></a>            <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>_periodic_callbacks</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>_periodic_callback_name</span><span class=p>]</span><span class=o>.</span><span class=n>stop</span><span class=p>()</span>
+<a name=line-540></a>            <span class=k>del</span> <span class=bp>self</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>_periodic_callbacks</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>_periodic_callback_name</span><span class=p>]</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

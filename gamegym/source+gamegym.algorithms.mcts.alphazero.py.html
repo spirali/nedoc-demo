@@ -1,0 +1,196 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>gamegym.algorithms.mcts.alphazero</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Gamegym</h1> 0.1 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=gamegym.html>&#9662; gamegym</a> </li><li><ul><li><a href=gamegym.adapter.html>&#9656; adapter</a> </li><li><a href=gamegym.algorithms.html>&#9662; algorithms</a> </li><li><ul><li><a href=gamegym.algorithms.bestresponse.html>&#9656; bestresponse</a> </li><li><a href=gamegym.algorithms.infosets.html>&#9656; infosets</a> </li><li><a href=gamegym.algorithms.mccfr.html>&#9656; mccfr</a> </li><li><a href=gamegym.algorithms.mcts.html>&#9662; mcts</a> </li><li><ul><li><div class=select><a href=gamegym.algorithms.mcts.alphazero.html>&#9662; alphazero</a> </div></li><li><ul><li><a href=gamegym.algorithms.mcts.alphazero.AlphaZero.html> <i>class</i> AlphaZero</a> </li></ul></li><li><a href=gamegym.algorithms.mcts.buffer.html>&#9656; buffer</a> </li><li><a href=gamegym.algorithms.mcts.model.html>&#9656; model</a> </li><li><a href=gamegym.algorithms.mcts.search.html>&#9656; search</a> </li><li><a href=gamegym.algorithms.mcts.strategy.html>&#9656; strategy</a> </li></ul></li><li><a href=gamegym.algorithms.stats.html>&#9656; stats</a> </li><li><a href=gamegym.algorithms.tournament.html>&#9656; tournament</a> </li></ul></li><li><a href=gamegym.contrib.html>&#9656; contrib</a> </li><li><a href=gamegym.errors.html>&#9656; errors</a> </li><li><a href=gamegym.estimator.html>&#9656; estimator</a> </li><li><a href=gamegym.game.html>&#9656; game</a> </li><li><a href=gamegym.games.html>&#9656; games</a> </li><li><a href=gamegym.nested.html>&#9656; nested</a> </li><li><a href=gamegym.observation.html>&#9656; observation</a> </li><li><a href=gamegym.server.html>&#9656; server</a> </li><li><a href=gamegym.situation.html>&#9656; situation</a> </li><li><a href=gamegym.strategy.html>&#9656; strategy</a> </li><li><a href=gamegym.ui.html>&#9656; ui</a> </li><li><a href=gamegym.utils.html>&#9656; utils</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code gamegym/algorithms/mcts/alphazero.py</h1><div id=path><a class=symbol href=gamegym.html>gamegym</a>.<a class=symbol href=gamegym.algorithms.html>algorithms</a>.<a class=symbol href=gamegym.algorithms.mcts.html>mcts</a>.<a class=symbol href=gamegym.algorithms.mcts.alphazero.html>alphazero</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+<a name=line-2></a><span class=kn>from</span> <span class=nn>.search</span> <span class=kn>import</span> <span class=n>MctSearch</span>
+<a name=line-3></a><span class=kn>from</span> <span class=nn>.buffer</span> <span class=kn>import</span> <span class=n>ReplayBuffer</span><span class=p>,</span> <span class=n>ReplayRecord</span>
+<a name=line-4></a>
+<a name=line-5></a><span class=kn>from</span> <span class=nn>gamegym.utils</span> <span class=kn>import</span> <span class=n>Distribution</span><span class=p>,</span> <span class=n>flatten_array_list</span>
+<a name=line-6></a>
+<a name=line-7></a>
+<a name=line-8></a><span class=k>def</span> <span class=nf>dummy_estimator</span><span class=p>(</span><span class=n>situation</span><span class=p>):</span>
+<a name=line-9></a>    <span class=k>return</span> <span class=n>np</span><span class=o>.</span><span class=n>zeros</span><span class=p>(</span><span class=n>situation</span><span class=o>.</span><span class=n>game</span><span class=o>.</span><span class=n>players</span><span class=p>),</span> <span class=n>Distribution</span><span class=p>(</span><span class=n>situation</span><span class=o>.</span><span class=n>actions</span><span class=p>,</span> <span class=kc>None</span><span class=p>)</span>
+<a name=line-10></a>
+<a name=line-11></a>
+<a name=line-12></a><span class=k>class</span> <span class=nc>AlphaZero</span><span class=p>:</span>
+<a name=line-13></a>
+<a name=line-14></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span>
+<a name=line-15></a>                 <span class=n>game</span><span class=p>,</span>
+<a name=line-16></a>                 <span class=n>model</span><span class=p>,</span>
+<a name=line-17></a>                 <span class=n>batch_size</span><span class=o>=</span><span class=mi>128</span><span class=p>,</span>
+<a name=line-18></a>                 <span class=n>replay_buffer_size</span><span class=o>=</span><span class=mi>4096</span><span class=p>,</span>
+<a name=line-19></a>                 <span class=n>max_moves</span><span class=o>=</span><span class=mi>1000</span><span class=p>,</span>
+<a name=line-20></a>                 <span class=n>num_simulations</span><span class=o>=</span><span class=mi>800</span><span class=p>,</span>
+<a name=line-21></a>                 <span class=n>num_sampling_moves</span><span class=o>=</span><span class=mi>30</span><span class=p>):</span>
+<a name=line-22></a>        <span class=k>assert</span> <span class=n>batch_size</span> <span class=o>&lt;=</span> <span class=n>replay_buffer_size</span>
+<a name=line-23></a>        <span class=bp>self</span><span class=o>.</span><span class=n>game</span> <span class=o>=</span> <span class=n>game</span>
+<a name=line-24></a>        <span class=bp>self</span><span class=o>.</span><span class=n>max_moves</span> <span class=o>=</span> <span class=n>max_moves</span>
+<a name=line-25></a>        <span class=bp>self</span><span class=o>.</span><span class=n>num_simulations</span> <span class=o>=</span> <span class=n>num_simulations</span>
+<a name=line-26></a>        <span class=bp>self</span><span class=o>.</span><span class=n>num_sampling_moves</span> <span class=o>=</span> <span class=n>num_sampling_moves</span>
+<a name=line-27></a>        <span class=bp>self</span><span class=o>.</span><span class=n>model</span> <span class=o>=</span> <span class=n>model</span>
+<a name=line-28></a>        <span class=bp>self</span><span class=o>.</span><span class=n>batch_size</span> <span class=o>=</span> <span class=n>batch_size</span>
+<a name=line-29></a>        <span class=bp>self</span><span class=o>.</span><span class=n>replay_buffers</span> <span class=o>=</span> <span class=p>[</span><span class=n>ReplayBuffer</span><span class=p>(</span><span class=n>replay_buffer_size</span><span class=p>)</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>model</span><span class=o>.</span><span class=n>number_of_models</span><span class=p>)]</span>
+<a name=line-30></a>
+<a name=line-31></a>    <span class=k>def</span> <span class=nf>prefill_replay_buffer</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-32></a>        <span class=k>while</span> <span class=nb>any</span><span class=p>(</span><span class=n>b</span><span class=o>.</span><span class=n>records_count</span> <span class=o>&lt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>batch_size</span> <span class=k>for</span> <span class=n>b</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>replay_buffers</span><span class=p>):</span>
+<a name=line-33></a>            <span class=bp>self</span><span class=o>.</span><span class=n>play_game</span><span class=p>()</span>
+<a name=line-34></a>
+<a name=line-35></a>    <span class=k>def</span> <span class=nf>last_estimator</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-36></a>        <span class=n>model</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>model</span>
+<a name=line-37></a>        <span class=k>if</span> <span class=n>model</span><span class=o>.</span><span class=n>trained</span><span class=p>:</span>
+<a name=line-38></a>            <span class=k>return</span> <span class=n>model</span><span class=o>.</span><span class=n>estimate</span>
+<a name=line-39></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-40></a>            <span class=k>return</span> <span class=n>dummy_estimator</span>
+<a name=line-41></a>
+<a name=line-42></a>    <span class=k>def</span> <span class=nf>play_game</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-43></a>        <span class=n>situation</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>game</span><span class=o>.</span><span class=n>start</span><span class=p>()</span>
+<a name=line-44></a>        <span class=n>num_simulations</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>num_simulations</span>
+<a name=line-45></a>        <span class=n>max_moves</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_moves</span>
+<a name=line-46></a>        <span class=n>estimator</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>last_estimator</span><span class=p>()</span>
+<a name=line-47></a>        <span class=k>while</span> <span class=ow>not</span> <span class=n>situation</span><span class=o>.</span><span class=n>is_terminal</span><span class=p>():</span>
+<a name=line-48></a>            <span class=n>s</span> <span class=o>=</span> <span class=n>MctSearch</span><span class=p>(</span><span class=n>situation</span><span class=p>,</span> <span class=n>estimator</span><span class=p>)</span>
+<a name=line-49></a>            <span class=n>s</span><span class=o>.</span><span class=n>search</span><span class=p>(</span><span class=n>num_simulations</span><span class=p>)</span>
+<a name=line-50></a>            <span class=n>move</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>situation</span><span class=o>.</span><span class=n>history</span><span class=p>)</span>
+<a name=line-51></a>            <span class=k>if</span> <span class=n>move</span> <span class=o>&gt;</span> <span class=n>max_moves</span><span class=p>:</span>
+<a name=line-52></a>                <span class=k>break</span>
+<a name=line-53></a>            <span class=k>if</span> <span class=n>move</span> <span class=o>&lt;=</span> <span class=bp>self</span><span class=o>.</span><span class=n>num_sampling_moves</span><span class=p>:</span>
+<a name=line-54></a>                <span class=n>action</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>best_action_softmax</span><span class=p>()</span>
+<a name=line-55></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-56></a>                <span class=n>action</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>best_action_max_visits</span><span class=p>()</span>
+<a name=line-57></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_record_search</span><span class=p>(</span><span class=n>s</span><span class=p>)</span>
+<a name=line-58></a>            <span class=n>situation</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>root</span><span class=o>.</span><span class=n>children</span><span class=p>[</span><span class=n>action</span><span class=p>]</span><span class=o>.</span><span class=n>situation</span>
+<a name=line-59></a>        <span class=k>return</span> <span class=n>situation</span>
+<a name=line-60></a>
+<a name=line-61></a>    <span class=k>def</span> <span class=nf>train_model</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n_batches</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>epochs</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>verbose</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+<a name=line-62></a>        <span class=n>model</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>model</span>  <span class=c1># TODO: Clone model?</span>
+<a name=line-63></a>        <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>n_batches</span><span class=p>):</span>
+<a name=line-64></a>            <span class=k>for</span> <span class=n>index</span><span class=p>,</span> <span class=n>buffer</span> <span class=ow>in</span> <span class=nb>enumerate</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>replay_buffers</span><span class=p>):</span>
+<a name=line-65></a>                <span class=n>batch</span> <span class=o>=</span> <span class=n>buffer</span><span class=o>.</span><span class=n>get_batch</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>batch_size</span><span class=p>)</span>
+<a name=line-66></a>                <span class=n>model</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>index</span><span class=p>,</span> <span class=n>batch</span><span class=o>.</span><span class=n>inputs</span><span class=p>,</span> <span class=n>batch</span><span class=o>.</span><span class=n>target_values</span><span class=p>,</span> <span class=n>batch</span><span class=o>.</span><span class=n>target_policy_logits</span><span class=p>,</span> <span class=n>epochs</span><span class=o>=</span><span class=n>epochs</span><span class=p>,</span> <span class=n>verbose</span><span class=o>=</span><span class=n>verbose</span><span class=p>)</span>
+<a name=line-67></a>        <span class=bp>self</span><span class=o>.</span><span class=n>model</span> <span class=o>=</span> <span class=n>model</span>
+<a name=line-68></a>
+<a name=line-69></a>    <span class=k>def</span> <span class=nf>make_strategy</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>num_simulations</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-70></a>        <span class=k>if</span> <span class=n>num_simulations</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-71></a>            <span class=n>num_simulations</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>num_simulations</span>
+<a name=line-72></a>        <span class=k>return</span> <span class=n>AlphaZeroStrategy</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>game</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>model</span><span class=o>.</span><span class=n>adapter</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>last_estimator</span><span class=p>(),</span> <span class=n>num_simulations</span><span class=p>)</span>
+<a name=line-73></a>
+<a name=line-74></a>    <span class=k>def</span> <span class=nf>do_step</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>epochs</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>sample_gen_ratio</span><span class=o>=</span><span class=mi>4</span><span class=p>,</span> <span class=n>verbose</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+<a name=line-75></a>        <span class=k>if</span> <span class=nb>any</span><span class=p>(</span><span class=ow>not</span> <span class=n>b</span><span class=o>.</span><span class=n>added</span> <span class=ow>or</span> <span class=p>(</span><span class=n>b</span><span class=o>.</span><span class=n>sampled</span> <span class=o>/</span> <span class=n>b</span><span class=o>.</span><span class=n>added</span><span class=p>)</span> <span class=o>&gt;</span> <span class=n>sample_gen_ratio</span> <span class=k>for</span> <span class=n>b</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>replay_buffers</span><span class=p>):</span>
+<a name=line-76></a>            <span class=bp>self</span><span class=o>.</span><span class=n>play_game</span><span class=p>()</span>
+<a name=line-77></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-78></a>            <span class=bp>self</span><span class=o>.</span><span class=n>train_model</span><span class=p>(</span><span class=n>epochs</span><span class=p>,</span> <span class=n>verbose</span><span class=p>)</span>
+<a name=line-79></a>
+<a name=line-80></a>    <span class=k>def</span> <span class=nf>_record_search</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>search</span><span class=p>):</span>
+<a name=line-81></a>        <span class=n>root</span> <span class=o>=</span> <span class=n>search</span><span class=o>.</span><span class=n>root</span>
+<a name=line-82></a>        <span class=n>children</span> <span class=o>=</span> <span class=n>root</span><span class=o>.</span><span class=n>children</span>
+<a name=line-83></a>        <span class=n>values</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-84></a>        <span class=n>p</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-85></a>        <span class=k>for</span> <span class=n>action</span> <span class=ow>in</span> <span class=n>children</span><span class=p>:</span>
+<a name=line-86></a>            <span class=n>values</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>action</span><span class=p>)</span>
+<a name=line-87></a>            <span class=n>p</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>children</span><span class=p>[</span><span class=n>action</span><span class=p>]</span><span class=o>.</span><span class=n>visit_count</span><span class=p>)</span>
+<a name=line-88></a>
+<a name=line-89></a>        <span class=n>model</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>model</span>
+<a name=line-90></a>        <span class=n>situation</span> <span class=o>=</span> <span class=n>root</span><span class=o>.</span><span class=n>situation</span>
+<a name=line-91></a>        <span class=n>value</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>make_train_value</span><span class=p>(</span><span class=n>situation</span><span class=p>,</span> <span class=n>root</span><span class=o>.</span><span class=n>value</span><span class=p>)</span>
+<a name=line-92></a>        <span class=n>policy_target</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>make_train_policy_target</span><span class=p>(</span><span class=n>situation</span><span class=p>,</span> <span class=n>Distribution</span><span class=p>(</span><span class=n>values</span><span class=p>,</span> <span class=n>p</span><span class=p>,</span> <span class=n>norm</span><span class=o>=</span><span class=kc>True</span><span class=p>))</span>
+<a name=line-93></a>        <span class=n>data</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>make_train_input</span><span class=p>(</span><span class=n>situation</span><span class=p>)</span>
+<a name=line-94></a>
+<a name=line-95></a>        <span class=n>record</span> <span class=o>=</span> <span class=n>ReplayRecord</span><span class=p>(</span><span class=n>data</span><span class=p>,</span>
+<a name=line-96></a>                              <span class=n>value</span><span class=p>,</span>
+<a name=line-97></a>                              <span class=n>policy_target</span><span class=p>)</span>
+<a name=line-98></a>        <span class=bp>self</span><span class=o>.</span><span class=n>replay_buffers</span><span class=p>[</span><span class=n>model</span><span class=o>.</span><span class=n>model_index</span><span class=p>(</span><span class=n>situation</span><span class=p>)]</span><span class=o>.</span><span class=n>add_record</span><span class=p>(</span><span class=n>record</span><span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

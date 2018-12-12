@@ -1,0 +1,126 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.utils.safestring</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9662; utils</a> </li><li><ul><li><a href=django.utils.archive.html>&#9656; archive</a> </li><li><a href=django.utils.asyncio.html>&#9656; asyncio</a> </li><li><a href=django.utils.autoreload.html>&#9656; autoreload</a> </li><li><a href=django.utils.baseconv.html>&#9656; baseconv</a> </li><li><a href=django.utils.cache.html>&#9656; cache</a> </li><li><a href=django.utils.crypto.html>&#9656; crypto</a> </li><li><a href=django.utils.datastructures.html>&#9656; datastructures</a> </li><li><a href=django.utils.dateformat.html>&#9656; dateformat</a> </li><li><a href=django.utils.dateparse.html>&#9656; dateparse</a> </li><li><a href=django.utils.dates.html>&#9656; dates</a> </li><li><a href=django.utils.datetime_safe.html>&#9656; datetime_safe</a> </li><li><a href=django.utils.deconstruct.html>&#9656; deconstruct</a> </li><li><a href=django.utils.decorators.html>&#9656; decorators</a> </li><li><a href=django.utils.deprecation.html>&#9656; deprecation</a> </li><li><a href=django.utils.duration.html>&#9656; duration</a> </li><li><a href=django.utils.encoding.html>&#9656; encoding</a> </li><li><a href=django.utils.feedgenerator.html>&#9656; feedgenerator</a> </li><li><a href=django.utils.formats.html>&#9656; formats</a> </li><li><a href=django.utils.functional.html>&#9656; functional</a> </li><li><a href=django.utils.hashable.html>&#9656; hashable</a> </li><li><a href=django.utils.html.html>&#9656; html</a> </li><li><a href=django.utils.http.html>&#9656; http</a> </li><li><a href=django.utils.inspect.html>&#9656; inspect</a> </li><li><a href=django.utils.ipv6.html>&#9656; ipv6</a> </li><li><a href=django.utils.itercompat.html>&#9656; itercompat</a> </li><li><a href=django.utils.jslex.html>&#9656; jslex</a> </li><li><a href=django.utils.log.html>&#9656; log</a> </li><li><a href=django.utils.lorem_ipsum.html>&#9656; lorem_ipsum</a> </li><li><a href=django.utils.module_loading.html>&#9656; module_loading</a> </li><li><a href=django.utils.numberformat.html>&#9656; numberformat</a> </li><li><a href=django.utils.regex_helper.html>&#9656; regex_helper</a> </li><li><div class=select><a href=django.utils.safestring.html>&#9662; safestring</a> </div></li><li><ul><li><a href=django.utils.safestring.SafeData.html> <i>class</i> SafeData</a> </li><li><a href=django.utils.safestring.SafeString.html> <i>class</i> SafeString</a> </li></ul></li><li><a href=django.utils.termcolors.html>&#9656; termcolors</a> </li><li><a href=django.utils.text.html>&#9656; text</a> </li><li><a href=django.utils.timesince.html>&#9656; timesince</a> </li><li><a href=django.utils.timezone.html>&#9656; timezone</a> </li><li><a href=django.utils.topological_sort.html>&#9656; topological_sort</a> </li><li><a href=django.utils.translation.html>&#9656; translation</a> </li><li><a href=django.utils.tree.html>&#9656; tree</a> </li><li><a href=django.utils.version.html>&#9656; version</a> </li><li><a href=django.utils.xmlutils.html>&#9656; xmlutils</a> </li></ul></li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/utils/safestring.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.utils.html>utils</a>.<a class=symbol href=django.utils.safestring.html>safestring</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-2></a><span class=sd>Functions for working with &quot;safe strings&quot;: strings that can be displayed safely</span>
+<a name=line-3></a><span class=sd>without further escaping in HTML. Marking something as a &quot;safe string&quot; means</span>
+<a name=line-4></a><span class=sd>that the producer of the string has already turned characters that should not</span>
+<a name=line-5></a><span class=sd>be interpreted by the HTML engine (e.g. &#39;&lt;&#39;) into the appropriate entities.</span>
+<a name=line-6></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-7></a>
+<a name=line-8></a><span class=kn>from</span> <span class=nn>functools</span> <span class=kn>import</span> <span class=n>wraps</span>
+<a name=line-9></a>
+<a name=line-10></a>
+<a name=line-11></a><span class=k>class</span> <span class=nc>SafeData</span><span class=p>:</span>
+<a name=line-12></a>    <span class=k>def</span> <span class=nf>__html__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-13></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-14></a><span class=sd>        Return the html representation of a string for interoperability.</span>
+<a name=line-15></a>
+<a name=line-16></a><span class=sd>        This allows other template engines to understand Django&#39;s SafeData.</span>
+<a name=line-17></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-18></a>        <span class=k>return</span> <span class=bp>self</span>
+<a name=line-19></a>
+<a name=line-20></a>
+<a name=line-21></a><span class=k>class</span> <span class=nc>SafeString</span><span class=p>(</span><span class=nb>str</span><span class=p>,</span> <span class=n>SafeData</span><span class=p>):</span>
+<a name=line-22></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-23></a><span class=sd>    A str subclass that has been specifically marked as &quot;safe&quot; for HTML output</span>
+<a name=line-24></a><span class=sd>    purposes.</span>
+<a name=line-25></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-26></a>    <span class=k>def</span> <span class=fm>__add__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>rhs</span><span class=p>):</span>
+<a name=line-27></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-28></a><span class=sd>        Concatenating a safe string with another safe bytestring or</span>
+<a name=line-29></a><span class=sd>        safe string is safe. Otherwise, the result is no longer safe.</span>
+<a name=line-30></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-31></a>        <span class=n>t</span> <span class=o>=</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__add__</span><span class=p>(</span><span class=n>rhs</span><span class=p>)</span>
+<a name=line-32></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>rhs</span><span class=p>,</span> <span class=n>SafeData</span><span class=p>):</span>
+<a name=line-33></a>            <span class=k>return</span> <span class=n>SafeString</span><span class=p>(</span><span class=n>t</span><span class=p>)</span>
+<a name=line-34></a>        <span class=k>return</span> <span class=n>t</span>
+<a name=line-35></a>
+<a name=line-36></a>    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-37></a>        <span class=k>return</span> <span class=bp>self</span>
+<a name=line-38></a>
+<a name=line-39></a>
+<a name=line-40></a><span class=n>SafeText</span> <span class=o>=</span> <span class=n>SafeString</span>  <span class=c1># For backwards compatibility since Django 2.0.</span>
+<a name=line-41></a>
+<a name=line-42></a>
+<a name=line-43></a><span class=k>def</span> <span class=nf>_safety_decorator</span><span class=p>(</span><span class=n>safety_marker</span><span class=p>,</span> <span class=n>func</span><span class=p>):</span>
+<a name=line-44></a>    <span class=nd>@wraps</span><span class=p>(</span><span class=n>func</span><span class=p>)</span>
+<a name=line-45></a>    <span class=k>def</span> <span class=nf>wrapped</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-46></a>        <span class=k>return</span> <span class=n>safety_marker</span><span class=p>(</span><span class=n>func</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>))</span>
+<a name=line-47></a>    <span class=k>return</span> <span class=n>wrapped</span>
+<a name=line-48></a>
+<a name=line-49></a>
+<a name=line-50></a><span class=k>def</span> <span class=nf>mark_safe</span><span class=p>(</span><span class=n>s</span><span class=p>):</span>
+<a name=line-51></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-52></a><span class=sd>    Explicitly mark a string as safe for (HTML) output purposes. The returned</span>
+<a name=line-53></a><span class=sd>    object can be used everywhere a string is appropriate.</span>
+<a name=line-54></a>
+<a name=line-55></a><span class=sd>    If used on a method as a decorator, mark the returned data as safe.</span>
+<a name=line-56></a>
+<a name=line-57></a><span class=sd>    Can be called multiple times on a single string.</span>
+<a name=line-58></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-59></a>    <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=s1>&#39;__html__&#39;</span><span class=p>):</span>
+<a name=line-60></a>        <span class=k>return</span> <span class=n>s</span>
+<a name=line-61></a>    <span class=k>if</span> <span class=n>callable</span><span class=p>(</span><span class=n>s</span><span class=p>):</span>
+<a name=line-62></a>        <span class=k>return</span> <span class=n>_safety_decorator</span><span class=p>(</span><span class=n>mark_safe</span><span class=p>,</span> <span class=n>s</span><span class=p>)</span>
+<a name=line-63></a>    <span class=k>return</span> <span class=n>SafeString</span><span class=p>(</span><span class=n>s</span><span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

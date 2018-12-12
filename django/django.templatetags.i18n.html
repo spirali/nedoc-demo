@@ -1,0 +1,111 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.templatetags.i18n</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9662; templatetags</a> </li><li><ul><li><a href=django.templatetags.cache.html>&#9656; cache</a> </li><li><div class=select><a href=django.templatetags.i18n.html>&#9662; i18n</a> </div></li><li><ul><li><a href=django.templatetags.i18n.BlockTranslateNode.html> <i>class</i> BlockTranslateNode</a> </li><li><a href=django.templatetags.i18n.GetAvailableLanguagesNode.html> <i>class</i> GetAvailableLanguagesNode</a> </li><li><a href=django.templatetags.i18n.GetCurrentLanguageBidiNode.html> <i>class</i> GetCurrentLanguageBidiNode</a> </li><li><a href=django.templatetags.i18n.GetCurrentLanguageNode.html> <i>class</i> GetCurrentLanguageNode</a> </li><li><a href=django.templatetags.i18n.GetLanguageInfoListNode.html> <i>class</i> GetLanguageInfoListNode</a> </li><li><a href=django.templatetags.i18n.GetLanguageInfoNode.html> <i>class</i> GetLanguageInfoNode</a> </li><li><a href=django.templatetags.i18n.LanguageNode.html> <i>class</i> LanguageNode</a> </li><li><a href=django.templatetags.i18n.TranslateNode.html> <i>class</i> TranslateNode</a> </li></ul></li><li><a href=django.templatetags.l10n.html>&#9656; l10n</a> </li><li><a href=django.templatetags.static.html>&#9656; static</a> </li><li><a href=django.templatetags.tz.html>&#9656; tz</a> </li></ul></li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Module i18n</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.templatetags.html>templatetags</a>.<a class=symbol href=django.templatetags.i18n.html>i18n</a></div><a class=sourcelink href=source+django.templatetags.i18n.py.html>source</a> <a class=sourcelink href=django.templatetags.i18n.html>link</a><h2>Classes</h2><ul class=deflst><li> <div> <span class=def>class <a class=symbol href=django.templatetags.i18n.BlockTranslateNode.html>BlockTranslateNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.templatetags.i18n.GetAvailableLanguagesNode.html>GetAvailableLanguagesNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.templatetags.i18n.GetCurrentLanguageBidiNode.html>GetCurrentLanguageBidiNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.templatetags.i18n.GetCurrentLanguageNode.html>GetCurrentLanguageNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.templatetags.i18n.GetLanguageInfoListNode.html>GetLanguageInfoListNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.templatetags.i18n.GetLanguageInfoNode.html>GetLanguageInfoNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.templatetags.i18n.LanguageNode.html>LanguageNode</a></span> </div></li><li> <div> <span class=def>class <a class=symbol href=django.templatetags.i18n.TranslateNode.html>TranslateNode</a></span> </div></li></ul><h2>Functions</h2><ul class=deflst><li><div class=fn><a id=f_do_block_translate></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.templatetags.i18n.html#f_do_block_translate>do_block_translate</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#34;blocktranslate&#34;)</span> <span class=label>@register.tag(&#34;blocktrans&#34;)</span></span><div class=docline> Translate a block of text with parameters. </div></div><div class=fdetail id=fn_do_block_translate><div class=decl><div class=def><i> @register.tag(&#34;blocktranslate&#34;)<br> @register.tag(&#34;blocktrans&#34;)<br></i><span class=kw>def</span> do_block_translate( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-420>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_do_block_translate>link</a></div><pre>Usage::
+
+    {% blocktranslate with bar=foo|filter boo=baz|filter %}
+    This is {{ bar }} and {{ boo }}.
+    {% endblocktranslate %}
+
+Additionally, this supports pluralization::
+
+    {% blocktranslate count count=var|length %}
+    There is {{ count }} object.
+    {% plural %}
+    There are {{ count }} objects.
+    {% endblocktranslate %}
+
+This is much like ngettext, only in template syntax.
+
+The &#34;var as value&#34; legacy format is still supported::
+
+    {% blocktranslate with foo|filter as bar and baz|filter as boo %}
+    {% blocktranslate count var|length as count %}
+
+The translated string can be stored in a variable using `asvar`::
+
+    {% blocktranslate with bar=foo|filter boo=baz|filter asvar var %}
+    This is {{ bar }} and {{ boo }}.
+    {% endblocktranslate %}
+    {{ var }}
+
+Contextual translations are supported::
+
+    {% blocktranslate with bar=foo|filter context &#34;greeting&#34; %}
+        This is {{ bar }}.
+    {% endblocktranslate %}
+
+This is equivalent to calling pgettext/npgettext instead of
+(u)gettext/(u)ngettext.</pre></div></div></li><li><div class=fn><a id=f_do_get_available_languages></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.templatetags.i18n.html#f_do_get_available_languages>do_get_available_languages</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#34;get_available_languages&#34;)</span></span><div class=docline> Store a list of available languages in the context. </div></div><div class=fdetail id=fn_do_get_available_languages><div class=decl><div class=def><i> @register.tag(&#34;get_available_languages&#34;)<br></i><span class=kw>def</span> do_get_available_languages( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-198>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_do_get_available_languages>link</a></div><pre>Usage::
+
+    {% get_available_languages as languages %}
+    {% for language in languages %}
+    ...
+    {% endfor %}
+
+This puts settings.LANGUAGES into the named variable.</pre></div></div></li><li><div class=fn><a id=f_do_get_current_language></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.templatetags.i18n.html#f_do_get_current_language>do_get_current_language</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#34;get_current_language&#34;)</span></span><div class=docline> Store the current language in the context. </div></div><div class=fdetail id=fn_do_get_current_language><div class=decl><div class=def><i> @register.tag(&#34;get_current_language&#34;)<br></i><span class=kw>def</span> do_get_current_language( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-286>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_do_get_current_language>link</a></div><pre>Usage::
+
+    {% get_current_language as language %}
+
+This fetches the currently active language and puts its value into the
+``language`` context variable.</pre></div></div></li><li><div class=fn><a id=f_do_get_current_language_bidi></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.templatetags.i18n.html#f_do_get_current_language_bidi>do_get_current_language_bidi</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#34;get_current_language_bidi&#34;)</span></span><div class=docline> Store the current language layout in the context. </div></div><div class=fdetail id=fn_do_get_current_language_bidi><div class=decl><div class=def><i> @register.tag(&#34;get_current_language_bidi&#34;)<br></i><span class=kw>def</span> do_get_current_language_bidi( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-305>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_do_get_current_language_bidi>link</a></div><pre>Usage::
+
+    {% get_current_language_bidi as bidi %}
+
+This fetches the currently active language&#39;s layout and puts its value into
+the ``bidi`` context variable. True indicates right-to-left layout,
+otherwise left-to-right.</pre></div></div></li><li><div class=fn><a id=f_do_get_language_info></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.templatetags.i18n.html#f_do_get_language_info>do_get_language_info</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#34;get_language_info&#34;)</span></span><div class=docline> Store the language information dictionary for the given language code in a context variable. </div></div><div class=fdetail id=fn_do_get_language_info><div class=decl><div class=def><i> @register.tag(&#34;get_language_info&#34;)<br></i><span class=kw>def</span> do_get_language_info( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-219>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_do_get_language_info>link</a></div><pre>Usage::
+
+    {% get_language_info for LANGUAGE_CODE as l %}
+    {{ l.code }}
+    {{ l.name }}
+    {{ l.name_translated }}
+    {{ l.name_local }}
+    {{ l.bidi|yesno:&#34;bi-directional,uni-directional&#34; }}</pre></div></div></li><li><div class=fn><a id=f_do_get_language_info_list></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.templatetags.i18n.html#f_do_get_language_info_list>do_get_language_info_list</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#34;get_language_info_list&#34;)</span></span><div class=docline> Store a list of language information dictionaries for the given language </div></div><div class=fdetail id=fn_do_get_language_info_list><div class=decl><div class=def><i> @register.tag(&#34;get_language_info_list&#34;)<br></i><span class=kw>def</span> do_get_language_info_list( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-240>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_do_get_language_info_list>link</a></div><pre>codes in a context variable. The language codes can be specified either as
+a list of strings or a settings.LANGUAGES style list (or any sequence of
+sequences whose first items are language codes).
+
+Usage::
+
+    {% get_language_info_list for LANGUAGES as langs %}
+    {% for l in langs %}
+      {{ l.code }}
+      {{ l.name }}
+      {{ l.name_translated }}
+      {{ l.name_local }}
+      {{ l.bidi|yesno:&#34;bi-directional,uni-directional&#34; }}
+    {% endfor %}</pre></div></div></li><li><div class=fn><a id=f_do_translate></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.templatetags.i18n.html#f_do_translate>do_translate</a>(<span class=args>parser, token</span>) <span class=label>@register.tag(&#34;translate&#34;)</span> <span class=label>@register.tag(&#34;trans&#34;)</span></span><div class=docline> Mark a string for translation and translate the string for the current language. </div></div><div class=fdetail id=fn_do_translate><div class=decl><div class=def><i> @register.tag(&#34;translate&#34;)<br> @register.tag(&#34;trans&#34;)<br></i><span class=kw>def</span> do_translate( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-326>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_do_translate>link</a></div><pre>Usage::
+
+    {% translate &#34;this is a test&#34; %}
+
+This marks the string for translation so it will be pulled out by
+makemessages into the .po files and runs the string through the translation
+engine.
+
+There is a second form::
+
+    {% translate &#34;this is a test&#34; noop %}
+
+This marks the string for translation, but returns the string unchanged.
+Use it when you need to store values into forms that should be translated
+later on.
+
+You can use variables instead of constant strings
+to translate stuff you marked somewhere else::
+
+    {% translate variable %}
+
+This tries to translate the contents of the variable ``variable``. Make
+sure that the string in there is something that is in the .po file.
+
+It is possible to store the translated string into a variable::
+
+    {% translate &#34;this is a test&#34; as var %}
+    {{ var }}
+
+Contextual translations are also supported::
+
+    {% translate &#34;this is a test&#34; context &#34;greeting&#34; %}
+
+This is equivalent to calling pgettext instead of (u)gettext.</pre></div></div></li><li><div class=fn><a id=f_language></a><div class=fshort><span class=def><span class=ftoggle>&#9654;</span> def <a class="fexpand symbol" href=django.templatetags.i18n.html#f_language>language</a>(<span class=args>parser, token</span>) <span class=label>@register.tag</span></span><div class=docline> Enable the given language just for this block. </div></div><div class=fdetail id=fn_language><div class=decl><div class=def><i> @register.tag<br></i><span class=kw>def</span> language( <div class=args style="padding-left: 2em">parser,</div><div class=args style="padding-left: 2em">token,</div> ) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-543>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_language>link</a></div><pre>Usage::
+
+    {% language &#34;de&#34; %}
+        This is {{ bar }} and {{ boo }}.
+    {% endlanguage %}</pre></div></div></li><li><div class=fn><a id=f_language_bidi></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=django.templatetags.i18n.html#f_language_bidi>language_bidi</a>(<span class=args>lang_code</span>) <span class=label>@register.filter</span></span></div><div class=fdetail id=fn_language_bidi><div class=decl><div class=def><i> @register.filter<br></i><span class=kw>def</span> language_bidi(<span class=args>lang_code</span>) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-281>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_language_bidi>link</a></div></div></div></li><li><div class=fn><a id=f_language_name></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=django.templatetags.i18n.html#f_language_name>language_name</a>(<span class=args>lang_code</span>) <span class=label>@register.filter</span></span></div><div class=fdetail id=fn_language_name><div class=decl><div class=def><i> @register.filter<br></i><span class=kw>def</span> language_name(<span class=args>lang_code</span>) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-265>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_language_name>link</a></div></div></div></li><li><div class=fn><a id=f_language_name_local></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=django.templatetags.i18n.html#f_language_name_local>language_name_local</a>(<span class=args>lang_code</span>) <span class=label>@register.filter</span></span></div><div class=fdetail id=fn_language_name_local><div class=decl><div class=def><i> @register.filter<br></i><span class=kw>def</span> language_name_local(<span class=args>lang_code</span>) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-276>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_language_name_local>link</a></div></div></div></li><li><div class=fn><a id=f_language_name_translated></a><div class=fshort><span class=def><span class=ftoggle-empty>&#9655;</span> def <a class="fexpand symbol-no-doc" href=django.templatetags.i18n.html#f_language_name_translated>language_name_translated</a>(<span class=args>lang_code</span>) <span class=label>@register.filter</span></span></div><div class=fdetail id=fn_language_name_translated><div class=decl><div class=def><i> @register.filter<br></i><span class=kw>def</span> language_name_translated(<span class=args>lang_code</span>) </div></div><div class=idnt><a class=sourcelink href=source+django.templatetags.i18n.py.html#line-270>source</a> <a class=sourcelink href=django.templatetags.i18n.html#f_language_name_translated>link</a></div></div></div></li></ul><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

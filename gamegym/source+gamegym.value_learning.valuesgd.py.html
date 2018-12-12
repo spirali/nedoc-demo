@@ -1,0 +1,124 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>gamegym.value_learning.valuesgd</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Gamegym</h1> 0.1 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=gamegym.html>&#9662; gamegym</a> </li><li><ul><li><a href=gamegym.algorithms.html>&#9656; algorithms</a> </li><li><a href=gamegym.contrib.html>&#9656; contrib</a> </li><li><a href=gamegym.game.html>&#9656; game</a> </li><li><a href=gamegym.games.html>&#9656; games</a> </li><li><a href=gamegym.server.html>&#9656; server</a> </li><li><a href=gamegym.strategy.html>&#9656; strategy</a> </li><li><a href=gamegym.utils.html>&#9656; utils</a> </li><li><a href=gamegym.value_learning.html>&#9662; value_learning</a> </li><li><ul><li><a href=gamegym.value_learning.expected_features.html>&#9656; expected_features</a> </li><li><a href=gamegym.value_learning.value_full_sgd.html>&#9656; value_full_sgd</a> </li><li><a href=gamegym.value_learning.valuelp.html>&#9656; valuelp</a> </li><li><div class=select><a href=gamegym.value_learning.valuesgd.html>&#9662; valuesgd</a> </div></li><li><ul><li><a href=gamegym.value_learning.valuesgd.SparseSGDLinearValueLearning.html> <i>class</i> SparseSGDLinearValueLearning</a> </li></ul></li><li><a href=gamegym.value_learning.valuestore.html>&#9656; valuestore</a> </li></ul></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code gamegym/value_learning/valuesgd.py</h1><div id=path><a class=symbol href=gamegym.html>gamegym</a>.<a class=symbol href=gamegym.value_learning.html>value_learning</a>.<a class=symbol href=gamegym.value_learning.valuesgd.html>valuesgd</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>from</span> <span class=nn>..game</span> <span class=kn>import</span> <span class=n>Game</span><span class=p>,</span> <span class=n>Situation</span>
+<a name=line-2></a><span class=kn>from</span> <span class=nn>..utils</span> <span class=kn>import</span> <span class=n>get_rng</span>
+<a name=line-3></a><span class=kn>import</span> <span class=nn>numpy</span> <span class=kn>as</span> <span class=nn>np</span>
+<a name=line-4></a>
+<a name=line-5></a><span class=c1># TODO: Update this to new Game API</span>
+<a name=line-6></a>
+<a name=line-7></a>
+<a name=line-8></a><span class=k>class</span> <span class=nc>SparseSGDLinearValueLearning</span><span class=p>:</span>
+<a name=line-9></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>game</span><span class=p>,</span> <span class=n>feature_extractor</span><span class=p>,</span> <span class=n>value_store</span><span class=p>,</span> <span class=n>infosetsampler</span><span class=p>,</span> <span class=n>rng</span><span class=o>=</span><span class=bp>None</span><span class=p>,</span> <span class=n>seed</span><span class=o>=</span><span class=bp>None</span><span class=p>):</span>
+<a name=line-10></a>        <span class=bp>self</span><span class=o>.</span><span class=n>rng</span> <span class=o>=</span> <span class=n>get_rng</span><span class=p>(</span><span class=n>rng</span><span class=o>=</span><span class=n>rng</span><span class=p>,</span> <span class=n>seed</span><span class=o>=</span><span class=n>seed</span><span class=p>)</span>
+<a name=line-11></a>        <span class=bp>self</span><span class=o>.</span><span class=n>game</span> <span class=o>=</span> <span class=n>game</span>
+<a name=line-12></a>        <span class=bp>self</span><span class=o>.</span><span class=n>store</span> <span class=o>=</span> <span class=n>value_store</span>
+<a name=line-13></a>        <span class=bp>self</span><span class=o>.</span><span class=n>feature_extractor</span> <span class=o>=</span> <span class=n>feature_extractor</span>
+<a name=line-14></a>        <span class=bp>self</span><span class=o>.</span><span class=n>infosetsampler</span> <span class=o>=</span> <span class=n>infosetsampler</span>
+<a name=line-15></a>
+<a name=line-16></a>    <span class=k>def</span> <span class=nf>iteration</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>strategies</span><span class=p>,</span> <span class=n>step</span><span class=o>=</span><span class=mf>1e-3</span><span class=p>,</span> <span class=n>regularize_step</span><span class=o>=</span><span class=mf>1e-3</span><span class=p>,</span> <span class=n>val_samples</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>
+<a name=line-17></a>                  <span class=n>grad_samples</span><span class=o>=</span><span class=mi>1</span><span class=p>):</span>
+<a name=line-18></a>        <span class=c1># sample a player, info and actions</span>
+<a name=line-19></a>        <span class=n>player</span><span class=p>,</span> <span class=n>info</span><span class=p>,</span> <span class=n>_</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>infosetsampler</span><span class=o>.</span><span class=n>sample_info</span><span class=p>(</span><span class=n>rng</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>rng</span><span class=p>)</span>
+<a name=line-20></a>        <span class=n>_</span><span class=p>,</span> <span class=n>_</span><span class=p>,</span> <span class=n>s0</span><span class=p>,</span> <span class=n>_</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>infosetsampler</span><span class=o>.</span><span class=n>sample_state</span><span class=p>(</span><span class=n>player</span><span class=o>=</span><span class=n>player</span><span class=p>,</span> <span class=n>info</span><span class=o>=</span><span class=n>info</span><span class=p>,</span> <span class=n>rng</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>rng</span><span class=p>)</span>
+<a name=line-21></a>        <span class=c1># Sample actions to equalize</span>
+<a name=line-22></a>        <span class=n>a1</span> <span class=o>=</span> <span class=n>strategies</span><span class=p>[</span><span class=n>player</span><span class=p>]</span><span class=o>.</span><span class=n>distribution</span><span class=p>(</span><span class=n>s0</span><span class=p>)</span><span class=o>.</span><span class=n>sample</span><span class=p>(</span><span class=n>rng</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>rng</span><span class=p>)</span>
+<a name=line-23></a>        <span class=n>a2</span> <span class=o>=</span> <span class=n>strategies</span><span class=p>[</span><span class=n>player</span><span class=p>]</span><span class=o>.</span><span class=n>distribution</span><span class=p>(</span><span class=n>s0</span><span class=p>)</span><span class=o>.</span><span class=n>sample</span><span class=p>(</span><span class=n>rng</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>rng</span><span class=p>)</span>
+<a name=line-24></a>        <span class=k>if</span> <span class=n>a1</span> <span class=o>==</span> <span class=n>a2</span><span class=p>:</span>
+<a name=line-25></a>            <span class=k>return</span>
+<a name=line-26></a>
+<a name=line-27></a>        <span class=k>def</span> <span class=nf>sample_term_features</span><span class=p>(</span><span class=n>a</span><span class=p>):</span>
+<a name=line-28></a>            <span class=n>_</span><span class=p>,</span> <span class=n>_</span><span class=p>,</span> <span class=n>s</span><span class=p>,</span> <span class=n>_</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>infosetsampler</span><span class=o>.</span><span class=n>sample_state</span><span class=p>(</span><span class=n>player</span><span class=o>=</span><span class=n>player</span><span class=p>,</span> <span class=n>info</span><span class=o>=</span><span class=n>info</span><span class=p>,</span> <span class=n>rng</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>rng</span><span class=p>)</span>
+<a name=line-29></a>            <span class=n>s</span> <span class=o>=</span> <span class=n>s</span><span class=o>.</span><span class=n>play</span><span class=p>(</span><span class=n>a</span><span class=p>)</span>
+<a name=line-30></a>            <span class=n>z</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>game</span><span class=o>.</span><span class=n>play_strategies</span><span class=p>(</span><span class=n>strategies</span><span class=p>,</span> <span class=n>rng</span><span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>rng</span><span class=p>,</span> <span class=n>state0</span><span class=o>=</span><span class=n>s</span><span class=p>)[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span>
+<a name=line-31></a>            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>feature_extractor</span><span class=p>(</span><span class=n>z</span><span class=p>)</span>
+<a name=line-32></a>
+<a name=line-33></a>        <span class=k>def</span> <span class=nf>sample_features</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>samples</span><span class=p>):</span>
+<a name=line-34></a>            <span class=k>return</span> <span class=n>np</span><span class=o>.</span><span class=n>mean</span><span class=p>([</span><span class=n>sample_term_features</span><span class=p>(</span><span class=n>a</span><span class=p>)</span> <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>samples</span><span class=p>)],</span> <span class=n>axis</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+<a name=line-35></a>
+<a name=line-36></a>        <span class=n>a1val</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>store</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>sample_features</span><span class=p>(</span><span class=n>a1</span><span class=p>,</span> <span class=n>val_samples</span><span class=p>))</span>
+<a name=line-37></a>        <span class=n>a2val</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>store</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>sample_features</span><span class=p>(</span><span class=n>a2</span><span class=p>,</span> <span class=n>val_samples</span><span class=p>))</span>
+<a name=line-38></a>        <span class=n>d</span> <span class=o>=</span> <span class=p>(</span><span class=n>a1val</span> <span class=o>-</span> <span class=n>a2val</span><span class=p>)</span> <span class=o>*</span> <span class=n>step</span>
+<a name=line-39></a>        <span class=bp>self</span><span class=o>.</span><span class=n>store</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=n>sample_features</span><span class=p>(</span><span class=n>a1</span><span class=p>,</span> <span class=n>grad_samples</span><span class=p>),</span> <span class=o>-</span><span class=n>d</span><span class=p>)</span>
+<a name=line-40></a>        <span class=bp>self</span><span class=o>.</span><span class=n>store</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=n>sample_features</span><span class=p>(</span><span class=n>a2</span><span class=p>,</span> <span class=n>grad_samples</span><span class=p>),</span> <span class=n>d</span><span class=p>)</span>
+<a name=line-41></a>        <span class=bp>self</span><span class=o>.</span><span class=n>store</span><span class=o>.</span><span class=n>regularize</span><span class=p>(</span><span class=n>regularize_step</span><span class=p>)</span>
+<a name=line-42></a>
+<a name=line-43></a>    <span class=k>def</span> <span class=nf>compute</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span>
+<a name=line-44></a>                <span class=n>strategies</span><span class=p>,</span>
+<a name=line-45></a>                <span class=n>iterations</span><span class=p>,</span>
+<a name=line-46></a>                <span class=n>step</span><span class=o>=</span><span class=mf>1e-3</span><span class=p>,</span>
+<a name=line-47></a>                <span class=n>regularize_step</span><span class=o>=</span><span class=mf>1e-3</span><span class=p>,</span>
+<a name=line-48></a>                <span class=n>record_every</span><span class=o>=</span><span class=bp>None</span><span class=p>,</span>
+<a name=line-49></a>                <span class=n>val_samples</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>
+<a name=line-50></a>                <span class=n>grad_samples</span><span class=o>=</span><span class=mi>1</span><span class=p>):</span>
+<a name=line-51></a>        <span class=n>params</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-52></a>        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>iterations</span><span class=p>):</span>
+<a name=line-53></a>            <span class=bp>self</span><span class=o>.</span><span class=n>iteration</span><span class=p>(</span>
+<a name=line-54></a>                <span class=n>strategies</span><span class=p>,</span>
+<a name=line-55></a>                <span class=n>step</span><span class=o>=</span><span class=n>step</span><span class=p>,</span>
+<a name=line-56></a>                <span class=n>regularize_step</span><span class=o>=</span><span class=n>regularize_step</span><span class=p>,</span>
+<a name=line-57></a>                <span class=n>val_samples</span><span class=o>=</span><span class=n>val_samples</span><span class=p>,</span>
+<a name=line-58></a>                <span class=n>grad_samples</span><span class=o>=</span><span class=n>grad_samples</span><span class=p>)</span>
+<a name=line-59></a>            <span class=k>if</span> <span class=n>record_every</span> <span class=ow>and</span> <span class=n>i</span> <span class=o>%</span> <span class=n>record_every</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+<a name=line-60></a>                <span class=n>params</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>store</span><span class=o>.</span><span class=n>values</span><span class=o>.</span><span class=n>copy</span><span class=p>())</span>
+<a name=line-61></a>        <span class=k>if</span> <span class=n>record_every</span><span class=p>:</span>
+<a name=line-62></a>            <span class=k>return</span> <span class=n>np</span><span class=o>.</span><span class=n>array</span><span class=p>(</span><span class=n>params</span><span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.4 at 2019-01-06 09:54 </p></div></div></body></html>

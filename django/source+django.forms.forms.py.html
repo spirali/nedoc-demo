@@ -1,0 +1,994 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.forms.forms</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9662; forms</a> </li><li><ul><li><a href=django.forms.boundfield.html>&#9656; boundfield</a> </li><li><a href=django.forms.fields.html>&#9656; fields</a> </li><li><div class=select><a href=django.forms.forms.html>&#9662; forms</a> </div></li><li><ul><li><a href=django.forms.forms.BaseForm.html> <i>class</i> BaseForm</a> </li><li><a href=django.forms.forms.DeclarativeFieldsMetaclass.html> <i>class</i> DeclarativeFieldsMetaclass</a> </li><li><a href=django.forms.forms.Form.html> <i>class</i> Form</a> </li></ul></li><li><a href=django.forms.formsets.html>&#9656; formsets</a> </li><li><a href=django.forms.models.html>&#9656; models</a> </li><li><a href=django.forms.renderers.html>&#9656; renderers</a> </li><li><a href=django.forms.utils.html>&#9656; utils</a> </li><li><a href=django.forms.widgets.html>&#9656; widgets</a> </li></ul></li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/forms/forms.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.forms.html>forms</a>.<a class=symbol href=django.forms.forms.html>forms</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-2></a><span class=sd>Form classes</span>
+<a name=line-3></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-4></a>
+<a name=line-5></a><span class=kn>import</span> <span class=nn>copy</span>
+<a name=line-6></a>
+<a name=line-7></a><span class=kn>from</span> <span class=nn>django.core.exceptions</span> <span class=kn>import</span> <span class=n>NON_FIELD_ERRORS</span><span class=p>,</span> <span class=n>ValidationError</span>
+<a name=line-8></a><span class=kn>from</span> <span class=nn>django.forms.fields</span> <span class=kn>import</span> <span class=n>Field</span><span class=p>,</span> <span class=n>FileField</span>
+<a name=line-9></a><span class=kn>from</span> <span class=nn>django.forms.utils</span> <span class=kn>import</span> <span class=n>ErrorDict</span><span class=p>,</span> <span class=n>ErrorList</span>
+<a name=line-10></a><span class=kn>from</span> <span class=nn>django.forms.widgets</span> <span class=kn>import</span> <span class=n>Media</span><span class=p>,</span> <span class=n>MediaDefiningClass</span>
+<a name=line-11></a><span class=kn>from</span> <span class=nn>django.utils.datastructures</span> <span class=kn>import</span> <span class=n>MultiValueDict</span>
+<a name=line-12></a><span class=kn>from</span> <span class=nn>django.utils.functional</span> <span class=kn>import</span> <span class=n>cached_property</span>
+<a name=line-13></a><span class=kn>from</span> <span class=nn>django.utils.html</span> <span class=kn>import</span> <span class=n>conditional_escape</span><span class=p>,</span> <span class=n>html_safe</span>
+<a name=line-14></a><span class=kn>from</span> <span class=nn>django.utils.safestring</span> <span class=kn>import</span> <span class=n>mark_safe</span>
+<a name=line-15></a><span class=kn>from</span> <span class=nn>django.utils.translation</span> <span class=kn>import</span> <span class=n>gettext</span> <span class=k>as</span> <span class=n>_</span>
+<a name=line-16></a>
+<a name=line-17></a><span class=kn>from</span> <span class=nn>.renderers</span> <span class=kn>import</span> <span class=n>get_default_renderer</span>
+<a name=line-18></a>
+<a name=line-19></a><span class=n>__all__</span> <span class=o>=</span> <span class=p>(</span><span class=s1>&#39;BaseForm&#39;</span><span class=p>,</span> <span class=s1>&#39;Form&#39;</span><span class=p>)</span>
+<a name=line-20></a>
+<a name=line-21></a>
+<a name=line-22></a><span class=k>class</span> <span class=nc>DeclarativeFieldsMetaclass</span><span class=p>(</span><span class=n>MediaDefiningClass</span><span class=p>):</span>
+<a name=line-23></a>    <span class=sd>&quot;&quot;&quot;Collect Fields declared on the base classes.&quot;&quot;&quot;</span>
+<a name=line-24></a>    <span class=k>def</span> <span class=fm>__new__</span><span class=p>(</span><span class=n>mcs</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>bases</span><span class=p>,</span> <span class=n>attrs</span><span class=p>):</span>
+<a name=line-25></a>        <span class=c1># Collect fields from current class and remove them from attrs.</span>
+<a name=line-26></a>        <span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;declared_fields&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=p>{</span>
+<a name=line-27></a>            <span class=n>key</span><span class=p>:</span> <span class=n>attrs</span><span class=o>.</span><span class=n>pop</span><span class=p>(</span><span class=n>key</span><span class=p>)</span> <span class=k>for</span> <span class=n>key</span><span class=p>,</span> <span class=n>value</span> <span class=ow>in</span> <span class=nb>list</span><span class=p>(</span><span class=n>attrs</span><span class=o>.</span><span class=n>items</span><span class=p>())</span>
+<a name=line-28></a>            <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=n>Field</span><span class=p>)</span>
+<a name=line-29></a>        <span class=p>}</span>
+<a name=line-30></a>
+<a name=line-31></a>        <span class=n>new_class</span> <span class=o>=</span> <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__new__</span><span class=p>(</span><span class=n>mcs</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>bases</span><span class=p>,</span> <span class=n>attrs</span><span class=p>)</span>
+<a name=line-32></a>
+<a name=line-33></a>        <span class=c1># Walk through the MRO.</span>
+<a name=line-34></a>        <span class=n>declared_fields</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-35></a>        <span class=k>for</span> <span class=n>base</span> <span class=ow>in</span> <span class=nb>reversed</span><span class=p>(</span><span class=n>new_class</span><span class=o>.</span><span class=vm>__mro__</span><span class=p>):</span>
+<a name=line-36></a>            <span class=c1># Collect fields from base class.</span>
+<a name=line-37></a>            <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>base</span><span class=p>,</span> <span class=s1>&#39;declared_fields&#39;</span><span class=p>):</span>
+<a name=line-38></a>                <span class=n>declared_fields</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=n>base</span><span class=o>.</span><span class=n>declared_fields</span><span class=p>)</span>
+<a name=line-39></a>
+<a name=line-40></a>            <span class=c1># Field shadowing.</span>
+<a name=line-41></a>            <span class=k>for</span> <span class=n>attr</span><span class=p>,</span> <span class=n>value</span> <span class=ow>in</span> <span class=n>base</span><span class=o>.</span><span class=vm>__dict__</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-42></a>                <span class=k>if</span> <span class=n>value</span> <span class=ow>is</span> <span class=kc>None</span> <span class=ow>and</span> <span class=n>attr</span> <span class=ow>in</span> <span class=n>declared_fields</span><span class=p>:</span>
+<a name=line-43></a>                    <span class=n>declared_fields</span><span class=o>.</span><span class=n>pop</span><span class=p>(</span><span class=n>attr</span><span class=p>)</span>
+<a name=line-44></a>
+<a name=line-45></a>        <span class=n>new_class</span><span class=o>.</span><span class=n>base_fields</span> <span class=o>=</span> <span class=n>declared_fields</span>
+<a name=line-46></a>        <span class=n>new_class</span><span class=o>.</span><span class=n>declared_fields</span> <span class=o>=</span> <span class=n>declared_fields</span>
+<a name=line-47></a>
+<a name=line-48></a>        <span class=k>return</span> <span class=n>new_class</span>
+<a name=line-49></a>
+<a name=line-50></a>
+<a name=line-51></a><span class=nd>@html_safe</span>
+<a name=line-52></a><span class=k>class</span> <span class=nc>BaseForm</span><span class=p>:</span>
+<a name=line-53></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-54></a><span class=sd>    The main implementation of all the Form logic. Note that this class is</span>
+<a name=line-55></a><span class=sd>    different than Form. See the comments by the Form class for more info. Any</span>
+<a name=line-56></a><span class=sd>    improvements to the form API should be made to this class, not to the Form</span>
+<a name=line-57></a><span class=sd>    class.</span>
+<a name=line-58></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-59></a>    <span class=n>default_renderer</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-60></a>    <span class=n>field_order</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-61></a>    <span class=n>prefix</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-62></a>    <span class=n>use_required_attribute</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-63></a>
+<a name=line-64></a>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>data</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>files</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>auto_id</span><span class=o>=</span><span class=s1>&#39;id_</span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>prefix</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+<a name=line-65></a>                 <span class=n>initial</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>error_class</span><span class=o>=</span><span class=n>ErrorList</span><span class=p>,</span> <span class=n>label_suffix</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+<a name=line-66></a>                 <span class=n>empty_permitted</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=n>field_order</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>use_required_attribute</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>renderer</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-67></a>        <span class=bp>self</span><span class=o>.</span><span class=n>is_bound</span> <span class=o>=</span> <span class=n>data</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span> <span class=ow>or</span> <span class=n>files</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span>
+<a name=line-68></a>        <span class=bp>self</span><span class=o>.</span><span class=n>data</span> <span class=o>=</span> <span class=n>MultiValueDict</span><span class=p>()</span> <span class=k>if</span> <span class=n>data</span> <span class=ow>is</span> <span class=kc>None</span> <span class=k>else</span> <span class=n>data</span>
+<a name=line-69></a>        <span class=bp>self</span><span class=o>.</span><span class=n>files</span> <span class=o>=</span> <span class=n>MultiValueDict</span><span class=p>()</span> <span class=k>if</span> <span class=n>files</span> <span class=ow>is</span> <span class=kc>None</span> <span class=k>else</span> <span class=n>files</span>
+<a name=line-70></a>        <span class=bp>self</span><span class=o>.</span><span class=n>auto_id</span> <span class=o>=</span> <span class=n>auto_id</span>
+<a name=line-71></a>        <span class=k>if</span> <span class=n>prefix</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-72></a>            <span class=bp>self</span><span class=o>.</span><span class=n>prefix</span> <span class=o>=</span> <span class=n>prefix</span>
+<a name=line-73></a>        <span class=bp>self</span><span class=o>.</span><span class=n>initial</span> <span class=o>=</span> <span class=n>initial</span> <span class=ow>or</span> <span class=p>{}</span>
+<a name=line-74></a>        <span class=bp>self</span><span class=o>.</span><span class=n>error_class</span> <span class=o>=</span> <span class=n>error_class</span>
+<a name=line-75></a>        <span class=c1># Translators: This is the default suffix added to form field labels</span>
+<a name=line-76></a>        <span class=bp>self</span><span class=o>.</span><span class=n>label_suffix</span> <span class=o>=</span> <span class=n>label_suffix</span> <span class=k>if</span> <span class=n>label_suffix</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span> <span class=k>else</span> <span class=n>_</span><span class=p>(</span><span class=s1>&#39;:&#39;</span><span class=p>)</span>
+<a name=line-77></a>        <span class=bp>self</span><span class=o>.</span><span class=n>empty_permitted</span> <span class=o>=</span> <span class=n>empty_permitted</span>
+<a name=line-78></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span> <span class=o>=</span> <span class=kc>None</span>  <span class=c1># Stores the errors after clean() has been called.</span>
+<a name=line-79></a>
+<a name=line-80></a>        <span class=c1># The base_fields class attribute is the *class-wide* definition of</span>
+<a name=line-81></a>        <span class=c1># fields. Because a particular *instance* of the class might want to</span>
+<a name=line-82></a>        <span class=c1># alter self.fields, we create self.fields here by copying base_fields.</span>
+<a name=line-83></a>        <span class=c1># Instances should always modify self.fields; they should not modify</span>
+<a name=line-84></a>        <span class=c1># self.base_fields.</span>
+<a name=line-85></a>        <span class=bp>self</span><span class=o>.</span><span class=n>fields</span> <span class=o>=</span> <span class=n>copy</span><span class=o>.</span><span class=n>deepcopy</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>base_fields</span><span class=p>)</span>
+<a name=line-86></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_bound_fields_cache</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-87></a>        <span class=bp>self</span><span class=o>.</span><span class=n>order_fields</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>field_order</span> <span class=k>if</span> <span class=n>field_order</span> <span class=ow>is</span> <span class=kc>None</span> <span class=k>else</span> <span class=n>field_order</span><span class=p>)</span>
+<a name=line-88></a>
+<a name=line-89></a>        <span class=k>if</span> <span class=n>use_required_attribute</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-90></a>            <span class=bp>self</span><span class=o>.</span><span class=n>use_required_attribute</span> <span class=o>=</span> <span class=n>use_required_attribute</span>
+<a name=line-91></a>
+<a name=line-92></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>empty_permitted</span> <span class=ow>and</span> <span class=bp>self</span><span class=o>.</span><span class=n>use_required_attribute</span><span class=p>:</span>
+<a name=line-93></a>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-94></a>                <span class=s1>&#39;The empty_permitted and use_required_attribute arguments may &#39;</span>
+<a name=line-95></a>                <span class=s1>&#39;not both be True.&#39;</span>
+<a name=line-96></a>            <span class=p>)</span>
+<a name=line-97></a>
+<a name=line-98></a>        <span class=c1># Initialize form renderer. Use a global default if not specified</span>
+<a name=line-99></a>        <span class=c1># either as an argument or as self.default_renderer.</span>
+<a name=line-100></a>        <span class=k>if</span> <span class=n>renderer</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-101></a>            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>default_renderer</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-102></a>                <span class=n>renderer</span> <span class=o>=</span> <span class=n>get_default_renderer</span><span class=p>()</span>
+<a name=line-103></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-104></a>                <span class=n>renderer</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>default_renderer</span>
+<a name=line-105></a>                <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>default_renderer</span><span class=p>,</span> <span class=nb>type</span><span class=p>):</span>
+<a name=line-106></a>                    <span class=n>renderer</span> <span class=o>=</span> <span class=n>renderer</span><span class=p>()</span>
+<a name=line-107></a>        <span class=bp>self</span><span class=o>.</span><span class=n>renderer</span> <span class=o>=</span> <span class=n>renderer</span>
+<a name=line-108></a>
+<a name=line-109></a>    <span class=k>def</span> <span class=nf>order_fields</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>field_order</span><span class=p>):</span>
+<a name=line-110></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-111></a><span class=sd>        Rearrange the fields according to field_order.</span>
+<a name=line-112></a>
+<a name=line-113></a><span class=sd>        field_order is a list of field names specifying the order. Append fields</span>
+<a name=line-114></a><span class=sd>        not included in the list in the default order for backward compatibility</span>
+<a name=line-115></a><span class=sd>        with subclasses not overriding field_order. If field_order is None,</span>
+<a name=line-116></a><span class=sd>        keep all fields in the order defined in the class. Ignore unknown</span>
+<a name=line-117></a><span class=sd>        fields in field_order to allow disabling fields in form subclasses</span>
+<a name=line-118></a><span class=sd>        without redefining ordering.</span>
+<a name=line-119></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-120></a>        <span class=k>if</span> <span class=n>field_order</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-121></a>            <span class=k>return</span>
+<a name=line-122></a>        <span class=n>fields</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-123></a>        <span class=k>for</span> <span class=n>key</span> <span class=ow>in</span> <span class=n>field_order</span><span class=p>:</span>
+<a name=line-124></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-125></a>                <span class=n>fields</span><span class=p>[</span><span class=n>key</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=o>.</span><span class=n>pop</span><span class=p>(</span><span class=n>key</span><span class=p>)</span>
+<a name=line-126></a>            <span class=k>except</span> <span class=ne>KeyError</span><span class=p>:</span>  <span class=c1># ignore unknown fields</span>
+<a name=line-127></a>                <span class=k>pass</span>
+<a name=line-128></a>        <span class=n>fields</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=p>)</span>  <span class=c1># add remaining fields in original order</span>
+<a name=line-129></a>        <span class=bp>self</span><span class=o>.</span><span class=n>fields</span> <span class=o>=</span> <span class=n>fields</span>
+<a name=line-130></a>
+<a name=line-131></a>    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-132></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>as_table</span><span class=p>()</span>
+<a name=line-133></a>
+<a name=line-134></a>    <span class=k>def</span> <span class=fm>__repr__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-135></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-136></a>            <span class=n>is_valid</span> <span class=o>=</span> <span class=s2>&quot;Unknown&quot;</span>
+<a name=line-137></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-138></a>            <span class=n>is_valid</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>is_bound</span> <span class=ow>and</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span>
+<a name=line-139></a>        <span class=k>return</span> <span class=s1>&#39;&lt;</span><span class=si>%(cls)s</span><span class=s1> bound=</span><span class=si>%(bound)s</span><span class=s1>, valid=</span><span class=si>%(valid)s</span><span class=s1>, fields=(</span><span class=si>%(fields)s</span><span class=s1>)&gt;&#39;</span> <span class=o>%</span> <span class=p>{</span>
+<a name=line-140></a>            <span class=s1>&#39;cls&#39;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=vm>__name__</span><span class=p>,</span>
+<a name=line-141></a>            <span class=s1>&#39;bound&#39;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>is_bound</span><span class=p>,</span>
+<a name=line-142></a>            <span class=s1>&#39;valid&#39;</span><span class=p>:</span> <span class=n>is_valid</span><span class=p>,</span>
+<a name=line-143></a>            <span class=s1>&#39;fields&#39;</span><span class=p>:</span> <span class=s1>&#39;;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=p>),</span>
+<a name=line-144></a>        <span class=p>}</span>
+<a name=line-145></a>
+<a name=line-146></a>    <span class=k>def</span> <span class=fm>__iter__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-147></a>        <span class=k>for</span> <span class=n>name</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=p>:</span>
+<a name=line-148></a>            <span class=k>yield</span> <span class=bp>self</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-149></a>
+<a name=line-150></a>    <span class=k>def</span> <span class=fm>__getitem__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+<a name=line-151></a>        <span class=sd>&quot;&quot;&quot;Return a BoundField with the given name.&quot;&quot;&quot;</span>
+<a name=line-152></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-153></a>            <span class=n>field</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-154></a>        <span class=k>except</span> <span class=ne>KeyError</span><span class=p>:</span>
+<a name=line-155></a>            <span class=k>raise</span> <span class=ne>KeyError</span><span class=p>(</span>
+<a name=line-156></a>                <span class=s2>&quot;Key &#39;</span><span class=si>%s</span><span class=s2>&#39; not found in &#39;</span><span class=si>%s</span><span class=s2>&#39;. Choices are: </span><span class=si>%s</span><span class=s2>.&quot;</span> <span class=o>%</span> <span class=p>(</span>
+<a name=line-157></a>                    <span class=n>name</span><span class=p>,</span>
+<a name=line-158></a>                    <span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=vm>__name__</span><span class=p>,</span>
+<a name=line-159></a>                    <span class=s1>&#39;, &#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=nb>sorted</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=p>)),</span>
+<a name=line-160></a>                <span class=p>)</span>
+<a name=line-161></a>            <span class=p>)</span>
+<a name=line-162></a>        <span class=k>if</span> <span class=n>name</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>_bound_fields_cache</span><span class=p>:</span>
+<a name=line-163></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_bound_fields_cache</span><span class=p>[</span><span class=n>name</span><span class=p>]</span> <span class=o>=</span> <span class=n>field</span><span class=o>.</span><span class=n>get_bound_field</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>)</span>
+<a name=line-164></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_bound_fields_cache</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-165></a>
+<a name=line-166></a>    <span class=nd>@property</span>
+<a name=line-167></a>    <span class=k>def</span> <span class=nf>errors</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-168></a>        <span class=sd>&quot;&quot;&quot;Return an ErrorDict for the data provided for the form.&quot;&quot;&quot;</span>
+<a name=line-169></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-170></a>            <span class=bp>self</span><span class=o>.</span><span class=n>full_clean</span><span class=p>()</span>
+<a name=line-171></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span>
+<a name=line-172></a>
+<a name=line-173></a>    <span class=k>def</span> <span class=nf>is_valid</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-174></a>        <span class=sd>&quot;&quot;&quot;Return True if the form has no errors, or False otherwise.&quot;&quot;&quot;</span>
+<a name=line-175></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>is_bound</span> <span class=ow>and</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>errors</span>
+<a name=line-176></a>
+<a name=line-177></a>    <span class=k>def</span> <span class=nf>add_prefix</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>field_name</span><span class=p>):</span>
+<a name=line-178></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-179></a><span class=sd>        Return the field name with a prefix appended, if this Form has a</span>
+<a name=line-180></a><span class=sd>        prefix set.</span>
+<a name=line-181></a>
+<a name=line-182></a><span class=sd>        Subclasses may wish to override.</span>
+<a name=line-183></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-184></a>        <span class=k>return</span> <span class=s1>&#39;</span><span class=si>%s</span><span class=s1>-</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>prefix</span><span class=p>,</span> <span class=n>field_name</span><span class=p>)</span> <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>prefix</span> <span class=k>else</span> <span class=n>field_name</span>
+<a name=line-185></a>
+<a name=line-186></a>    <span class=k>def</span> <span class=nf>add_initial_prefix</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>field_name</span><span class=p>):</span>
+<a name=line-187></a>        <span class=sd>&quot;&quot;&quot;Add an &#39;initial&#39; prefix for checking dynamic initial values.&quot;&quot;&quot;</span>
+<a name=line-188></a>        <span class=k>return</span> <span class=s1>&#39;initial-</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>add_prefix</span><span class=p>(</span><span class=n>field_name</span><span class=p>)</span>
+<a name=line-189></a>
+<a name=line-190></a>    <span class=k>def</span> <span class=nf>_html_output</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>normal_row</span><span class=p>,</span> <span class=n>error_row</span><span class=p>,</span> <span class=n>row_ender</span><span class=p>,</span> <span class=n>help_text_html</span><span class=p>,</span> <span class=n>errors_on_separate_row</span><span class=p>):</span>
+<a name=line-191></a>        <span class=s2>&quot;Output HTML. Used by as_table(), as_ul(), as_p().&quot;</span>
+<a name=line-192></a>        <span class=c1># Errors that should be displayed above all fields.</span>
+<a name=line-193></a>        <span class=n>top_errors</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>non_field_errors</span><span class=p>()</span><span class=o>.</span><span class=n>copy</span><span class=p>()</span>
+<a name=line-194></a>        <span class=n>output</span><span class=p>,</span> <span class=n>hidden_fields</span> <span class=o>=</span> <span class=p>[],</span> <span class=p>[]</span>
+<a name=line-195></a>
+<a name=line-196></a>        <span class=k>for</span> <span class=n>name</span><span class=p>,</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-197></a>            <span class=n>html_class_attr</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-198></a>            <span class=n>bf</span> <span class=o>=</span> <span class=bp>self</span><span class=p>[</span><span class=n>name</span><span class=p>]</span>
+<a name=line-199></a>            <span class=n>bf_errors</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>error_class</span><span class=p>(</span><span class=n>bf</span><span class=o>.</span><span class=n>errors</span><span class=p>)</span>
+<a name=line-200></a>            <span class=k>if</span> <span class=n>bf</span><span class=o>.</span><span class=n>is_hidden</span><span class=p>:</span>
+<a name=line-201></a>                <span class=k>if</span> <span class=n>bf_errors</span><span class=p>:</span>
+<a name=line-202></a>                    <span class=n>top_errors</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span>
+<a name=line-203></a>                        <span class=p>[</span><span class=n>_</span><span class=p>(</span><span class=s1>&#39;(Hidden field </span><span class=si>%(name)s</span><span class=s1>) </span><span class=si>%(error)s</span><span class=s1>&#39;</span><span class=p>)</span> <span class=o>%</span> <span class=p>{</span><span class=s1>&#39;name&#39;</span><span class=p>:</span> <span class=n>name</span><span class=p>,</span> <span class=s1>&#39;error&#39;</span><span class=p>:</span> <span class=nb>str</span><span class=p>(</span><span class=n>e</span><span class=p>)}</span>
+<a name=line-204></a>                         <span class=k>for</span> <span class=n>e</span> <span class=ow>in</span> <span class=n>bf_errors</span><span class=p>])</span>
+<a name=line-205></a>                <span class=n>hidden_fields</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=nb>str</span><span class=p>(</span><span class=n>bf</span><span class=p>))</span>
+<a name=line-206></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-207></a>                <span class=c1># Create a &#39;class=&quot;...&quot;&#39; attribute if the row should have any</span>
+<a name=line-208></a>                <span class=c1># CSS classes applied.</span>
+<a name=line-209></a>                <span class=n>css_classes</span> <span class=o>=</span> <span class=n>bf</span><span class=o>.</span><span class=n>css_classes</span><span class=p>()</span>
+<a name=line-210></a>                <span class=k>if</span> <span class=n>css_classes</span><span class=p>:</span>
+<a name=line-211></a>                    <span class=n>html_class_attr</span> <span class=o>=</span> <span class=s1>&#39; class=&quot;</span><span class=si>%s</span><span class=s1>&quot;&#39;</span> <span class=o>%</span> <span class=n>css_classes</span>
+<a name=line-212></a>
+<a name=line-213></a>                <span class=k>if</span> <span class=n>errors_on_separate_row</span> <span class=ow>and</span> <span class=n>bf_errors</span><span class=p>:</span>
+<a name=line-214></a>                    <span class=n>output</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>error_row</span> <span class=o>%</span> <span class=nb>str</span><span class=p>(</span><span class=n>bf_errors</span><span class=p>))</span>
+<a name=line-215></a>
+<a name=line-216></a>                <span class=k>if</span> <span class=n>bf</span><span class=o>.</span><span class=n>label</span><span class=p>:</span>
+<a name=line-217></a>                    <span class=n>label</span> <span class=o>=</span> <span class=n>conditional_escape</span><span class=p>(</span><span class=n>bf</span><span class=o>.</span><span class=n>label</span><span class=p>)</span>
+<a name=line-218></a>                    <span class=n>label</span> <span class=o>=</span> <span class=n>bf</span><span class=o>.</span><span class=n>label_tag</span><span class=p>(</span><span class=n>label</span><span class=p>)</span> <span class=ow>or</span> <span class=s1>&#39;&#39;</span>
+<a name=line-219></a>                <span class=k>else</span><span class=p>:</span>
+<a name=line-220></a>                    <span class=n>label</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-221></a>
+<a name=line-222></a>                <span class=k>if</span> <span class=n>field</span><span class=o>.</span><span class=n>help_text</span><span class=p>:</span>
+<a name=line-223></a>                    <span class=n>help_text</span> <span class=o>=</span> <span class=n>help_text_html</span> <span class=o>%</span> <span class=n>field</span><span class=o>.</span><span class=n>help_text</span>
+<a name=line-224></a>                <span class=k>else</span><span class=p>:</span>
+<a name=line-225></a>                    <span class=n>help_text</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+<a name=line-226></a>
+<a name=line-227></a>                <span class=n>output</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>normal_row</span> <span class=o>%</span> <span class=p>{</span>
+<a name=line-228></a>                    <span class=s1>&#39;errors&#39;</span><span class=p>:</span> <span class=n>bf_errors</span><span class=p>,</span>
+<a name=line-229></a>                    <span class=s1>&#39;label&#39;</span><span class=p>:</span> <span class=n>label</span><span class=p>,</span>
+<a name=line-230></a>                    <span class=s1>&#39;field&#39;</span><span class=p>:</span> <span class=n>bf</span><span class=p>,</span>
+<a name=line-231></a>                    <span class=s1>&#39;help_text&#39;</span><span class=p>:</span> <span class=n>help_text</span><span class=p>,</span>
+<a name=line-232></a>                    <span class=s1>&#39;html_class_attr&#39;</span><span class=p>:</span> <span class=n>html_class_attr</span><span class=p>,</span>
+<a name=line-233></a>                    <span class=s1>&#39;css_classes&#39;</span><span class=p>:</span> <span class=n>css_classes</span><span class=p>,</span>
+<a name=line-234></a>                    <span class=s1>&#39;field_name&#39;</span><span class=p>:</span> <span class=n>bf</span><span class=o>.</span><span class=n>html_name</span><span class=p>,</span>
+<a name=line-235></a>                <span class=p>})</span>
+<a name=line-236></a>
+<a name=line-237></a>        <span class=k>if</span> <span class=n>top_errors</span><span class=p>:</span>
+<a name=line-238></a>            <span class=n>output</span><span class=o>.</span><span class=n>insert</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>error_row</span> <span class=o>%</span> <span class=n>top_errors</span><span class=p>)</span>
+<a name=line-239></a>
+<a name=line-240></a>        <span class=k>if</span> <span class=n>hidden_fields</span><span class=p>:</span>  <span class=c1># Insert any hidden fields in the last row.</span>
+<a name=line-241></a>            <span class=n>str_hidden</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>hidden_fields</span><span class=p>)</span>
+<a name=line-242></a>            <span class=k>if</span> <span class=n>output</span><span class=p>:</span>
+<a name=line-243></a>                <span class=n>last_row</span> <span class=o>=</span> <span class=n>output</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span>
+<a name=line-244></a>                <span class=c1># Chop off the trailing row_ender (e.g. &#39;&lt;/td&gt;&lt;/tr&gt;&#39;) and</span>
+<a name=line-245></a>                <span class=c1># insert the hidden fields.</span>
+<a name=line-246></a>                <span class=k>if</span> <span class=ow>not</span> <span class=n>last_row</span><span class=o>.</span><span class=n>endswith</span><span class=p>(</span><span class=n>row_ender</span><span class=p>):</span>
+<a name=line-247></a>                    <span class=c1># This can happen in the as_p() case (and possibly others</span>
+<a name=line-248></a>                    <span class=c1># that users write): if there are only top errors, we may</span>
+<a name=line-249></a>                    <span class=c1># not be able to conscript the last row for our purposes,</span>
+<a name=line-250></a>                    <span class=c1># so insert a new, empty row.</span>
+<a name=line-251></a>                    <span class=n>last_row</span> <span class=o>=</span> <span class=p>(</span><span class=n>normal_row</span> <span class=o>%</span> <span class=p>{</span>
+<a name=line-252></a>                        <span class=s1>&#39;errors&#39;</span><span class=p>:</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+<a name=line-253></a>                        <span class=s1>&#39;label&#39;</span><span class=p>:</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+<a name=line-254></a>                        <span class=s1>&#39;field&#39;</span><span class=p>:</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+<a name=line-255></a>                        <span class=s1>&#39;help_text&#39;</span><span class=p>:</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+<a name=line-256></a>                        <span class=s1>&#39;html_class_attr&#39;</span><span class=p>:</span> <span class=n>html_class_attr</span><span class=p>,</span>
+<a name=line-257></a>                        <span class=s1>&#39;css_classes&#39;</span><span class=p>:</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+<a name=line-258></a>                        <span class=s1>&#39;field_name&#39;</span><span class=p>:</span> <span class=s1>&#39;&#39;</span><span class=p>,</span>
+<a name=line-259></a>                    <span class=p>})</span>
+<a name=line-260></a>                    <span class=n>output</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>last_row</span><span class=p>)</span>
+<a name=line-261></a>                <span class=n>output</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=n>last_row</span><span class=p>[:</span><span class=o>-</span><span class=nb>len</span><span class=p>(</span><span class=n>row_ender</span><span class=p>)]</span> <span class=o>+</span> <span class=n>str_hidden</span> <span class=o>+</span> <span class=n>row_ender</span>
+<a name=line-262></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-263></a>                <span class=c1># If there aren&#39;t any rows in the output, just append the</span>
+<a name=line-264></a>                <span class=c1># hidden fields.</span>
+<a name=line-265></a>                <span class=n>output</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>str_hidden</span><span class=p>)</span>
+<a name=line-266></a>        <span class=k>return</span> <span class=n>mark_safe</span><span class=p>(</span><span class=s1>&#39;</span><span class=se>\n</span><span class=s1>&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>output</span><span class=p>))</span>
+<a name=line-267></a>
+<a name=line-268></a>    <span class=k>def</span> <span class=nf>as_table</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-269></a>        <span class=s2>&quot;Return this form rendered as HTML &lt;tr&gt;s -- excluding the &lt;table&gt;&lt;/table&gt;.&quot;</span>
+<a name=line-270></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_html_output</span><span class=p>(</span>
+<a name=line-271></a>            <span class=n>normal_row</span><span class=o>=</span><span class=s1>&#39;&lt;tr</span><span class=si>%(html_class_attr)s</span><span class=s1>&gt;&lt;th&gt;</span><span class=si>%(label)s</span><span class=s1>&lt;/th&gt;&lt;td&gt;</span><span class=si>%(errors)s%(field)s%(help_text)s</span><span class=s1>&lt;/td&gt;&lt;/tr&gt;&#39;</span><span class=p>,</span>
+<a name=line-272></a>            <span class=n>error_row</span><span class=o>=</span><span class=s1>&#39;&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;</span><span class=si>%s</span><span class=s1>&lt;/td&gt;&lt;/tr&gt;&#39;</span><span class=p>,</span>
+<a name=line-273></a>            <span class=n>row_ender</span><span class=o>=</span><span class=s1>&#39;&lt;/td&gt;&lt;/tr&gt;&#39;</span><span class=p>,</span>
+<a name=line-274></a>            <span class=n>help_text_html</span><span class=o>=</span><span class=s1>&#39;&lt;br&gt;&lt;span class=&quot;helptext&quot;&gt;</span><span class=si>%s</span><span class=s1>&lt;/span&gt;&#39;</span><span class=p>,</span>
+<a name=line-275></a>            <span class=n>errors_on_separate_row</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+<a name=line-276></a>        <span class=p>)</span>
+<a name=line-277></a>
+<a name=line-278></a>    <span class=k>def</span> <span class=nf>as_ul</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-279></a>        <span class=s2>&quot;Return this form rendered as HTML &lt;li&gt;s -- excluding the &lt;ul&gt;&lt;/ul&gt;.&quot;</span>
+<a name=line-280></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_html_output</span><span class=p>(</span>
+<a name=line-281></a>            <span class=n>normal_row</span><span class=o>=</span><span class=s1>&#39;&lt;li</span><span class=si>%(html_class_attr)s</span><span class=s1>&gt;</span><span class=si>%(errors)s%(label)s</span><span class=s1> </span><span class=si>%(field)s%(help_text)s</span><span class=s1>&lt;/li&gt;&#39;</span><span class=p>,</span>
+<a name=line-282></a>            <span class=n>error_row</span><span class=o>=</span><span class=s1>&#39;&lt;li&gt;</span><span class=si>%s</span><span class=s1>&lt;/li&gt;&#39;</span><span class=p>,</span>
+<a name=line-283></a>            <span class=n>row_ender</span><span class=o>=</span><span class=s1>&#39;&lt;/li&gt;&#39;</span><span class=p>,</span>
+<a name=line-284></a>            <span class=n>help_text_html</span><span class=o>=</span><span class=s1>&#39; &lt;span class=&quot;helptext&quot;&gt;</span><span class=si>%s</span><span class=s1>&lt;/span&gt;&#39;</span><span class=p>,</span>
+<a name=line-285></a>            <span class=n>errors_on_separate_row</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+<a name=line-286></a>        <span class=p>)</span>
+<a name=line-287></a>
+<a name=line-288></a>    <span class=k>def</span> <span class=nf>as_p</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-289></a>        <span class=s2>&quot;Return this form rendered as HTML &lt;p&gt;s.&quot;</span>
+<a name=line-290></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_html_output</span><span class=p>(</span>
+<a name=line-291></a>            <span class=n>normal_row</span><span class=o>=</span><span class=s1>&#39;&lt;p</span><span class=si>%(html_class_attr)s</span><span class=s1>&gt;</span><span class=si>%(label)s</span><span class=s1> </span><span class=si>%(field)s%(help_text)s</span><span class=s1>&lt;/p&gt;&#39;</span><span class=p>,</span>
+<a name=line-292></a>            <span class=n>error_row</span><span class=o>=</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>&#39;</span><span class=p>,</span>
+<a name=line-293></a>            <span class=n>row_ender</span><span class=o>=</span><span class=s1>&#39;&lt;/p&gt;&#39;</span><span class=p>,</span>
+<a name=line-294></a>            <span class=n>help_text_html</span><span class=o>=</span><span class=s1>&#39; &lt;span class=&quot;helptext&quot;&gt;</span><span class=si>%s</span><span class=s1>&lt;/span&gt;&#39;</span><span class=p>,</span>
+<a name=line-295></a>            <span class=n>errors_on_separate_row</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+<a name=line-296></a>        <span class=p>)</span>
+<a name=line-297></a>
+<a name=line-298></a>    <span class=k>def</span> <span class=nf>non_field_errors</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-299></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-300></a><span class=sd>        Return an ErrorList of errors that aren&#39;t associated with a particular</span>
+<a name=line-301></a><span class=sd>        field -- i.e., from Form.clean(). Return an empty ErrorList if there</span>
+<a name=line-302></a><span class=sd>        are none.</span>
+<a name=line-303></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-304></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>errors</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>NON_FIELD_ERRORS</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>error_class</span><span class=p>(</span><span class=n>error_class</span><span class=o>=</span><span class=s1>&#39;nonfield&#39;</span><span class=p>))</span>
+<a name=line-305></a>
+<a name=line-306></a>    <span class=k>def</span> <span class=nf>add_error</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>field</span><span class=p>,</span> <span class=n>error</span><span class=p>):</span>
+<a name=line-307></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-308></a><span class=sd>        Update the content of `self._errors`.</span>
+<a name=line-309></a>
+<a name=line-310></a><span class=sd>        The `field` argument is the name of the field to which the errors</span>
+<a name=line-311></a><span class=sd>        should be added. If it&#39;s None, treat the errors as NON_FIELD_ERRORS.</span>
+<a name=line-312></a>
+<a name=line-313></a><span class=sd>        The `error` argument can be a single error, a list of errors, or a</span>
+<a name=line-314></a><span class=sd>        dictionary that maps field names to lists of errors. An &quot;error&quot; can be</span>
+<a name=line-315></a><span class=sd>        either a simple string or an instance of ValidationError with its</span>
+<a name=line-316></a><span class=sd>        message attribute set and a &quot;list or dictionary&quot; can be an actual</span>
+<a name=line-317></a><span class=sd>        `list` or `dict` or an instance of ValidationError with its</span>
+<a name=line-318></a><span class=sd>        `error_list` or `error_dict` attribute set.</span>
+<a name=line-319></a>
+<a name=line-320></a><span class=sd>        If `error` is a dictionary, the `field` argument *must* be None and</span>
+<a name=line-321></a><span class=sd>        errors will be added to the fields that correspond to the keys of the</span>
+<a name=line-322></a><span class=sd>        dictionary.</span>
+<a name=line-323></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-324></a>        <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>error</span><span class=p>,</span> <span class=n>ValidationError</span><span class=p>):</span>
+<a name=line-325></a>            <span class=c1># Normalize to ValidationError and let its constructor</span>
+<a name=line-326></a>            <span class=c1># do the hard work of making sense of the input.</span>
+<a name=line-327></a>            <span class=n>error</span> <span class=o>=</span> <span class=n>ValidationError</span><span class=p>(</span><span class=n>error</span><span class=p>)</span>
+<a name=line-328></a>
+<a name=line-329></a>        <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>error</span><span class=p>,</span> <span class=s1>&#39;error_dict&#39;</span><span class=p>):</span>
+<a name=line-330></a>            <span class=k>if</span> <span class=n>field</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-331></a>                <span class=k>raise</span> <span class=ne>TypeError</span><span class=p>(</span>
+<a name=line-332></a>                    <span class=s2>&quot;The argument `field` must be `None` when the `error` &quot;</span>
+<a name=line-333></a>                    <span class=s2>&quot;argument contains errors for multiple fields.&quot;</span>
+<a name=line-334></a>                <span class=p>)</span>
+<a name=line-335></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-336></a>                <span class=n>error</span> <span class=o>=</span> <span class=n>error</span><span class=o>.</span><span class=n>error_dict</span>
+<a name=line-337></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-338></a>            <span class=n>error</span> <span class=o>=</span> <span class=p>{</span><span class=n>field</span> <span class=ow>or</span> <span class=n>NON_FIELD_ERRORS</span><span class=p>:</span> <span class=n>error</span><span class=o>.</span><span class=n>error_list</span><span class=p>}</span>
+<a name=line-339></a>
+<a name=line-340></a>        <span class=k>for</span> <span class=n>field</span><span class=p>,</span> <span class=n>error_list</span> <span class=ow>in</span> <span class=n>error</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-341></a>            <span class=k>if</span> <span class=n>field</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>errors</span><span class=p>:</span>
+<a name=line-342></a>                <span class=k>if</span> <span class=n>field</span> <span class=o>!=</span> <span class=n>NON_FIELD_ERRORS</span> <span class=ow>and</span> <span class=n>field</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=p>:</span>
+<a name=line-343></a>                    <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
+<a name=line-344></a>                        <span class=s2>&quot;&#39;</span><span class=si>%s</span><span class=s2>&#39; has no field named &#39;</span><span class=si>%s</span><span class=s2>&#39;.&quot;</span> <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=vm>__class__</span><span class=o>.</span><span class=vm>__name__</span><span class=p>,</span> <span class=n>field</span><span class=p>))</span>
+<a name=line-345></a>                <span class=k>if</span> <span class=n>field</span> <span class=o>==</span> <span class=n>NON_FIELD_ERRORS</span><span class=p>:</span>
+<a name=line-346></a>                    <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span><span class=p>[</span><span class=n>field</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>error_class</span><span class=p>(</span><span class=n>error_class</span><span class=o>=</span><span class=s1>&#39;nonfield&#39;</span><span class=p>)</span>
+<a name=line-347></a>                <span class=k>else</span><span class=p>:</span>
+<a name=line-348></a>                    <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span><span class=p>[</span><span class=n>field</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>error_class</span><span class=p>()</span>
+<a name=line-349></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span><span class=p>[</span><span class=n>field</span><span class=p>]</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>error_list</span><span class=p>)</span>
+<a name=line-350></a>            <span class=k>if</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>cleaned_data</span><span class=p>:</span>
+<a name=line-351></a>                <span class=k>del</span> <span class=bp>self</span><span class=o>.</span><span class=n>cleaned_data</span><span class=p>[</span><span class=n>field</span><span class=p>]</span>
+<a name=line-352></a>
+<a name=line-353></a>    <span class=k>def</span> <span class=nf>has_error</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>field</span><span class=p>,</span> <span class=n>code</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<a name=line-354></a>        <span class=k>return</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>errors</span> <span class=ow>and</span> <span class=p>(</span>
+<a name=line-355></a>            <span class=n>code</span> <span class=ow>is</span> <span class=kc>None</span> <span class=ow>or</span>
+<a name=line-356></a>            <span class=nb>any</span><span class=p>(</span><span class=n>error</span><span class=o>.</span><span class=n>code</span> <span class=o>==</span> <span class=n>code</span> <span class=k>for</span> <span class=n>error</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>errors</span><span class=o>.</span><span class=n>as_data</span><span class=p>()[</span><span class=n>field</span><span class=p>])</span>
+<a name=line-357></a>        <span class=p>)</span>
+<a name=line-358></a>
+<a name=line-359></a>    <span class=k>def</span> <span class=nf>full_clean</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-360></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-361></a><span class=sd>        Clean all of self.data and populate self._errors and self.cleaned_data.</span>
+<a name=line-362></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-363></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_errors</span> <span class=o>=</span> <span class=n>ErrorDict</span><span class=p>()</span>
+<a name=line-364></a>        <span class=k>if</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>is_bound</span><span class=p>:</span>  <span class=c1># Stop further processing.</span>
+<a name=line-365></a>            <span class=k>return</span>
+<a name=line-366></a>        <span class=bp>self</span><span class=o>.</span><span class=n>cleaned_data</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-367></a>        <span class=c1># If the form is permitted to be empty, and none of the form data has</span>
+<a name=line-368></a>        <span class=c1># changed from the initial data, short circuit any validation.</span>
+<a name=line-369></a>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>empty_permitted</span> <span class=ow>and</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>has_changed</span><span class=p>():</span>
+<a name=line-370></a>            <span class=k>return</span>
+<a name=line-371></a>
+<a name=line-372></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_clean_fields</span><span class=p>()</span>
+<a name=line-373></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_clean_form</span><span class=p>()</span>
+<a name=line-374></a>        <span class=bp>self</span><span class=o>.</span><span class=n>_post_clean</span><span class=p>()</span>
+<a name=line-375></a>
+<a name=line-376></a>    <span class=k>def</span> <span class=nf>_clean_fields</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-377></a>        <span class=k>for</span> <span class=n>name</span><span class=p>,</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-378></a>            <span class=c1># value_from_datadict() gets the data from the data dictionaries.</span>
+<a name=line-379></a>            <span class=c1># Each widget type knows how to retrieve its own data, because some</span>
+<a name=line-380></a>            <span class=c1># widgets split data over several HTML fields.</span>
+<a name=line-381></a>            <span class=k>if</span> <span class=n>field</span><span class=o>.</span><span class=n>disabled</span><span class=p>:</span>
+<a name=line-382></a>                <span class=n>value</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_initial_for_field</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=n>name</span><span class=p>)</span>
+<a name=line-383></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-384></a>                <span class=n>value</span> <span class=o>=</span> <span class=n>field</span><span class=o>.</span><span class=n>widget</span><span class=o>.</span><span class=n>value_from_datadict</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>data</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>files</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>add_prefix</span><span class=p>(</span><span class=n>name</span><span class=p>))</span>
+<a name=line-385></a>            <span class=k>try</span><span class=p>:</span>
+<a name=line-386></a>                <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=n>FileField</span><span class=p>):</span>
+<a name=line-387></a>                    <span class=n>initial</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_initial_for_field</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=n>name</span><span class=p>)</span>
+<a name=line-388></a>                    <span class=n>value</span> <span class=o>=</span> <span class=n>field</span><span class=o>.</span><span class=n>clean</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=n>initial</span><span class=p>)</span>
+<a name=line-389></a>                <span class=k>else</span><span class=p>:</span>
+<a name=line-390></a>                    <span class=n>value</span> <span class=o>=</span> <span class=n>field</span><span class=o>.</span><span class=n>clean</span><span class=p>(</span><span class=n>value</span><span class=p>)</span>
+<a name=line-391></a>                <span class=bp>self</span><span class=o>.</span><span class=n>cleaned_data</span><span class=p>[</span><span class=n>name</span><span class=p>]</span> <span class=o>=</span> <span class=n>value</span>
+<a name=line-392></a>                <span class=k>if</span> <span class=nb>hasattr</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=s1>&#39;clean_</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>name</span><span class=p>):</span>
+<a name=line-393></a>                    <span class=n>value</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=s1>&#39;clean_</span><span class=si>%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>name</span><span class=p>)()</span>
+<a name=line-394></a>                    <span class=bp>self</span><span class=o>.</span><span class=n>cleaned_data</span><span class=p>[</span><span class=n>name</span><span class=p>]</span> <span class=o>=</span> <span class=n>value</span>
+<a name=line-395></a>            <span class=k>except</span> <span class=n>ValidationError</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
+<a name=line-396></a>                <span class=bp>self</span><span class=o>.</span><span class=n>add_error</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>e</span><span class=p>)</span>
+<a name=line-397></a>
+<a name=line-398></a>    <span class=k>def</span> <span class=nf>_clean_form</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-399></a>        <span class=k>try</span><span class=p>:</span>
+<a name=line-400></a>            <span class=n>cleaned_data</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>clean</span><span class=p>()</span>
+<a name=line-401></a>        <span class=k>except</span> <span class=n>ValidationError</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
+<a name=line-402></a>            <span class=bp>self</span><span class=o>.</span><span class=n>add_error</span><span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=n>e</span><span class=p>)</span>
+<a name=line-403></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-404></a>            <span class=k>if</span> <span class=n>cleaned_data</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-405></a>                <span class=bp>self</span><span class=o>.</span><span class=n>cleaned_data</span> <span class=o>=</span> <span class=n>cleaned_data</span>
+<a name=line-406></a>
+<a name=line-407></a>    <span class=k>def</span> <span class=nf>_post_clean</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-408></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-409></a><span class=sd>        An internal hook for performing additional cleaning after form cleaning</span>
+<a name=line-410></a><span class=sd>        is complete. Used for model validation in model forms.</span>
+<a name=line-411></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-412></a>        <span class=k>pass</span>
+<a name=line-413></a>
+<a name=line-414></a>    <span class=k>def</span> <span class=nf>clean</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-415></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-416></a><span class=sd>        Hook for doing any extra form-wide cleaning after Field.clean() has been</span>
+<a name=line-417></a><span class=sd>        called on every field. Any ValidationError raised by this method will</span>
+<a name=line-418></a><span class=sd>        not be associated with a particular field; it will have a special-case</span>
+<a name=line-419></a><span class=sd>        association with the field named &#39;__all__&#39;.</span>
+<a name=line-420></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-421></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>cleaned_data</span>
+<a name=line-422></a>
+<a name=line-423></a>    <span class=k>def</span> <span class=nf>has_changed</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-424></a>        <span class=sd>&quot;&quot;&quot;Return True if data differs from initial.&quot;&quot;&quot;</span>
+<a name=line-425></a>        <span class=k>return</span> <span class=nb>bool</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>changed_data</span><span class=p>)</span>
+<a name=line-426></a>
+<a name=line-427></a>    <span class=nd>@cached_property</span>
+<a name=line-428></a>    <span class=k>def</span> <span class=nf>changed_data</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-429></a>        <span class=n>data</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-430></a>        <span class=k>for</span> <span class=n>name</span><span class=p>,</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+<a name=line-431></a>            <span class=n>prefixed_name</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>add_prefix</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+<a name=line-432></a>            <span class=n>data_value</span> <span class=o>=</span> <span class=n>field</span><span class=o>.</span><span class=n>widget</span><span class=o>.</span><span class=n>value_from_datadict</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>data</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>files</span><span class=p>,</span> <span class=n>prefixed_name</span><span class=p>)</span>
+<a name=line-433></a>            <span class=k>if</span> <span class=ow>not</span> <span class=n>field</span><span class=o>.</span><span class=n>show_hidden_initial</span><span class=p>:</span>
+<a name=line-434></a>                <span class=c1># Use the BoundField&#39;s initial as this is the value passed to</span>
+<a name=line-435></a>                <span class=c1># the widget.</span>
+<a name=line-436></a>                <span class=n>initial_value</span> <span class=o>=</span> <span class=bp>self</span><span class=p>[</span><span class=n>name</span><span class=p>]</span><span class=o>.</span><span class=n>initial</span>
+<a name=line-437></a>            <span class=k>else</span><span class=p>:</span>
+<a name=line-438></a>                <span class=n>initial_prefixed_name</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>add_initial_prefix</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+<a name=line-439></a>                <span class=n>hidden_widget</span> <span class=o>=</span> <span class=n>field</span><span class=o>.</span><span class=n>hidden_widget</span><span class=p>()</span>
+<a name=line-440></a>                <span class=k>try</span><span class=p>:</span>
+<a name=line-441></a>                    <span class=n>initial_value</span> <span class=o>=</span> <span class=n>field</span><span class=o>.</span><span class=n>to_python</span><span class=p>(</span><span class=n>hidden_widget</span><span class=o>.</span><span class=n>value_from_datadict</span><span class=p>(</span>
+<a name=line-442></a>                        <span class=bp>self</span><span class=o>.</span><span class=n>data</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>files</span><span class=p>,</span> <span class=n>initial_prefixed_name</span><span class=p>))</span>
+<a name=line-443></a>                <span class=k>except</span> <span class=n>ValidationError</span><span class=p>:</span>
+<a name=line-444></a>                    <span class=c1># Always assume data has changed if validation fails.</span>
+<a name=line-445></a>                    <span class=n>data</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+<a name=line-446></a>                    <span class=k>continue</span>
+<a name=line-447></a>            <span class=k>if</span> <span class=n>field</span><span class=o>.</span><span class=n>has_changed</span><span class=p>(</span><span class=n>initial_value</span><span class=p>,</span> <span class=n>data_value</span><span class=p>):</span>
+<a name=line-448></a>                <span class=n>data</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+<a name=line-449></a>        <span class=k>return</span> <span class=n>data</span>
+<a name=line-450></a>
+<a name=line-451></a>    <span class=nd>@property</span>
+<a name=line-452></a>    <span class=k>def</span> <span class=nf>media</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-453></a>        <span class=sd>&quot;&quot;&quot;Return all media required to render the widgets on this form.&quot;&quot;&quot;</span>
+<a name=line-454></a>        <span class=n>media</span> <span class=o>=</span> <span class=n>Media</span><span class=p>()</span>
+<a name=line-455></a>        <span class=k>for</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=o>.</span><span class=n>values</span><span class=p>():</span>
+<a name=line-456></a>            <span class=n>media</span> <span class=o>=</span> <span class=n>media</span> <span class=o>+</span> <span class=n>field</span><span class=o>.</span><span class=n>widget</span><span class=o>.</span><span class=n>media</span>
+<a name=line-457></a>        <span class=k>return</span> <span class=n>media</span>
+<a name=line-458></a>
+<a name=line-459></a>    <span class=k>def</span> <span class=nf>is_multipart</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-460></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-461></a><span class=sd>        Return True if the form needs to be multipart-encoded, i.e. it has</span>
+<a name=line-462></a><span class=sd>        FileInput, or False otherwise.</span>
+<a name=line-463></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-464></a>        <span class=k>return</span> <span class=nb>any</span><span class=p>(</span><span class=n>field</span><span class=o>.</span><span class=n>widget</span><span class=o>.</span><span class=n>needs_multipart_form</span> <span class=k>for</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>fields</span><span class=o>.</span><span class=n>values</span><span class=p>())</span>
+<a name=line-465></a>
+<a name=line-466></a>    <span class=k>def</span> <span class=nf>hidden_fields</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-467></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-468></a><span class=sd>        Return a list of all the BoundField objects that are hidden fields.</span>
+<a name=line-469></a><span class=sd>        Useful for manual form layout in templates.</span>
+<a name=line-470></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-471></a>        <span class=k>return</span> <span class=p>[</span><span class=n>field</span> <span class=k>for</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span> <span class=k>if</span> <span class=n>field</span><span class=o>.</span><span class=n>is_hidden</span><span class=p>]</span>
+<a name=line-472></a>
+<a name=line-473></a>    <span class=k>def</span> <span class=nf>visible_fields</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-474></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-475></a><span class=sd>        Return a list of BoundField objects that aren&#39;t hidden fields.</span>
+<a name=line-476></a><span class=sd>        The opposite of the hidden_fields() method.</span>
+<a name=line-477></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-478></a>        <span class=k>return</span> <span class=p>[</span><span class=n>field</span> <span class=k>for</span> <span class=n>field</span> <span class=ow>in</span> <span class=bp>self</span> <span class=k>if</span> <span class=ow>not</span> <span class=n>field</span><span class=o>.</span><span class=n>is_hidden</span><span class=p>]</span>
+<a name=line-479></a>
+<a name=line-480></a>    <span class=k>def</span> <span class=nf>get_initial_for_field</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>field</span><span class=p>,</span> <span class=n>field_name</span><span class=p>):</span>
+<a name=line-481></a>        <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-482></a><span class=sd>        Return initial data for field on form. Use initial data from the form</span>
+<a name=line-483></a><span class=sd>        or the field, in that order. Evaluate callable values.</span>
+<a name=line-484></a><span class=sd>        &quot;&quot;&quot;</span>
+<a name=line-485></a>        <span class=n>value</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>initial</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>field_name</span><span class=p>,</span> <span class=n>field</span><span class=o>.</span><span class=n>initial</span><span class=p>)</span>
+<a name=line-486></a>        <span class=k>if</span> <span class=n>callable</span><span class=p>(</span><span class=n>value</span><span class=p>):</span>
+<a name=line-487></a>            <span class=n>value</span> <span class=o>=</span> <span class=n>value</span><span class=p>()</span>
+<a name=line-488></a>        <span class=k>return</span> <span class=n>value</span>
+<a name=line-489></a>
+<a name=line-490></a>
+<a name=line-491></a><span class=k>class</span> <span class=nc>Form</span><span class=p>(</span><span class=n>BaseForm</span><span class=p>,</span> <span class=n>metaclass</span><span class=o>=</span><span class=n>DeclarativeFieldsMetaclass</span><span class=p>):</span>
+<a name=line-492></a>    <span class=s2>&quot;A collection of Fields, plus their associated data.&quot;</span>
+<a name=line-493></a>    <span class=c1># This is a separate class from BaseForm in order to abstract the way</span>
+<a name=line-494></a>    <span class=c1># self.fields is specified. This class (Form) is the one that does the</span>
+<a name=line-495></a>    <span class=c1># fancy metaclass stuff purely for the semantic sugar -- it allows one</span>
+<a name=line-496></a>    <span class=c1># to define a form using declarative syntax.</span>
+<a name=line-497></a>    <span class=c1># BaseForm itself has no way of designating self.fields.</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

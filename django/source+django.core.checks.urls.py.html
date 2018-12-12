@@ -1,0 +1,220 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.core.checks.urls</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9662; core</a> </li><li><ul><li><a href=django.core.asgi.html>&#9656; asgi</a> </li><li><a href=django.core.cache.html>&#9656; cache</a> </li><li><a href=django.core.checks.html>&#9662; checks</a> </li><li><ul><li><a href=django.core.checks.async_checks.html>&#9656; async_checks</a> </li><li><a href=django.core.checks.caches.html>&#9656; caches</a> </li><li><a href=django.core.checks.compatibility.html>&#9656; compatibility</a> </li><li><a href=django.core.checks.database.html>&#9656; database</a> </li><li><a href=django.core.checks.messages.html>&#9656; messages</a> </li><li><a href=django.core.checks.model_checks.html>&#9656; model_checks</a> </li><li><a href=django.core.checks.registry.html>&#9656; registry</a> </li><li><a href=django.core.checks.security.html>&#9656; security</a> </li><li><a href=django.core.checks.templates.html>&#9656; templates</a> </li><li><a href=django.core.checks.translation.html>&#9656; translation</a> </li><li><div class=select><a href=django.core.checks.urls.html>&#9662; urls</a> </div></li></ul></li><li><a href=django.core.exceptions.html>&#9656; exceptions</a> </li><li><a href=django.core.files.html>&#9656; files</a> </li><li><a href=django.core.handlers.html>&#9656; handlers</a> </li><li><a href=django.core.mail.html>&#9656; mail</a> </li><li><a href=django.core.management.html>&#9656; management</a> </li><li><a href=django.core.paginator.html>&#9656; paginator</a> </li><li><a href=django.core.serializers.html>&#9656; serializers</a> </li><li><a href=django.core.servers.html>&#9656; servers</a> </li><li><a href=django.core.signals.html>&#9656; signals</a> </li><li><a href=django.core.signing.html>&#9656; signing</a> </li><li><a href=django.core.validators.html>&#9656; validators</a> </li><li><a href=django.core.wsgi.html>&#9656; wsgi</a> </li></ul></li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/core/checks/urls.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.core.html>core</a>.<a class=symbol href=django.core.checks.html>checks</a>.<a class=symbol href=django.core.checks.urls.html>urls</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>from</span> <span class=nn>collections</span> <span class=kn>import</span> <span class=n>Counter</span>
+<a name=line-2></a>
+<a name=line-3></a><span class=kn>from</span> <span class=nn>django.conf</span> <span class=kn>import</span> <span class=n>settings</span>
+<a name=line-4></a>
+<a name=line-5></a><span class=kn>from</span> <span class=nn>.</span> <span class=kn>import</span> <span class=n>Error</span><span class=p>,</span> <span class=n>Tags</span><span class=p>,</span> <span class=ne>Warning</span><span class=p>,</span> <span class=n>register</span>
+<a name=line-6></a>
+<a name=line-7></a>
+<a name=line-8></a><span class=nd>@register</span><span class=p>(</span><span class=n>Tags</span><span class=o>.</span><span class=n>urls</span><span class=p>)</span>
+<a name=line-9></a><span class=k>def</span> <span class=nf>check_url_config</span><span class=p>(</span><span class=n>app_configs</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-10></a>    <span class=k>if</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>settings</span><span class=p>,</span> <span class=s1>&#39;ROOT_URLCONF&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>):</span>
+<a name=line-11></a>        <span class=kn>from</span> <span class=nn>django.urls</span> <span class=kn>import</span> <span class=n>get_resolver</span>
+<a name=line-12></a>        <span class=n>resolver</span> <span class=o>=</span> <span class=n>get_resolver</span><span class=p>()</span>
+<a name=line-13></a>        <span class=k>return</span> <span class=n>check_resolver</span><span class=p>(</span><span class=n>resolver</span><span class=p>)</span>
+<a name=line-14></a>    <span class=k>return</span> <span class=p>[]</span>
+<a name=line-15></a>
+<a name=line-16></a>
+<a name=line-17></a><span class=k>def</span> <span class=nf>check_resolver</span><span class=p>(</span><span class=n>resolver</span><span class=p>):</span>
+<a name=line-18></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-19></a><span class=sd>    Recursively check the resolver.</span>
+<a name=line-20></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-21></a>    <span class=n>check_method</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>resolver</span><span class=p>,</span> <span class=s1>&#39;check&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>)</span>
+<a name=line-22></a>    <span class=k>if</span> <span class=n>check_method</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-23></a>        <span class=k>return</span> <span class=n>check_method</span><span class=p>()</span>
+<a name=line-24></a>    <span class=k>elif</span> <span class=ow>not</span> <span class=nb>hasattr</span><span class=p>(</span><span class=n>resolver</span><span class=p>,</span> <span class=s1>&#39;resolve&#39;</span><span class=p>):</span>
+<a name=line-25></a>        <span class=k>return</span> <span class=n>get_warning_for_invalid_pattern</span><span class=p>(</span><span class=n>resolver</span><span class=p>)</span>
+<a name=line-26></a>    <span class=k>else</span><span class=p>:</span>
+<a name=line-27></a>        <span class=k>return</span> <span class=p>[]</span>
+<a name=line-28></a>
+<a name=line-29></a>
+<a name=line-30></a><span class=nd>@register</span><span class=p>(</span><span class=n>Tags</span><span class=o>.</span><span class=n>urls</span><span class=p>)</span>
+<a name=line-31></a><span class=k>def</span> <span class=nf>check_url_namespaces_unique</span><span class=p>(</span><span class=n>app_configs</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-32></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-33></a><span class=sd>    Warn if URL namespaces used in applications aren&#39;t unique.</span>
+<a name=line-34></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-35></a>    <span class=k>if</span> <span class=ow>not</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>settings</span><span class=p>,</span> <span class=s1>&#39;ROOT_URLCONF&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>):</span>
+<a name=line-36></a>        <span class=k>return</span> <span class=p>[]</span>
+<a name=line-37></a>
+<a name=line-38></a>    <span class=kn>from</span> <span class=nn>django.urls</span> <span class=kn>import</span> <span class=n>get_resolver</span>
+<a name=line-39></a>    <span class=n>resolver</span> <span class=o>=</span> <span class=n>get_resolver</span><span class=p>()</span>
+<a name=line-40></a>    <span class=n>all_namespaces</span> <span class=o>=</span> <span class=n>_load_all_namespaces</span><span class=p>(</span><span class=n>resolver</span><span class=p>)</span>
+<a name=line-41></a>    <span class=n>counter</span> <span class=o>=</span> <span class=n>Counter</span><span class=p>(</span><span class=n>all_namespaces</span><span class=p>)</span>
+<a name=line-42></a>    <span class=n>non_unique_namespaces</span> <span class=o>=</span> <span class=p>[</span><span class=n>n</span> <span class=k>for</span> <span class=n>n</span><span class=p>,</span> <span class=n>count</span> <span class=ow>in</span> <span class=n>counter</span><span class=o>.</span><span class=n>items</span><span class=p>()</span> <span class=k>if</span> <span class=n>count</span> <span class=o>&gt;</span> <span class=mi>1</span><span class=p>]</span>
+<a name=line-43></a>    <span class=n>errors</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-44></a>    <span class=k>for</span> <span class=n>namespace</span> <span class=ow>in</span> <span class=n>non_unique_namespaces</span><span class=p>:</span>
+<a name=line-45></a>        <span class=n>errors</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=ne>Warning</span><span class=p>(</span>
+<a name=line-46></a>            <span class=s2>&quot;URL namespace &#39;</span><span class=si>{}</span><span class=s2>&#39; isn&#39;t unique. You may not be able to reverse &quot;</span>
+<a name=line-47></a>            <span class=s2>&quot;all URLs in this namespace&quot;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>namespace</span><span class=p>),</span>
+<a name=line-48></a>            <span class=nb>id</span><span class=o>=</span><span class=s2>&quot;urls.W005&quot;</span><span class=p>,</span>
+<a name=line-49></a>        <span class=p>))</span>
+<a name=line-50></a>    <span class=k>return</span> <span class=n>errors</span>
+<a name=line-51></a>
+<a name=line-52></a>
+<a name=line-53></a><span class=k>def</span> <span class=nf>_load_all_namespaces</span><span class=p>(</span><span class=n>resolver</span><span class=p>,</span> <span class=n>parents</span><span class=o>=</span><span class=p>()):</span>
+<a name=line-54></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-55></a><span class=sd>    Recursively load all namespaces from URL patterns.</span>
+<a name=line-56></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-57></a>    <span class=n>url_patterns</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>resolver</span><span class=p>,</span> <span class=s1>&#39;url_patterns&#39;</span><span class=p>,</span> <span class=p>[])</span>
+<a name=line-58></a>    <span class=n>namespaces</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-59></a>        <span class=s1>&#39;:&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>parents</span> <span class=o>+</span> <span class=p>(</span><span class=n>url</span><span class=o>.</span><span class=n>namespace</span><span class=p>,))</span> <span class=k>for</span> <span class=n>url</span> <span class=ow>in</span> <span class=n>url_patterns</span>
+<a name=line-60></a>        <span class=k>if</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=s1>&#39;namespace&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>)</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span>
+<a name=line-61></a>    <span class=p>]</span>
+<a name=line-62></a>    <span class=k>for</span> <span class=n>pattern</span> <span class=ow>in</span> <span class=n>url_patterns</span><span class=p>:</span>
+<a name=line-63></a>        <span class=n>namespace</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>pattern</span><span class=p>,</span> <span class=s1>&#39;namespace&#39;</span><span class=p>,</span> <span class=kc>None</span><span class=p>)</span>
+<a name=line-64></a>        <span class=n>current</span> <span class=o>=</span> <span class=n>parents</span>
+<a name=line-65></a>        <span class=k>if</span> <span class=n>namespace</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-66></a>            <span class=n>current</span> <span class=o>+=</span> <span class=p>(</span><span class=n>namespace</span><span class=p>,)</span>
+<a name=line-67></a>        <span class=n>namespaces</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>_load_all_namespaces</span><span class=p>(</span><span class=n>pattern</span><span class=p>,</span> <span class=n>current</span><span class=p>))</span>
+<a name=line-68></a>    <span class=k>return</span> <span class=n>namespaces</span>
+<a name=line-69></a>
+<a name=line-70></a>
+<a name=line-71></a><span class=k>def</span> <span class=nf>get_warning_for_invalid_pattern</span><span class=p>(</span><span class=n>pattern</span><span class=p>):</span>
+<a name=line-72></a>    <span class=sd>&quot;&quot;&quot;</span>
+<a name=line-73></a><span class=sd>    Return a list containing a warning that the pattern is invalid.</span>
+<a name=line-74></a>
+<a name=line-75></a><span class=sd>    describe_pattern() cannot be used here, because we cannot rely on the</span>
+<a name=line-76></a><span class=sd>    urlpattern having regex or name attributes.</span>
+<a name=line-77></a><span class=sd>    &quot;&quot;&quot;</span>
+<a name=line-78></a>    <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>pattern</span><span class=p>,</span> <span class=nb>str</span><span class=p>):</span>
+<a name=line-79></a>        <span class=n>hint</span> <span class=o>=</span> <span class=p>(</span>
+<a name=line-80></a>            <span class=s2>&quot;Try removing the string &#39;</span><span class=si>{}</span><span class=s2>&#39;. The list of urlpatterns should not &quot;</span>
+<a name=line-81></a>            <span class=s2>&quot;have a prefix string as the first element.&quot;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>pattern</span><span class=p>)</span>
+<a name=line-82></a>        <span class=p>)</span>
+<a name=line-83></a>    <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>pattern</span><span class=p>,</span> <span class=nb>tuple</span><span class=p>):</span>
+<a name=line-84></a>        <span class=n>hint</span> <span class=o>=</span> <span class=s2>&quot;Try using path() instead of a tuple.&quot;</span>
+<a name=line-85></a>    <span class=k>else</span><span class=p>:</span>
+<a name=line-86></a>        <span class=n>hint</span> <span class=o>=</span> <span class=kc>None</span>
+<a name=line-87></a>
+<a name=line-88></a>    <span class=k>return</span> <span class=p>[</span><span class=n>Error</span><span class=p>(</span>
+<a name=line-89></a>        <span class=s2>&quot;Your URL pattern </span><span class=si>{!r}</span><span class=s2> is invalid. Ensure that urlpatterns is a list &quot;</span>
+<a name=line-90></a>        <span class=s2>&quot;of path() and/or re_path() instances.&quot;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>pattern</span><span class=p>),</span>
+<a name=line-91></a>        <span class=n>hint</span><span class=o>=</span><span class=n>hint</span><span class=p>,</span>
+<a name=line-92></a>        <span class=nb>id</span><span class=o>=</span><span class=s2>&quot;urls.E004&quot;</span><span class=p>,</span>
+<a name=line-93></a>    <span class=p>)]</span>
+<a name=line-94></a>
+<a name=line-95></a>
+<a name=line-96></a><span class=nd>@register</span><span class=p>(</span><span class=n>Tags</span><span class=o>.</span><span class=n>urls</span><span class=p>)</span>
+<a name=line-97></a><span class=k>def</span> <span class=nf>check_url_settings</span><span class=p>(</span><span class=n>app_configs</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<a name=line-98></a>    <span class=n>errors</span> <span class=o>=</span> <span class=p>[]</span>
+<a name=line-99></a>    <span class=k>for</span> <span class=n>name</span> <span class=ow>in</span> <span class=p>(</span><span class=s1>&#39;STATIC_URL&#39;</span><span class=p>,</span> <span class=s1>&#39;MEDIA_URL&#39;</span><span class=p>):</span>
+<a name=line-100></a>        <span class=n>value</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>settings</span><span class=p>,</span> <span class=n>name</span><span class=p>)</span>
+<a name=line-101></a>        <span class=k>if</span> <span class=n>value</span> <span class=ow>and</span> <span class=ow>not</span> <span class=n>value</span><span class=o>.</span><span class=n>endswith</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>):</span>
+<a name=line-102></a>            <span class=n>errors</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>E006</span><span class=p>(</span><span class=n>name</span><span class=p>))</span>
+<a name=line-103></a>    <span class=k>return</span> <span class=n>errors</span>
+<a name=line-104></a>
+<a name=line-105></a>
+<a name=line-106></a><span class=k>def</span> <span class=nf>E006</span><span class=p>(</span><span class=n>name</span><span class=p>):</span>
+<a name=line-107></a>    <span class=k>return</span> <span class=n>Error</span><span class=p>(</span>
+<a name=line-108></a>        <span class=s1>&#39;The </span><span class=si>{}</span><span class=s1> setting must end with a slash.&#39;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>name</span><span class=p>),</span>
+<a name=line-109></a>        <span class=nb>id</span><span class=o>=</span><span class=s1>&#39;urls.E006&#39;</span><span class=p>,</span>
+<a name=line-110></a>    <span class=p>)</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

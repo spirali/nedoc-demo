@@ -1,0 +1,214 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.contrib.gis.db.backends.base.features</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9662; contrib</a> </li><li><ul><li><a href=django.contrib.admin.html>&#9656; admin</a> </li><li><a href=django.contrib.admindocs.html>&#9656; admindocs</a> </li><li><a href=django.contrib.auth.html>&#9656; auth</a> </li><li><a href=django.contrib.contenttypes.html>&#9656; contenttypes</a> </li><li><a href=django.contrib.flatpages.html>&#9656; flatpages</a> </li><li><a href=django.contrib.gis.html>&#9662; gis</a> </li><li><ul><li><a href=django.contrib.gis.admin.html>&#9656; admin</a> </li><li><a href=django.contrib.gis.apps.html>&#9656; apps</a> </li><li><a href=django.contrib.gis.db.html>&#9662; db</a> </li><li><ul><li><a href=django.contrib.gis.db.backends.html>&#9662; backends</a> </li><li><ul><li><a href=django.contrib.gis.db.backends.base.html>&#9662; base</a> </li><li><ul><li><a href=django.contrib.gis.db.backends.base.adapter.html>&#9656; adapter</a> </li><li><div class=select><a href=django.contrib.gis.db.backends.base.features.html>&#9662; features</a> </div></li><li><ul><li><a href=django.contrib.gis.db.backends.base.features.BaseSpatialFeatures.html> <i>class</i> BaseSpatialFeatures</a> </li></ul></li><li><a href=django.contrib.gis.db.backends.base.models.html>&#9656; models</a> </li><li><a href=django.contrib.gis.db.backends.base.operations.html>&#9656; operations</a> </li></ul></li><li><a href=django.contrib.gis.db.backends.mysql.html>&#9656; mysql</a> </li><li><a href=django.contrib.gis.db.backends.oracle.html>&#9656; oracle</a> </li><li><a href=django.contrib.gis.db.backends.postgis.html>&#9656; postgis</a> </li><li><a href=django.contrib.gis.db.backends.spatialite.html>&#9656; spatialite</a> </li><li><a href=django.contrib.gis.db.backends.utils.html>&#9656; utils</a> </li></ul></li><li><a href=django.contrib.gis.db.models.html>&#9656; models</a> </li></ul></li><li><a href=django.contrib.gis.feeds.html>&#9656; feeds</a> </li><li><a href=django.contrib.gis.forms.html>&#9656; forms</a> </li><li><a href=django.contrib.gis.gdal.html>&#9656; gdal</a> </li><li><a href=django.contrib.gis.geoip2.html>&#9656; geoip2</a> </li><li><a href=django.contrib.gis.geometry.html>&#9656; geometry</a> </li><li><a href=django.contrib.gis.geos.html>&#9656; geos</a> </li><li><a href=django.contrib.gis.management.html>&#9656; management</a> </li><li><a href=django.contrib.gis.measure.html>&#9656; measure</a> </li><li><a href=django.contrib.gis.ptr.html>&#9656; ptr</a> </li><li><a href=django.contrib.gis.serializers.html>&#9656; serializers</a> </li><li><a href=django.contrib.gis.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.contrib.gis.sitemaps.html>&#9656; sitemaps</a> </li><li><a href=django.contrib.gis.utils.html>&#9656; utils</a> </li><li><a href=django.contrib.gis.views.html>&#9656; views</a> </li></ul></li><li><a href=django.contrib.humanize.html>&#9656; humanize</a> </li><li><a href=django.contrib.messages.html>&#9656; messages</a> </li><li><a href=django.contrib.postgres.html>&#9656; postgres</a> </li><li><a href=django.contrib.redirects.html>&#9656; redirects</a> </li><li><a href=django.contrib.sessions.html>&#9656; sessions</a> </li><li><a href=django.contrib.sitemaps.html>&#9656; sitemaps</a> </li><li><a href=django.contrib.sites.html>&#9656; sites</a> </li><li><a href=django.contrib.staticfiles.html>&#9656; staticfiles</a> </li><li><a href=django.contrib.syndication.html>&#9656; syndication</a> </li></ul></li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/contrib/gis/db/backends/base/features.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.contrib.html>contrib</a>.<a class=symbol href=django.contrib.gis.html>gis</a>.<a class=symbol href=django.contrib.gis.db.html>db</a>.<a class=symbol href=django.contrib.gis.db.backends.html>backends</a>.<a class=symbol href=django.contrib.gis.db.backends.base.html>base</a>.<a class=symbol href=django.contrib.gis.db.backends.base.features.html>features</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>import</span> <span class=nn>re</span>
+<a name=line-2></a>
+<a name=line-3></a><span class=kn>from</span> <span class=nn>django.contrib.gis.db</span> <span class=kn>import</span> <span class=n>models</span>
+<a name=line-4></a>
+<a name=line-5></a>
+<a name=line-6></a><span class=k>class</span> <span class=nc>BaseSpatialFeatures</span><span class=p>:</span>
+<a name=line-7></a>    <span class=n>gis_enabled</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-8></a>
+<a name=line-9></a>    <span class=c1># Does the database contain a SpatialRefSys model to store SRID information?</span>
+<a name=line-10></a>    <span class=n>has_spatialrefsys_table</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-11></a>
+<a name=line-12></a>    <span class=c1># Does the backend support the django.contrib.gis.utils.add_srs_entry() utility?</span>
+<a name=line-13></a>    <span class=n>supports_add_srs_entry</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-14></a>    <span class=c1># Does the backend introspect GeometryField to its subtypes?</span>
+<a name=line-15></a>    <span class=n>supports_geometry_field_introspection</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-16></a>
+<a name=line-17></a>    <span class=c1># Does the database have a geography type?</span>
+<a name=line-18></a>    <span class=n>supports_geography</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-19></a>    <span class=c1># Does the backend support storing 3D geometries?</span>
+<a name=line-20></a>    <span class=n>supports_3d_storage</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-21></a>    <span class=c1># Reference implementation of 3D functions is:</span>
+<a name=line-22></a>    <span class=c1># https://postgis.net/docs/PostGIS_Special_Functions_Index.html#PostGIS_3D_Functions</span>
+<a name=line-23></a>    <span class=n>supports_3d_functions</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-24></a>    <span class=c1># Does the database support SRID transform operations?</span>
+<a name=line-25></a>    <span class=n>supports_transform</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-26></a>    <span class=c1># Can geometry fields be null?</span>
+<a name=line-27></a>    <span class=n>supports_null_geometries</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-28></a>    <span class=c1># Are empty geometries supported?</span>
+<a name=line-29></a>    <span class=n>supports_empty_geometries</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-30></a>    <span class=c1># Can the function be applied on geodetic coordinate systems?</span>
+<a name=line-31></a>    <span class=n>supports_distance_geodetic</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-32></a>    <span class=n>supports_length_geodetic</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-33></a>    <span class=n>supports_perimeter_geodetic</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-34></a>    <span class=n>supports_area_geodetic</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-35></a>    <span class=c1># Is the database able to count vertices on polygons (with `num_points`)?</span>
+<a name=line-36></a>    <span class=n>supports_num_points_poly</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-37></a>
+<a name=line-38></a>    <span class=c1># The following properties indicate if the database backend support</span>
+<a name=line-39></a>    <span class=c1># certain lookups (dwithin, left and right, relate, ...)</span>
+<a name=line-40></a>    <span class=n>supports_left_right_lookups</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-41></a>    <span class=c1># Does the backend support expressions for specifying distance in the</span>
+<a name=line-42></a>    <span class=c1># dwithin lookup?</span>
+<a name=line-43></a>    <span class=n>supports_dwithin_distance_expr</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-44></a>
+<a name=line-45></a>    <span class=c1># Does the database have raster support?</span>
+<a name=line-46></a>    <span class=n>supports_raster</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-47></a>
+<a name=line-48></a>    <span class=c1># Does the database support a unique index on geometry fields?</span>
+<a name=line-49></a>    <span class=n>supports_geometry_field_unique_index</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-50></a>
+<a name=line-51></a>    <span class=c1># Can SchemaEditor alter geometry fields?</span>
+<a name=line-52></a>    <span class=n>can_alter_geometry_field</span> <span class=o>=</span> <span class=kc>True</span>
+<a name=line-53></a>
+<a name=line-54></a>    <span class=c1># Set of options that AsGeoJSON() doesn&#39;t support.</span>
+<a name=line-55></a>    <span class=n>unsupported_geojson_options</span> <span class=o>=</span> <span class=p>{}</span>
+<a name=line-56></a>
+<a name=line-57></a>    <span class=nd>@property</span>
+<a name=line-58></a>    <span class=k>def</span> <span class=nf>supports_bbcontains_lookup</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-59></a>        <span class=k>return</span> <span class=s1>&#39;bbcontains&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>gis_operators</span>
+<a name=line-60></a>
+<a name=line-61></a>    <span class=nd>@property</span>
+<a name=line-62></a>    <span class=k>def</span> <span class=nf>supports_contained_lookup</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-63></a>        <span class=k>return</span> <span class=s1>&#39;contained&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>gis_operators</span>
+<a name=line-64></a>
+<a name=line-65></a>    <span class=nd>@property</span>
+<a name=line-66></a>    <span class=k>def</span> <span class=nf>supports_crosses_lookup</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-67></a>        <span class=k>return</span> <span class=s1>&#39;crosses&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>gis_operators</span>
+<a name=line-68></a>
+<a name=line-69></a>    <span class=nd>@property</span>
+<a name=line-70></a>    <span class=k>def</span> <span class=nf>supports_distances_lookups</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-71></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>has_Distance_function</span>
+<a name=line-72></a>
+<a name=line-73></a>    <span class=nd>@property</span>
+<a name=line-74></a>    <span class=k>def</span> <span class=nf>supports_dwithin_lookup</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-75></a>        <span class=k>return</span> <span class=s1>&#39;dwithin&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>gis_operators</span>
+<a name=line-76></a>
+<a name=line-77></a>    <span class=nd>@property</span>
+<a name=line-78></a>    <span class=k>def</span> <span class=nf>supports_relate_lookup</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-79></a>        <span class=k>return</span> <span class=s1>&#39;relate&#39;</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>gis_operators</span>
+<a name=line-80></a>
+<a name=line-81></a>    <span class=nd>@property</span>
+<a name=line-82></a>    <span class=k>def</span> <span class=nf>supports_isvalid_lookup</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-83></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>has_IsValid_function</span>
+<a name=line-84></a>
+<a name=line-85></a>    <span class=c1># Is the aggregate supported by the database?</span>
+<a name=line-86></a>    <span class=nd>@property</span>
+<a name=line-87></a>    <span class=k>def</span> <span class=nf>supports_collect_aggr</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-88></a>        <span class=k>return</span> <span class=n>models</span><span class=o>.</span><span class=n>Collect</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>disallowed_aggregates</span>
+<a name=line-89></a>
+<a name=line-90></a>    <span class=nd>@property</span>
+<a name=line-91></a>    <span class=k>def</span> <span class=nf>supports_extent_aggr</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-92></a>        <span class=k>return</span> <span class=n>models</span><span class=o>.</span><span class=n>Extent</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>disallowed_aggregates</span>
+<a name=line-93></a>
+<a name=line-94></a>    <span class=nd>@property</span>
+<a name=line-95></a>    <span class=k>def</span> <span class=nf>supports_make_line_aggr</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-96></a>        <span class=k>return</span> <span class=n>models</span><span class=o>.</span><span class=n>MakeLine</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>disallowed_aggregates</span>
+<a name=line-97></a>
+<a name=line-98></a>    <span class=nd>@property</span>
+<a name=line-99></a>    <span class=k>def</span> <span class=nf>supports_union_aggr</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-100></a>        <span class=k>return</span> <span class=n>models</span><span class=o>.</span><span class=n>Union</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>disallowed_aggregates</span>
+<a name=line-101></a>
+<a name=line-102></a>    <span class=k>def</span> <span class=fm>__getattr__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+<a name=line-103></a>        <span class=n>m</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>match</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;has_(\w*)_function$&#39;</span><span class=p>,</span> <span class=n>name</span><span class=p>)</span>
+<a name=line-104></a>        <span class=k>if</span> <span class=n>m</span><span class=p>:</span>
+<a name=line-105></a>            <span class=n>func_name</span> <span class=o>=</span> <span class=n>m</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span>
+<a name=line-106></a>            <span class=k>return</span> <span class=n>func_name</span> <span class=ow>not</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>connection</span><span class=o>.</span><span class=n>ops</span><span class=o>.</span><span class=n>unsupported_functions</span>
+<a name=line-107></a>        <span class=k>raise</span> <span class=ne>AttributeError</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>

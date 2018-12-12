@@ -1,0 +1,42 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.http</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9656; core</a> </li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><div class=select><a href=django.http.html>&#9662; http</a> </div></li><li><ul><li><a href=django.http.cookie.html>&#9656; cookie</a> </li><li><a href=django.http.multipartparser.html>&#9656; multipartparser</a> </li><li><a href=django.http.request.html>&#9656; request</a> </li><li><a href=django.http.response.html>&#9656; response</a> </li></ul></li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/http/__init__.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.http.html>http</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=kn>from</span> <span class=nn>django.http.cookie</span> <span class=kn>import</span> <span class=n>SimpleCookie</span><span class=p>,</span> <span class=n>parse_cookie</span>
+<a name=line-2></a><span class=kn>from</span> <span class=nn>django.http.request</span> <span class=kn>import</span> <span class=p>(</span>
+<a name=line-3></a>    <span class=n>HttpRequest</span><span class=p>,</span> <span class=n>QueryDict</span><span class=p>,</span> <span class=n>RawPostDataException</span><span class=p>,</span> <span class=n>UnreadablePostError</span><span class=p>,</span>
+<a name=line-4></a><span class=p>)</span>
+<a name=line-5></a><span class=kn>from</span> <span class=nn>django.http.response</span> <span class=kn>import</span> <span class=p>(</span>
+<a name=line-6></a>    <span class=n>BadHeaderError</span><span class=p>,</span> <span class=n>FileResponse</span><span class=p>,</span> <span class=n>Http404</span><span class=p>,</span> <span class=n>HttpResponse</span><span class=p>,</span>
+<a name=line-7></a>    <span class=n>HttpResponseBadRequest</span><span class=p>,</span> <span class=n>HttpResponseForbidden</span><span class=p>,</span> <span class=n>HttpResponseGone</span><span class=p>,</span>
+<a name=line-8></a>    <span class=n>HttpResponseNotAllowed</span><span class=p>,</span> <span class=n>HttpResponseNotFound</span><span class=p>,</span> <span class=n>HttpResponseNotModified</span><span class=p>,</span>
+<a name=line-9></a>    <span class=n>HttpResponsePermanentRedirect</span><span class=p>,</span> <span class=n>HttpResponseRedirect</span><span class=p>,</span>
+<a name=line-10></a>    <span class=n>HttpResponseServerError</span><span class=p>,</span> <span class=n>JsonResponse</span><span class=p>,</span> <span class=n>StreamingHttpResponse</span><span class=p>,</span>
+<a name=line-11></a><span class=p>)</span>
+<a name=line-12></a>
+<a name=line-13></a><span class=n>__all__</span> <span class=o>=</span> <span class=p>[</span>
+<a name=line-14></a>    <span class=s1>&#39;SimpleCookie&#39;</span><span class=p>,</span> <span class=s1>&#39;parse_cookie&#39;</span><span class=p>,</span> <span class=s1>&#39;HttpRequest&#39;</span><span class=p>,</span> <span class=s1>&#39;QueryDict&#39;</span><span class=p>,</span>
+<a name=line-15></a>    <span class=s1>&#39;RawPostDataException&#39;</span><span class=p>,</span> <span class=s1>&#39;UnreadablePostError&#39;</span><span class=p>,</span>
+<a name=line-16></a>    <span class=s1>&#39;HttpResponse&#39;</span><span class=p>,</span> <span class=s1>&#39;StreamingHttpResponse&#39;</span><span class=p>,</span> <span class=s1>&#39;HttpResponseRedirect&#39;</span><span class=p>,</span>
+<a name=line-17></a>    <span class=s1>&#39;HttpResponsePermanentRedirect&#39;</span><span class=p>,</span> <span class=s1>&#39;HttpResponseNotModified&#39;</span><span class=p>,</span>
+<a name=line-18></a>    <span class=s1>&#39;HttpResponseBadRequest&#39;</span><span class=p>,</span> <span class=s1>&#39;HttpResponseForbidden&#39;</span><span class=p>,</span> <span class=s1>&#39;HttpResponseNotFound&#39;</span><span class=p>,</span>
+<a name=line-19></a>    <span class=s1>&#39;HttpResponseNotAllowed&#39;</span><span class=p>,</span> <span class=s1>&#39;HttpResponseGone&#39;</span><span class=p>,</span> <span class=s1>&#39;HttpResponseServerError&#39;</span><span class=p>,</span>
+<a name=line-20></a>    <span class=s1>&#39;Http404&#39;</span><span class=p>,</span> <span class=s1>&#39;BadHeaderError&#39;</span><span class=p>,</span> <span class=s1>&#39;JsonResponse&#39;</span><span class=p>,</span> <span class=s1>&#39;FileResponse&#39;</span><span class=p>,</span>
+<a name=line-21></a><span class=p>]</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:05 </p></div></div></body></html>

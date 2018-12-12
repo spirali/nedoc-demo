@@ -1,0 +1,160 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>django.core.serializers.pyyaml</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=stylesheet href=./assets/purecss/pure-min.css><link rel=stylesheet href=./assets/purecss/grids-responsive-min.css><link rel=stylesheet href=./assets/style.css><link rel=stylesheet href=./assets/pygments/default.css><link rel=stylesheet href=./assets/jquery/jquery-ui.min.css><script src=./assets/jquery/jquery-3.0.0.min.js></script><script src=./assets/jquery/jquery-ui.min.js></script><script src=nedoc.js></script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><h1 class=brand-title>Django</h1> 1.0 </div><div id=sbox><input id=search style="color: black;" placeholder="search ..."></div><div class=tree><ul><li><a href=django.html>&#9662; django</a> </li><li><ul><li><a href=django.__main__.html>&#9656; __main__</a> </li><li><a href=django.apps.html>&#9656; apps</a> </li><li><a href=django.bin.html>&#9656; bin</a> </li><li><a href=django.conf.html>&#9656; conf</a> </li><li><a href=django.contrib.html>&#9656; contrib</a> </li><li><a href=django.core.html>&#9662; core</a> </li><li><ul><li><a href=django.core.asgi.html>&#9656; asgi</a> </li><li><a href=django.core.cache.html>&#9656; cache</a> </li><li><a href=django.core.checks.html>&#9656; checks</a> </li><li><a href=django.core.exceptions.html>&#9656; exceptions</a> </li><li><a href=django.core.files.html>&#9656; files</a> </li><li><a href=django.core.handlers.html>&#9656; handlers</a> </li><li><a href=django.core.mail.html>&#9656; mail</a> </li><li><a href=django.core.management.html>&#9656; management</a> </li><li><a href=django.core.paginator.html>&#9656; paginator</a> </li><li><a href=django.core.serializers.html>&#9662; serializers</a> </li><li><ul><li><a href=django.core.serializers.base.html>&#9656; base</a> </li><li><a href=django.core.serializers.json.html>&#9656; json</a> </li><li><a href=django.core.serializers.jsonl.html>&#9656; jsonl</a> </li><li><a href=django.core.serializers.python.html>&#9656; python</a> </li><li><div class=select><a href=django.core.serializers.pyyaml.html>&#9662; pyyaml</a> </div></li><li><ul><li><a href=django.core.serializers.pyyaml.DjangoSafeDumper.html> <i>class</i> DjangoSafeDumper</a> </li><li><a href=django.core.serializers.pyyaml.Serializer.html> <i>class</i> Serializer</a> </li></ul></li><li><a href=django.core.serializers.xml_serializer.html>&#9656; xml_serializer</a> </li><li><a href=django.core.serializers.BadSerializer.html> <i>class</i> BadSerializer</a> </li></ul></li><li><a href=django.core.servers.html>&#9656; servers</a> </li><li><a href=django.core.signals.html>&#9656; signals</a> </li><li><a href=django.core.signing.html>&#9656; signing</a> </li><li><a href=django.core.validators.html>&#9656; validators</a> </li><li><a href=django.core.wsgi.html>&#9656; wsgi</a> </li></ul></li><li><a href=django.db.html>&#9656; db</a> </li><li><a href=django.dispatch.html>&#9656; dispatch</a> </li><li><a href=django.forms.html>&#9656; forms</a> </li><li><a href=django.http.html>&#9656; http</a> </li><li><a href=django.middleware.html>&#9656; middleware</a> </li><li><a href=django.shortcuts.html>&#9656; shortcuts</a> </li><li><a href=django.template.html>&#9656; template</a> </li><li><a href=django.templatetags.html>&#9656; templatetags</a> </li><li><a href=django.test.html>&#9656; test</a> </li><li><a href=django.urls.html>&#9656; urls</a> </li><li><a href=django.utils.html>&#9656; utils</a> </li><li><a href=django.views.html>&#9656; views</a> </li></ul></ul></div></div><div class="content pure-u-1 pure-u-md-3-4"><h1>Source code django/core/serializers/pyyaml.py</h1><div id=path><a class=symbol href=django.html>django</a>.<a class=symbol href=django.core.html>core</a>.<a class=symbol href=django.core.serializers.html>serializers</a>.<a class=symbol href=django.core.serializers.pyyaml.html>pyyaml</a></div><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre></div></td><td class=code><div class=highlight><pre><span></span><a name=line-1></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-2></a><span class=sd>YAML serializer.</span>
+<a name=line-3></a>
+<a name=line-4></a><span class=sd>Requires PyYaml (https://pyyaml.org/), but that&#39;s checked for in __init__.</span>
+<a name=line-5></a><span class=sd>&quot;&quot;&quot;</span>
+<a name=line-6></a>
+<a name=line-7></a><span class=kn>import</span> <span class=nn>collections</span>
+<a name=line-8></a><span class=kn>import</span> <span class=nn>decimal</span>
+<a name=line-9></a><span class=kn>from</span> <span class=nn>io</span> <span class=kn>import</span> <span class=n>StringIO</span>
+<a name=line-10></a>
+<a name=line-11></a><span class=kn>import</span> <span class=nn>yaml</span>
+<a name=line-12></a>
+<a name=line-13></a><span class=kn>from</span> <span class=nn>django.core.serializers.base</span> <span class=kn>import</span> <span class=n>DeserializationError</span>
+<a name=line-14></a><span class=kn>from</span> <span class=nn>django.core.serializers.python</span> <span class=kn>import</span> <span class=p>(</span>
+<a name=line-15></a>    <span class=n>Deserializer</span> <span class=k>as</span> <span class=n>PythonDeserializer</span><span class=p>,</span> <span class=n>Serializer</span> <span class=k>as</span> <span class=n>PythonSerializer</span><span class=p>,</span>
+<a name=line-16></a><span class=p>)</span>
+<a name=line-17></a><span class=kn>from</span> <span class=nn>django.db</span> <span class=kn>import</span> <span class=n>models</span>
+<a name=line-18></a>
+<a name=line-19></a><span class=c1># Use the C (faster) implementation if possible</span>
+<a name=line-20></a><span class=k>try</span><span class=p>:</span>
+<a name=line-21></a>    <span class=kn>from</span> <span class=nn>yaml</span> <span class=kn>import</span> <span class=n>CSafeDumper</span> <span class=k>as</span> <span class=n>SafeDumper</span><span class=p>,</span> <span class=n>CSafeLoader</span> <span class=k>as</span> <span class=n>SafeLoader</span>
+<a name=line-22></a><span class=k>except</span> <span class=ne>ImportError</span><span class=p>:</span>
+<a name=line-23></a>    <span class=kn>from</span> <span class=nn>yaml</span> <span class=kn>import</span> <span class=n>SafeDumper</span><span class=p>,</span> <span class=n>SafeLoader</span>
+<a name=line-24></a>
+<a name=line-25></a>
+<a name=line-26></a><span class=k>class</span> <span class=nc>DjangoSafeDumper</span><span class=p>(</span><span class=n>SafeDumper</span><span class=p>):</span>
+<a name=line-27></a>    <span class=k>def</span> <span class=nf>represent_decimal</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>data</span><span class=p>):</span>
+<a name=line-28></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>represent_scalar</span><span class=p>(</span><span class=s1>&#39;tag:yaml.org,2002:str&#39;</span><span class=p>,</span> <span class=nb>str</span><span class=p>(</span><span class=n>data</span><span class=p>))</span>
+<a name=line-29></a>
+<a name=line-30></a>    <span class=k>def</span> <span class=nf>represent_ordered_dict</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>data</span><span class=p>):</span>
+<a name=line-31></a>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>represent_mapping</span><span class=p>(</span><span class=s1>&#39;tag:yaml.org,2002:map&#39;</span><span class=p>,</span> <span class=n>data</span><span class=o>.</span><span class=n>items</span><span class=p>())</span>
+<a name=line-32></a>
+<a name=line-33></a>
+<a name=line-34></a><span class=n>DjangoSafeDumper</span><span class=o>.</span><span class=n>add_representer</span><span class=p>(</span><span class=n>decimal</span><span class=o>.</span><span class=n>Decimal</span><span class=p>,</span> <span class=n>DjangoSafeDumper</span><span class=o>.</span><span class=n>represent_decimal</span><span class=p>)</span>
+<a name=line-35></a><span class=n>DjangoSafeDumper</span><span class=o>.</span><span class=n>add_representer</span><span class=p>(</span><span class=n>collections</span><span class=o>.</span><span class=n>OrderedDict</span><span class=p>,</span> <span class=n>DjangoSafeDumper</span><span class=o>.</span><span class=n>represent_ordered_dict</span><span class=p>)</span>
+<a name=line-36></a><span class=c1># Workaround to represent dictionaries in insertion order.</span>
+<a name=line-37></a><span class=c1># See https://github.com/yaml/pyyaml/pull/143.</span>
+<a name=line-38></a><span class=n>DjangoSafeDumper</span><span class=o>.</span><span class=n>add_representer</span><span class=p>(</span><span class=nb>dict</span><span class=p>,</span> <span class=n>DjangoSafeDumper</span><span class=o>.</span><span class=n>represent_ordered_dict</span><span class=p>)</span>
+<a name=line-39></a>
+<a name=line-40></a>
+<a name=line-41></a><span class=k>class</span> <span class=nc>Serializer</span><span class=p>(</span><span class=n>PythonSerializer</span><span class=p>):</span>
+<a name=line-42></a>    <span class=sd>&quot;&quot;&quot;Convert a queryset to YAML.&quot;&quot;&quot;</span>
+<a name=line-43></a>
+<a name=line-44></a>    <span class=n>internal_use_only</span> <span class=o>=</span> <span class=kc>False</span>
+<a name=line-45></a>
+<a name=line-46></a>    <span class=k>def</span> <span class=nf>handle_field</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>obj</span><span class=p>,</span> <span class=n>field</span><span class=p>):</span>
+<a name=line-47></a>        <span class=c1># A nasty special case: base YAML doesn&#39;t support serialization of time</span>
+<a name=line-48></a>        <span class=c1># types (as opposed to dates or datetimes, which it does support). Since</span>
+<a name=line-49></a>        <span class=c1># we want to use the &quot;safe&quot; serializer for better interoperability, we</span>
+<a name=line-50></a>        <span class=c1># need to do something with those pesky times. Converting &#39;em to strings</span>
+<a name=line-51></a>        <span class=c1># isn&#39;t perfect, but it&#39;s better than a &quot;!!python/time&quot; type which would</span>
+<a name=line-52></a>        <span class=c1># halt deserialization under any other language.</span>
+<a name=line-53></a>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>field</span><span class=p>,</span> <span class=n>models</span><span class=o>.</span><span class=n>TimeField</span><span class=p>)</span> <span class=ow>and</span> <span class=nb>getattr</span><span class=p>(</span><span class=n>obj</span><span class=p>,</span> <span class=n>field</span><span class=o>.</span><span class=n>name</span><span class=p>)</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+<a name=line-54></a>            <span class=bp>self</span><span class=o>.</span><span class=n>_current</span><span class=p>[</span><span class=n>field</span><span class=o>.</span><span class=n>name</span><span class=p>]</span> <span class=o>=</span> <span class=nb>str</span><span class=p>(</span><span class=nb>getattr</span><span class=p>(</span><span class=n>obj</span><span class=p>,</span> <span class=n>field</span><span class=o>.</span><span class=n>name</span><span class=p>))</span>
+<a name=line-55></a>        <span class=k>else</span><span class=p>:</span>
+<a name=line-56></a>            <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=n>handle_field</span><span class=p>(</span><span class=n>obj</span><span class=p>,</span> <span class=n>field</span><span class=p>)</span>
+<a name=line-57></a>
+<a name=line-58></a>    <span class=k>def</span> <span class=nf>end_serialization</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-59></a>        <span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=o>.</span><span class=n>setdefault</span><span class=p>(</span><span class=s1>&#39;allow_unicode&#39;</span><span class=p>,</span> <span class=kc>True</span><span class=p>)</span>
+<a name=line-60></a>        <span class=n>yaml</span><span class=o>.</span><span class=n>dump</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>objects</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>stream</span><span class=p>,</span> <span class=n>Dumper</span><span class=o>=</span><span class=n>DjangoSafeDumper</span><span class=p>,</span> <span class=o>**</span><span class=bp>self</span><span class=o>.</span><span class=n>options</span><span class=p>)</span>
+<a name=line-61></a>
+<a name=line-62></a>    <span class=k>def</span> <span class=nf>getvalue</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<a name=line-63></a>        <span class=c1># Grandparent super</span>
+<a name=line-64></a>        <span class=k>return</span> <span class=nb>super</span><span class=p>(</span><span class=n>PythonSerializer</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=n>getvalue</span><span class=p>()</span>
+<a name=line-65></a>
+<a name=line-66></a>
+<a name=line-67></a><span class=k>def</span> <span class=nf>Deserializer</span><span class=p>(</span><span class=n>stream_or_string</span><span class=p>,</span> <span class=o>**</span><span class=n>options</span><span class=p>):</span>
+<a name=line-68></a>    <span class=sd>&quot;&quot;&quot;Deserialize a stream or string of YAML data.&quot;&quot;&quot;</span>
+<a name=line-69></a>    <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>stream_or_string</span><span class=p>,</span> <span class=nb>bytes</span><span class=p>):</span>
+<a name=line-70></a>        <span class=n>stream_or_string</span> <span class=o>=</span> <span class=n>stream_or_string</span><span class=o>.</span><span class=n>decode</span><span class=p>()</span>
+<a name=line-71></a>    <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>stream_or_string</span><span class=p>,</span> <span class=nb>str</span><span class=p>):</span>
+<a name=line-72></a>        <span class=n>stream</span> <span class=o>=</span> <span class=n>StringIO</span><span class=p>(</span><span class=n>stream_or_string</span><span class=p>)</span>
+<a name=line-73></a>    <span class=k>else</span><span class=p>:</span>
+<a name=line-74></a>        <span class=n>stream</span> <span class=o>=</span> <span class=n>stream_or_string</span>
+<a name=line-75></a>    <span class=k>try</span><span class=p>:</span>
+<a name=line-76></a>        <span class=k>yield from</span> <span class=n>PythonDeserializer</span><span class=p>(</span><span class=n>yaml</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>stream</span><span class=p>,</span> <span class=n>Loader</span><span class=o>=</span><span class=n>SafeLoader</span><span class=p>),</span> <span class=o>**</span><span class=n>options</span><span class=p>)</span>
+<a name=line-77></a>    <span class=k>except</span> <span class=p>(</span><span class=ne>GeneratorExit</span><span class=p>,</span> <span class=n>DeserializationError</span><span class=p>):</span>
+<a name=line-78></a>        <span class=k>raise</span>
+<a name=line-79></a>    <span class=k>except</span> <span class=ne>Exception</span> <span class=k>as</span> <span class=n>exc</span><span class=p>:</span>
+<a name=line-80></a>        <span class=k>raise</span> <span class=n>DeserializationError</span><span class=p>()</span> <span class=kn>from</span> <span class=nn>exc</span>
+</pre></div></td></tr></table><p class=footer> Generated by <a href=https://github.com/spirali/nedoc>nedoc</a> v0.9 at 2020-12-29 14:04 </p></div></div></body></html>
